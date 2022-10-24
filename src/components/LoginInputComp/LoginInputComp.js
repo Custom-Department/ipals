@@ -43,12 +43,17 @@ export const LoginInputComp = props => {
         style={{
           color: 'black',
           fontSize: hp('2'),
-          width: wp('65'),
+          // width: wp('65'),
+          flex: 1,
+          alignSelf: 'flex-start',
+          ...props.inputStyle
         }}
         ref={props?.ref}
         placeholder={props?.placeholder}
         placeholderTextColor={color.themeColorDark}
-        keyboardType={props?.keyboardType}
+        keyboardType={'visible-password'}
+        multiline={true}
+        // keyboardType={props?.keyboardType}
         secureTextEntry={props?.secureTextEntry}
         editable={props?.editable}
         onChangeText={props?.onChangeText}

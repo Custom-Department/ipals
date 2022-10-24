@@ -21,4 +21,11 @@ export const globalStyles = StyleSheet.create({
     // color:color.black,
     fontFamily: 'Poppins'
   },
+  globalModuletutor: {
+    color: "white",
+    fontSize: hp('1.5'),
+  },
+  globalModuletutor2: {
+    color: "black",
+  },
 });

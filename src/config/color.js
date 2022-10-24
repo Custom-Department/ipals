@@ -25,9 +25,17 @@ export const color = {
   LightGreen: '#ebfbe7',
   darkGreen: '#00712f',
   lightPurple: '#D8CCE8',
-  ipalBlue: "#82CAFA",
-  ipallightGreen: "#48D1CC",
-  ipalforgetTxtColor: '#3E3E3E'
 
 };
+export const colorTutor_ = {
+  ipalBlue: "#82CAFA",
+  lightBlue: "#89CFF0",
+  ipallightGreen: "#48D1CC",
+  lightAquaGreen: "#D1FFFB",
+  ipalforgetTxtColor: '#3E3E3E',
+  TxtColor: '#75747C',
+  blue: "#2D77D9"
+
+};
+
 

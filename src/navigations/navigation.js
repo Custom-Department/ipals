@@ -3,6 +3,7 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { screens } from '../screens';
+import { Tutor } from '../screens/TutorScreens';
 const Stack = createNativeStackNavigator();
 
 export default function StackNavigatior() {
@@ -20,6 +21,14 @@ export default function StackNavigatior() {
           component={screens.LoginScreen}
         />
         <Stack.Screen
+          name="OnboardScreen"
+          component={screens.OnboardScreen}
+        />
+        <Stack.Screen
+          name="CreateAccount"
+          component={screens.CreateAccount}
+        />
+        <Stack.Screen
           name="Profile"
           component={screens.Profile}
         />
@@ -30,6 +39,10 @@ export default function StackNavigatior() {
         <Stack.Screen
           name="Category"
           component={screens.Category}
+        />
+        <Stack.Screen
+          name="DashboardScreen"
+          component={Tutor.DashboardScreen}
         />
       </Stack.Navigator>
     </>
