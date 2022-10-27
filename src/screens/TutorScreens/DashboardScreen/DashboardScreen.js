@@ -1,5 +1,5 @@
 import { StyleSheet, TouchableOpacity, Text, View, TextComponent, ScrollView } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { styles } from './style'
 import { globalStyles } from '../../../config/globalStyles'
 import { HeaderComponent } from '../../../components/HeaderComponent/HeaderComponent'
@@ -13,37 +13,38 @@ import HorizontalDividerComp from '../../../components/HorizontalDividerComp/Hor
 import InformationTextView from '../../../components/InformationTextView/InformationTextView'
 import Ionicons
   from 'react-native-vector-icons/Ionicons';
+import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 const DashboardScreen = () => {
   const [list,setList]=useState([
-    // {
-    //   id:0,
-    //   name:'Freddy Mercury',
-    //   image:require('../../../image/profile.jpg')
-    // },
-    // {
-    //   id:1,
-    //   name:'Freddy Mercury',
-    //   image:require('../../../image/profile.jpg')
+    {
+      id:0,
+      name:'Freddy Mercury',
+      image:require('../../../image/profile.jpg')
+    },
+    {
+      id:1,
+      name:'Freddy Mercury',
+      image:require('../../../image/profile.jpg')
 
-    // },
-    // {
-    //   id:2,
-    //   name:'Freddy Mercury',
-    //   image:require('../../../image/profile.jpg')
+    },
+    {
+      id:2,
+      name:'Freddy Mercury',
+      image:require('../../../image/profile.jpg')
 
-    // },
-    // {
-    //   id:2,
-    //   name:'Freddy Mercury',
-    //   image:require('../../../image/profile.jpg')
+    },
+    {
+      id:2,
+      name:'Freddy Mercury',
+      image:require('../../../image/profile.jpg')
 
-    // },
-    // {
-    //   id:2,
-    //   name:'Freddy Mercury',
-    //   image:require('../../../image/profile.jpg')
+    },
+    {
+      id:2,
+      name:'Freddy Mercury',
+      image:require('../../../image/profile.jpg')
 
-    // },
+    },
         {
       id:2,
       name:'Freddy Mercury',
@@ -52,7 +53,10 @@ const DashboardScreen = () => {
     },
   ])
   
-  
+  const vacation = {key: 'vacation', color: 'red', selectedDotColor: 'blue'};
+const massage = {key: 'massage', color: 'blue', selectedDotColor: 'blue'};
+const workout = {key: 'workout', color: 'green'};
+
   const [topNavigator, setTopNavigator] = useState([
     'HOME', 'MY CLASSES', 'MESSAGES'
   ])
@@ -62,6 +66,9 @@ const DashboardScreen = () => {
     console.log(1444, value)
   }
 
+  useEffect(()=>{
+
+  },[])
 
   return (
     <View style={{
@@ -116,8 +123,11 @@ const DashboardScreen = () => {
    
      </View> ) 
       }
-       {index==1 
- 
+
+
+
+
+  {index==1 
     &&
   <ScrollView  contentContainerStyle={styles.container}>
         <View style={styles.myClassViewDashBoard} >
@@ -126,6 +136,34 @@ const DashboardScreen = () => {
        <TextComp style={{marginLeft:wp('3'),color:colorTutor_.TxtColor}} text='My Classes'/>
         </View>
         </View>
+        <View>
+        </View>
+
+<View style={{height:wp('10'),borderRadius:10,alignSelf:'center'}}>
+
+<Calendar
+
+// customHeaderTitle={<View style={{backgroundColor:'red', width:wp('55'),alignSelf:'center'}}>
+//   <Text>hello</Text>
+// </View>}
+// style={{height:hp('50')}}
+  markingType={'period'}
+  markedDates={{
+    '2022-10-28': {marked: true, dotColor: '#50cebb'},
+    '2022-10-29': {marked: true, dotColor: '#50cebb'},
+    '2022-10-30': {startingDay: true, color: '#50cebb', textColor: 'white'},
+    '2012-05-22': {color: '#70d7c7', textColor: 'white'},
+    '2012-05-23': {color: '#70d7c7', textColor: 'white', marked: true, dotColor: 'white'},
+    '2012-05-24': {color: '#70d7c7', textColor: 'white'},
+    '2012-05-25': {endingDay: true, color: '#50cebb', textColor: 'white'}
+  }}
+  // markedDates={{
+  //   '2017-10-25': {dots: [vacation, massage, workout], selected: true, selectedColor: 'red'},
+  //   '2017-10-26': {dots: [massage, workout], disabled: true}
+  // }}
+/>
+</View>
+
       </ScrollView>
       }
 
