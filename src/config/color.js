@@ -34,7 +34,11 @@ export const colorTutor_ = {
   lightAquaGreen: "#D1FFFB",
   ipalforgetTxtColor: '#3E3E3E',
   TxtColor: '#75747C',
-  blue: "#2D77D9"
+  blue: "#2D77D9",
+  topNavigationColor: "#59C8F2",
+  badgeColor: '#FF2D2D',
+  darkGreen: '#00712f',
+  lightGreen: '#47C460',
 
 };
 

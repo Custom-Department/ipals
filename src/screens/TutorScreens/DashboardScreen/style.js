@@ -4,9 +4,8 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 
 export const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
+        flexGrow:1,
+        paddingBottom:hp('9')
     },
     bottomBar: {
         position: "absolute",
@@ -19,6 +18,16 @@ export const styles = StyleSheet.create({
         borderTopRightRadius: 10,
         bottom: 0,
         width: wp('100'),
-        paddingHorizontal: wp('10')
+        paddingHorizontal: wp('10'),
+
+    },
+    classDashBoard: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: 20,
+    },
+    myClassViewDashBoard: {
+        padding: 20,
     }
 })

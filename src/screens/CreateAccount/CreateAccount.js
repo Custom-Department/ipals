@@ -145,13 +145,13 @@ const CreateAccount = ({ navigation }) => {
       <View style={styles.container}>
         <View style={styles.headerView}>
           <Image resizeMode='contain' source={require('../../image/sideLogo.png')} />
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')} style={{ flexDirection: 'row', alignItems: 'center' }}>
 
             <Octicons name={'arrow-left'} style={{ textAlign: 'center', marginTop: hp('0.5') }} size={hp('3.5')} />
-            <TouchableOpacity style={{ alignItems: 'center' }}>
+            <View style={{ alignItems: 'center' }}>
               <Text style={{ ...globalStyles.globalModuletutor2, fontSize: hp('2.6'), justifyContent: 'center', marginLeft: wp('4'), textAlign: 'center' }} >Sign In</Text>
-            </TouchableOpacity>
-          </View>
+            </View>
+          </TouchableOpacity>
         </View>
         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingTop: hp('13'), paddingBottom: hp('40'), justifyContent: 'center' }}>
           <View style={styles.twoPickerView}>
