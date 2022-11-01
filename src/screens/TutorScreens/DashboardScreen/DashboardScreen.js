@@ -1,5 +1,5 @@
 import { StyleSheet, TouchableOpacity, Text, View, TextComponent, ScrollView } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState,useRef } from 'react'
 import { styles } from './style'
 import { globalStyles } from '../../../config/globalStyles'
 import { HeaderComponent } from '../../../components/HeaderComponent/HeaderComponent'
@@ -14,7 +14,45 @@ import InformationTextView from '../../../components/InformationTextView/Informa
 import Ionicons
   from 'react-native-vector-icons/Ionicons';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
+import PickerComponent from '../../../components/PickerComponent/PickerComponent'
+import {Picker} from '@react-native-picker/picker';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import moment from 'moment/moment';
+
 const DashboardScreen = () => {
+  const date = new Date();
+// var d = new Date(); // for now
+// d.getHours(); // => 9
+// d.getMinutes(); // =>  30
+// d.getSeconds(); // => 51
+// console.log(d.getHours())
+// setHour(d.getHours);
+var time = new Date();
+var getTime= time.toLocaleString('en-US', { hour: 'numeric',minute:'numeric', hour12: true })
+const [timezone,setTimeZone]=useState(getTime); 
+const time1 = date.setDate(date.getDate() + 1);
+  const [selectedLanguage, setSelectedLanguage] = useState('English');
+  const [isDate, setIsDate] = useState(false);
+  const [isDate2, setIsDate2] = useState(false);
+  const [startDate, setStartDate] = useState(time);
+  const [endDate, setEndDate] = useState(null);
+
+  const upadateStartDate = e => {
+    let d = new Date(e?.nativeEvent?.timestamp);
+
+    setIsDate(false);
+    setStartDate(d)
+console.log(44,d,time)
+
+    setEndDate(d);
+
+  };
+  const upadateEndDate = e => {
+    let d = new Date(e?.nativeEvent?.timestamp);
+    setIsDate2(false);
+
+    setEndDate(d);
+  };
   const [list,setList]=useState([
     {
       id:0,
@@ -34,28 +72,159 @@ const DashboardScreen = () => {
 
     },
     {
-      id:2,
+      id:3,
       name:'Freddy Mercury',
       image:require('../../../image/profile.jpg')
 
     },
     {
-      id:2,
+      id:4,
       name:'Freddy Mercury',
       image:require('../../../image/profile.jpg')
 
     },
         {
-      id:2,
+      id:5,
       name:'Freddy Mercury',
       image:require('../../../image/profile.jpg')
 
     },
-  ])
-  
-  const vacation = {key: 'vacation', color: 'red', selectedDotColor: 'blue'};
-const massage = {key: 'massage', color: 'blue', selectedDotColor: 'blue'};
-const workout = {key: 'workout', color: 'green'};
+  ])    
+  const pickerRef = useRef('English');
+
+function open() {
+  pickerRef.current.focus();
+}
+
+function close() {
+  pickerRef.current.blur();
+}
+
+const DropDownView =()=>{
+  return(
+
+  <View style={styles.inputView}>
+    <Text
+    style={{
+      paddingHorizontal:wp('2'),
+      color:colorTutor_.TxtColor,
+      fontSize: hp('2'),
+    }}
+    >From</Text>
+    {console.log(startDate)}
+  {isDate == true && Platform.OS == 'android' ? (
+    <DateTimePicker
+    testID="startDatePicker"
+    value={startDate}
+      mode={'time'}
+      is24Hour={false}
+      display="default"
+      themeVariant="light"
+      style={styles.datePicker}
+      onChange={e => {
+        upadateStartDate(e);
+      }}
+      onTouchCancel={() => {
+        console.log(276), setIsDate(false);
+      }}
+    />
+  ) : Platform.OS == 'android' ? (
+    <TouchableOpacity
+      onPress={() => setIsDate(true)}
+      style={styles.dateContainer}>
+      <Text style={styles.dateText}>
+{        moment(startDate).format('LT')}
+      </Text>
+    </TouchableOpacity>
+  ) : (
+    <DateTimePicker
+      testID="startDatePicker"
+      mode={'time'}
+      value={startDate}
+      minimumDate={startDate}
+      is24Hour={false}
+      display="default"
+      themeVariant="light"
+      style={styles.datePicker}
+      onChange={e => {
+        upadateStartDate(e);
+      }}
+      onTouchCancel={() => {
+        console.log(276), setIsDate(false);
+      }}
+    />
+  )}
+  <Text
+    style={{
+      paddingHorizontal:wp('2'),
+      color:colorTutor_.TxtColor,
+      fontSize: hp('2'),
+    }}>
+    To
+  </Text>
+  {endDate != null && isDate2 == true && Platform.OS == 'android' ? (
+    <>
+      <DateTimePicker
+        testID="endDatePicker"
+        value={endDate}
+        mode={'time'}
+        minimumDate={startDate}
+        is24Hour={false}
+        display="default"
+        style={styles.datePicker}
+        themeVariant="light"
+        onChange={e => {
+          upadateEndDate(e);
+          // console.log(143, startDate), setIsDate(false);
+        }}
+        onTouchCancel={() => {
+          console.log(276), setIsDate2(false);
+        }}
+      />
+    </>
+  ) : endDate != null && Platform.OS == 'ios' ? (
+    <DateTimePicker
+      testID="endDatePicker"
+      mode={'time'}
+      value={endDate}
+      minimumDate={endDate}
+      is24Hour={false}
+      display="default"
+      style={styles.datePicker}
+      themeVariant="light"
+      onChange={e => {
+        upadateEndDate(e);
+        // console.log(143, startDate), setIsDate(false);
+      }}
+      onTouchCancel={() => {
+        console.log(276), setIsDate(false);
+      }}
+    />
+  ) : endDate != null &&
+    isDate2 == false &&
+    Platform.OS == 'android' ? (
+    <TouchableOpacity
+      onPress={() => setIsDate2(true)}
+      style={styles.dateContainer}>
+      <Text style={styles.dateText}>
+      {        moment(endDate).format('LT')}
+
+      </Text>
+    </TouchableOpacity>
+  ) : (
+    <View
+      style={{
+        backgroundColor: '#E0E0E0',
+        height: hp('4.5'),
+        width: wp('33'),
+        borderRadius: 8,
+      }}
+    />
+  )}
+</View>
+  )
+}
+
 
   const [topNavigator, setTopNavigator] = useState([
     'HOME', 'MY CLASSES', 'MESSAGES'
@@ -138,31 +307,46 @@ const workout = {key: 'workout', color: 'green'};
         </View>
         <View>
         </View>
-
-<View style={{height:wp('10'),borderRadius:10,alignSelf:'center'}}>
-
 <Calendar
-
-// customHeaderTitle={<View style={{backgroundColor:'red', width:wp('55'),alignSelf:'center'}}>
-//   <Text>hello</Text>
-// </View>}
-// style={{height:hp('50')}}
   markingType={'period'}
-  markedDates={{
-    '2022-10-28': {marked: true, dotColor: '#50cebb'},
-    '2022-10-29': {marked: true, dotColor: '#50cebb'},
-    '2022-10-30': {startingDay: true, color: '#50cebb', textColor: 'white'},
-    '2012-05-22': {color: '#70d7c7', textColor: 'white'},
-    '2012-05-23': {color: '#70d7c7', textColor: 'white', marked: true, dotColor: 'white'},
-    '2012-05-24': {color: '#70d7c7', textColor: 'white'},
-    '2012-05-25': {endingDay: true, color: '#50cebb', textColor: 'white'}
-  }}
+  // markedDates={{
+  //   '2022-10-28': {marked: true, dotColor: '#50cebb'},
+  //   '2022-10-29': {marked: true, dotColor: '#50cebb'},
+  //   '2022-10-30': {startingDay: true, color: '#50cebb', textColor: 'white'},
+  //   '2012-05-22': {color: '#70d7c7', textColor: 'white'},
+  //   '2012-05-23': {color: '#70d7c7', textColor: 'white', marked: true, dotColor: 'white'},
+  //   '2012-05-24': {color: '#70d7c7', textColor: 'white'},
+  //   '2012-05-25': {endingDay: true, color: '#50cebb', textColor: 'white'}
+  // }}
   // markedDates={{
   //   '2017-10-25': {dots: [vacation, massage, workout], selected: true, selectedColor: 'red'},
   //   '2017-10-26': {dots: [massage, workout], disabled: true}
   // }}
-/>
+/> 
+ <View style={{marginBottom:hp('3'),marginTop:hp('3')}} >
+  <TextComp style={{marginLeft:wp('7'),marginBottom:hp('1.5'),color:colorTutor_.TxtColor}} text={'Select your subject'}/>
+ <Picker
+ style={styles.picker}
+  // ref={pickerRef2}
+  selectedValue={selectedLanguage}
+  onValueChange={(itemValue, itemIndex) =>
+    setUpdateTime2(itemValue)
+  }>
+  <Picker.Item label="Java" value="java" />
+  <Picker.Item label="JavaScript" value="js" />
+</Picker>
 </View>
+
+
+
+<View >
+  <TextComp style={{marginLeft:wp('7'),marginBottom:hp('1.5'),color:colorTutor_.TxtColor}} text={'Select your subject'}/>
+  <DropDownView/>
+
+</View>
+
+
+{/* </View> */}
 
       </ScrollView>
       }

@@ -16,8 +16,8 @@ export const ClassesDetailView = props => {
   return (
     <View style={styles.container} >
       <View style={styles.topView}>
-        <Image resizeMode='contain' style={styles.image} source={props.image} />
-        <Text>{props.text}</Text>
+        <Image resizeMode='contain' style={styles.image} source={require('../../image/profile.jpg')} />
+        <Text>Freddy Mercury</Text>
         <View style={{flexDirection:'row', marginLeft:wp('10'),marginBottom:hp('1.5'),alignItems:'center'}}>
 
         <FontAwesome name='video-camera' style={{textAlign:'center'}} size={hp('3.6')} color={colorTutor_.badgeColor} />
@@ -43,14 +43,14 @@ export const ClassesDetailView = props => {
                source={require('../../image/alarm.png')} 
               />
               <Text style={{margin:5,color:'white'}}>1 hour</Text>
-          </View>
+        </View>
           <View style={{flexDirection:'row',marginVertical:5}}>
           <Image
                style={{height:20,width:20,margin:5,tintColor:'white'}}
                source={require('../../image/alarm.png')} 
               />
               <Text style={{margin:5,color:'white'}}>9:00PM - 10:00PM</Text>
-          </View>
+        </View>
 
           </View>
       {/* <View style={styles.lasView}>
