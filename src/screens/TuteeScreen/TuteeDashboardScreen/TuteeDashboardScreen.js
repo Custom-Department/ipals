@@ -5,6 +5,7 @@ import {
   View,
   TextComponent,
   ScrollView,
+  FlatList,
 } from 'react-native';
 import React, {useEffect, useState, useRef} from 'react';
 import {styles} from './style';
@@ -30,8 +31,9 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment/moment';
 import {CircleImageComp} from '../../../components/CircleImageComp/CircleImageComp';
 import {ThreeViewComp} from '../../../components/ThreeViewComp/ThreeViewComp';
+import {TuteeHomeComp} from '../../../components/TuteeHomeComp/TuteeHomeComp';
 
-const DashboardScreen = () => {
+const TuteeDashboardScreen = () => {
   const date = new Date();
   // var d = new Date(); // for now
   // d.getHours(); // => 9
@@ -134,6 +136,102 @@ const DashboardScreen = () => {
     {
       id: 5,
       firstText: 'Nadia Salvester',
+      image: require('../../../image/profile.jpg'),
+      secondText: "Hi, we aren't ready to start our class today...",
+    },
+  ]);
+  const subject = [
+    {
+      id: 0,
+    },
+    {
+      id: 1,
+    },
+    {
+      id: 2,
+    },
+    {
+      id: 3,
+    },
+    {
+      id: 4,
+    },
+  ];
+  const [tutors, setTutors] = useState([
+    {
+      id: 0,
+      firstText: 'Sarah Welson',
+      image: require('../../../image/profile.jpg'),
+      secondText: "Hi, we aren't ready to start our class today...",
+      subject: subject,
+    },
+    {
+      id: 1,
+      firstText: 'Sarah Welson',
+      image: require('../../../image/profile.jpg'),
+      subject: subject,
+      secondText: "Hi, we aren't ready to start our class today...",
+    },
+    {
+      id: 2,
+      firstText: 'Sarah Welson',
+      subject: subject,
+      image: require('../../../image/profile.jpg'),
+      secondText: "Hi, we aren't ready to start our class today...",
+    },
+    {
+      id: 3,
+      firstText: 'Sarah Welson',
+      subject: subject,
+      image: require('../../../image/profile.jpg'),
+      secondText: "Hi, we aren't ready to start our class today...",
+    },
+    {
+      id: 4,
+      firstText: 'Sarah Welson',
+      subject: subject,
+      image: require('../../../image/profile.jpg'),
+      secondText: "Hi, we aren't ready to start our class today...",
+    },
+    {
+      id: 5,
+      firstText: 'Sarah Welson',
+      subject: subject,
+      image: require('../../../image/profile.jpg'),
+      secondText: "Hi, we aren't ready to start our class today...",
+    },
+    {
+      id: 6,
+      firstText: 'Sarah Welson',
+      subject: subject,
+      image: require('../../../image/profile.jpg'),
+      secondText: "Hi, we aren't ready to start our class today...",
+    },
+    {
+      id: 7,
+      firstText: 'Sarah Welson',
+      subject: subject,
+      image: require('../../../image/profile.jpg'),
+      secondText: "Hi, we aren't ready to start our class today...",
+    },
+    {
+      id: 8,
+      firstText: 'Sarah Welson',
+      subject: subject,
+      image: require('../../../image/profile.jpg'),
+      secondText: "Hi, we aren't ready to start our class today...",
+    },
+    {
+      id: 9,
+      firstText: 'Sarah Welson',
+      subject: subject,
+      image: require('../../../image/profile.jpg'),
+      secondText: "Hi, we aren't ready to start our class today...",
+    },
+    {
+      id: 10,
+      firstText: 'Sarah Welson',
+      subject: subject,
       image: require('../../../image/profile.jpg'),
       secondText: "Hi, we aren't ready to start our class today...",
     },
@@ -279,8 +377,6 @@ const DashboardScreen = () => {
     console.log(1444, value);
   };
 
-  useEffect(() => {}, []);
-
   return (
     <View
       style={{
@@ -289,10 +385,56 @@ const DashboardScreen = () => {
       }}>
       <HeaderComponent
         navigatorName={topNavigator}
+        search={true}
         checkIndexStatus={checkIndexStatus}
       />
 
       {index == 0 &&
+        (list?.length > 0 ? (
+          <FlatList
+            data={tutors}
+            keyExtractor={(item, index) => index.toString()}
+            numColumns={2}
+            contentContainerStyle={{
+              width: wp('95'),
+              alignSelf: 'center',
+              paddingBottom: hp('15'),
+            }}
+            renderItem={({item}) => {
+              return <TuteeHomeComp data={item} />;
+            }}
+          />
+        ) : (
+          <View>
+            <View style={styles.classDashBoard}>
+              <TextComp text="My Classes" />
+              <HorizontalDividerComp color={colorTutor_.blue} />
+            </View>
+            <InformationTextView text={'You don’t have Classes '} />
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: hp('4'),
+              }}>
+              <ButtonIconComp
+                style={{width: wp('90'), height: hp('7')}}
+                TextStyle={{fontSize: hp('2.6')}}
+                onPress={() => console.log('Create Class')}
+                text="Create Class"
+                size={hp('5.5')}
+                name={'add'}
+              />
+            </View>
+            <View style={{...styles.classDashBoard, marginTop: hp('6')}}>
+              <TextComp text="Pending Requests" />
+              <HorizontalDividerComp width={'53'} color={colorTutor_.blue} />
+            </View>
+            <InformationTextView text={'You don’t have pending requests.'} />
+          </View>
+        ))}
+
+      {index == 1 &&
         (list?.length > 0 ? (
           <ScrollView
             showsVerticalScrollIndicator={false}
@@ -358,74 +500,6 @@ const DashboardScreen = () => {
             <InformationTextView text={'You don’t have pending requests.'} />
           </View>
         ))}
-
-      {index == 1 && (
-        <ScrollView contentContainerStyle={styles.container}>
-          <View style={styles.myClassViewDashBoard}>
-            <View style={{flexDirection: 'row'}}>
-              <Ionicons name={'arrow-back'} size={hp('2')} color="white" />
-              <TextComp
-                style={{marginLeft: wp('3'), color: colorTutor_.TxtColor}}
-                text="My Classes"
-              />
-            </View>
-          </View>
-          <Calendar
-            markingType={'period'}
-            style={{width: wp('90'), alignSelf: 'center', borderRadius: 10}}
-            // markedDates={{
-            //   '2022-10-28': {marked: true, dotColor: '#50cebb'},
-            //   '2022-10-29': {marked: true, dotColor: '#50cebb'},
-            //   '2022-10-30': {startingDay: true, color: '#50cebb', textColor: 'white'},
-            //   '2012-05-22': {color: '#70d7c7', textColor: 'white'},
-            //   '2012-05-23': {color: '#70d7c7', textColor: 'white', marked: true, dotColor: 'white'},
-            //   '2012-05-24': {color: '#70d7c7', textColor: 'white'},
-            //   '2012-05-25': {endingDay: true, color: '#50cebb', textColor: 'white'}
-            // }}
-            // markedDates={{
-            //   '2017-10-25': {dots: [vacation, massage, workout], selected: true, selectedColor: 'red'},
-            //   '2017-10-26': {dots: [massage, workout], disabled: true}
-            // }}
-          />
-          <View style={{marginBottom: hp('3'), marginTop: hp('3')}}>
-            <TextComp
-              style={{
-                marginLeft: wp('7'),
-                marginBottom: hp('1.5'),
-                color: colorTutor_.TxtColor,
-              }}
-              text={'Select your subject'}
-            />
-            <Picker
-              style={styles.picker}
-              itemStyle={{
-                height: hp('10'),
-              }}
-              // ref={pickerRef2}
-              selectedValue={selectedLanguage}
-              onValueChange={(itemValue, itemIndex) =>
-                setSelectedLanguage(itemValue)
-              }>
-              <Picker.Item label="Java" value="java" />
-              <Picker.Item label="JavaScript" value="js" />
-            </Picker>
-          </View>
-
-          <View>
-            <TextComp
-              style={{
-                marginLeft: wp('7'),
-                marginBottom: hp('1.5'),
-                color: colorTutor_.TxtColor,
-              }}
-              text={'Select your subject'}
-            />
-            <DropDownView />
-          </View>
-
-          {/* </View> */}
-        </ScrollView>
-      )}
       {index == 2 && (
         <ScrollView contentContainerStyle={styles.container}>
           {message.length > 0 &&
@@ -451,4 +525,4 @@ const DashboardScreen = () => {
   );
 };
 
-export default DashboardScreen;
+export default TuteeDashboardScreen;
