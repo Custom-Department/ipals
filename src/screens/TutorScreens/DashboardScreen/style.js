@@ -124,4 +124,28 @@ export const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: hp('2'),
       },
+      createClass:{
+        marginTop:hp('2'),
+        alignSelf:'center',
+        width:wp('80'),
+        height:hp('8'),
+        shadowColor: "#000",
+shadowOffset: {
+	width: 0,
+	height: 1,
+},
+shadowOpacity: 0.20,
+shadowRadius: 1.41,
+
+elevation: 2,
+      },
+      plusView:{
+        justifyContent:'center',
+        height:hp('3.5'),
+        width:wp('8'),
+        backgroundColor:colorTutor_.blue,
+        alignItems:'center',
+        borderRadius:5,
+
+      }
 })

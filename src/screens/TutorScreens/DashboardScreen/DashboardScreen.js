@@ -18,32 +18,36 @@ import PickerComponent from '../../../components/PickerComponent/PickerComponent
 import {Picker} from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment/moment';
+import { ButtonThemeComp } from '../../../components/ButtonThemeComp/ButtonThemeComp'
+import { CreateClassComp } from '../../../components/CreateClassComp/CreateClassComp'
 
-const DashboardScreen = () => {
-  const date = new Date();
-// var d = new Date(); // for now
-// d.getHours(); // => 9
-// d.getMinutes(); // =>  30
-// d.getSeconds(); // => 51
-// console.log(d.getHours())
-// setHour(d.getHours);
+var arrayCalender=[];
+const DashboardScreen = ({navigation}) => {
+const [classState,setClassState]=useState(true); 
+
+
+const date = new Date();
 var time = new Date();
 var getTime= time.toLocaleString('en-US', { hour: 'numeric',minute:'numeric', hour12: true })
 const [timezone,setTimeZone]=useState(getTime); 
 const time1 = date.setDate(date.getDate() + 1);
-  const [selectedLanguage, setSelectedLanguage] = useState('English');
   const [isDate, setIsDate] = useState(false);
   const [isDate2, setIsDate2] = useState(false);
   const [startDate, setStartDate] = useState(time);
   const [endDate, setEndDate] = useState(null);
 
+  
+  const [calenderArray,setCalenderArray]=useState([]);
+  
+  const [selectedDate,setSelectedDate]=useState("");
+  const [markedDates,setMarkedDates]=useState({});
+  
+  const [subject,setSubject]=useState('English')
   const upadateStartDate = e => {
     let d = new Date(e?.nativeEvent?.timestamp);
 
     setIsDate(false);
     setStartDate(d)
-console.log(44,d,time)
-
     setEndDate(d);
 
   };
@@ -232,19 +236,34 @@ const DropDownView =()=>{
   const [index, setIndex] = useState(0);
   const checkIndexStatus = (value) => {
     setIndex(value)
-    console.log(1444, value)
   }
 
-  useEffect(()=>{
+  const getSelectedDayEvents = (date,index) => {
+    let markedDates = {};
 
-  },[])
+    if(arrayCalender.includes(date)){
+      const a=arrayCalender.indexOf(date);
+      arrayCalender.splice(a,1);
+  }
+    else {
+      arrayCalender.push(date)
+    }
+    arrayCalender.map(item=>{
+      markedDates[item] = { selected: true, color: '#00B0BF', textColor: '#FFFFFF' };
+     })
+    let serviceDate = moment(date);
+    serviceDate = serviceDate.format("DD.MM.YYYY");
+    setSelectedDate(selectedDate);
+    setMarkedDates(markedDates)
+};
 
   return (
     <View style={{
       backgroundColor: colorTutor_.ipalBlue,
       flex: 1,
     }}>
-      <HeaderComponent navigatorName={topNavigator} checkIndexStatus={checkIndexStatus} />
+      <HeaderComponent profileOnPress={()=>navigation.navigate('ProfileScreen')}
+       navigatorName={topNavigator} checkIndexStatus={checkIndexStatus} />
 
 
  {index==0 &&(
@@ -298,7 +317,7 @@ const DropDownView =()=>{
 
   {index==1 
     &&
-  <ScrollView  contentContainerStyle={styles.container}>
+   ( classState==true?( <ScrollView  contentContainerStyle={styles.container}>
         <View style={styles.myClassViewDashBoard} >
         <View style={{flexDirection:'row'}}>
       <Ionicons name={'arrow-back'} size={hp('2')} color='white' />
@@ -309,46 +328,43 @@ const DropDownView =()=>{
         </View>
 <Calendar
   markingType={'period'}
-  // markedDates={{
-  //   '2022-10-28': {marked: true, dotColor: '#50cebb'},
-  //   '2022-10-29': {marked: true, dotColor: '#50cebb'},
-  //   '2022-10-30': {startingDay: true, color: '#50cebb', textColor: 'white'},
-  //   '2012-05-22': {color: '#70d7c7', textColor: 'white'},
-  //   '2012-05-23': {color: '#70d7c7', textColor: 'white', marked: true, dotColor: 'white'},
-  //   '2012-05-24': {color: '#70d7c7', textColor: 'white'},
-  //   '2012-05-25': {endingDay: true, color: '#50cebb', textColor: 'white'}
-  // }}
-  // markedDates={{
-  //   '2017-10-25': {dots: [vacation, massage, workout], selected: true, selectedColor: 'red'},
-  //   '2017-10-26': {dots: [massage, workout], disabled: true}
-  // }}
+  
+  onDayPress={(day,index) =>   getSelectedDayEvents(day.dateString,index)}
+ markedDates={markedDates}
+
 /> 
  <View style={{marginBottom:hp('3'),marginTop:hp('3')}} >
   <TextComp style={{marginLeft:wp('7'),marginBottom:hp('1.5'),color:colorTutor_.TxtColor}} text={'Select your subject'}/>
  <Picker
  style={styles.picker}
   // ref={pickerRef2}
-  selectedValue={selectedLanguage}
+  selectedValue={subject}
   onValueChange={(itemValue, itemIndex) =>
-    setUpdateTime2(itemValue)
+    setSubject(itemValue)
   }>
-  <Picker.Item label="Java" value="java" />
-  <Picker.Item label="JavaScript" value="js" />
+  <Picker.Item label="English" value="English" />
+  <Picker.Item label="French" value="French" />
 </Picker>
 </View>
-
-
-
 <View >
-  <TextComp style={{marginLeft:wp('7'),marginBottom:hp('1.5'),color:colorTutor_.TxtColor}} text={'Select your subject'}/>
+  <TextComp style={{marginLeft:wp('7'),marginBottom:hp('1.5'),color:colorTutor_.TxtColor}} text={'Create time schedule'}/>
   <DropDownView/>
-
+</View>
+<View>
+<ButtonThemeComp style={styles.createClass} TextStyle={{fontSize:hp('2')}} text={'Create class'} onPress={() => setClassState(false)} />
 </View>
 
-
-{/* </View> */}
-
-      </ScrollView>
+</ScrollView>):<View>
+<View style={styles.classDashBoard} >
+          <TextComp text={'My Classes'}/>
+          <TouchableOpacity onPress={()=>setClassState(true)} style={styles.plusView}>
+        <Ionicons name={'add'} size={hp('3')} color='white' />
+          </TouchableOpacity>
+        </View>
+  <CreateClassComp/>
+  <CreateClassComp/>
+  <CreateClassComp/>
+  </View>)
       }
 
         <View style={styles.bottomBar}>

@@ -219,7 +219,7 @@ const CreateAccount = ({ navigation }) => {
           </View>
           <LoginInputComp secureTextEntry={false} placeholder={'Create Password '} style={{ width: wp('95') }} eyeIconName={'lock'} />
           <LoginInputComp secureTextEntry={true} placeholder={'Confirm Password '} style={{ width: wp('95') }} eyeIconName={'lock'} color={colorTutor_.ipallightGreen} />
-          <ButtonThemeComp style={{ ...styles.signBtn, marginTop: hp('2'), width: wp('95'), alignSelf: 'center' }} text={'SIGN IN'} />
+          <ButtonThemeComp onPress={()=>navigation.navigate('DashboardScreen')} style={{ ...styles.signBtn, marginTop: hp('2'), width: wp('95'), alignSelf: 'center' }} text={'SIGN IN'} />
         </ScrollView>
         <View style={styles.bottomBar}>
           <TouchableOpacity onPress={() => console.log('dont have you acc')}>

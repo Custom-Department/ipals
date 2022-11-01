@@ -29,8 +29,8 @@ export default function StackNavigatior() {
           component={screens.CreateAccount}
         />
         <Stack.Screen
-          name="Profile"
-          component={screens.Profile}
+          name="ProfileScreen"
+          component={Tutor.ProfileScreen}
         />
         <Stack.Screen
           name="Home"

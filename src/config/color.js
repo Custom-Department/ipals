@@ -39,6 +39,8 @@ export const colorTutor_ = {
   badgeColor: '#FF2D2D',
   darkGreen: '#00712f',
   lightGreen: '#47C460',
+  bookColor:'#A8A8A8',
+
 
 };
 
