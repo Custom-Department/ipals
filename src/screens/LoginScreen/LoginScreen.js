@@ -40,7 +40,8 @@ const LoginScreen = ({navigation}) => {
       <ButtonThemeComp
         style={styles.signBtn}
         text={'SIGN IN'}
-        onPress={() => navigation.navigate('TuteeDashboardScreen')}
+        onPress={() => navigation.navigate('DashboardScreen')}
+        // onPress={() => navigation.navigate('TuteeDashboardScreen')}
       />
       <View style={styles.forgetView}>
         <TouchableOpacity>

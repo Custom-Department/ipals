@@ -28,17 +28,16 @@ import PickerComponent from '../../../components/PickerComponent/PickerComponent
 import {Picker} from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment/moment';
+import {ButtonThemeComp} from '../../../components/ButtonThemeComp/ButtonThemeComp';
+import {CreateClassComp} from '../../../components/CreateClassComp/CreateClassComp';
 import {CircleImageComp} from '../../../components/CircleImageComp/CircleImageComp';
 import {ThreeViewComp} from '../../../components/ThreeViewComp/ThreeViewComp';
+var arrayCalender = [];
+const DashboardScreen = ({navigation}) => {
+  const [classState, setClassState] = useState(true);
+  const [selectedLanguage, setSelectedLanguage] = useState();
 
-const DashboardScreen = () => {
   const date = new Date();
-  // var d = new Date(); // for now
-  // d.getHours(); // => 9
-  // d.getMinutes(); // =>  30
-  // d.getSeconds(); // => 51
-  // console.log(d.getHours())
-  // setHour(d.getHours);
   var time = new Date();
   var getTime = time.toLocaleString('en-US', {
     hour: 'numeric',
@@ -47,19 +46,22 @@ const DashboardScreen = () => {
   });
   const [timezone, setTimeZone] = useState(getTime);
   const time1 = date.setDate(date.getDate() + 1);
-  const [selectedLanguage, setSelectedLanguage] = useState('English');
   const [isDate, setIsDate] = useState(false);
   const [isDate2, setIsDate2] = useState(false);
   const [startDate, setStartDate] = useState(time);
   const [endDate, setEndDate] = useState(null);
 
+  const [calenderArray, setCalenderArray] = useState([]);
+
+  const [selectedDate, setSelectedDate] = useState('');
+  const [markedDates, setMarkedDates] = useState({});
+
+  const [subject, setSubject] = useState('English');
   const upadateStartDate = e => {
     let d = new Date(e?.nativeEvent?.timestamp);
 
     setIsDate(false);
     setStartDate(d);
-    console.log(44, d, time);
-
     setEndDate(d);
   };
   const upadateEndDate = e => {
@@ -276,10 +278,29 @@ const DashboardScreen = () => {
   const [index, setIndex] = useState(0);
   const checkIndexStatus = value => {
     setIndex(value);
-    console.log(1444, value);
   };
 
-  useEffect(() => {}, []);
+  const getSelectedDayEvents = (date, index) => {
+    let markedDates = {};
+
+    if (arrayCalender.includes(date)) {
+      const a = arrayCalender.indexOf(date);
+      arrayCalender.splice(a, 1);
+    } else {
+      arrayCalender.push(date);
+    }
+    arrayCalender.map(item => {
+      markedDates[item] = {
+        selected: true,
+        color: '#00B0BF',
+        textColor: '#FFFFFF',
+      };
+    });
+    let serviceDate = moment(date);
+    serviceDate = serviceDate.format('DD.MM.YYYY');
+    setSelectedDate(selectedDate);
+    setMarkedDates(markedDates);
+  };
 
   return (
     <View
@@ -288,6 +309,7 @@ const DashboardScreen = () => {
         flex: 1,
       }}>
       <HeaderComponent
+        profileOnPress={() => navigation.navigate('ProfileScreen')}
         navigatorName={topNavigator}
         checkIndexStatus={checkIndexStatus}
       />
