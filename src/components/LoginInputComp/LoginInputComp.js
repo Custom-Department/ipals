@@ -1,16 +1,15 @@
 import React from 'react';
-import { View, Text, TextInput } from 'react-native';
-import { styles } from './styles';
+import {View, Text, TextInput} from 'react-native';
+import {styles} from './styles';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { color } from '../../config/color';
+import {color} from '../../config/color';
 
 export const LoginInputComp = props => {
-
   return (
     <View
       style={{
@@ -20,11 +19,10 @@ export const LoginInputComp = props => {
           props?.isFocused == true
             ? color.textSecondaryColor
             : props?.value != ''
-              ? color.white
-              : color.borderThirdColor,
+            ? color.white
+            : color.borderThirdColor,
         borderWidth: props?.isFocused == true ? 2 : 1,
-        backgroundColor:
-          props?.isFocused == true ? 'white' : color.white,
+        backgroundColor: props?.isFocused == true ? 'white' : color.white,
       }}>
       {props.firstIcon && (
         <Ionicons
@@ -45,15 +43,15 @@ export const LoginInputComp = props => {
           fontSize: hp('2'),
           // width: wp('65'),
           flex: 1,
-          alignSelf: 'flex-start',
-          ...props.inputStyle
+          // alignSelf: 'flex-start',
+          ...props.inputStyle,
         }}
         ref={props?.ref}
         placeholder={props?.placeholder}
         placeholderTextColor={color.themeColorDark}
-        keyboardType={'visible-password'}
+        // keyboardType={'visible-password'}
         multiline={true}
-        // keyboardType={props?.keyboardType}
+        keyboardType={props?.keyboardType}
         secureTextEntry={props?.secureTextEntry}
         editable={props?.editable}
         onChangeText={props?.onChangeText}
@@ -70,7 +68,7 @@ export const LoginInputComp = props => {
             ? color.textSecondaryColor
             : color.themeColorDark
         }
-        style={{ marginLeft: 'auto', marginRight: wp('3') }}
+        style={{marginLeft: 'auto', marginRight: wp('3')}}
         size={hp('2')}
       />
     </View>

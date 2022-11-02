@@ -1,9 +1,8 @@
-
-
 import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { screens } from '../screens';
-import { Tutor } from '../screens/TutorScreens';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {screens} from '../screens';
+import {Tutor} from '../screens/TutorScreens';
+import {Tutee} from '../screens/TuteeScreen';
 const Stack = createNativeStackNavigator();
 
 export default function StackNavigatior() {
@@ -14,7 +13,6 @@ export default function StackNavigatior() {
           animation: 'slide_from_left',
           headerShown: false,
         }}>
-
         {/* <Stack.Screen name="MybottomTabs" component={MybottomTabs} /> */}
         <Stack.Screen
           name="LoginScreen"
@@ -43,6 +41,10 @@ export default function StackNavigatior() {
         <Stack.Screen
           name="DashboardScreen"
           component={Tutor.DashboardScreen}
+        />
+        <Stack.Screen
+          name="TuteeDashboardScreen"
+          component={Tutee.TuteeDashboardScreen}
         />
       </Stack.Navigator>
     </>

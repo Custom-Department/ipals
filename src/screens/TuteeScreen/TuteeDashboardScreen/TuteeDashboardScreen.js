@@ -5,6 +5,7 @@ import {
   View,
   TextComponent,
   ScrollView,
+  FlatList,
 } from 'react-native';
 import React, {useEffect, useState, useRef} from 'react';
 import {styles} from './style';
@@ -22,20 +23,24 @@ import {PendingReqComp} from '../../../components/PendingReqComp/PendingReqComp'
 import HorizontalDividerComp from '../../../components/HorizontalDividerComp/HorizontalDividerComp';
 import InformationTextView from '../../../components/InformationTextView/InformationTextView';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Entypo from 'react-native-vector-icons/Entypo';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import PickerComponent from '../../../components/PickerComponent/PickerComponent';
 import {Picker} from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment/moment';
-import {ButtonThemeComp} from '../../../components/ButtonThemeComp/ButtonThemeComp';
-import {CreateClassComp} from '../../../components/CreateClassComp/CreateClassComp';
+import {CircleImageComp} from '../../../components/CircleImageComp/CircleImageComp';
 import {ThreeViewComp} from '../../../components/ThreeViewComp/ThreeViewComp';
+import {TuteeHomeComp} from '../../../components/TuteeHomeComp/TuteeHomeComp';
 
-var arrayCalender = [];
-const DashboardScreen = ({navigation}) => {
-  const [classState, setClassState] = useState(true);
-
+const TuteeDashboardScreen = () => {
   const date = new Date();
+  // var d = new Date(); // for now
+  // d.getHours(); // => 9
+  // d.getMinutes(); // =>  30
+  // d.getSeconds(); // => 51
+  // console.log(d.getHours())
+  // setHour(d.getHours);
   var time = new Date();
   var getTime = time.toLocaleString('en-US', {
     hour: 'numeric',
@@ -44,22 +49,19 @@ const DashboardScreen = ({navigation}) => {
   });
   const [timezone, setTimeZone] = useState(getTime);
   const time1 = date.setDate(date.getDate() + 1);
+  const [selectedLanguage, setSelectedLanguage] = useState('English');
   const [isDate, setIsDate] = useState(false);
   const [isDate2, setIsDate2] = useState(false);
   const [startDate, setStartDate] = useState(time);
   const [endDate, setEndDate] = useState(null);
 
-  const [calenderArray, setCalenderArray] = useState([]);
-
-  const [selectedDate, setSelectedDate] = useState('');
-  const [markedDates, setMarkedDates] = useState({});
-
-  const [subject, setSubject] = useState('English');
   const upadateStartDate = e => {
     let d = new Date(e?.nativeEvent?.timestamp);
 
     setIsDate(false);
     setStartDate(d);
+    console.log(44, d, time);
+
     setEndDate(d);
   };
   const upadateEndDate = e => {
@@ -68,67 +70,6 @@ const DashboardScreen = ({navigation}) => {
 
     setEndDate(d);
   };
-  const [message, setMessage] = useState([
-    {
-      id: 0,
-
-      firstText: 'Nadia Salvester',
-
-      image: require('../../../image/profile.jpg'),
-
-      secondText: "Hi, we aren't ready to start our class today...",
-    },
-
-    {
-      id: 1,
-
-      firstText: 'Nadia Salvester',
-
-      image: require('../../../image/profile.jpg'),
-
-      secondText: "Hi, we aren't ready to start our class today...",
-    },
-
-    {
-      id: 2,
-
-      firstText: 'Nadia Salvester',
-
-      image: require('../../../image/profile.jpg'),
-
-      secondText: "Hi, we aren't ready to start our class today...",
-    },
-
-    {
-      id: 3,
-
-      firstText: 'Nadia Salvester',
-
-      image: require('../../../image/profile.jpg'),
-
-      secondText: "Hi, we aren't ready to start our class today...",
-    },
-
-    {
-      id: 4,
-
-      firstText: 'Nadia Salvester',
-
-      image: require('../../../image/profile.jpg'),
-
-      secondText: "Hi, we aren't ready to start our class today...",
-    },
-
-    {
-      id: 5,
-
-      firstText: 'Nadia Salvester',
-
-      image: require('../../../image/profile.jpg'),
-
-      secondText: "Hi, we aren't ready to start our class today...",
-    },
-  ]);
   const [list, setList] = useState([
     {
       id: 0,
@@ -159,6 +100,140 @@ const DashboardScreen = ({navigation}) => {
       id: 5,
       name: 'Freddy Mercury',
       image: require('../../../image/profile.jpg'),
+    },
+  ]);
+  const [message, setMessage] = useState([
+    {
+      id: 0,
+      firstText: 'Nadia Salvester',
+      image: require('../../../image/profile.jpg'),
+      secondText: "Hi, we aren't ready to start our class today...",
+    },
+    {
+      id: 1,
+      firstText: 'Nadia Salvester',
+      image: require('../../../image/profile.jpg'),
+      secondText: "Hi, we aren't ready to start our class today...",
+    },
+    {
+      id: 2,
+      firstText: 'Nadia Salvester',
+      image: require('../../../image/profile.jpg'),
+      secondText: "Hi, we aren't ready to start our class today...",
+    },
+    {
+      id: 3,
+      firstText: 'Nadia Salvester',
+      image: require('../../../image/profile.jpg'),
+      secondText: "Hi, we aren't ready to start our class today...",
+    },
+    {
+      id: 4,
+      firstText: 'Nadia Salvester',
+      image: require('../../../image/profile.jpg'),
+      secondText: "Hi, we aren't ready to start our class today...",
+    },
+    {
+      id: 5,
+      firstText: 'Nadia Salvester',
+      image: require('../../../image/profile.jpg'),
+      secondText: "Hi, we aren't ready to start our class today...",
+    },
+  ]);
+  const subject = [
+    {
+      id: 0,
+    },
+    {
+      id: 1,
+    },
+    {
+      id: 2,
+    },
+    {
+      id: 3,
+    },
+    {
+      id: 4,
+    },
+  ];
+  const [tutors, setTutors] = useState([
+    {
+      id: 0,
+      firstText: 'Sarah Welson',
+      image: require('../../../image/profile.jpg'),
+      secondText: "Hi, we aren't ready to start our class today...",
+      subject: subject,
+    },
+    {
+      id: 1,
+      firstText: 'Sarah Welson',
+      image: require('../../../image/profile.jpg'),
+      subject: subject,
+      secondText: "Hi, we aren't ready to start our class today...",
+    },
+    {
+      id: 2,
+      firstText: 'Sarah Welson',
+      subject: subject,
+      image: require('../../../image/profile.jpg'),
+      secondText: "Hi, we aren't ready to start our class today...",
+    },
+    {
+      id: 3,
+      firstText: 'Sarah Welson',
+      subject: subject,
+      image: require('../../../image/profile.jpg'),
+      secondText: "Hi, we aren't ready to start our class today...",
+    },
+    {
+      id: 4,
+      firstText: 'Sarah Welson',
+      subject: subject,
+      image: require('../../../image/profile.jpg'),
+      secondText: "Hi, we aren't ready to start our class today...",
+    },
+    {
+      id: 5,
+      firstText: 'Sarah Welson',
+      subject: subject,
+      image: require('../../../image/profile.jpg'),
+      secondText: "Hi, we aren't ready to start our class today...",
+    },
+    {
+      id: 6,
+      firstText: 'Sarah Welson',
+      subject: subject,
+      image: require('../../../image/profile.jpg'),
+      secondText: "Hi, we aren't ready to start our class today...",
+    },
+    {
+      id: 7,
+      firstText: 'Sarah Welson',
+      subject: subject,
+      image: require('../../../image/profile.jpg'),
+      secondText: "Hi, we aren't ready to start our class today...",
+    },
+    {
+      id: 8,
+      firstText: 'Sarah Welson',
+      subject: subject,
+      image: require('../../../image/profile.jpg'),
+      secondText: "Hi, we aren't ready to start our class today...",
+    },
+    {
+      id: 9,
+      firstText: 'Sarah Welson',
+      subject: subject,
+      image: require('../../../image/profile.jpg'),
+      secondText: "Hi, we aren't ready to start our class today...",
+    },
+    {
+      id: 10,
+      firstText: 'Sarah Welson',
+      subject: subject,
+      image: require('../../../image/profile.jpg'),
+      secondText: "Hi, we aren't ready to start our class today...",
     },
   ]);
   const pickerRef = useRef('English');
@@ -299,28 +374,7 @@ const DashboardScreen = ({navigation}) => {
   const [index, setIndex] = useState(0);
   const checkIndexStatus = value => {
     setIndex(value);
-  };
-
-  const getSelectedDayEvents = (date, index) => {
-    let markedDates = {};
-
-    if (arrayCalender.includes(date)) {
-      const a = arrayCalender.indexOf(date);
-      arrayCalender.splice(a, 1);
-    } else {
-      arrayCalender.push(date);
-    }
-    arrayCalender.map(item => {
-      markedDates[item] = {
-        selected: true,
-        color: '#00B0BF',
-        textColor: '#FFFFFF',
-      };
-    });
-    let serviceDate = moment(date);
-    serviceDate = serviceDate.format('DD.MM.YYYY');
-    setSelectedDate(selectedDate);
-    setMarkedDates(markedDates);
+    console.log(1444, value);
   };
 
   return (
@@ -330,19 +384,66 @@ const DashboardScreen = ({navigation}) => {
         flex: 1,
       }}>
       <HeaderComponent
-        profileOnPress={() => navigation.navigate('ProfileScreen')}
         navigatorName={topNavigator}
+        search={true}
         checkIndexStatus={checkIndexStatus}
       />
 
       {index == 0 &&
         (list?.length > 0 ? (
-          <ScrollView contentContainerStyle={styles.container}>
+          <FlatList
+            data={tutors}
+            keyExtractor={(item, index) => index.toString()}
+            numColumns={2}
+            contentContainerStyle={{
+              width: wp('95'),
+              alignSelf: 'center',
+              paddingBottom: hp('15'),
+            }}
+            renderItem={({item}) => {
+              return <TuteeHomeComp data={item} />;
+            }}
+          />
+        ) : (
+          <View>
+            <View style={styles.classDashBoard}>
+              <TextComp text="My Classes" />
+              <HorizontalDividerComp color={colorTutor_.blue} />
+            </View>
+            <InformationTextView text={'You don’t have Classes '} />
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: hp('4'),
+              }}>
+              <ButtonIconComp
+                style={{width: wp('90'), height: hp('7')}}
+                TextStyle={{fontSize: hp('2.6')}}
+                onPress={() => console.log('Create Class')}
+                text="Create Class"
+                size={hp('5.5')}
+                name={'add'}
+              />
+            </View>
+            <View style={{...styles.classDashBoard, marginTop: hp('6')}}>
+              <TextComp text="Pending Requests" />
+              <HorizontalDividerComp width={'53'} color={colorTutor_.blue} />
+            </View>
+            <InformationTextView text={'You don’t have pending requests.'} />
+          </View>
+        ))}
+
+      {index == 1 &&
+        (list?.length > 0 ? (
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.container}>
             <View style={styles.classDashBoard}>
               <TextComp text={'My Classes'} />
               <ButtonIconComp
                 onPress={() => console.log('All Classes')}
-                text="view all classes"
+                text="View all classes"
                 size={hp('3.5')}
                 name={'arrow-forward'}
               />
@@ -359,7 +460,7 @@ const DashboardScreen = ({navigation}) => {
               <TextComp text={'Pending Requests'} />
               <ButtonIconComp
                 onPress={() => console.log('All Classes')}
-                text="view all classes"
+                text="View all classes"
                 size={hp('3.5')}
                 name={'arrow-forward'}
               />
@@ -399,81 +500,6 @@ const DashboardScreen = ({navigation}) => {
             <InformationTextView text={'You don’t have pending requests.'} />
           </View>
         ))}
-
-      {index == 1 &&
-        (classState == true ? (
-          <ScrollView contentContainerStyle={styles.container}>
-            <View style={styles.myClassViewDashBoard}>
-              <View style={{flexDirection: 'row'}}>
-                <Ionicons name={'arrow-back'} size={hp('2')} color="white" />
-                <TextComp
-                  style={{marginLeft: wp('3'), color: colorTutor_.TxtColor}}
-                  text="My Classes"
-                />
-              </View>
-            </View>
-            <View></View>
-            <Calendar
-              style={{width: wp('90'), alignSelf: 'center', borderRadius: 10}}
-              markingType={'period'}
-              onDayPress={(day, index) =>
-                getSelectedDayEvents(day.dateString, index)
-              }
-              markedDates={markedDates}
-            />
-            <View style={{marginBottom: hp('3'), marginTop: hp('3')}}>
-              <TextComp
-                style={{
-                  marginLeft: wp('7'),
-                  marginBottom: hp('1.5'),
-                  color: colorTutor_.TxtColor,
-                }}
-                text={'Select your subject'}
-              />
-              <Picker
-                style={styles.picker}
-                // ref={pickerRef2}
-                selectedValue={subject}
-                onValueChange={(itemValue, itemIndex) => setSubject(itemValue)}>
-                <Picker.Item label="English" value="English" />
-                <Picker.Item label="French" value="French" />
-              </Picker>
-            </View>
-            <View>
-              <TextComp
-                style={{
-                  marginLeft: wp('7'),
-                  marginBottom: hp('1.5'),
-                  color: colorTutor_.TxtColor,
-                }}
-                text={'Create time schedule'}
-              />
-              <DropDownView />
-            </View>
-            <View>
-              <ButtonThemeComp
-                style={styles.createClass}
-                TextStyle={{fontSize: hp('2')}}
-                text={'Create class'}
-                onPress={() => setClassState(false)}
-              />
-            </View>
-          </ScrollView>
-        ) : (
-          <View>
-            <View style={styles.classDashBoard}>
-              <TextComp text={'My Classes'} />
-              <TouchableOpacity
-                onPress={() => setClassState(true)}
-                style={styles.plusView}>
-                <Ionicons name={'add'} size={hp('3')} color="white" />
-              </TouchableOpacity>
-            </View>
-            <CreateClassComp />
-            <CreateClassComp />
-            <CreateClassComp />
-          </View>
-        ))}
       {index == 2 && (
         <ScrollView contentContainerStyle={styles.container}>
           {message.length > 0 &&
@@ -487,7 +513,6 @@ const DashboardScreen = ({navigation}) => {
             })}
         </ScrollView>
       )}
-
       <View style={styles.bottomBar}>
         <TouchableOpacity onPress={() => console.log('dont have you acc')}>
           <Text style={globalStyles.globalModuletutor}>Term of use</Text>
@@ -500,4 +525,4 @@ const DashboardScreen = ({navigation}) => {
   );
 };
 
-export default DashboardScreen;
+export default TuteeDashboardScreen;
