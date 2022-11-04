@@ -22,7 +22,7 @@ export const globalStyles = StyleSheet.create({
     fontFamily: 'Poppins',
   },
   globalModuletutor: {
-    color: 'black',
+    color: 'white',
     fontSize: hp('1.5'),
   },
   globalModuletutor2: {

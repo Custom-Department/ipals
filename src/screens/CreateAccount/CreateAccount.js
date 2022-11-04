@@ -21,7 +21,7 @@ import {
 import Octicons from 'react-native-vector-icons/Octicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import PickerComponent from '../../components/PickerComponent/PickerComponent';
-import {ApiGet, ApiPost} from '../../config/helperFunction';
+import {ApiGet, ApiPost, errorHandler} from '../../config/helperFunction';
 import {
   GetCategoriesUrl,
   GetCitiesUrl,
@@ -32,8 +32,12 @@ import {
 } from '../../config/Urls';
 import {errorMessage} from '../../config/NotificationMessage';
 import {TextComp} from '../../components/TextComponent';
+import {useDispatch} from 'react-redux';
+import types from '../../Redux/types';
+import axios from 'react-native-axios';
 
 const CreateAccount = ({navigation}) => {
+  const dispatch = useDispatch();
   const [tutorValue, setTutorValue] = useState({
     tutorData: null,
     languageData: null,
@@ -41,18 +45,18 @@ const CreateAccount = ({navigation}) => {
     CityData: null,
     StateData: null,
     ZipCodeData: '',
-    AcademicYearData: '',
+    AcademicYearData: [],
     CourcesData: '',
     CategoriesData: '',
     PhoneNumber: '',
     BioData: '',
     Password: '',
     ConfirmPassword: '',
-    linkedin_id: '',
-    linkedin_token: '',
-    linkedin_avatar: '',
-    linkedin_expires: '',
-    linkedin_refresh_token: '',
+    linkedin_id: 'asdasd',
+    linkedin_token: 'asdasd',
+    linkedin_avatar: 'asdas',
+    linkedin_expires: 'asdasd',
+    linkedin_refresh_token: 'asdasd',
     // EducationData: [],
     FirstName: '',
     LastName: '',
@@ -159,7 +163,6 @@ const CreateAccount = ({navigation}) => {
   };
   const signUpFun = () => {
     setIsloading(true);
-    console.log(160, EducationData);
     const {
       languageData,
       CountryData,
@@ -188,10 +191,11 @@ const CreateAccount = ({navigation}) => {
       AcademicYearData != '' &&
       BioData != '' &&
       Password != '' &&
+      Password.length >= 8 &&
       ConfirmPassword != '' &&
       Email != ''
     ) {
-      let body = JSON.stringify({
+      let body = {
         user_type: tutorData,
         f_name: FirstName,
         l_name: LastName,
@@ -213,28 +217,44 @@ const CreateAccount = ({navigation}) => {
         linkedin_expires: linkedin_expires,
         linkedin_refresh_token: linkedin_refresh_token,
         bio: BioData,
-      });
-      ApiPost(SignUpUrl, body).then(res => {
-        if (res.status == 200) {
+      };
+      console.log(221, body);
+      // ApiPost(SignUpUrl, body).then(res => {
+      //   if (res.status == 200) {
+      //     setIsloading(false);
+      //     dispatch({
+      //       type: types.LoginType,
+      //       payload: res.json.data,
+      //     });
+      //   } else {
+      //     setIsloading(false);
+      //     console.log(203, res.json);
+      //   }
+      // });
+      axios
+        .post(SignUpUrl, body)
+        .then(function (res) {
+          console.log(res.data);
+          dispatch({
+            type: types.LoginType,
+            payload: res.data.data,
+          });
           setIsloading(false);
-          console.log(201, res.json.data);
-        } else {
+        })
+        .catch(function (error) {
           setIsloading(false);
-          console.log(203, res.json);
-        }
-      });
+          console.log(246, error);
+          // errorMessage(errorHandler(error));
+          // console.log(errorHandler(error));
+        });
     } else {
       setIsloading(false);
       errorMessage('Please complete all fields');
-      console.log('jbdfjdbvjbdjbvjdbvjbdjbvjdbvb');
     }
   };
 
   const upadateAcademic = (value, state, i) => {
-    console.log(12, i);
-    EducationData[0].push(value);
-    setEducationData[1] = value;
-    // updateFinalState({EducationData.[0]: value});
+    EducationData[i] = value;
   };
   useEffect(() => {
     getPickerData('CourcesData', GetCourcesUrl);
@@ -491,7 +511,7 @@ const CreateAccount = ({navigation}) => {
                       placeholder={'Education'}
                       value={EducationData[i]}
                       onChangeText={e => {
-                        upadateAcademic(e, EducationData, i);
+                        EducationData[i] = e;
                       }}
                     />
                   </View>
@@ -505,9 +525,9 @@ const CreateAccount = ({navigation}) => {
                       style={{width: wp('45')}}
                       placeholder={'Academic Year'}
                       value={AcademicYearData}
-                      onChangeText={AcademicYearData =>
-                        updateFinalState({AcademicYearData: AcademicYearData})
-                      }
+                      onChangeText={e => {
+                        AcademicYearData[i] = e;
+                      }}
                     />
                   </View>
                 </View>
@@ -523,6 +543,7 @@ const CreateAccount = ({navigation}) => {
               style={{height: hp('20'), width: wp('95')}}
               value={BioData}
               onChangeText={BioData => updateFinalState({BioData: BioData})}
+              multiline={true}
               inputStyle={{
                 alignSelf: 'flex-start',
                 paddingTop: hp('2'),
@@ -544,7 +565,7 @@ const CreateAccount = ({navigation}) => {
             eyeIconName={'lock'}
           />
           <LoginInputComp
-            secureTextEntry={true}
+            secureTextEntry={false}
             placeholder={'Confirm Password'}
             value={ConfirmPassword}
             onChangeText={ConfirmPassword =>

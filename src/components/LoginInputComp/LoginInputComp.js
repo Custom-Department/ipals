@@ -54,7 +54,7 @@ export const LoginInputComp = props => {
         placeholder={props?.placeholder}
         placeholderTextColor={color.themeColorDark}
         // keyboardType={"number-pad"}
-        // multiline={true}
+        multiline={props?.multiline}
         keyboardType={props?.keyboardType}
         secureTextEntry={props?.secureTextEntry}
         editable={props?.editable}

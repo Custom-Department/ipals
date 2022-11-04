@@ -1,3 +1,5 @@
+import {store} from '../Redux/Reducer';
+
 let statusCode = 'ghjkl';
 export const ApiPost = async (url, body, headerType, BearerToken) => {
   let myHeaders = new Headers();
@@ -101,4 +103,14 @@ export const ApiDelete = async url => {
     .catch(err => {
       return {status: statusCode, json: err};
     });
+};
+
+export const errorHandler = err => {
+  let msg = 'Network Request Failed.';
+  if (parseInt(err.response.status) === 422) {
+    msg = String(Object.values(err.response.data['errors'])[0][0]);
+  } else {
+    msg = err.response.data.message;
+  }
+  return msg;
 };
