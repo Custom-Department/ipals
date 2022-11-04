@@ -1,15 +1,13 @@
 import {StyleSheet} from 'react-native';
-import {colorTutor_} from '../../../config/color';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-
-export const styles = StyleSheet.create({
-  container: {
+import {colorTutor_} from '../../../config/color';
+export default styles = StyleSheet.create({
+  setContainer: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    marginTop: hp('3'),
   },
   midView: {
     justifyContent: 'center',
@@ -17,6 +15,20 @@ export const styles = StyleSheet.create({
     alignSelf: 'center',
     width: wp('90'),
     marginTop: hp('3'),
+  },
+  topView: {marginLeft: wp('5'), marginTop: hp('3')},
+  bottomBar: {
+    position: 'absolute',
+    backgroundColor: colorTutor_.blue,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
+    height: hp('9'),
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    bottom: 0,
+    width: wp('100'),
+    paddingHorizontal: wp('10'),
   },
   bottomBar: {
     position: 'absolute',
@@ -65,6 +77,25 @@ export const styles = StyleSheet.create({
     paddingBottom: hp('1'),
     textAlign: 'justify',
     letterSpacing: 0.5,
+  },
+  ViewContainer: {
+    width: wp('100'),
+    alignSelf: 'center',
+  },
+  createAcc: {
+    marginTop: hp('3'),
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginLeft: wp('2.5'),
+    marginRight: wp('5'),
+  },
+  plusView: {
+    justifyContent: 'center',
+    height: hp('3.5'),
+    width: wp('8'),
+    backgroundColor: colorTutor_.blue,
+    alignItems: 'center',
+    borderRadius: 5,
   },
   yesView: {
     width: wp('40'),

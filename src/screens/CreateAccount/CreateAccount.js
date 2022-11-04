@@ -388,7 +388,9 @@ const CreateAccount = ({navigation}) => {
               width: wp('95'),
               alignSelf: 'center',
             }}
-            text={'SIGN IN'}
+            TextStyle={{fontSize: hp('2')}}
+            text={'Create Account'}
+            onPress={() => navigation.navigate('TuteeDashboardScreen')}
           />
         </ScrollView>
         <View style={styles.bottomBar}>

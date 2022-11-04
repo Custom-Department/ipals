@@ -5,7 +5,6 @@ import CreateAccount from './CreateAccount/CreateAccount';
 import OnboardScreen from './OnboardScreen/OnboardScreen';
 export const screens = {
   Home,
-
   Category,
   LoginScreen,
   CreateAccount,

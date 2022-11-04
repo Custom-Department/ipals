@@ -40,6 +40,7 @@ export const colorTutor_ = {
   darkGreen: '#00712f',
   lightGreen: '#47C460',
   bookColor:'#A8A8A8',
+  sendColor:'#88E5DD',
 
 
 };

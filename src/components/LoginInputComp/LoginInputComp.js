@@ -69,7 +69,7 @@ export const LoginInputComp = props => {
             : color.themeColorDark
         }
         style={{marginLeft: 'auto', marginRight: wp('3')}}
-        size={hp('2')}
+        size={props?.eyeIconSize??hp('2')}
       />
     </View>
   );

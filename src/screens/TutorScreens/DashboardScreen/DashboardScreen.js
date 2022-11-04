@@ -5,6 +5,7 @@ import {
   View,
   TextComponent,
   ScrollView,
+  FlatList,
 } from 'react-native';
 import React, {useEffect, useState, useRef} from 'react';
 import {styles} from './style';
@@ -135,31 +136,31 @@ const DashboardScreen = ({navigation}) => {
       name: 'Freddy Mercury',
       image: require('../../../image/profile.jpg'),
     },
-    {
-      id: 1,
-      name: 'Freddy Mercury',
-      image: require('../../../image/profile.jpg'),
-    },
-    {
-      id: 2,
-      name: 'Freddy Mercury',
-      image: require('../../../image/profile.jpg'),
-    },
-    {
-      id: 3,
-      name: 'Freddy Mercury',
-      image: require('../../../image/profile.jpg'),
-    },
-    {
-      id: 4,
-      name: 'Freddy Mercury',
-      image: require('../../../image/profile.jpg'),
-    },
-    {
-      id: 5,
-      name: 'Freddy Mercury',
-      image: require('../../../image/profile.jpg'),
-    },
+    // {
+    //   id: 1,
+    //   name: 'Freddy Mercury',
+    //   image: require('../../../image/profile.jpg'),
+    // },
+    // {
+    //   id: 2,
+    //   name: 'Freddy Mercury',
+    //   image: require('../../../image/profile.jpg'),
+    // },
+    // {
+    //   id: 3,
+    //   name: 'Freddy Mercury',
+    //   image: require('../../../image/profile.jpg'),
+    // },
+    // {
+    //   id: 4,
+    //   name: 'Freddy Mercury',
+    //   image: require('../../../image/profile.jpg'),
+    // },
+    // {
+    //   id: 5,
+    //   name: 'Freddy Mercury',
+    //   image: require('../../../image/profile.jpg'),
+    // },
   ]);
   const pickerRef = useRef('English');
 
@@ -182,7 +183,6 @@ const DashboardScreen = ({navigation}) => {
           }}>
           From
         </Text>
-        {console.log(startDate)}
         {isDate == true && Platform.OS == 'android' ? (
           <DateTimePicker
             testID="startDatePicker"
@@ -330,7 +330,8 @@ const DashboardScreen = ({navigation}) => {
         flex: 1,
       }}>
       <HeaderComponent
-        profileOnPress={() => navigation.navigate('ProfileScreen')}
+        // profileOnPress={() => navigation.navigate('ProfileScreen')}
+        profileOnPress={() => navigation.navigate('SettingScreen')}
         navigatorName={topNavigator}
         checkIndexStatus={checkIndexStatus}
       />
@@ -431,8 +432,8 @@ const DashboardScreen = ({navigation}) => {
                 text={'Select your subject'}
               />
               <Picker
+                dropdownIconColor={'black'}
                 style={styles.picker}
-                // ref={pickerRef2}
                 selectedValue={subject}
                 onValueChange={(itemValue, itemIndex) => setSubject(itemValue)}>
                 <Picker.Item label="English" value="English" />
@@ -475,17 +476,34 @@ const DashboardScreen = ({navigation}) => {
           </View>
         ))}
       {index == 2 && (
-        <ScrollView contentContainerStyle={styles.container}>
-          {message.length > 0 &&
-            message.map(res => {
-              return (
-                <ThreeViewComp
-                  data={res}
-                  viewStyle={{marginTop: hp('2'), alignSelf: 'center'}}
-                />
-              );
-            })}
-        </ScrollView>
+           <FlatList
+           data={message}
+           keyExtractor={(item, index) => index.toString()}
+           contentContainerStyle={{
+             width: wp('95'),
+             alignSelf: 'center',
+             paddingBottom: hp('15'),
+           }}
+           renderItem={({item}) => {
+             return <TouchableOpacity onPress={()=>navigation.navigate('MessageScreen',item)}>
+              <ThreeViewComp
+                       data={item}
+                       viewStyle={{marginTop: hp('2'), alignSelf: 'center'}}
+                     />
+             </TouchableOpacity>
+           }}
+         />
+// <ScrollView contentContainerStyle={styles.container}>
+        //   {message.length > 0 &&
+        //     message.map(res => {
+        //       return (
+        //         <ThreeViewComp
+        //           data={res}
+        //           viewStyle={{marginTop: hp('2'), alignSelf: 'center'}}
+        //         />
+        //       );
+        //     })}
+        // </ScrollView>
       )}
 
       <View style={styles.bottomBar}>

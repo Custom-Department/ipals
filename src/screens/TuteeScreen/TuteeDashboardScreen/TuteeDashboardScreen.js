@@ -384,6 +384,7 @@ const TuteeDashboardScreen = () => {
         flex: 1,
       }}>
       <HeaderComponent
+      bellOnPress={()=>console.log('bell')}
         navigatorName={topNavigator}
         search={true}
         checkIndexStatus={checkIndexStatus}

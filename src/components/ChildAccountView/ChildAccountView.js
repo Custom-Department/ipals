@@ -8,39 +8,40 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {color, colorTutor_} from '../../config/color';
 import {TextComp} from '../TextComponent';
-const InformationTextView = props => {
-  let name = props?.name ?? 'exclamationcircle';
+const ChildAccountView = props => {
   return (
-    <TouchableOpacity onPress={() => props?.onPress()} style={styles.container}>
-      <AntDesign
-        style={{marginHorizontal: wp('2')}}
-        name={name}
-        size={hp('2.5')}
-        color={'white'}
-      />
-      <TextComp
-        style={{marginLeft: wp('3'), fontSize: hp('1.5')}}
-        color={'white'}
-        text={props?.text}
-      />
-    </TouchableOpacity>
+    <View style={styles.container}>
+      <TextComp text={'Daniel martin'} style={{fontSize: hp('2.4')}} />
+      <View
+        style={{
+          width: wp('20'),
+          flexDirection: 'row',
+          justifyContent: 'flex-end',
+        }}>
+        <MaterialIcons name={'delete'} size={hp('5')} color={'red'} />
+
+        <MaterialIcons name={'delete'} size={hp('5')} color={'red'} />
+      </View>
+    </View>
   );
 };
 
-export default InformationTextView;
+export default ChildAccountView;
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    width: wp('95'),
-    height: hp('7'),
+    width: wp('90'),
+    height: hp('8'),
     borderRadius: 5,
     borderColor: 'black',
+    justifyContent: 'space-between',
     // borderWidth: 1,
     alignItems: 'center',
+    backgroundColor: 'white',
     padding: 10,
+    paddingHorizontal: wp('5'),
     marginTop: hp('2'),
     alignSelf: 'center',
-    backgroundColor: colorTutor_.topNavigationColor,
   },
 });

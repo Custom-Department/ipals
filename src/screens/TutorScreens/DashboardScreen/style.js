@@ -33,24 +33,40 @@ export const styles = StyleSheet.create({
     myClassViewDashBoard: {
         padding: 20,
     },
-    picker:{
-        width:wp('90'),
-        backgroundColor:'white',
-        alignSelf:'center'
+    picker: {
+      width: wp('90'),
+      backgroundColor: Platform.OS == 'ios' ? 'transparent' : 'white',
+      alignSelf: 'center',
+      borderRadius: 20,
+      overflow: 'hidden',
+      color:'black'
+  
     },
+  
     pickerStyle: {
-        width: Platform.OS == 'ios' ? wp('95') : wp('90'),
-        height: hp(Platform?.OS == 'ios' ? '20' : '6'),
-        color: 'black',
-        backgroundColor: 'transparent',
-        alignSelf: 'center',
-        overflow: 'hidden',
-        marginTop: Platform.OS == 'ios' ? hp('1') : hp('2'),
-        borderRadius: 5,
-        borderWidth: Platform.OS == 'ios' ? 0 : 1,
-        borderColor: 'black',
-        justifyContent: 'center',
-      },
+      width: Platform.OS == 'ios' ? wp('95') : wp('90'),
+  
+      height: hp(Platform?.OS == 'ios' ? '20' : '6'),
+  
+      color: 'black',
+  
+      backgroundColor: 'transparent',
+  
+      alignSelf: 'center',
+  
+      overflow: 'hidden',
+  
+      marginTop: Platform.OS == 'ios' ? hp('1') : hp('2'),
+  
+      borderRadius: 5,
+  
+      borderWidth: Platform.OS == 'ios' ? 0 : 1,
+  
+      borderColor: 'black',
+  
+      justifyContent: 'center',
+  
+    },
       loadingView: {
         // position: 'absolute',
         height: hp('100'),

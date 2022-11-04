@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -11,10 +11,9 @@ import Entypo from 'react-native-vector-icons/Entypo';
 
 export const ThreeViewComp = props => {
   const {data} = props;
-  console.log(14, props);
   return (
-    <View style={{...styles.mainView, ...props?.viewStyle}}>
-      <View style={styles.leftView}>
+  <View style={{...styles.mainView, ...props?.viewStyle}}>
+    <View style={styles.leftView}>
         <CircleImageComp image={data?.image} />
       </View>
       <View style={styles.centerView}>

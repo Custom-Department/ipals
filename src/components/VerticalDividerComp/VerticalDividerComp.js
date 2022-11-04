@@ -8,26 +8,21 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {color, colorTutor_} from '../../config/color';
 import {TextComp} from '../TextComponent';
-const InformationTextView = props => {
+const VerticalDividerComp = props => {
   let name = props?.name ?? 'exclamationcircle';
   return (
-    <TouchableOpacity onPress={() => props?.onPress()} style={styles.container}>
-      <AntDesign
-        style={{marginHorizontal: wp('2')}}
-        name={name}
-        size={hp('2.5')}
-        color={'white'}
-      />
-      <TextComp
-        style={{marginLeft: wp('3'), fontSize: hp('1.5')}}
-        color={'white'}
-        text={props?.text}
-      />
-    </TouchableOpacity>
+    <View
+      style={{
+        height: hp('5'),
+        borderWidth: 0.3,
+        marginHorizontal: wp('3'),
+        borderColor: color.themeColorDark,
+      }}
+    />
   );
 };
 
-export default InformationTextView;
+export default VerticalDividerComp;
 
 const styles = StyleSheet.create({
   container: {

@@ -41,7 +41,8 @@ export const HeaderComponent = props => {
         </View>
         <View style={styles.iconView}>
           <Octicons
-            onPress={() => console.log('bell')}
+            onPress={() => props?.bellOnPress()?props?.bellOnPress():console.log('bell')}
+            // onPress={() => console.log('bell')}
             name="bell-fill"
             size={hp('3')}
             color={colorTutor_.blue}
@@ -55,7 +56,7 @@ export const HeaderComponent = props => {
             />
           )}
           <Ionicons
-            onPress={() => console.log('Setting')}
+            onPress={() => props?.profileOnPress()?props?.profileOnPress():console.log("hello")}
             name="settings"
             size={hp('3')}
             color={colorTutor_.blue}
