@@ -22,7 +22,6 @@ import {PendingReqComp} from '../../../components/PendingReqComp/PendingReqComp'
 import HorizontalDividerComp from '../../../components/HorizontalDividerComp/HorizontalDividerComp';
 import InformationTextView from '../../../components/InformationTextView/InformationTextView';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Entypo from 'react-native-vector-icons/Entypo';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import PickerComponent from '../../../components/PickerComponent/PickerComponent';
 import {Picker} from '@react-native-picker/picker';
@@ -30,13 +29,14 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment/moment';
 import {ButtonThemeComp} from '../../../components/ButtonThemeComp/ButtonThemeComp';
 import {CreateClassComp} from '../../../components/CreateClassComp/CreateClassComp';
-import {CircleImageComp} from '../../../components/CircleImageComp/CircleImageComp';
 import {ThreeViewComp} from '../../../components/ThreeViewComp/ThreeViewComp';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+
 var arrayCalender = [];
 const DashboardScreen = ({navigation}) => {
   const [classState, setClassState] = useState(true);
-  const [selectedLanguage, setSelectedLanguage] = useState();
-
+  const [isVisibleTime, setIsVisibleTime] = useState(false);
+  const [isVisibleEndTime, setIsVisibleEndTime] = useState(false);
   const date = new Date();
   var time = new Date();
   var getTime = time.toLocaleString('en-US', {
@@ -57,19 +57,80 @@ const DashboardScreen = ({navigation}) => {
   const [markedDates, setMarkedDates] = useState({});
 
   const [subject, setSubject] = useState('English');
-  const upadateStartDate = e => {
-    let d = new Date(e?.nativeEvent?.timestamp);
+  const upadateStartDate = (e, ios) => {
+    let d = ios ? e : new Date(e?.nativeEvent?.timestamp);
 
     setIsDate(false);
     setStartDate(d);
     setEndDate(d);
   };
-  const upadateEndDate = e => {
-    let d = new Date(e?.nativeEvent?.timestamp);
+  const upadateEndDate = (e, ios) => {
+    let d = ios ? e : new Date(e?.nativeEvent?.timestamp);
     setIsDate2(false);
 
     setEndDate(d);
   };
+  const [message, setMessage] = useState([
+    {
+      id: 0,
+
+      firstText: 'Nadia Salvester',
+
+      image: require('../../../image/profile.jpg'),
+
+      secondText: "Hi, we aren't ready to start our class today...",
+    },
+
+    {
+      id: 1,
+
+      firstText: 'Nadia Salvester',
+
+      image: require('../../../image/profile.jpg'),
+
+      secondText: "Hi, we aren't ready to start our class today...",
+    },
+
+    {
+      id: 2,
+
+      firstText: 'Nadia Salvester',
+
+      image: require('../../../image/profile.jpg'),
+
+      secondText: "Hi, we aren't ready to start our class today...",
+    },
+
+    {
+      id: 3,
+
+      firstText: 'Nadia Salvester',
+
+      image: require('../../../image/profile.jpg'),
+
+      secondText: "Hi, we aren't ready to start our class today...",
+    },
+
+    {
+      id: 4,
+
+      firstText: 'Nadia Salvester',
+
+      image: require('../../../image/profile.jpg'),
+
+      secondText: "Hi, we aren't ready to start our class today...",
+    },
+
+    {
+      id: 5,
+
+      firstText: 'Nadia Salvester',
+
+      image: require('../../../image/profile.jpg'),
+
+      secondText: "Hi, we aren't ready to start our class today...",
+    },
+  ]);
   const [list, setList] = useState([
     {
       id: 0,
@@ -102,44 +163,6 @@ const DashboardScreen = ({navigation}) => {
       image: require('../../../image/profile.jpg'),
     },
   ]);
-  const [message, setMessage] = useState([
-    {
-      id: 0,
-      firstText: 'Nadia Salvester',
-      image: require('../../../image/profile.jpg'),
-      secondText: "Hi, we aren't ready to start our class today...",
-    },
-    {
-      id: 1,
-      firstText: 'Nadia Salvester',
-      image: require('../../../image/profile.jpg'),
-      secondText: "Hi, we aren't ready to start our class today...",
-    },
-    {
-      id: 2,
-      firstText: 'Nadia Salvester',
-      image: require('../../../image/profile.jpg'),
-      secondText: "Hi, we aren't ready to start our class today...",
-    },
-    {
-      id: 3,
-      firstText: 'Nadia Salvester',
-      image: require('../../../image/profile.jpg'),
-      secondText: "Hi, we aren't ready to start our class today...",
-    },
-    {
-      id: 4,
-      firstText: 'Nadia Salvester',
-      image: require('../../../image/profile.jpg'),
-      secondText: "Hi, we aren't ready to start our class today...",
-    },
-    {
-      id: 5,
-      firstText: 'Nadia Salvester',
-      image: require('../../../image/profile.jpg'),
-      secondText: "Hi, we aren't ready to start our class today...",
-    },
-  ]);
   const pickerRef = useRef('English');
 
   function open() {
@@ -161,15 +184,16 @@ const DashboardScreen = ({navigation}) => {
           }}>
           From
         </Text>
-        {console.log(startDate)}
         {isDate == true && Platform.OS == 'android' ? (
           <DateTimePicker
             testID="startDatePicker"
             value={startDate}
             mode={'time'}
             is24Hour={false}
-            display="default"
+            display="clock"
             themeVariant="light"
+            accentColor="red"
+            textColor="white"
             style={styles.datePicker}
             onChange={e => {
               upadateStartDate(e);
@@ -187,22 +211,27 @@ const DashboardScreen = ({navigation}) => {
             </Text>
           </TouchableOpacity>
         ) : (
-          <DateTimePicker
-            testID="startDatePicker"
-            mode={'time'}
-            value={startDate}
-            minimumDate={startDate}
-            is24Hour={false}
-            display="default"
-            themeVariant="light"
-            style={styles.datePicker}
-            onChange={e => {
-              upadateStartDate(e);
-            }}
-            onTouchCancel={() => {
-              console.log(276), setIsDate(false);
-            }}
-          />
+          <>
+            <TouchableOpacity
+              onPress={() => setIsVisibleTime(true)}
+              style={styles.dateContainer}>
+              <Text style={styles.dateText}>
+                {moment(startDate).format('LT')}
+              </Text>
+            </TouchableOpacity>
+            <DateTimePickerModal
+              mode={'time'}
+              isVisible={isVisibleTime}
+              onConfirm={e => {
+                console.log(225, e);
+                upadateStartDate(e, true);
+                setIsVisibleTime(false);
+              }}
+              onCancel={() => {
+                console.log(276), setIsVisibleTime(false);
+              }}
+            />
+          </>
         )}
         <Text
           style={{
@@ -233,23 +262,27 @@ const DashboardScreen = ({navigation}) => {
             />
           </>
         ) : endDate != null && Platform.OS == 'ios' ? (
-          <DateTimePicker
-            testID="endDatePicker"
-            mode={'time'}
-            value={endDate}
-            minimumDate={endDate}
-            is24Hour={false}
-            display="default"
-            style={styles.datePicker}
-            themeVariant="light"
-            onChange={e => {
-              upadateEndDate(e);
-              // console.log(143, startDate), setIsDate(false);
-            }}
-            onTouchCancel={() => {
-              console.log(276), setIsDate(false);
-            }}
-          />
+          <>
+            <TouchableOpacity
+              onPress={() => setIsVisibleEndTime(true)}
+              style={styles.dateContainer}>
+              <Text style={styles.dateText}>
+                {moment(endDate).format('LT')}
+              </Text>
+            </TouchableOpacity>
+            <DateTimePickerModal
+              mode={'time'}
+              isVisible={isVisibleEndTime}
+              onConfirm={e => {
+                console.log(225, e);
+                upadateEndDate(e, true);
+                setIsVisibleEndTime(false);
+              }}
+              onCancel={() => {
+                console.log(276), setIsVisibleEndTime(false);
+              }}
+            />
+          </>
         ) : endDate != null && isDate2 == false && Platform.OS == 'android' ? (
           <TouchableOpacity
             onPress={() => setIsDate2(true)}
@@ -259,9 +292,9 @@ const DashboardScreen = ({navigation}) => {
         ) : (
           <View
             style={{
-              backgroundColor: '#E0E0E0',
+              backgroundColor: colorTutor_.topNavigationColor,
               height: hp('4.5'),
-              width: wp('33'),
+              width: wp('29'),
               borderRadius: 8,
             }}
           />
@@ -294,6 +327,8 @@ const DashboardScreen = ({navigation}) => {
         selected: true,
         color: '#00B0BF',
         textColor: '#FFFFFF',
+        borderRadius: 20,
+        fontWeight: 'bold',
       };
     });
     let serviceDate = moment(date);
@@ -316,14 +351,12 @@ const DashboardScreen = ({navigation}) => {
 
       {index == 0 &&
         (list?.length > 0 ? (
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={styles.container}>
+          <ScrollView contentContainerStyle={styles.container}>
             <View style={styles.classDashBoard}>
               <TextComp text={'My Classes'} />
               <ButtonIconComp
                 onPress={() => console.log('All Classes')}
-                text="View all classes"
+                text="view all classes"
                 size={hp('3.5')}
                 name={'arrow-forward'}
               />
@@ -340,7 +373,7 @@ const DashboardScreen = ({navigation}) => {
               <TextComp text={'Pending Requests'} />
               <ButtonIconComp
                 onPress={() => console.log('All Classes')}
-                text="View all classes"
+                text="view all classes"
                 size={hp('3.5')}
                 name={'arrow-forward'}
               />
@@ -381,73 +414,79 @@ const DashboardScreen = ({navigation}) => {
           </View>
         ))}
 
-      {index == 1 && (
-        <ScrollView contentContainerStyle={styles.container}>
-          <View style={styles.myClassViewDashBoard}>
-            <View style={{flexDirection: 'row'}}>
-              <Ionicons name={'arrow-back'} size={hp('2')} color="white" />
+      {index == 1 &&
+        (classState == true ? (
+          <ScrollView contentContainerStyle={styles.container}>
+            <View style={styles.myClassViewDashBoard}>
+              <View style={{flexDirection: 'row'}}>
+                <Ionicons name={'arrow-back'} size={hp('2')} color="white" />
+                <TextComp
+                  style={{marginLeft: wp('3'), color: colorTutor_.TxtColor}}
+                  text="My Classes"
+                />
+              </View>
+            </View>
+            <Calendar
+              style={{width: wp('90'), alignSelf: 'center', borderRadius: 10}}
+              markingType={'period'}
+              onDayPress={(day, index) =>
+                getSelectedDayEvents(day.dateString, index)
+              }
+              markedDates={markedDates}
+            />
+            <View style={{marginBottom: hp('3'), marginTop: hp('3')}}>
               <TextComp
-                style={{marginLeft: wp('3'), color: colorTutor_.TxtColor}}
-                text="My Classes"
+                style={{
+                  marginLeft: wp('7'),
+                  marginBottom: hp('1.5'),
+                  color: colorTutor_.TxtColor,
+                }}
+                text={'Select your subject'}
+              />
+              <Picker
+                style={styles.picker}
+                // ref={pickerRef2}
+                selectedValue={subject}
+                onValueChange={(itemValue, itemIndex) => setSubject(itemValue)}>
+                <Picker.Item label="English" value="English" />
+                <Picker.Item label="French" value="French" />
+              </Picker>
+            </View>
+            <View>
+              <TextComp
+                style={{
+                  marginLeft: wp('7'),
+                  marginBottom: hp('1.5'),
+                  color: colorTutor_.TxtColor,
+                }}
+                text={'Create time schedule'}
+              />
+              <DropDownView />
+            </View>
+            <View>
+              <ButtonThemeComp
+                style={styles.createClass}
+                TextStyle={{fontSize: hp('2')}}
+                text={'Create class'}
+                onPress={() => setClassState(false)}
               />
             </View>
-          </View>
-          <Calendar
-            markingType={'period'}
-            style={{width: wp('90'), alignSelf: 'center', borderRadius: 10}}
-            // markedDates={{
-            //   '2022-10-28': {marked: true, dotColor: '#50cebb'},
-            //   '2022-10-29': {marked: true, dotColor: '#50cebb'},
-            //   '2022-10-30': {startingDay: true, color: '#50cebb', textColor: 'white'},
-            //   '2012-05-22': {color: '#70d7c7', textColor: 'white'},
-            //   '2012-05-23': {color: '#70d7c7', textColor: 'white', marked: true, dotColor: 'white'},
-            //   '2012-05-24': {color: '#70d7c7', textColor: 'white'},
-            //   '2012-05-25': {endingDay: true, color: '#50cebb', textColor: 'white'}
-            // }}
-            // markedDates={{
-            //   '2017-10-25': {dots: [vacation, massage, workout], selected: true, selectedColor: 'red'},
-            //   '2017-10-26': {dots: [massage, workout], disabled: true}
-            // }}
-          />
-          <View style={{marginBottom: hp('3'), marginTop: hp('3')}}>
-            <TextComp
-              style={{
-                marginLeft: wp('7'),
-                marginBottom: hp('1.5'),
-                color: colorTutor_.TxtColor,
-              }}
-              text={'Select your subject'}
-            />
-            <Picker
-              style={styles.picker}
-              itemStyle={{
-                height: hp('10'),
-              }}
-              // ref={pickerRef2}
-              selectedValue={selectedLanguage}
-              onValueChange={(itemValue, itemIndex) =>
-                setSelectedLanguage(itemValue)
-              }>
-              <Picker.Item label="Java" value="java" />
-              <Picker.Item label="JavaScript" value="js" />
-            </Picker>
-          </View>
-
+          </ScrollView>
+        ) : (
           <View>
-            <TextComp
-              style={{
-                marginLeft: wp('7'),
-                marginBottom: hp('1.5'),
-                color: colorTutor_.TxtColor,
-              }}
-              text={'Select your subject'}
-            />
-            <DropDownView />
+            <View style={styles.classDashBoard}>
+              <TextComp text={'My Classes'} />
+              <TouchableOpacity
+                onPress={() => setClassState(true)}
+                style={styles.plusView}>
+                <Ionicons name={'add'} size={hp('3')} color="white" />
+              </TouchableOpacity>
+            </View>
+            <CreateClassComp />
+            <CreateClassComp />
+            <CreateClassComp />
           </View>
-
-          {/* </View> */}
-        </ScrollView>
-      )}
+        ))}
       {index == 2 && (
         <ScrollView contentContainerStyle={styles.container}>
           {message.length > 0 &&
@@ -461,6 +500,7 @@ const DashboardScreen = ({navigation}) => {
             })}
         </ScrollView>
       )}
+
       <View style={styles.bottomBar}>
         <TouchableOpacity onPress={() => console.log('dont have you acc')}>
           <Text style={globalStyles.globalModuletutor}>Term of use</Text>

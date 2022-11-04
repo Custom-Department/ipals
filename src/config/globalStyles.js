@@ -3,8 +3,8 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { color } from '../config/color';
+import {StyleSheet} from 'react-native';
+import {color} from '../config/color';
 
 export const globalStyles = StyleSheet.create({
   globalTextStyles: {
@@ -19,13 +19,13 @@ export const globalStyles = StyleSheet.create({
   },
   globalTextStyles3: {
     // color:color.black,
-    fontFamily: 'Poppins'
+    fontFamily: 'Poppins',
   },
   globalModuletutor: {
-    color: "white",
+    color: 'black',
     fontSize: hp('1.5'),
   },
   globalModuletutor2: {
-    color: "black",
+    color: 'black',
   },
 });

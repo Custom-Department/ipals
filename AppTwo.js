@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Platform,
   StyleSheet,
@@ -6,11 +6,10 @@ import {
   StatusBar,
   LogBox,
 } from 'react-native';
-import FlashMessage from 'react-native-flash-message';
-import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import StackNavigatior from './src/navigations/navigation';
 
-function AppTwo({ navigation }) {
+function AppTwo({navigation}) {
   const [isVisible, setIsVisible] = useState(true);
   const Hide_Splash_Screen = () => {
     setIsVisible(false);
@@ -40,9 +39,7 @@ function AppTwo({ navigation }) {
   let Splash_Screen = (
     <ImageBackground
       source={require('./src/image/splashscreen.png')}
-      style={styles.SplashScreen_RootView}>
-
-    </ImageBackground>
+      style={styles.SplashScreen_RootView}></ImageBackground>
   );
   return (
     <>
@@ -51,12 +48,11 @@ function AppTwo({ navigation }) {
         Splash_Screen
       ) : (
         // <HomeScreen />
-        <NavigationContainer >
+        <NavigationContainer>
           {/* <NavigationContainer theme={MyTheme}> */}
           <StackNavigatior />
         </NavigationContainer>
       )}
-      <FlashMessage position="top" />
     </>
   );
 }
@@ -77,7 +73,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '100%',
     height: '100%',
-    backgroundColor: "white"
+    backgroundColor: 'white',
   },
 
   SplashScreen_ChildView: {

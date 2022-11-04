@@ -79,7 +79,24 @@ export const styles = StyleSheet.create({
     elevation: 3,
   },
   accView: {
-    marginLeft: wp('2'),
+    // marginLeft: wp('2'),
+    color: 'black',
+    fontSize: hp('1.7'),
     // marginBottom: hp('0.5')
+  },
+  linkButtonView: {
+    width: wp('45'),
+    height: hp('6'),
+    backgroundColor: color.textThirdColor,
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: hp('4.5'),
+    flexDirection: 'row',
+  },
+  linkButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    marginLeft: wp('2'),
   },
 });

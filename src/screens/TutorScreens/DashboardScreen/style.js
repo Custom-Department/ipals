@@ -68,6 +68,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
     height: hp('8'),
+    borderRadius: 10,
   },
   inputField: {
     width: wp('80'),
@@ -92,8 +93,13 @@ export const styles = StyleSheet.create({
   },
   buttonText: {color: color.white, fontSize: hp('2'), fontWeight: 'bold'},
   datePicker: {
-    width: wp('40'),
-    marginLeft: wp('-9'),
+    width: wp('30'),
+    // marginLeft: wp('-9'),
+    backgroundColor: colorTutor_.topNavigationColor,
+    borderRadius: 10,
+    overflow: 'hidden',
+    color: 'white',
+    height: hp('4.5'),
   },
   activitiesContainer: {
     width: wp('32'),
@@ -116,7 +122,7 @@ export const styles = StyleSheet.create({
   },
   dateContainer: {
     backgroundColor: colorTutor_.topNavigationColor,
-    height: hp('5.5'),
+    height: hp('4.5'),
     width: wp('29'),
     borderRadius: 5,
     justifyContent: 'center',
@@ -126,5 +132,19 @@ export const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: hp('2'),
+  },
+  createClass: {
+    marginTop: hp('2'),
+    alignSelf: 'center',
+    width: wp('80'),
+    height: hp('6'),
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    elevation: 2,
   },
 });

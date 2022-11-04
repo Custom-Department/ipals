@@ -15,18 +15,22 @@ export const ThreeViewComp = props => {
   return (
     <View style={{...styles.mainView, ...props?.viewStyle}}>
       <View style={styles.leftView}>
-        <CircleImageComp image={data?.image} />
+        <CircleImageComp styles={props?.imageStyles} image={data?.image} />
       </View>
       <View style={styles.centerView}>
         <TextComp text={data?.firstText} style={styles.firstText} />
         <TextComp text={data?.secondText} style={{fontSize: hp('1.3')}} />
       </View>
       <View style={styles.rightView}>
-        <Entypo
-          name="dots-three-vertical"
-          color={colorTutor_.ipallightGreen}
-          size={hp('3.5')}
-        />
+        {props.changeIcon ? (
+          props.changeIcon
+        ) : (
+          <Entypo
+            name="dots-three-vertical"
+            color={colorTutor_.ipallightGreen}
+            size={hp('3.5')}
+          />
+        )}
       </View>
     </View>
   );

@@ -6,6 +6,7 @@ import {
   TextComponent,
   ScrollView,
   FlatList,
+  Dimensions,
 } from 'react-native';
 import React, {useEffect, useState, useRef} from 'react';
 import {styles} from './style';
@@ -22,7 +23,7 @@ import {TextComp} from '../../../components/TextComponent';
 import {PendingReqComp} from '../../../components/PendingReqComp/PendingReqComp';
 import HorizontalDividerComp from '../../../components/HorizontalDividerComp/HorizontalDividerComp';
 import InformationTextView from '../../../components/InformationTextView/InformationTextView';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import PickerComponent from '../../../components/PickerComponent/PickerComponent';
@@ -32,6 +33,9 @@ import moment from 'moment/moment';
 import {CircleImageComp} from '../../../components/CircleImageComp/CircleImageComp';
 import {ThreeViewComp} from '../../../components/ThreeViewComp/ThreeViewComp';
 import {TuteeHomeComp} from '../../../components/TuteeHomeComp/TuteeHomeComp';
+import {LoginInputComp} from '../../../components/LoginInputComp/LoginInputComp';
+import {ButtonThemeComp} from '../../../components/ButtonThemeComp/ButtonThemeComp';
+import {TuteeHomeFlatListComp} from '../../../components/TuteeHomeFlatListComp/TuteeHomeFlatListComp';
 
 const TuteeDashboardScreen = () => {
   const date = new Date();
@@ -388,23 +392,25 @@ const TuteeDashboardScreen = () => {
         search={true}
         checkIndexStatus={checkIndexStatus}
       />
+      {/* <FilterScreen /> */}
 
       {index == 0 &&
         (list?.length > 0 ? (
-          <FlatList
-            data={tutors}
-            keyExtractor={(item, index) => index.toString()}
-            numColumns={2}
-            contentContainerStyle={{
-              width: wp('95'),
-              alignSelf: 'center',
-              paddingBottom: hp('15'),
-            }}
-            renderItem={({item}) => {
-              return <TuteeHomeComp data={item} />;
-            }}
-          />
+          <TuteeHomeFlatListComp data={tutors} />
         ) : (
+          // <FlatList
+          //   data={tutors}
+          //   keyExtractor={(item, index) => index.toString()}
+          //   numColumns={2}
+          //   contentContainerStyle={{
+          //     width: wp('95'),
+          //     alignSelf: 'center',
+          //     paddingBottom: hp('15'),
+          //   }}
+          //   renderItem={({item}) => {
+          //     return <TuteeHomeComp data={item} />;
+          //   }}
+          // />
           <View>
             <View style={styles.classDashBoard}>
               <TextComp text="My Classes" />
@@ -513,6 +519,7 @@ const TuteeDashboardScreen = () => {
             })}
         </ScrollView>
       )}
+
       <View style={styles.bottomBar}>
         <TouchableOpacity onPress={() => console.log('dont have you acc')}>
           <Text style={globalStyles.globalModuletutor}>Term of use</Text>
@@ -524,5 +531,194 @@ const TuteeDashboardScreen = () => {
     </View>
   );
 };
+export const NotificationScreen = () => {
+  const [message, setMessage] = useState([
+    {
+      id: 0,
+      firstText: 'Nadia Salvester',
+      image: require('../../../image/profile.jpg'),
+      secondText: "Hi, we aren't ready to start our class today...",
+    },
+    {
+      id: 1,
+      image: require('../../../image/vedioCall.png'),
+      firstText: 'Nadia Salvester',
+      secondText: "Hi, we aren't ready to start our class today...",
+    },
+    {
+      id: 2,
+      firstText: 'Nadia Salvester',
+      image: require('../../../image/accept.png'),
+      secondText: "Hi, we aren't ready to start our class today...",
+    },
+    {
+      id: 3,
+      firstText: 'Nadia Salvester',
+      image: require('../../../image/cancelIcon.png'),
+      secondText: "Hi, we aren't ready to start our class today...",
+    },
+  ]);
+  return (
+    <ScrollView contentContainerStyle={{flex: 1}}>
+      {message.length > 0 &&
+        message.map(res => {
+          return (
+            <ThreeViewComp
+              imageStyles={{
+                width: Dimensions.get('window').width * 0.12,
+                height: Dimensions.get('window').width * 0.12,
+              }}
+              viewStyle={{
+                alignSelf: 'center',
+                marginBottom: hp('1'),
+                marginTop: hp('1'),
+              }}
+              data={res}
+              changeIcon={
+                <FontAwesome5
+                  name="trash"
+                  color={colorTutor_.ipallightGreen}
+                  size={hp('2.5')}
+                />
+              }
+            />
+          );
+        })}
+    </ScrollView>
+  );
+};
+export const FilterScreen = () => {
+  const [tutorValue, setTutorValue] = useState({
+    CountryData: {},
+    CityData: {},
+    StateData: {},
+    ZipCodeData: {},
+  });
+  const h = {
+    CountryData: 'CountryData',
+    CityData: 'CityData',
+    StateData: 'StateData',
+    ZipCodeData: 'ZipCodeData',
+  };
+  const getTutorValue = (value, State) => {
+    console.log(113, State, value);
+    setTutorValue(pre => ({
+      ...tutorValue,
+      [State]: value,
+    }));
+  };
+  const [pickerState, setPickerState] = useState({
+    CountryData: [
+      {
+        id: 0,
+        label: 'Aus',
+        value: 'Aus',
+        type: 'CountryData',
+      },
+      {
+        id: 1,
+        label: 'Eng',
+        value: 'Aus',
+        type: 'CountryData',
+      },
+    ],
+    CityData: [
+      {
+        id: 0,
+        label: 'Malbourne',
+        value: 'Malbourne',
+        type: 'CityData',
+      },
+      {
+        id: 1,
+        label: 'NewYork',
+        value: 'NewYork',
+        type: 'CityData',
+      },
+    ],
+    StateData: [
+      {
+        id: 0,
+        label: 'Malbourne',
+        value: 'Malbourne',
+        type: 'StateData',
+      },
+      {
+        id: 1,
+        label: 'NewYork',
+        value: 'NewYork',
+        type: 'StateData',
+      },
+    ],
+    ZipCodeData: [
+      {
+        id: 0,
+        label: '075245',
+        value: '075245',
+        type: 'ZipCodeData',
+      },
+      {
+        id: 1,
+        label: '35689',
+        value: '35689',
+        type: 'ZipCodeData',
+      },
+    ],
+  });
+  const {CityData, CountryData, StateData, ZipCodeData} = pickerState;
+  return (
+    <ScrollView contentContainerStyle={{flex: 1}}>
+      <TextComp
+        text="Search"
+        style={{marginLeft: wp('3'), marginTop: hp('2')}}
+      />
+      <LoginInputComp
+        style={{alignSelf: 'center', marginBottom: hp('2'), width: wp('95')}}
+        placeholder="Search for tutors"
+      />
+      <View style={styles.twoPickerView}>
+        <PickerComponent
+          style={{width: wp('45'), marginRigh: wp('2')}}
+          text={'Country'}
+          data={CountryData}
+          setSelectedValue={(val, state) => getTutorValue(val, state)}
+          h={h.CountryData}
+          selectedValue={tutorValue.CountryData}
+        />
+        <PickerComponent
+          style={{width: wp('45'), marginRigh: wp('2')}}
+          text={'City'}
+          data={CityData}
+          setSelectedValue={(val, state) => getTutorValue(val, state)}
+          h={h.CityData}
+          selectedValue={tutorValue.CityData}
+        />
+      </View>
 
+      <View style={styles.twoPickerView}>
+        <PickerComponent
+          style={{width: wp('45'), marginRigh: wp('2')}}
+          text={'State'}
+          data={StateData}
+          setSelectedValue={(val, state) => getTutorValue(val, state)}
+          h={h.StateData}
+          selectedValue={tutorValue.StateData}
+        />
+        <PickerComponent
+          style={{width: wp('45'), marginRigh: wp('2')}}
+          text={'Zip Code'}
+          data={ZipCodeData}
+          setSelectedValue={(val, state) => getTutorValue(val, state)}
+          h={h.ZipCodeData}
+          selectedValue={tutorValue.ZipCodeData}
+        />
+      </View>
+      <ButtonThemeComp
+        onPress={() => console.log('jbjfb')}
+        style={{alignSelf: 'center', marginTop: hp('2')}}
+        text="Search"
+      />
+    </ScrollView>
+  );
+};
 export default TuteeDashboardScreen;

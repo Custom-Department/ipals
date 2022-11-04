@@ -46,11 +46,15 @@ export const LoginInputComp = props => {
           // alignSelf: 'flex-start',
           ...props.inputStyle,
         }}
+        onChange={props?.onChange}
+        onEndEditing={props?.onEndEditing}
+        onSelectionChange={props?.onSelectionChange}
+        onPressOut={props?.onPressOut}
         ref={props?.ref}
         placeholder={props?.placeholder}
         placeholderTextColor={color.themeColorDark}
-        // keyboardType={'visible-password'}
-        multiline={true}
+        // keyboardType={"number-pad"}
+        // multiline={true}
         keyboardType={props?.keyboardType}
         secureTextEntry={props?.secureTextEntry}
         editable={props?.editable}

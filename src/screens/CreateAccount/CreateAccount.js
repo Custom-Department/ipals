@@ -19,17 +19,51 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Octicons from 'react-native-vector-icons/Octicons';
+import Entypo from 'react-native-vector-icons/Entypo';
 import PickerComponent from '../../components/PickerComponent/PickerComponent';
+import {ApiGet, ApiPost} from '../../config/helperFunction';
+import {
+  GetCategoriesUrl,
+  GetCitiesUrl,
+  GetCountryUrl,
+  GetCourcesUrl,
+  GetStatesUrl,
+  SignUpUrl,
+} from '../../config/Urls';
+import {errorMessage} from '../../config/NotificationMessage';
+import {TextComp} from '../../components/TextComponent';
+
 const CreateAccount = ({navigation}) => {
   const [tutorValue, setTutorValue] = useState({
-    tutorData: {},
-    languageData: {},
-    CountryData: {},
-    CityData: {},
-    StateData: {},
-    ZipCodeData: {},
-    AcademicYearData: {},
+    tutorData: null,
+    languageData: null,
+    CountryData: null,
+    CityData: null,
+    StateData: null,
+    ZipCodeData: '',
+    AcademicYearData: '',
+    CourcesData: '',
+    CategoriesData: '',
+    PhoneNumber: '',
+    BioData: '',
+    Password: '',
+    ConfirmPassword: '',
+    linkedin_id: '',
+    linkedin_token: '',
+    linkedin_avatar: '',
+    linkedin_expires: '',
+    linkedin_refresh_token: '',
+    // EducationData: [],
+    FirstName: '',
+    LastName: '',
+    Email: '',
+    educationTest: [],
   });
+
+  const [EducationData, setEducationData] = useState([]);
+  const [AddField, setAddField] = useState(['']);
+  const [dummy, setDummy] = useState(1);
+  const [isloading, setIsloading] = useState(false);
   const h = {
     tutorData: 'tutorData',
     languageData: 'languageData',
@@ -38,127 +72,174 @@ const CreateAccount = ({navigation}) => {
     StateData: 'StateData',
     ZipCodeData: 'ZipCodeData',
     AcademicYearData: 'AcademicYearData',
+    CourcesData: 'CourcesData',
+    CategoriesData: 'CategoriesData',
   };
+  const {
+    PhoneNumber,
+    BioData,
+    Password,
+    ConfirmPassword,
+    linkedin_id,
+    linkedin_token,
+    linkedin_avatar,
+    linkedin_expires,
+    linkedin_refresh_token,
+    // EducationData,
+    FirstName,
+    LastName,
+    ZipCodeData,
+    AcademicYearData,
+    Email,
+  } = tutorValue;
   const [isKeyboardVisible, setKeyboardVisible] = useState(hp('20'));
-  const updateState1 = data => setTutorValue(() => ({...tutorValue, ...data}));
+  const updateInputState = data =>
+    setTutorValue(() => ({...tutorValue, ...data}));
   const [pickerState, setPickerState] = useState({
     tutorData: [
       {
-        id: 0,
-        label: 'Tutor',
-        value: 'Tutor',
+        id: 'teacher',
+        title: 'Tutor',
+        value: 'tutorData',
         type: 'tutorData',
       },
       {
-        id: 1,
-        label: 'Tweety',
-        value: 'Tweety',
-        type: 'tutorData',
+        id: 'student',
+        title: 'Tweety',
+        value: 'tweetyData',
+        type: 'tweetyData',
       },
     ],
     languageData: [
       {
         id: 0,
-        label: 'English',
+        title: 'English',
         value: 'English',
         type: 'languageData',
       },
       {
         id: 1,
-        label: 'French',
+        title: 'French',
         value: 'French',
         type: 'languageData',
       },
     ],
-    CountryData: [
-      {
-        id: 0,
-        label: 'Aus',
-        value: 'Aus',
-        type: 'CountryData',
-      },
-      {
-        id: 1,
-        label: 'Eng',
-        value: 'Aus',
-        type: 'CountryData',
-      },
-    ],
-    CityData: [
-      {
-        id: 0,
-        label: 'Malbourne',
-        value: 'Malbourne',
-        type: 'CityData',
-      },
-      {
-        id: 1,
-        label: 'NewYork',
-        value: 'NewYork',
-        type: 'CityData',
-      },
-    ],
-    StateData: [
-      {
-        id: 0,
-        label: 'Malbourne',
-        value: 'Malbourne',
-        type: 'StateData',
-      },
-      {
-        id: 1,
-        label: 'NewYork',
-        value: 'NewYork',
-        type: 'StateData',
-      },
-    ],
-    ZipCodeData: [
-      {
-        id: 0,
-        label: '075245',
-        value: '075245',
-        type: 'ZipCodeData',
-      },
-      {
-        id: 1,
-        label: '35689',
-        value: '35689',
-        type: 'ZipCodeData',
-      },
-    ],
-    AcademicYearData: [
-      {
-        id: 0,
-        label: 'acadmic year',
-        value: 'acadmic year',
-        type: 'AcademicYearData',
-      },
-      {
-        id: 1,
-        label: 'acadmic year',
-        value: 'acadmic year',
-        type: 'AcademicYearData',
-      },
-    ],
+    CountryData: [],
+    CityData: [],
+    StateData: [],
+    CourcesData: [],
+    CategoriesData: [],
   });
   const {
-    AcademicYearData,
     tutorData,
     CityData,
     CountryData,
     StateData,
-    ZipCodeData,
     languageData,
+    CourcesData,
+    CategoriesData,
   } = pickerState;
-  const updateState = data => setPickerState(() => ({...pickerState, ...data}));
+  const updateState = data => setPickerState(prev => ({...prev, ...data}));
+  const updateFinalState = data => setTutorValue(prev => ({...prev, ...data}));
+
   const getTutorValue = (value, State) => {
-    console.log(113, State, value);
     setTutorValue(pre => ({
       ...tutorValue,
       [State]: value,
     }));
   };
+  const getPickerData = (state, url) => {
+    ApiGet(url).then(res => {
+      if (res.status == 200) {
+        updateState({[state]: res.json.data});
+      } else {
+        errorMessage('Network Request Failed');
+      }
+    });
+  };
+  const signUpFun = () => {
+    setIsloading(true);
+    console.log(160, EducationData);
+    const {
+      languageData,
+      CountryData,
+      CourcesData,
+      StateData,
+      CityData,
+      tutorData,
+      linkedin_avatar,
+      linkedin_expires,
+      linkedin_id,
+      linkedin_refresh_token,
+      linkedin_token,
+    } = tutorValue;
+    if (
+      tutorData != null &&
+      CourcesData != null &&
+      FirstName != '' &&
+      LastName != '' &&
+      PhoneNumber != '' &&
+      ZipCodeData != '' &&
+      CountryData != null &&
+      StateData != null &&
+      CityData != null &&
+      languageData != null &&
+      EducationData != '' &&
+      AcademicYearData != '' &&
+      BioData != '' &&
+      Password != '' &&
+      ConfirmPassword != '' &&
+      Email != ''
+    ) {
+      let body = JSON.stringify({
+        user_type: tutorData,
+        f_name: FirstName,
+        l_name: LastName,
+        language: languageData,
+        email: Email,
+        password: Password,
+        password_confirmation: ConfirmPassword,
+        country_id: CountryData,
+        state_id: StateData,
+        city_id: CityData,
+        zip_code: ZipCodeData,
+        course_id: CourcesData,
+        phone_number: PhoneNumber,
+        institution_name: ['test instituion name'],
+        academic_year: ['test year'],
+        linkedin_id: linkedin_id,
+        linkedin_token: linkedin_token,
+        linkedin_avatar: linkedin_avatar,
+        linkedin_expires: linkedin_expires,
+        linkedin_refresh_token: linkedin_refresh_token,
+        bio: BioData,
+      });
+      ApiPost(SignUpUrl, body).then(res => {
+        if (res.status == 200) {
+          setIsloading(false);
+          console.log(201, res.json.data);
+        } else {
+          setIsloading(false);
+          console.log(203, res.json);
+        }
+      });
+    } else {
+      setIsloading(false);
+      errorMessage('Please complete all fields');
+      console.log('jbdfjdbvjbdjbvjdbvjbdjbvjdbvb');
+    }
+  };
+
+  const upadateAcademic = (value, state, i) => {
+    console.log(12, i);
+    EducationData[0].push(value);
+    setEducationData[1] = value;
+    // updateFinalState({EducationData.[0]: value});
+  };
   useEffect(() => {
+    getPickerData('CourcesData', GetCourcesUrl);
+    getPickerData('CountryData', GetCountryUrl);
+    getPickerData('CategoriesData', GetCategoriesUrl);
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
       () => {
@@ -226,14 +307,25 @@ const CreateAccount = ({navigation}) => {
               h={h.tutorData}
               selectedValue={tutorValue.tutorData}
             />
-            <PickerComponent
-              style={{width: wp('45'), marginRigh: wp('2')}}
-              text={'Language'}
-              data={languageData}
-              setSelectedValue={(val, state) => getTutorValue(val, state)}
-              h={h.languageData}
-              selectedValue={tutorValue.languageData}
-            />
+            {tutorValue.tutorData == 'teacher' ? (
+              <PickerComponent
+                style={{width: wp('45'), marginRigh: wp('2')}}
+                text={'Cources'}
+                data={CourcesData}
+                setSelectedValue={(val, state) => getTutorValue(val, state)}
+                h={h.CourcesData}
+                selectedValue={tutorValue.CourcesData}
+              />
+            ) : tutorValue.tutorData == 1 ? (
+              <PickerComponent
+                style={{width: wp('45'), marginRigh: wp('2')}}
+                text={'Category'}
+                data={CategoriesData}
+                setSelectedValue={(val, state) => getTutorValue(val, state)}
+                h={h.CategoriesData}
+                selectedValue={tutorValue.CategoriesData}
+              />
+            ) : null}
           </View>
           <Text style={{...styles.accView, marginTop: hp('2')}}>
             First Name
@@ -243,28 +335,66 @@ const CreateAccount = ({navigation}) => {
             secureTextEntry={false}
             placeholder={'First Name'}
             style={{width: wp('95')}}
+            value={FirstName}
+            onChangeText={FirstName => updateFinalState({FirstName: FirstName})}
           />
           <Text style={{...styles.accView, marginTop: hp('2')}}>Last Name</Text>
-
           <LoginInputComp
             secureTextEntry={false}
-            placeholder={'Last Name '}
+            placeholder={'Last Name'}
+            value={LastName}
+            onChangeText={LastName => updateFinalState({LastName: LastName})}
             style={{marginBottom: hp('2'), width: wp('95')}}
+          />
+          <Text style={{...styles.accView, marginTop: hp('2')}}>
+            Email Address
+          </Text>
+          <LoginInputComp
+            secureTextEntry={false}
+            placeholder={'Email Address'}
+            value={Email}
+            onChangeText={Email => updateFinalState({Email: Email})}
+            style={{marginBottom: hp('2'), width: wp('95')}}
+          />
+          <Text style={{...styles.accView, marginTop: hp('2')}}>
+            Phone Number
+          </Text>
+          <LoginInputComp
+            secureTextEntry={false}
+            placeholder={'Phone Number'}
+            style={{marginBottom: hp('2'), width: wp('95')}}
+            onChangeText={PhoneNumber =>
+              updateFinalState({PhoneNumber: PhoneNumber})
+            }
+            value={PhoneNumber}
+            keyboardType="number-pad"
           />
           <View style={styles.twoPickerView}>
             <View>
               <Text style={{...styles.accView, marginTop: hp('2')}}>
-                First Name
+                Zip Code
               </Text>
-
               <LoginInputComp
                 secureTextEntry={false}
-                placeholder={'First Name'}
+                placeholder={'Zip Code'}
+                keyboardType="number-pad"
                 style={{width: wp('45')}}
+                value={ZipCodeData}
+                onChangeText={ZipCodeData =>
+                  updateFinalState({ZipCodeData: ZipCodeData})
+                }
               />
             </View>
             <View>
-              <Text style={{...styles.accView, marginTop: hp('2')}}>
+              <TouchableOpacity style={styles.linkButtonView}>
+                <Entypo
+                  name="linkedin-with-circle"
+                  color={'white'}
+                  size={hp('3')}
+                />
+                <TextComp text="LinkedIn" style={styles.linkButtonText} />
+              </TouchableOpacity>
+              {/* <Text style={{...styles.accView, marginTop: hp('2')}}>
                 Last Name
               </Text>
 
@@ -272,7 +402,7 @@ const CreateAccount = ({navigation}) => {
                 secureTextEntry={false}
                 placeholder={'Last Name'}
                 style={{width: wp('45')}}
-              />
+              /> */}
             </View>
           </View>
           <View style={styles.twoPickerView}>
@@ -280,10 +410,30 @@ const CreateAccount = ({navigation}) => {
               style={{width: wp('45'), marginRigh: wp('2')}}
               text={'Country'}
               data={CountryData}
-              setSelectedValue={(val, state) => getTutorValue(val, state)}
+              setSelectedValue={(val, state) => {
+                getTutorValue(val, state),
+                  getPickerData('StateData', GetStatesUrl + val);
+              }}
               h={h.CountryData}
               selectedValue={tutorValue.CountryData}
             />
+            <PickerComponent
+              style={{width: wp('45'), marginRigh: wp('2')}}
+              text={'State'}
+              data={StateData}
+              setSelectedValue={(val, state) => {
+                getTutorValue(val, state),
+                  getPickerData(
+                    'CityData',
+                    GetCitiesUrl + tutorValue.CountryData + '/' + val,
+                  );
+              }}
+              h={h.StateData}
+              selectedValue={tutorValue.StateData}
+            />
+          </View>
+
+          <View style={styles.twoPickerView}>
             <PickerComponent
               style={{width: wp('45'), marginRigh: wp('2')}}
               text={'City'}
@@ -292,24 +442,13 @@ const CreateAccount = ({navigation}) => {
               h={h.CityData}
               selectedValue={tutorValue.CityData}
             />
-          </View>
-
-          <View style={styles.twoPickerView}>
             <PickerComponent
               style={{width: wp('45'), marginRigh: wp('2')}}
-              text={'State'}
-              data={StateData}
+              text={'Language'}
+              data={languageData}
               setSelectedValue={(val, state) => getTutorValue(val, state)}
-              h={h.StateData}
-              selectedValue={tutorValue.StateData}
-            />
-            <PickerComponent
-              style={{width: wp('45'), marginRigh: wp('2')}}
-              text={'Zip Code'}
-              data={ZipCodeData}
-              setSelectedValue={(val, state) => getTutorValue(val, state)}
-              h={h.ZipCodeData}
-              selectedValue={tutorValue.ZipCodeData}
+              h={h.languageData}
+              selectedValue={tutorValue.languageData}
             />
           </View>
           <View
@@ -320,42 +459,70 @@ const CreateAccount = ({navigation}) => {
               justifyContent: 'space-between',
             }}>
             <Text
-              style={{...globalStyles.globalModuletutor, fontSize: hp('2.5')}}>
+              style={{
+                ...globalStyles.globalModuletutor,
+                fontSize: hp('2.5'),
+                color: 'white',
+              }}>
               Academic
             </Text>
-            <View style={styles.btnTxt}>
+            <TouchableOpacity
+              onPress={() => {
+                AddField.push('');
+                setDummy(dummy + 1);
+              }}
+              style={styles.btnTxt}>
               <Text style={{...globalStyles.globalModuletutor}}>Add More</Text>
               <Octicons name={'plus'} size={hp('3')} color={'white'} />
-            </View>
+            </TouchableOpacity>
           </View>
-          <View style={styles.twoPickerView}>
-            <View style={{justifyContent: 'center'}}>
-              <Text style={{...styles.accView}}>Education</Text>
-
-              <LoginInputComp
-                secureTextEntry={false}
-                placeholder={'Education'}
-                style={{height: wp('15'), width: wp('53')}}
-              />
-            </View>
-
-            <PickerComponent
-              style={{width: wp('35'), height: hp('7'), marginRigh: wp('2')}}
-              text={'AcademicYearData'}
-              data={AcademicYearData}
-              setSelectedValue={(val, state) => getTutorValue(val, state)}
-              h={h.AcademicYearData}
-              selectedValue={tutorValue.AcademicYearData}
-            />
-          </View>
+          {AddField.length > 0 &&
+            AddField.map((res, i) => {
+              return (
+                <View style={styles.twoPickerView}>
+                  <View>
+                    <Text style={{...styles.accView, marginTop: hp('2')}}>
+                      Education
+                    </Text>
+                    <LoginInputComp
+                      secureTextEntry={false}
+                      keyboardType="number-pad"
+                      style={{width: wp('45')}}
+                      placeholder={'Education'}
+                      value={EducationData[i]}
+                      onChangeText={e => {
+                        upadateAcademic(e, EducationData, i);
+                      }}
+                    />
+                  </View>
+                  <View>
+                    <Text style={{...styles.accView, marginTop: hp('2')}}>
+                      Academic Year
+                    </Text>
+                    <LoginInputComp
+                      secureTextEntry={false}
+                      keyboardType="number-pad"
+                      style={{width: wp('45')}}
+                      placeholder={'Academic Year'}
+                      value={AcademicYearData}
+                      onChangeText={AcademicYearData =>
+                        updateFinalState({AcademicYearData: AcademicYearData})
+                      }
+                    />
+                  </View>
+                </View>
+              );
+            })}
           <View style={{marginVertical: hp('2')}}>
             <Text
-              style={{...globalStyles.globalModuletutor, fontSize: hp('2.5')}}>
+              style={{...globalStyles.globalModuletutor, fontSize: hp('1.7')}}>
               Bio
             </Text>
             <LoginInputComp
               placeholder={'About Yourself'}
               style={{height: hp('20'), width: wp('95')}}
+              value={BioData}
+              onChangeText={BioData => updateFinalState({BioData: BioData})}
               inputStyle={{
                 alignSelf: 'flex-start',
                 paddingTop: hp('2'),
@@ -364,24 +531,33 @@ const CreateAccount = ({navigation}) => {
           </View>
           <View style={{flexDirection: 'row', marginVertical: hp('2')}}>
             <Text
-              style={{...globalStyles.globalModuletutor, fontSize: hp('2.5')}}>
+              style={{...globalStyles.globalModuletutor, fontSize: hp('1.7')}}>
               Password
             </Text>
           </View>
           <LoginInputComp
             secureTextEntry={false}
-            placeholder={'Create Password '}
+            placeholder={'Create Password'}
+            value={Password}
+            onChangeText={Password => updateFinalState({Password: Password})}
             style={{width: wp('95')}}
             eyeIconName={'lock'}
           />
           <LoginInputComp
             secureTextEntry={true}
-            placeholder={'Confirm Password '}
+            placeholder={'Confirm Password'}
+            value={ConfirmPassword}
+            onChangeText={ConfirmPassword =>
+              updateFinalState({ConfirmPassword: ConfirmPassword})
+            }
             style={{width: wp('95')}}
             eyeIconName={'lock'}
             color={colorTutor_.ipallightGreen}
           />
           <ButtonThemeComp
+            onPress={() => signUpFun()}
+            isLoading={isloading}
+            // onPress={() => navigation.navigate('TuteeDashboardScreen')}
             style={{
               ...styles.signBtn,
               marginTop: hp('2'),
@@ -393,10 +569,14 @@ const CreateAccount = ({navigation}) => {
         </ScrollView>
         <View style={styles.bottomBar}>
           <TouchableOpacity onPress={() => console.log('dont have you acc')}>
-            <Text style={globalStyles.globalModuletutor}>Term of use</Text>
+            <Text style={{...globalStyles.globalModuletutor, color: 'white'}}>
+              Term of use
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => console.log('dont have you acc')}>
-            <Text style={globalStyles.globalModuletutor}>Privacy Policy</Text>
+            <Text style={{...globalStyles.globalModuletutor, color: 'white'}}>
+              Privacy Policy
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
