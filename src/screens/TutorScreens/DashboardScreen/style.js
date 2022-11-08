@@ -38,6 +38,7 @@ export const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 20,
     overflow: 'hidden',
+    color: 'black',
   },
   pickerStyle: {
     width: Platform.OS == 'ios' ? wp('95') : wp('90'),

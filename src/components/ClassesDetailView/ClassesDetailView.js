@@ -10,8 +10,12 @@ import {color, colorTutor_} from '../../config/color';
 import {styles} from './styles';
 import {Divider} from 'react-native-paper';
 import {CircleImageComp} from '../CircleImageComp/CircleImageComp';
+import moment from 'moment/moment';
 
 export const ClassesDetailView = props => {
+  const {data} = props;
+  const from = moment(data.from, 'hh').format('LT');
+  const to = moment(data.to, 'hh').format('LT');
   return (
     <View style={styles.container}>
       <View style={styles.topView}>
@@ -77,21 +81,21 @@ export const ClassesDetailView = props => {
             style={{height: 20, width: 20, margin: 5, tintColor: 'white'}}
             source={require('../../image/book.png')}
           />
-          <Text style={{margin: 5, color: 'white'}}>English</Text>
+          <Text style={{margin: 5, color: 'white'}}>{data.course.title}</Text>
         </View>
         <View style={{flexDirection: 'row', marginVertical: 5}}>
           <Image
             style={{height: 20, width: 20, margin: 5, tintColor: 'white'}}
             source={require('../../image/alarm.png')}
           />
-          <Text style={{margin: 5, color: 'white'}}>1 hour</Text>
+          <Text style={{margin: 5, color: 'white'}}>{data?.total_hours}</Text>
         </View>
         <View style={{flexDirection: 'row', marginVertical: 5}}>
           <Image
             style={{height: 20, width: 20, margin: 5, tintColor: 'white'}}
             source={require('../../image/alarm.png')}
           />
-          <Text style={{margin: 5, color: 'white'}}>9:00PM - 10:00PM</Text>
+          <Text style={{margin: 5, color: 'white'}}>{from + ' - ' + to}</Text>
         </View>
       </View>
       {/* <View style={styles.lasView}>

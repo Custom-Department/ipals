@@ -1,12 +1,10 @@
 import {
-  StyleSheet,
   TouchableOpacity,
   Text,
   View,
-  TextComponent,
   ScrollView,
-  FlatList,
   Dimensions,
+  StatusBar,
 } from 'react-native';
 import React, {useEffect, useState, useRef} from 'react';
 import {styles} from './style';
@@ -18,26 +16,23 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {ClassesDetailView} from '../../../components/ClassesDetailView/ClassesDetailView';
 import {TextComp} from '../../../components/TextComponent';
-import {PendingReqComp} from '../../../components/PendingReqComp/PendingReqComp';
 import HorizontalDividerComp from '../../../components/HorizontalDividerComp/HorizontalDividerComp';
 import InformationTextView from '../../../components/InformationTextView/InformationTextView';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import Entypo from 'react-native-vector-icons/Entypo';
-import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import PickerComponent from '../../../components/PickerComponent/PickerComponent';
-import {Picker} from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment/moment';
-import {CircleImageComp} from '../../../components/CircleImageComp/CircleImageComp';
 import {ThreeViewComp} from '../../../components/ThreeViewComp/ThreeViewComp';
-import {TuteeHomeComp} from '../../../components/TuteeHomeComp/TuteeHomeComp';
 import {LoginInputComp} from '../../../components/LoginInputComp/LoginInputComp';
 import {ButtonThemeComp} from '../../../components/ButtonThemeComp/ButtonThemeComp';
 import {TuteeHomeFlatListComp} from '../../../components/TuteeHomeFlatListComp/TuteeHomeFlatListComp';
+import types from '../../../Redux/types';
+import {useDispatch} from 'react-redux';
 
 const TuteeDashboardScreen = () => {
+  const dispatch = useDispatch();
+
   const date = new Date();
   // var d = new Date(); // for now
   // d.getHours(); // => 9
@@ -387,6 +382,10 @@ const TuteeDashboardScreen = () => {
         backgroundColor: colorTutor_.ipalBlue,
         flex: 1,
       }}>
+      <StatusBar
+        hidden={false}
+        barStyle={Platform.OS == 'ios' ? 'dark-content' : 'default'}
+      />
       <HeaderComponent
         navigatorName={topNavigator}
         search={true}
@@ -455,12 +454,12 @@ const TuteeDashboardScreen = () => {
               />
             </View>
             <View>
-              {list.length > 0 &&
+              {/* {list.length > 0 &&
                 list.map(Item => {
                   return (
                     <ClassesDetailView text={Item?.name} image={Item?.image} />
                   );
-                })}
+                })} */}
             </View>
             <View style={styles.classDashBoard}>
               <TextComp text={'Pending Requests'} />
@@ -472,9 +471,9 @@ const TuteeDashboardScreen = () => {
               />
             </View>
             <View>
-              {list.map(Item => {
+              {/* {list.map(Item => {
                 return <PendingReqComp text={Item?.name} image={Item?.image} />;
-              })}
+              })} */}
             </View>
           </ScrollView>
         ) : (
@@ -521,7 +520,7 @@ const TuteeDashboardScreen = () => {
       )}
 
       <View style={styles.bottomBar}>
-        <TouchableOpacity onPress={() => console.log('dont have you acc')}>
+        <TouchableOpacity onPress={() => dispatch({type: types.LogoutType})}>
           <Text style={globalStyles.globalModuletutor}>Term of use</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => console.log('dont have you acc')}>

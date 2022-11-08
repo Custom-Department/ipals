@@ -16,7 +16,12 @@ export const GetStatesUrl = getApi('get-states/');
 export const GetCitiesUrl = getApi('get-cites/');
 export const GetCategoriesUrl = getApi('get-category');
 export const CreateClassUrl = getApi('teacher/my-class');
-export const GetMyClasses = getApi('get-my-class');
+export const GetApprovedClassUrl = getApi('teacher/get-approve-class');
+export const GetPendingClassUrl = getApi('teacher/get-pending-class');
+export const DeleteMyClassUrl = getApi('teacher/my-class-delete/');
+export const GetMyClasses = getApi('teacher/get-my-class');
+export const UpdateMyClasses = getApi('teacher/update-my-class/');
+export const UpdateRequestStatusUrl = getApi('teacher/status-update-request/');
 export const StripePublishKey =
   'pk_test_51LI9HwEE1bl5YY9CXbeFOKtVHFcnF3Vr6cNpK50WFsAHQFU9pcenE3iSddJ2pzdx7IIPwzXG6plCCxXwet33HpIG00nyziJs1r';
 // export const StripePublishKey =
