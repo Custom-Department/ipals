@@ -591,7 +591,6 @@ const DashboardScreen = ({navigation}) => {
       createClasses(CreateClassUrl, 'post', null);
     } else if (buttonText == 'Update Class') {
       let url = UpdateMyClasses + classId;
-      console.log(45678, url);
       createClasses(url, 'put', null);
     }
   };
