@@ -13,8 +13,8 @@ import moment from 'moment/moment';
 
 export const CreateClassComp = props => {
   const {data} = props;
-  const from = moment(data?.from, 'hh').format('LT');
-  const to = moment(data?.to, 'hh').format('LT');
+  const from = moment(data?.from, 'hh:mm').format('LT');
+  const to = moment(data?.to, 'hh:mm').format('LT');
   return (
     <TouchableOpacity style={styles.container}>
       <Image

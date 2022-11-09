@@ -1,4 +1,4 @@
-import {Dimensions, StyleSheet} from 'react-native';
+import {Dimensions, Platform, StyleSheet} from 'react-native';
 import {colorTutor_} from '../../../config/color';
 import {
   widthPercentageToDP as wp,
@@ -100,5 +100,41 @@ export const styles = StyleSheet.create({
     borderRadius: 0,
     height: hp('4'),
     marginTop: hp('1'),
+  },
+  modalMainView: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalInnerView: {
+    width: wp('90'),
+    borderRadius: 10,
+    height: hp('50'),
+    backgroundColor: 'white',
+    overflow: Platform.OS == 'ios' ? 'visible' : 'hidden',
+    zIndex: 1,
+  },
+  crowsIcon: {
+    marginTop: hp('1'),
+    marginLeft: 'auto',
+    marginRight: wp('2'),
+  },
+  modalSubjectView: {
+    width: wp('80'),
+    backgroundColor: colorTutor_.ipalBlue,
+    height: hp('5.5'),
+    alignSelf: 'center',
+    borderRadius: 10,
+    flexDirection: 'row',
+    marginTop: hp('2'),
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    alignContent: 'center',
+  },
+  heading: {
+    marginLeft: wp('5'),
+    fontWeight: 'bold',
+    marginTop: hp('2'),
   },
 });

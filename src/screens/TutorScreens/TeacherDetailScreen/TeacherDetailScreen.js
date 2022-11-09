@@ -51,10 +51,11 @@ const TeacherDetailScreen = ({route, navigation}) => {
   const [loading, setLoading] = useState({
     startLoading: true,
     buttonloading: false,
+    isVisible: false,
   });
   const [showModal, setShowModal] = useState(false);
   const {getData, postData} = data;
-  const {startLoading, buttonloading} = loading;
+  const {startLoading, buttonloading, isVisible} = loading;
   const updateState = data => {
     setData(prev => ({...prev, ...data}));
   };
@@ -104,8 +105,8 @@ const TeacherDetailScreen = ({route, navigation}) => {
   };
   const RenderCard = prop => {
     const {data} = prop;
-    const from = moment(data.from, 'hh').format('LT');
-    const to = moment(data.to, 'hh').format('LT');
+    const from = moment(data.from, 'hh:mm').format('LT');
+    const to = moment(data.to, 'hh:mm').format('LT');
     return (
       <View style={styles.innerView}>
         <View style={styles.timeView}>
@@ -127,7 +128,11 @@ const TeacherDetailScreen = ({route, navigation}) => {
           <MaterialIcons name="timer" size={hp('2.5')} color={'gray'} />
           <TextComp style={{fontSize: hp('1.6')}} text={data.total_hours} />
         </View>
-        <ButtonThemeComp style={styles.bottomButton} text={'Apply Now'} />
+        <ButtonThemeComp
+          onPress={() => updateLoadingState({isVisible: true})}
+          style={styles.bottomButton}
+          text={'Apply Now'}
+        />
       </View>
     );
   };
@@ -137,55 +142,24 @@ const TeacherDetailScreen = ({route, navigation}) => {
         animationType="slide"
         transparent={true}
         collapsable={true}
-        visible={false}
-        // onRequestClose={() => {
-        //   props.forHideModal();
-        // }}
-      >
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: 'rgba(0, 0, 0, 0.6)',
-            justifyContent: 'center',
-            alignItems: 'center',
-            // backgroundColor: 'red',
-          }}>
-          <View
-            style={{
-              width: wp('90'),
-              borderRadius: 10,
-              height: hp('50'),
-              backgroundColor: 'white',
-              overflow: Platform.OS == 'ios' ? 'visible' : 'hidden',
-              zIndex: 1,
-            }}>
+        visible={isVisible}
+        onRequestClose={() => {
+          updateLoadingState({isVisible: false});
+        }}>
+        <View style={styles.modalMainView}>
+          <View style={styles.modalInnerView}>
             <Entypo
               name="circle-with-cross"
               color={'gray'}
               size={hp('3')}
-              style={{
-                marginTop: hp('2'),
-                marginLeft: 'auto',
-                marginRight: wp('4'),
-              }}
+              onPress={() => updateLoadingState({isVisible: false})}
+              style={styles.crowsIcon}
             />
             <TextComp
               text="Subject"
               style={{marginLeft: wp('5'), fontWeight: 'bold'}}
             />
-            <View
-              style={{
-                width: wp('80'),
-                backgroundColor: colorTutor_.ipalBlue,
-                height: hp('5.5'),
-                alignSelf: 'center',
-                borderRadius: 10,
-                flexDirection: 'row',
-                marginTop: hp('2'),
-                alignItems: 'center',
-                justifyContent: 'space-around',
-                alignContent: 'center',
-              }}>
+            <View style={styles.modalSubjectView}>
               <View
                 style={{
                   ...styles.subView,
@@ -198,14 +172,7 @@ const TeacherDetailScreen = ({route, navigation}) => {
                 />
               </View>
             </View>
-            <TextComp
-              text="Select schedule for class"
-              style={{
-                marginLeft: wp('5'),
-                fontWeight: 'bold',
-                marginTop: hp('2'),
-              }}
-            />
+            <TextComp text="Select schedule for class" style={styles.heading} />
           </View>
         </View>
       </Modal>
