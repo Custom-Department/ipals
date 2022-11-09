@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {CircleImageComp} from '../CircleImageComp/CircleImageComp';
 import {TextComp} from '../TextComponent';
 import {
@@ -12,9 +12,11 @@ import HorizontalDividerComp from '../HorizontalDividerComp/HorizontalDividerCom
 export const TuteeHomeComp = props => {
   const {data} = props;
   return (
-    <View style={styles.mainView}>
+    <TouchableOpacity
+      onPress={() => props?.navigate(data)}
+      style={styles.mainView}>
       <CircleImageComp
-        image={data.image}
+        image={require('../../image/profile.jpg')}
         styles={{
           alignSelf: 'center',
           // position: 'absolute',
@@ -22,14 +24,14 @@ export const TuteeHomeComp = props => {
         }}
       />
       <TextComp
-        text="Sarah Welson"
+        text={data?.f_name + ' ' + data.id + data.l_name}
         style={{marginTop: hp('1'), fontSize: hp('2')}}
       />
       <HorizontalDividerComp style={styles.divider} />
       <TextComp text="Subjects" />
       <View style={styles.bottomView}>
-        {data.subject.length > 0 &&
-          data.subject.map(res => {
+        {data.course.length > 0 &&
+          data.course.map(res => {
             return (
               <View style={styles.subView}>
                 <TextComp
@@ -40,7 +42,7 @@ export const TuteeHomeComp = props => {
             );
           })}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

@@ -426,18 +426,18 @@ const DashboardScreen = ({navigation}) => {
     let body = {
       status: status,
     };
+
     axios
       .put(url, body, {
         headers: {Authorization: `Bearer ${userData.token}`},
       })
       .then(function (response) {
-        // updateState({[state]: response.data.data});
         updateLoadingState({pendingLoading: false});
-        getApiData(GetApprovedClassUrl, 'acceptClassState', 'acceptLoading');
         getApiData(GetPendingClassUrl, 'pendingClassState', 'pendingLoading');
+        status == 'approve' &&
+          getApiData(GetApprovedClassUrl, 'acceptClassState', 'acceptLoading');
       })
       .catch(function (error) {
-        console.log(469, error.response.data);
         updateLoadingState({pendingLoading: false});
         errorMessage(errorHandler(error));
       });

@@ -28,11 +28,60 @@ import {LoginInputComp} from '../../../components/LoginInputComp/LoginInputComp'
 import {ButtonThemeComp} from '../../../components/ButtonThemeComp/ButtonThemeComp';
 import {TuteeHomeFlatListComp} from '../../../components/TuteeHomeFlatListComp/TuteeHomeFlatListComp';
 import types from '../../../Redux/types';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  GetApprovedClassesUrl,
+  GetApprovedClassUrl,
+  GetPendingClassesUrl,
+  GetPendingClassUrl,
+  GetTeachreClasses,
+} from '../../../config/Urls';
+import axios from 'react-native-axios';
+import {errorHandler} from '../../../config/helperFunction';
+import {SkypeIndicator} from 'react-native-indicators';
+import {errorMessage} from '../../../config/NotificationMessage';
+import {ClassesDetailView} from '../../../components/ClassesDetailView/ClassesDetailView';
+import {PendingReqComp} from '../../../components/PendingReqComp/PendingReqComp';
 
-const TuteeDashboardScreen = () => {
+const TuteeDashboardScreen = ({navigation}) => {
+  const {userData} = useSelector(state => state.userData);
   const dispatch = useDispatch();
-
+  const [allStates, setAllStates] = useState({
+    acceptClassState: [],
+    pendingClassState: [],
+    GetTeacherState: [],
+    messagesState: [],
+    courcesState: [],
+  });
+  const [allLoading, setAllLoading] = useState({
+    acceptLoading: false,
+    pendingLoading: true,
+    messageLoading: false,
+    GetTeacherLoading: false,
+    courcesLoading: false,
+    createClassLoading: false,
+  });
+  const {
+    acceptLoading,
+    pendingLoading,
+    messageLoading,
+    GetTeacherLoading,
+    courcesLoading,
+    createClassLoading,
+  } = allLoading;
+  const {
+    acceptClassState,
+    pendingClassState,
+    messagesState,
+    GetTeacherState,
+    courcesState,
+  } = allStates;
+  const updateState = data => {
+    setAllStates(prev => ({...prev, ...data}));
+  };
+  const updateLoadingState = data => {
+    setAllLoading(prev => ({...prev, ...data}));
+  };
   const date = new Date();
   // var d = new Date(); // for now
   // d.getHours(); // => 9
@@ -69,38 +118,6 @@ const TuteeDashboardScreen = () => {
 
     setEndDate(d);
   };
-  const [list, setList] = useState([
-    {
-      id: 0,
-      name: 'Freddy Mercury',
-      image: require('../../../image/profile.jpg'),
-    },
-    {
-      id: 1,
-      name: 'Freddy Mercury',
-      image: require('../../../image/profile.jpg'),
-    },
-    {
-      id: 2,
-      name: 'Freddy Mercury',
-      image: require('../../../image/profile.jpg'),
-    },
-    {
-      id: 3,
-      name: 'Freddy Mercury',
-      image: require('../../../image/profile.jpg'),
-    },
-    {
-      id: 4,
-      name: 'Freddy Mercury',
-      image: require('../../../image/profile.jpg'),
-    },
-    {
-      id: 5,
-      name: 'Freddy Mercury',
-      image: require('../../../image/profile.jpg'),
-    },
-  ]);
   const [message, setMessage] = useState([
     {
       id: 0,
@@ -375,7 +392,115 @@ const TuteeDashboardScreen = () => {
     setIndex(value);
     console.log(1444, value);
   };
-
+  const IndexZeroComp = () => {
+    return (
+      <View>
+        <View style={styles.classDashBoard}>
+          <TextComp text="My Classes" />
+          <HorizontalDividerComp color={colorTutor_.blue} />
+        </View>
+        {acceptLoading == true ? (
+          <SkypeIndicator
+            color={'white'}
+            size={hp('4')}
+            style={{
+              alignSelf: 'center',
+              justifyContent: 'center',
+            }}
+          />
+        ) : acceptClassState.length > 0 ? (
+          <FlatList
+            data={acceptClassState}
+            contentContainerStyle={{marginTop: hp('2')}}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({item}) => {
+              return <ClassesDetailView data={item} />;
+            }}
+          />
+        ) : (
+          <>
+            <InformationTextView text={'You don’t have any classes.'} />
+          </>
+        )}
+      </View>
+    );
+  };
+  const PendingView = () => {
+    return pendingLoading ? (
+      <>
+        <View style={{...styles.classDashBoard, marginTop: hp('6')}}>
+          <TextComp text="Pending Requests" />
+          <HorizontalDividerComp width={'53'} color={colorTutor_.blue} />
+        </View>
+        <SkypeIndicator
+          color={'white'}
+          size={hp('4')}
+          style={{
+            alignSelf: 'center',
+            justifyContent: 'center',
+          }}
+        />
+      </>
+    ) : pendingClassState.length == 0 ? (
+      <>
+        <View style={{...styles.classDashBoard, marginTop: hp('6')}}>
+          <TextComp text="Pending Requests" />
+          <HorizontalDividerComp width={'53'} color={colorTutor_.blue} />
+        </View>
+        <InformationTextView text={'You don’t have pending requests.'} />
+      </>
+    ) : (
+      <>
+        <View style={{...styles.classDashBoard, marginTop: hp('6')}}>
+          <TextComp text="Pending Requests" />
+          <HorizontalDividerComp width={'53'} color={colorTutor_.blue} />
+        </View>
+        <FlatList
+          data={pendingClassState}
+          contentContainerStyle={{marginTop: hp('2')}}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({item}) => {
+            return (
+              <PendingReqComp
+                checkPendingReq={() => checkPendingReq(item)}
+                onPress={item => updateStatus(item, 'approve')}
+                onCancel={item => updateStatus(item, 'reject')}
+                data={item}
+              />
+            );
+          }}
+        />
+      </>
+      // pendingClassState.map(res => {
+      //   return (
+      //     <PendingReqComp data={res} text={Item?.name} image={Item?.image} />
+      //   );
+      // })
+    );
+  };
+  const getApiData = (url, state, loading) => {
+    updateLoadingState({[loading]: true});
+    axios
+      .get(url, {
+        headers: {Authorization: `Bearer ${userData.token}`},
+      })
+      .then(function (response) {
+        updateState({[state]: response.data.data});
+        updateLoadingState({[loading]: false});
+      })
+      .catch(function (error) {
+        updateLoadingState({[loading]: false});
+        errorMessage(errorHandler(error));
+      });
+  };
+  const navigateTeacher = item => {
+    navigation.navigate('TeacherDetailScreen', item);
+  };
+  useEffect(() => {
+    getApiData(GetTeachreClasses, 'GetTeacherState', 'GetTeacherLoading');
+    getApiData(GetPendingClassesUrl, 'pendingClassState', 'pendingLoading');
+    getApiData(GetApprovedClassesUrl, 'acceptClassState', 'acceptLoading');
+  }, []);
   return (
     <View
       style={{
@@ -394,8 +519,20 @@ const TuteeDashboardScreen = () => {
       {/* <FilterScreen /> */}
 
       {index == 0 &&
-        (list?.length > 0 ? (
-          <TuteeHomeFlatListComp data={tutors} />
+        (GetTeacherLoading ? (
+          <SkypeIndicator
+            color={'white'}
+            size={hp('4')}
+            style={{
+              alignSelf: 'center',
+              justifyContent: 'center',
+            }}
+          />
+        ) : GetTeacherState?.length > 0 ? (
+          <TuteeHomeFlatListComp
+            navigate={navigateTeacher}
+            data={GetTeacherState}
+          />
         ) : (
           // <FlatList
           //   data={tutors}
@@ -438,73 +575,17 @@ const TuteeDashboardScreen = () => {
             <InformationTextView text={'You don’t have pending requests.'} />
           </View>
         ))}
-
-      {index == 1 &&
-        (list?.length > 0 ? (
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={styles.container}>
-            <View style={styles.classDashBoard}>
-              <TextComp text={'My Classes'} />
-              <ButtonIconComp
-                onPress={() => console.log('All Classes')}
-                text="View all classes"
-                size={hp('3.5')}
-                name={'arrow-forward'}
-              />
-            </View>
-            <View>
-              {/* {list.length > 0 &&
-                list.map(Item => {
-                  return (
-                    <ClassesDetailView text={Item?.name} image={Item?.image} />
-                  );
-                })} */}
-            </View>
-            <View style={styles.classDashBoard}>
-              <TextComp text={'Pending Requests'} />
-              <ButtonIconComp
-                onPress={() => console.log('All Classes')}
-                text="View all classes"
-                size={hp('3.5')}
-                name={'arrow-forward'}
-              />
-            </View>
-            <View>
-              {/* {list.map(Item => {
-                return <PendingReqComp text={Item?.name} image={Item?.image} />;
-              })} */}
-            </View>
-          </ScrollView>
-        ) : (
-          <View>
-            <View style={styles.classDashBoard}>
-              <TextComp text="My Classes" />
-              <HorizontalDividerComp color={colorTutor_.blue} />
-            </View>
-            <InformationTextView text={'You don’t have Classes '} />
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginTop: hp('4'),
-              }}>
-              <ButtonIconComp
-                style={{width: wp('90'), height: hp('7')}}
-                TextStyle={{fontSize: hp('2.6')}}
-                onPress={() => console.log('Create Class')}
-                text="Create Class"
-                size={hp('5.5')}
-                name={'add'}
-              />
-            </View>
-            <View style={{...styles.classDashBoard, marginTop: hp('6')}}>
-              <TextComp text="Pending Requests" />
-              <HorizontalDividerComp width={'53'} color={colorTutor_.blue} />
-            </View>
-            <InformationTextView text={'You don’t have pending requests.'} />
-          </View>
-        ))}
+      {index == 1 && (
+        <ScrollView
+          // refreshControl={
+          //   <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          // }
+          contentContainerStyle={{paddingBottom: hp('10')}}
+          showsVerticalScrollIndicator={false}>
+          <IndexZeroComp />
+          <PendingView />
+        </ScrollView>
+      )}
       {index == 2 && (
         <ScrollView contentContainerStyle={styles.container}>
           {message.length > 0 &&

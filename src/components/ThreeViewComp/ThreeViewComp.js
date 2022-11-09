@@ -11,7 +11,6 @@ import Entypo from 'react-native-vector-icons/Entypo';
 
 export const ThreeViewComp = props => {
   const {data} = props;
-  console.log(14, props);
   return (
     <View style={{...styles.mainView, ...props?.viewStyle}}>
       <View style={styles.leftView}>

@@ -18,7 +18,9 @@ export const TuteeHomeFlatListComp = props => {
         paddingBottom: hp('15'),
       }}
       renderItem={({item}) => {
-        return <TuteeHomeComp data={item} />;
+        return (
+          <TuteeHomeComp navigate={() => props?.navigate(item)} data={item} />
+        );
       }}
     />
   );

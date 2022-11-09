@@ -50,7 +50,6 @@ const LoginScreen = ({navigation}) => {
         .post(LoginUrl, body)
         .then(function (res) {
           setIsloading(false);
-          console.log(51, res.data.data);
           dispatch({
             type: types.LoginType,
             payload: res.data.data,
