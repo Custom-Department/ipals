@@ -2,7 +2,6 @@ import {
   Image,
   Keyboard,
   ScrollView,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
@@ -21,7 +20,7 @@ import {
 import Octicons from 'react-native-vector-icons/Octicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import PickerComponent from '../../components/PickerComponent/PickerComponent';
-import {ApiGet, ApiPost, errorHandler} from '../../config/helperFunction';
+import {ApiGet, errorHandler} from '../../config/helperFunction';
 import {
   GetCategoriesUrl,
   GetCitiesUrl,
@@ -35,6 +34,7 @@ import {TextComp} from '../../components/TextComponent';
 import {useDispatch} from 'react-redux';
 import types from '../../Redux/types';
 import axios from 'react-native-axios';
+// import LinkedInModal from 'react-native-linkedin';
 
 const CreateAccount = ({navigation}) => {
   const dispatch = useDispatch();
@@ -97,6 +97,7 @@ const CreateAccount = ({navigation}) => {
     Email,
   } = tutorValue;
   const [isKeyboardVisible, setKeyboardVisible] = useState(hp('20'));
+  const [showBottomBar, setShowBottomBar] = useState(false);
   const updateInputState = data =>
     setTutorValue(() => ({...tutorValue, ...data}));
   const [pickerState, setPickerState] = useState({
@@ -218,23 +219,9 @@ const CreateAccount = ({navigation}) => {
         linkedin_refresh_token: linkedin_refresh_token,
         bio: BioData,
       };
-      console.log(221, body);
-      // ApiPost(SignUpUrl, body).then(res => {
-      //   if (res.status == 200) {
-      //     setIsloading(false);
-      //     dispatch({
-      //       type: types.LoginType,
-      //       payload: res.json.data,
-      //     });
-      //   } else {
-      //     setIsloading(false);
-      //     console.log(203, res.json);
-      //   }
-      // });
       axios
         .post(SignUpUrl, body)
         .then(function (res) {
-          console.log(res.data);
           dispatch({
             type: types.LoginType,
             payload: res.data.data,
@@ -243,9 +230,7 @@ const CreateAccount = ({navigation}) => {
         })
         .catch(function (error) {
           setIsloading(false);
-          console.log(246, error);
-          // errorMessage(errorHandler(error));
-          // console.log(errorHandler(error));
+          errorMessage(errorHandler(error));
         });
     } else {
       setIsloading(false);
@@ -253,9 +238,6 @@ const CreateAccount = ({navigation}) => {
     }
   };
 
-  const upadateAcademic = (value, state, i) => {
-    EducationData[i] = value;
-  };
   useEffect(() => {
     getPickerData('CourcesData', GetCourcesUrl);
     getPickerData('CountryData', GetCountryUrl);
@@ -263,13 +245,17 @@ const CreateAccount = ({navigation}) => {
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
       () => {
-        setKeyboardVisible(hp('60')); // or some other action
+        setKeyboardVisible(hp('60'));
+        setShowBottomBar(true);
+        // or some other action
       },
     );
     const keyboardDidHideListener = Keyboard.addListener(
       'keyboardDidHide',
       () => {
-        setKeyboardVisible(hp('20')); // or some other action
+        setKeyboardVisible(hp('20'));
+        setShowBottomBar(false);
+        // or some other action
       },
     );
 
@@ -314,7 +300,7 @@ const CreateAccount = ({navigation}) => {
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
-            paddingTop: hp('13'),
+            paddingTop: hp('14'),
             paddingBottom: isKeyboardVisible,
             justifyContent: 'center',
           }}>
@@ -336,7 +322,7 @@ const CreateAccount = ({navigation}) => {
                 h={h.CourcesData}
                 selectedValue={tutorValue.CourcesData}
               />
-            ) : tutorValue.tutorData == 1 ? (
+            ) : tutorValue.tutorData == 'student' ? (
               <PickerComponent
                 style={{width: wp('45'), marginRigh: wp('2')}}
                 text={'Category'}
@@ -482,7 +468,8 @@ const CreateAccount = ({navigation}) => {
               style={{
                 ...globalStyles.globalModuletutor,
                 fontSize: hp('2.5'),
-                color: 'white',
+                color: 'black',
+                fontWeight: 'bold',
               }}>
               Academic
             </Text>
@@ -516,7 +503,12 @@ const CreateAccount = ({navigation}) => {
                     />
                   </View>
                   <View>
-                    <Text style={{...styles.accView, marginTop: hp('2')}}>
+                    <Text
+                      style={{
+                        ...styles.accView,
+                        marginTop: hp('2'),
+                        color: 'black',
+                      }}>
                       Academic Year
                     </Text>
                     <LoginInputComp
@@ -535,7 +527,11 @@ const CreateAccount = ({navigation}) => {
             })}
           <View style={{marginVertical: hp('2')}}>
             <Text
-              style={{...globalStyles.globalModuletutor, fontSize: hp('1.7')}}>
+              style={{
+                ...globalStyles.globalModuletutor,
+                fontSize: hp('1.7'),
+                color: 'black',
+              }}>
               Bio
             </Text>
             <LoginInputComp
@@ -552,7 +548,11 @@ const CreateAccount = ({navigation}) => {
           </View>
           <View style={{flexDirection: 'row', marginVertical: hp('2')}}>
             <Text
-              style={{...globalStyles.globalModuletutor, fontSize: hp('1.7')}}>
+              style={{
+                ...globalStyles.globalModuletutor,
+                fontSize: hp('1.7'),
+                color: 'black',
+              }}>
               Password
             </Text>
           </View>
@@ -590,18 +590,42 @@ const CreateAccount = ({navigation}) => {
             onPress={() => navigation.navigate('TuteeDashboardScreen')}
           />
         </ScrollView>
-        <View style={styles.bottomBar}>
-          <TouchableOpacity onPress={() => console.log('dont have you acc')}>
-            <Text style={{...globalStyles.globalModuletutor, color: 'white'}}>
-              Term of use
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => console.log('dont have you acc')}>
-            <Text style={{...globalStyles.globalModuletutor, color: 'white'}}>
-              Privacy Policy
-            </Text>
-          </TouchableOpacity>
-        </View>
+        {/* <LinkedInModal
+          clientID={'78f8s5y9yzttcn'}
+          clientSecret={'nt4zisEnfiqVpTA2'}
+          redirectUri="hhttp://cheryl-lee.test/callback/linkedin"
+          onSuccess={token => {
+            let name_surname = 'https://api.linkedin.com/v2/me';
+            let user_mail =
+              'https://api.linkedin.com/v2/clientAwareMemberHandles?q=members&projection=(elements*(primary,type,handle~))';
+            let namereq = new XMLHttpRequest();
+            namereq.open('GET', user_mail);
+            namereq.setRequestHeader(
+              'Authorization',
+              'Bearer ' + token.access_token,
+            );
+            namereq.onreadystatechange = function () {
+              if (namereq.readyState === 4) {
+                console.log('Text:', namereq.responseText);
+              }
+            };
+            namereq.send();
+          }}
+        /> */}
+        {!showBottomBar && (
+          <View style={{...styles.bottomBar}}>
+            <TouchableOpacity onPress={() => console.log('dont have you acc')}>
+              <Text style={{...globalStyles.globalModuletutor, color: 'white'}}>
+                Term of use
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => console.log('dont have you acc')}>
+              <Text style={{...globalStyles.globalModuletutor, color: 'white'}}>
+                Privacy Policy
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
     </>
   );

@@ -60,5 +60,6 @@ const styles = StyleSheet.create({
   accView: {
     marginLeft: wp('2'),
     marginBottom: hp('0.5'),
+    color: 'black',
   },
 });

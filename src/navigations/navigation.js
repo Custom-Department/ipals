@@ -63,6 +63,10 @@ export default function StackNavigatior() {
         <Stack.Screen name="CreateAccount" component={screens.CreateAccount} /> */}
         <Stack.Screen name="ProfileScreen" component={Tutor.ProfileScreen} />
         <Stack.Screen name="MessageScreen" component={Tutor.MessageScreen} />
+        <Stack.Screen
+          name="TeacherDetailScreen"
+          component={Tutor.TeacherDetailScreen}
+        />
         <Stack.Screen name="Home" component={screens.Home} />
         <Stack.Screen name="Category" component={screens.Category} />
       </Stack.Navigator>

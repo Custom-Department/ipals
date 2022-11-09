@@ -50,7 +50,6 @@ const LoginScreen = ({navigation}) => {
         .post(LoginUrl, body)
         .then(function (res) {
           setIsloading(false);
-          console.log(51, res.data.data);
           dispatch({
             type: types.LoginType,
             payload: res.data.data,
@@ -118,10 +117,10 @@ const LoginScreen = ({navigation}) => {
         }}
       />
       <TouchableOpacity onPress={() => console.log('dont have you acc')}>
-        <Text>Don't have you account</Text>
+        <Text style={{color: 'black'}}>Don't have you account</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('CreateAccount')}>
-        <Text>Create New Account</Text>
+        <Text style={{color: 'black'}}>Create New Account</Text>
       </TouchableOpacity>
       <View style={styles.bottomBar}>
         <TouchableOpacity onPress={() => console.log('dont have you acc')}>

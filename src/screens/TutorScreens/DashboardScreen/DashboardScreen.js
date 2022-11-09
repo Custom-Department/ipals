@@ -1,12 +1,12 @@
 import {
-  StyleSheet,
   TouchableOpacity,
   Text,
   View,
-  TextComponent,
   ScrollView,
-  FlatList,
   StatusBar,
+  FlatList,
+  RefreshControl,
+  Platform,
 } from 'react-native';
 import React, {useEffect, useState, useRef} from 'react';
 import {styles} from './style';
@@ -35,18 +35,51 @@ import {ThreeViewComp} from '../../../components/ThreeViewComp/ThreeViewComp';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {useDispatch} from 'react-redux';
 import types from '../../../Redux/types';
-import {errorMessage} from '../../../config/NotificationMessage';
+import {
+  errorMessage,
+  successMessage,
+} from '../../../config/NotificationMessage';
 import {errorHandler} from '../../../config/helperFunction';
-import {CreateClassUrl, GetCourcesUrl} from '../../../config/Urls';
+import {
+  CreateClassUrl,
+  DeleteMyClassUrl,
+  GetApprovedClassUrl,
+  GetCourcesUrl,
+  GetMyClasses,
+  GetPendingClassUrl,
+  UpdateMyClasses,
+  UpdateRequestStatusUrl,
+} from '../../../config/Urls';
 import axios from 'react-native-axios';
 import {useSelector} from 'react-redux';
+import {SkypeIndicator} from 'react-native-indicators';
+import {useCallback} from 'react';
 
 var arrayCalender = [];
 const DashboardScreen = ({navigation}) => {
   const {userData} = useSelector(state => state.userData);
-
+  console.log(61,userData);
+  const wait = timeout => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  };
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = useCallback(() => {
+    updateLoadingState({
+      acceptLoading: true,
+      pendingLoading: true,
+      myClassLoading: true,
+      courcesLoading: true,
+    });
+    wait(2000).then(() => {
+      getApiData(GetCourcesUrl, 'courcesState', 'courcesLoading');
+      getApiData(GetPendingClassUrl, 'pendingClassState', 'pendingLoading');
+      getApiData(GetMyClasses, 'myClassState', 'myClassLoading');
+      getApiData(GetApprovedClassUrl, 'acceptClassState', 'acceptLoading');
+      setRefreshing(false);
+    });
+  }, []);
   const dispatch = useDispatch();
-
+  const [classState, setClassState] = useState(false);
   const [isVisibleTime, setIsVisibleTime] = useState(false);
   const [isVisibleEndTime, setIsVisibleEndTime] = useState(false);
   const [allStates, setAllStates] = useState({
@@ -55,11 +88,10 @@ const DashboardScreen = ({navigation}) => {
     myClassState: [],
     messagesState: [],
     courcesState: [],
-    setClassState:false
   });
   const [allLoading, setAllLoading] = useState({
     acceptLoading: false,
-    pendingLoading: false,
+    pendingLoading: true,
     messageLoading: false,
     myClassLoading: false,
     courcesLoading: false,
@@ -79,11 +111,13 @@ const DashboardScreen = ({navigation}) => {
     messagesState,
     myClassState,
     courcesState,
-    classState
   } = allStates;
-  const updateState = data => setAllStates(() => ({...allStates, ...data}));
-  const updateLoadingState = data =>
-    setAllLoading(() => ({...allLoading, ...data}));
+  const updateState = data => {
+    setAllStates(prev => ({...prev, ...data}));
+  };
+  const updateLoadingState = data => {
+    setAllLoading(prev => ({...prev, ...data}));
+  };
 
   const date = new Date();
   var time = new Date();
@@ -98,22 +132,26 @@ const DashboardScreen = ({navigation}) => {
   const [isDate2, setIsDate2] = useState(false);
   const [startDate, setStartDate] = useState(time);
   const [endDate, setEndDate] = useState(null);
+  const [classId, setClassId] = useState('');
+  const [buttonText, setButtonText] = useState('Create Class');
 
   const [calenderArray, setCalenderArray] = useState([]);
 
   const [selectedDate, setSelectedDate] = useState('');
   const [markedDates, setMarkedDates] = useState({});
 
-  const [subject, setSubject] = useState('English');
+  const [subject, setSubject] = useState(null);
   const upadateStartDate = (e, ios) => {
-    let d = ios ? e : new Date(e?.nativeEvent?.timestamp);
+    let d = e;
+    // let d = ios ? e : new Date(e?.nativeEvent?.timestamp);
 
     setIsDate(false);
     setStartDate(d);
     setEndDate(d);
   };
   const upadateEndDate = (e, ios) => {
-    let d = ios ? e : new Date(e?.nativeEvent?.timestamp);
+    let d = e;
+    // let d = ios ? e : new Date(e?.nativeEvent?.timestamp);
     setIsDate2(false);
 
     setEndDate(d);
@@ -181,11 +219,11 @@ const DashboardScreen = ({navigation}) => {
   ]);
   const [cources, setCources] = useState([]);
   const [list, setList] = useState([
-    {
-      id: 0,
-      name: 'Freddy Mercury',
-      image: require('../../../image/profile.jpg'),
-    },
+    // {
+    //   id: 0,
+    //   name: 'Freddy Mercury',
+    //   image: require('../../../image/profile.jpg'),
+    // },
     // {
     //   id: 1,
     //   name: 'Freddy Mercury',
@@ -212,16 +250,7 @@ const DashboardScreen = ({navigation}) => {
     //   image: require('../../../image/profile.jpg'),
     // },
   ]);
-  const pickerRef = useRef('English');
-
-  function open() {
-    pickerRef.current.focus();
-  }
-
-  function close() {
-    pickerRef.current.blur();
-  }
-  const createClasses = () => {
+  const createClasses = (url, method, params) => {
     updateLoadingState({createClassLoading: true});
     if (
       arrayCalender.length > 0 &&
@@ -229,43 +258,57 @@ const DashboardScreen = ({navigation}) => {
       endDate != null &&
       endDate != ''
     ) {
-      let body = {
+      let body = JSON.stringify({
+        // course_id: '1',
         course_id: subject,
-        from: moment(startDate).format('LT'),
-        to: moment(endDate).format('LT'),
+        from: moment(startDate, 'h:mm:ss A').format('HH:mm'),
+        to: moment(endDate, 'h:mm:ss A').format('HH:mm'),
         schedule: arrayCalender,
+      });
+      let config = {
+        url: url,
+        method: method,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        data: body,
+        params: params,
       };
-      console.log(235, body);
-      // axios.defaults.headers.common['Authorization'] = userData.token;
-      axios
-        .post(CreateClassUrl, body, {
-          headers: {Authorization: `Bearer ${userData.token}`},
-        })
+      config.headers.Authorization = `Bearer ${userData.token}`;
+
+      axios(config)
         .then(function (res) {
+          setMarkedDates({});
+          setSubject('');
+          setStartDate(time);
+          setEndDate(null);
+          successMessage('You has been Create My Class successfully');
           updateLoadingState({createClassLoading: false});
-          console.log(51, res.data.data);
+          arrayCalender = [];
+          getApiData(GetMyClasses, 'myClassState', 'myClassLoading');
+          setClassState(false);
         })
         .catch(function (error) {
-          console.log(245, error.response.data);
           updateLoadingState({createClassLoading: false});
           errorMessage(errorHandler(error));
         });
     } else {
       errorMessage('Please Select All Fields');
-      console.log('sfls');
       updateLoadingState({createClassLoading: false});
     }
   };
   const getApiData = (url, state, loading) => {
-    updateLoadingState({loading: true});
+    updateLoadingState({[loading]: true});
     axios
-      .get(url)
+      .get(url, {
+        headers: {Authorization: `Bearer ${userData.token}`},
+      })
       .then(function (response) {
-        updateState({courcesState: response.data.data});
-        updateLoadingState({loading: false});
+        updateState({[state]: response.data.data});
+        updateLoadingState({[loading]: false});
       })
       .catch(function (error) {
-        updateLoadingState({loading: false});
+        updateLoadingState({[loading]: false});
         errorMessage(errorHandler(error));
       });
   };
@@ -280,55 +323,26 @@ const DashboardScreen = ({navigation}) => {
           }}>
           From
         </Text>
-        {isDate == true && Platform.OS == 'android' ? (
-          <DateTimePicker
-            testID="startDatePicker"
-            value={startDate}
-            mode={'time'}
-            is24Hour={true}
-            display="clock"
-            themeVariant="light"
-            accentColor="red"
-            textColor="white"
-            style={styles.datePicker}
-            onChange={e => {
-              upadateStartDate(e);
-            }}
-            onTouchCancel={() => {
-              console.log(276), setIsDate(false);
-            }}
-          />
-        ) : Platform.OS == 'android' ? (
+        <>
           <TouchableOpacity
-            onPress={() => setIsDate(true)}
+            onPress={() => setIsVisibleTime(true)}
             style={styles.dateContainer}>
             <Text style={styles.dateText}>
-              {moment(startDate).format('LT')}
+              {moment(startDate, 'hh').format('LT')}
             </Text>
           </TouchableOpacity>
-        ) : (
-          <>
-            <TouchableOpacity
-              onPress={() => setIsVisibleTime(true)}
-              style={styles.dateContainer}>
-              <Text style={styles.dateText}>
-                {moment(startDate).format('LT')}
-              </Text>
-            </TouchableOpacity>
-            <DateTimePickerModal
-              mode={'time'}
-              isVisible={isVisibleTime}
-              onConfirm={e => {
-                console.log(225, e);
-                upadateStartDate(e, true);
-                setIsVisibleTime(false);
-              }}
-              onCancel={() => {
-                console.log(276), setIsVisibleTime(false);
-              }}
-            />
-          </>
-        )}
+          <DateTimePickerModal
+            mode={'time'}
+            isVisible={isVisibleTime}
+            onConfirm={e => {
+              upadateStartDate(e, true);
+              setIsVisibleTime(false);
+            }}
+            onCancel={() => {
+              setIsVisibleTime(false);
+            }}
+          />
+        </>
         <Text
           style={{
             paddingHorizontal: wp('2'),
@@ -337,68 +351,173 @@ const DashboardScreen = ({navigation}) => {
           }}>
           To
         </Text>
-        {endDate != null && isDate2 == true && Platform.OS == 'android' ? (
-          <>
-            <DateTimePicker
-              testID="endDatePicker"
-              value={endDate}
-              mode={'time'}
-              minimumDate={startDate}
-              is24Hour={true}
-              display="default"
-              style={styles.datePicker}
-              themeVariant="light"
-              onChange={e => {
-                upadateEndDate(e);
-                // console.log(143, startDate), setIsDate(false);
-              }}
-              onTouchCancel={() => {
-                console.log(276), setIsDate2(false);
-              }}
-            />
-          </>
-        ) : endDate != null && Platform.OS == 'ios' ? (
-          <>
-            <TouchableOpacity
-              onPress={() => setIsVisibleEndTime(true)}
-              style={styles.dateContainer}>
-              <Text style={styles.dateText}>
-                {moment(endDate).format('LT')}
-              </Text>
-            </TouchableOpacity>
-            <DateTimePickerModal
-              mode={'time'}
-              isVisible={isVisibleEndTime}
-              onConfirm={e => {
-                console.log(225, e);
-                upadateEndDate(e, true);
-                setIsVisibleEndTime(false);
-              }}
-              onCancel={() => {
-                console.log(276), setIsVisibleEndTime(false);
+        <>
+          {endDate != null ? (
+            <>
+              <TouchableOpacity
+                onPress={() => setIsVisibleEndTime(true)}
+                style={styles.dateContainer}>
+                <Text style={styles.dateText}>
+                  {moment(endDate, 'hh').format('LT')}
+                </Text>
+              </TouchableOpacity>
+              <DateTimePickerModal
+                mode={'time'}
+                is24Hour={true}
+                isVisible={isVisibleEndTime}
+                onConfirm={e => {
+                  upadateEndDate(e, true);
+                  setIsVisibleEndTime(false);
+                }}
+                onCancel={() => {
+                  setIsVisibleEndTime(false);
+                }}
+              />
+            </>
+          ) : (
+            <View
+              style={{
+                backgroundColor: colorTutor_.topNavigationColor,
+                height: hp('4.5'),
+                width: wp('29'),
+                borderRadius: 8,
               }}
             />
-          </>
-        ) : endDate != null && isDate2 == false && Platform.OS == 'android' ? (
-          <TouchableOpacity
-            onPress={() => setIsDate2(true)}
-            style={styles.dateContainer}>
-            <Text style={styles.dateText}>{moment(endDate).format('LT')}</Text>
-          </TouchableOpacity>
-        ) : (
-          <View
+          )}
+        </>
+      </View>
+    );
+  };
+  const IndexZeroComp = () => {
+    return (
+      <View>
+        <View style={styles.classDashBoard}>
+          <TextComp text="My Classes" />
+          <HorizontalDividerComp color={colorTutor_.blue} />
+        </View>
+        {acceptLoading == true ? (
+          <SkypeIndicator
+            color={'white'}
+            size={hp('4')}
             style={{
-              backgroundColor: colorTutor_.topNavigationColor,
-              height: hp('4.5'),
-              width: wp('29'),
-              borderRadius: 8,
+              alignSelf: 'center',
+              justifyContent: 'center',
             }}
           />
+        ) : acceptClassState.length > 0 ? (
+          <FlatList
+            data={acceptClassState}
+            contentContainerStyle={{marginTop: hp('2')}}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({item}) => {
+              return <ClassesDetailView data={item} />;
+            }}
+          />
+        ) : (
+          <>
+            <InformationTextView text={'You don’t have any classes.'} />
+          </>
         )}
       </View>
     );
   };
+  const updateStatus = (data, status) => {
+    updateLoadingState({pendingLoading: true});
+    let url = UpdateRequestStatusUrl + data.data.id;
+    let body = {
+      status: status,
+    };
 
+    axios
+      .put(url, body, {
+        headers: {Authorization: `Bearer ${userData.token}`},
+      })
+      .then(function (response) {
+        updateLoadingState({pendingLoading: false});
+        getApiData(GetPendingClassUrl, 'pendingClassState', 'pendingLoading');
+        status == 'approve' &&
+          getApiData(GetApprovedClassUrl, 'acceptClassState', 'acceptLoading');
+      })
+      .catch(function (error) {
+        updateLoadingState({pendingLoading: false});
+        errorMessage(errorHandler(error));
+      });
+  };
+  const checkPendingReq = data => {
+    data.data.class_schedules.map(res => {
+      arrayCalender.push(res.schedule);
+    });
+    arrayCalender.map(item => {
+      markedDates[item] = {
+        selected: true,
+        color: '#00B0BF',
+        textColor: '#FFFFFF',
+        borderRadius: 20,
+        fontWeight: 'bold',
+      };
+    });
+    setClassId(data.data.id);
+    setSubject(data.data.course.id);
+    let startDate = data.data.from;
+    let endDate = data.data.to;
+    setStartDate(startDate);
+    setEndDate(endDate);
+    setButtonText('Approved');
+    setClassState(true);
+  };
+  const PendingView = () => {
+    return pendingLoading ? (
+      <>
+        <View style={{...styles.classDashBoard, marginTop: hp('6')}}>
+          <TextComp text="Pending Requests" />
+          <HorizontalDividerComp width={'53'} color={colorTutor_.blue} />
+        </View>
+        <SkypeIndicator
+          color={'white'}
+          size={hp('4')}
+          style={{
+            alignSelf: 'center',
+            justifyContent: 'center',
+          }}
+        />
+      </>
+    ) : pendingClassState.length == 0 ? (
+      <>
+        <View style={{...styles.classDashBoard, marginTop: hp('6')}}>
+          <TextComp text="Pending Requests" />
+          <HorizontalDividerComp width={'53'} color={colorTutor_.blue} />
+        </View>
+        <InformationTextView text={'You don’t have pending requests.'} />
+      </>
+    ) : (
+      <>
+        <View style={{...styles.classDashBoard, marginTop: hp('6')}}>
+          <TextComp text="Pending Requests" />
+          <HorizontalDividerComp width={'53'} color={colorTutor_.blue} />
+        </View>
+        <FlatList
+          data={pendingClassState}
+          contentContainerStyle={{marginTop: hp('2')}}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({item}) => {
+            return (
+              <PendingReqComp
+                checkPendingReq={() => checkPendingReq(item)}
+                onPress={item => updateStatus(item, 'approve')}
+                onCancel={item => updateStatus(item, 'reject')}
+                data={item}
+              />
+            );
+          }}
+        />
+      </>
+      // pendingClassState.map(res => {
+      //   return (
+      //     <PendingReqComp data={res} text={Item?.name} image={Item?.image} />
+      //   );
+      // })
+    );
+  };
   const [topNavigator, setTopNavigator] = useState([
     'HOME',
     'MY CLASSES',
@@ -432,9 +551,55 @@ const DashboardScreen = ({navigation}) => {
     setSelectedDate(selectedDate);
     setMarkedDates(markedDates);
   };
+  const onPressClass = data => {
+    data.class_schedules.map(res => {
+      arrayCalender.push(res.schedule);
+    });
+    arrayCalender.map(item => {
+      markedDates[item] = {
+        selected: true,
+        color: '#00B0BF',
+        textColor: '#FFFFFF',
+        borderRadius: 20,
+        fontWeight: 'bold',
+      };
+    });
+    setClassId(data.id);
+    setSubject(data.course.id);
+    let startDate = data.from;
+    let endDate = data.to;
+    setStartDate(startDate);
+    setEndDate(endDate);
+    setClassState(true);
+    setButtonText('Update Class');
+  };
+  const deleteClass = data => {
+    let url = DeleteMyClassUrl + data.id;
+    axios
+      .delete(url, {
+        headers: {Authorization: `Bearer ${userData.token}`},
+      })
+      .then(function (response) {
+        getApiData(GetMyClasses, 'myClassState', 'myClassLoading');
+      })
+      .catch(function (error) {
+        updateLoadingState({myClassLoading: false});
+        errorMessage(errorHandler(error));
+      });
+  };
+  const checkButtonType = data => {
+    if (buttonText == 'Create Class') {
+      createClasses(CreateClassUrl, 'post', null);
+    } else if (buttonText == 'Update Class') {
+      let url = UpdateMyClasses + classId;
+      createClasses(url, 'put', null);
+    }
+  };
   useEffect(() => {
     getApiData(GetCourcesUrl, 'courcesState', 'courcesLoading');
-    // getApiData(GetCourcesUrl, 'courcesState', 'courcesLoading');
+    getApiData(GetPendingClassUrl, 'pendingClassState', 'pendingLoading');
+    getApiData(GetMyClasses, 'myClassState', 'myClassLoading');
+    getApiData(GetApprovedClassUrl, 'acceptClassState', 'acceptLoading');
   }, []);
   return (
     <View
@@ -447,184 +612,210 @@ const DashboardScreen = ({navigation}) => {
         barStyle={Platform.OS == 'ios' ? 'dark-content' : 'default'}
       />
       <HeaderComponent
-        // profileOnPress={() => navigation.navigate('ProfileScreen')}
         profileOnPress={() => navigation.navigate('SettingScreen')}
         navigatorName={topNavigator}
         checkIndexStatus={checkIndexStatus}
       />
-
-      {index == 0 &&
-        (list?.length > 0 ? (
-          <ScrollView contentContainerStyle={styles.container}>
-            <View style={styles.classDashBoard}>
-              <TextComp text={'My Classes'} />
-              <ButtonIconComp
-                onPress={() => console.log('All Classes')}
-                text="view all classes"
-                size={hp('3.5')}
-                name={'arrow-forward'}
+      {index == 0 && (
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+          contentContainerStyle={{paddingBottom: hp('10')}}
+          showsVerticalScrollIndicator={false}>
+          <IndexZeroComp />
+          <PendingView />
+        </ScrollView>
+      )}
+      {index == 1 && (
+        <>
+          {classState == true ? (
+            <ScrollView contentContainerStyle={styles.container}>
+              <View style={styles.myClassViewDashBoard}>
+                <View style={{flexDirection: 'row'}}>
+                  <Ionicons
+                    onPress={() => {
+                      setMarkedDates({});
+                      arrayCalender = [];
+                      setSubject('');
+                      setStartDate(time);
+                      setEndDate(null);
+                      setClassState(false);
+                    }}
+                    name={'arrow-back'}
+                    size={hp('2')}
+                    color="white"
+                  />
+                  <TextComp
+                    style={{marginLeft: wp('3'), color: colorTutor_.TxtColor}}
+                    text="My Classes"
+                  />
+                </View>
+              </View>
+              <Calendar
+                minDate={new Date()}
+                style={{width: wp('90'), alignSelf: 'center', borderRadius: 10}}
+                markingType={'period'}
+                onDayPress={(day, index) =>
+                  buttonText !== 'Approved'
+                    ? getSelectedDayEvents(day.dateString, index)
+                    : console.log('djbfj')
+                }
+                markedDates={markedDates}
+              />
+              <View style={{marginBottom: hp('3'), marginTop: hp('3')}}>
+                <TextComp
+                  style={{
+                    marginLeft: wp('7'),
+                    marginBottom: hp('1.5'),
+                    color: colorTutor_.TxtColor,
+                  }}
+                  text={'Select your subject'}
+                />
+                <Picker
+                  style={styles.picker}
+                  dropdownIconColor={'black'}
+                  selectedValue={subject}
+                  itemStyle={{
+                    color: 'black',
+                  }}
+                  onValueChange={(itemValue, itemIndex) =>
+                    setSubject(itemValue)
+                  }>
+                  <Picker.Item label={'Please Select Subject'} value={null} />
+                  {courcesState.length > 0 &&
+                    courcesState.map(res => {
+                      return <Picker.Item label={res.title} value={res.id} />;
+                    })}
+                </Picker>
+              </View>
+              <View>
+                <TextComp
+                  style={{
+                    marginLeft: wp('7'),
+                    marginBottom: hp('1.5'),
+                    color: colorTutor_.TxtColor,
+                  }}
+                  text={'Create time schedule'}
+                />
+                <DropDownView />
+              </View>
+              <View>
+                <ButtonThemeComp
+                  style={styles.createClass}
+                  TextStyle={{fontSize: hp('2')}}
+                  text={buttonText}
+                  onPress={() => checkButtonType()}
+                  // onPress={() => createClasses(CreateClassUrl, 'post', null)}
+                  isLoading={createClassLoading}
+                  // onPress={() => setClassState(false)}
+                />
+              </View>
+            </ScrollView>
+          ) : myClassLoading == true ? (
+            <View>
+              <View style={styles.classDashBoard}>
+                <TextComp text={'My Classes'} />
+                <TouchableOpacity
+                  onPress={() => setClassState(true)}
+                  style={styles.plusView}>
+                  <Ionicons name={'add'} size={hp('3')} color="white" />
+                </TouchableOpacity>
+              </View>
+              <SkypeIndicator
+                color={'white'}
+                size={hp('4')}
+                style={{
+                  alignSelf: 'center',
+                  justifyContent: 'center',
+                  marginTop: hp('10'),
+                }}
               />
             </View>
-            <View>
-              {list.length > 0 &&
-                list.map(Item => {
+          ) : (
+            <>
+              <View style={styles.classDashBoard}>
+                <TextComp text={'My Classes'} />
+                <TouchableOpacity
+                  onPress={() => {
+                    setButtonText('Create Class'), setClassState(true);
+                  }}
+                  style={styles.plusView}>
+                  <Ionicons name={'add'} size={hp('3')} color="white" />
+                </TouchableOpacity>
+              </View>
+              <FlatList
+                data={myClassState}
+                scrollEnabled={true}
+                contentContainerStyle={{
+                  marginTop: hp('2'),
+                  paddingBottom: hp('20'),
+                }}
+                showsVerticalScrollIndicator={false}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({item}) => {
                   return (
-                    <ClassesDetailView text={Item?.name} image={Item?.image} />
+                    <CreateClassComp
+                      onDelete={() => deleteClass(item)}
+                      onPress={() => onPressClass(item)}
+                      data={item}
+                    />
                   );
-                })}
-            </View>
-            <View style={styles.classDashBoard}>
-              <TextComp text={'Pending Requests'} />
-              <ButtonIconComp
-                onPress={() => console.log('All Classes')}
-                text="view all classes"
-                size={hp('3.5')}
-                name={'arrow-forward'}
+                }}
               />
-            </View>
-            <View>
-              {list.map(Item => {
-                return <PendingReqComp text={Item?.name} image={Item?.image} />;
-              })}
-            </View>
-          </ScrollView>
-        ) : (
-          <View>
-            <View style={styles.classDashBoard}>
-              <TextComp text="My Classes" />
-              <HorizontalDividerComp color={colorTutor_.blue} />
-            </View>
-            <InformationTextView text={'You don’t have Classes '} />
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginTop: hp('4'),
-              }}>
-              <ButtonIconComp
-                style={{width: wp('90'), height: hp('7')}}
-                TextStyle={{fontSize: hp('2.6')}}
-                onPress={() => createClasses()}
-                text="Create Class"
-                size={hp('5.5')}
-                name={'add'}
-              />
-            </View>
-            <View style={{...styles.classDashBoard, marginTop: hp('6')}}>
+            </>
+          )}
+        </>
+      )}
+      {index == 2 && (
+        <ScrollView
+          contentContainerStyle={{
+            ...styles.container,
+          }}>
+          {message.length > 0 &&
+            message.map(res => {
+              return (
+                <ThreeViewComp
+                  data={res}
+                  viewStyle={{marginTop: hp('2'), alignSelf: 'center'}}
+                />
+              );
+            })}
+        </ScrollView>
+      )}
+      {/* {index == 0 &&
+      list.length > 0 ? (
+        <ClassesDetailView text={Item?.name} image={Item?.image} />
+      ):(
+      <View style={styles.classDashBoard}>
+      <TextComp text="My Classes" />
+      <HorizontalDividerComp color={colorTutor_.blue} />
+    </View>)
+
+    pendingLoading ? (
+      <SkypeIndicator
+        color={'white'}
+        size={hp('4')}
+        style={{
+          alignSelf: 'center',
+          justifyContent: 'center',
+        }}
+      />
+    ) : pendingClassState == [] ? 
+    <>
+                <View style={{...styles.classDashBoard, marginTop: hp('6')}}>
               <TextComp text="Pending Requests" />
               <HorizontalDividerComp width={'53'} color={colorTutor_.blue} />
             </View>
             <InformationTextView text={'You don’t have pending requests.'} />
-          </View>
-        ))}
-
-      {index == 1 &&
-        (classState == true ? (
-          <ScrollView contentContainerStyle={styles.container}>
-            <View style={styles.myClassViewDashBoard}>
-              <View style={{flexDirection: 'row'}}>
-                <Ionicons onPress={()=>updateState({classState:false})}  name={'arrow-back'} size={hp('3')} color="white" /> 
-                <TextComp
-                  style={{marginLeft: wp('3'), color: colorTutor_.TxtColor}}
-                  text="My Classes"
-                />
-              </View>
-            </View>
-            <Calendar
-              style={{width: wp('90'), alignSelf: 'center', borderRadius: 10}}
-              markingType={'period'}
-              onDayPress={(day, index) =>
-                getSelectedDayEvents(day.dateString, index)
-              }
-              markedDates={markedDates}
-            />
-            <View style={{marginBottom: hp('3'), marginTop: hp('3')}}>
-              <TextComp
-                style={{
-                  marginLeft: wp('7'),
-                  marginBottom: hp('1.5'),
-                  color: colorTutor_.TxtColor,
-                }}
-                text={'Select your subject'}
-              />
-              <Picker
-                dropdownIconColor={'black'}
-                style={styles.picker}
-                selectedValue={subject}
-                onValueChange={(itemValue, itemIndex) => setSubject(itemValue)}>
-                <Picker.Item label={'Please Select Subject'} value={null} />
-                {courcesState.length > 0 &&
-                  courcesState.map(res => {
-                    return <Picker.Item label={res.title} value={res.id} />;
-                  })}
-              </Picker>
-            </View>
-            <View>
-              <TextComp
-                style={{
-                  marginLeft: wp('7'),
-                  marginBottom: hp('1.5'),
-                  color: colorTutor_.TxtColor,
-                }}
-                text={'Create time schedule'}
-              />
-              <DropDownView />
-            </View>
-            <View>
-              <ButtonThemeComp
-                style={styles.createClass}
-                TextStyle={{fontSize: hp('2')}}
-                text={'Create class'}
-                onPress={() => createClasses()}
-                isLoading={createClassLoading}
-              />
-            </View>
-          </ScrollView>
-        ) : (
-          <View>
-            <View style={styles.classDashBoard}>
-              <TextComp text={'My Classes'} />
-              <TouchableOpacity
-                onPress={() => updateState({classState:true})} //
-                style={styles.plusView}>
-                <Ionicons name={'add'} size={hp('3')} color="white" />
-              </TouchableOpacity>
-            </View>
-            <CreateClassComp />
-            <CreateClassComp />
-            <CreateClassComp />
-          </View>
-        ))}
-      {index == 2 && (
-           <FlatList
-           data={message}
-           keyExtractor={(item, index) => index.toString()}
-           contentContainerStyle={{
-             width: wp('95'),
-             alignSelf: 'center',
-             paddingBottom: hp('15'),
-           }}
-           renderItem={({item}) => {
-             return <TouchableOpacity onPress={()=>navigation.navigate('MessageScreen',item)}>
-              <ThreeViewComp
-                       data={item}
-                       viewStyle={{marginTop: hp('2'), alignSelf: 'center'}}
-                     />
-             </TouchableOpacity>
-           }}
-         />
-// <ScrollView contentContainerStyle={styles.container}>
-        //   {message.length > 0 &&
-        //     message.map(res => {
-        //       return (
-        //         <ThreeViewComp
-        //           data={res}
-        //           viewStyle={{marginTop: hp('2'), alignSelf: 'center'}}
-        //         />
-        //       );
-        //     })}
-        // </ScrollView>
-      )}
+            </>
+    :
+      pendingClassState.map(res => {
+        return (
+          <PendingReqComp text={Item?.name} image={Item?.image} />
+        );
+      })
+      } */}
 
       <View style={styles.bottomBar}>
         <TouchableOpacity onPress={() => navigation.navigate('Category')}>
@@ -639,3 +830,101 @@ const DashboardScreen = ({navigation}) => {
 };
 
 export default DashboardScreen;
+
+// index == 1 &&
+//   (classState == true ? (
+//     <ScrollView contentContainerStyle={styles.container}>
+//       <View style={styles.myClassViewDashBoard}>
+//         <View style={{flexDirection: 'row'}}>
+//           <Ionicons
+//             onPress={() => setClassState(false)}
+//             name={'arrow-back'}
+//             size={hp('2')}
+//             color="white"
+//           />
+//           <TextComp
+//             style={{marginLeft: wp('3'), color: colorTutor_.TxtColor}}
+//             text="My Classes"
+//           />
+//         </View>
+//       </View>
+//       <Calendar
+//         minDate={new Date()}
+//         style={{width: wp('90'), alignSelf: 'center', borderRadius: 10}}
+//         markingType={'period'}
+//         onDayPress={(day, index) =>
+//           getSelectedDayEvents(day.dateString, index)
+//         }
+//         markedDates={markedDates}
+//       />
+//       <View style={{marginBottom: hp('3'), marginTop: hp('3')}}>
+//         <TextComp
+//           style={{
+//             marginLeft: wp('7'),
+//             marginBottom: hp('1.5'),
+//             color: colorTutor_.TxtColor,
+//           }}
+//           text={'Select your subject'}
+//         />
+//         <Picker
+//           style={styles.picker}
+//           // ref={pickerRef2}
+//           selectedValue={subject}
+//           onValueChange={(itemValue, itemIndex) => setSubject(itemValue)}>
+//           <Picker.Item label={'Please Select Subject'} value={null} />
+//           {courcesState.length > 0 &&
+//             courcesState.map(res => {
+//               return <Picker.Item label={res.title} value={res.id} />;
+//             })}
+//         </Picker>
+//       </View>
+//       <View>
+//         <TextComp
+//           style={{
+//             marginLeft: wp('7'),
+//             marginBottom: hp('1.5'),
+//             color: colorTutor_.TxtColor,
+//           }}
+//           text={'Create time schedule'}
+//         />
+//         <DropDownView />
+//       </View>
+//       <View>
+//         <ButtonThemeComp
+//           style={styles.createClass}
+//           TextStyle={{fontSize: hp('2')}}
+//           text={'Create class'}
+//           onPress={() => createClasses()}
+//           isLoading={createClassLoading}
+//           // onPress={() => setClassState(false)}
+//         />
+//       </View>
+//     </ScrollView>
+//   ) : (
+//     <View>
+//       <View style={styles.classDashBoard}>
+//         <TextComp text={'My Classes'} />
+//         <TouchableOpacity
+//           onPress={() => setClassState(true)}
+//           style={styles.plusView}>
+//           <Ionicons name={'add'} size={hp('3')} color="white" />
+//         </TouchableOpacity>
+//       </View>
+//       <CreateClassComp />
+//       <CreateClassComp />
+//       <CreateClassComp />
+//     </View>
+//   ))}
+// index == 2 && (
+//   <ScrollView contentContainerStyle={styles.container}>
+//     {message.length > 0 &&
+//       message.map(res => {
+//         return (
+//           <ThreeViewComp
+//             data={res}
+//             viewStyle={{marginTop: hp('2'), alignSelf: 'center'}}
+//           />
+//         );
+//       })}
+//   </ScrollView>
+// )}

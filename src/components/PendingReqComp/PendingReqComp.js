@@ -6,34 +6,31 @@ import {
 } from 'react-native-responsive-screen';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import VerticalDividerComp from '../VerticalDividerComp/VerticalDividerComp';
 
 export const PendingReqComp = props => {
   return (
-    <View
+    <TouchableOpacity
+      onPress={() => props?.checkPendingReq(props)}
       style={{
         flexDirection: 'row',
         backgroundColor: 'white',
         alignItems: 'center',
         marginBottom: hp('3'),
-        marginTop: hp('1'),
-        marginHorizontal: 12,
-        borderRadius: 5,
+        marginHorizontal: wp('4'),
+        borderRadius: 10,
       }}>
-      {props?.image && (
-        <Image
-          style={{
-            height: 40,
-            width: 40,
-            margin: 5,
-            borderRadius: 20,
-            marginTop: 5,
-          }}
-          source={props?.image}
-        />
-      )}
-      <Text style={{color: 'black', fontSize: hp('2.2'), padding: 15}}>
-        {props?.text}
+      <Image
+        style={{
+          height: 40,
+          width: 40,
+          margin: 5,
+          borderRadius: 20,
+          marginTop: 5,
+        }}
+        source={require('../../image/profile.jpg')}
+      />
+      <Text style={{color: 'black', padding: 15}}>
+        {props?.data?.user?.f_name}
       </Text>
       <View
         style={{
@@ -42,25 +39,23 @@ export const PendingReqComp = props => {
           flex: 1,
           padding: 15,
         }}>
-        {props?.changeIcon1 ? (
-          props?.changeIcon1
-        ) : (
+        <TouchableOpacity onPress={() => props?.onPress(props)}>
           <Image
             style={{height: 20, width: 20, margin: 5}}
             source={require('../../image/rightick.png')}
           />
-        )}
-
-        <VerticalDividerComp />
-        {props?.changeIcon2 ? (
-          props?.changeIcon2
-        ) : (
+        </TouchableOpacity>
+        <Image
+          style={{height: 20, width: 20, margin: 5, tintColor: 'grey'}}
+          source={require('../../image/line.png')}
+        />
+        <TouchableOpacity onPress={() => props?.onCancel(props)}>
           <Image
             style={{height: 20, width: 20, margin: 5}}
             source={require('../../image/close.png')}
           />
-        )}
+        </TouchableOpacity>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };

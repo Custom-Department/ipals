@@ -15,7 +15,7 @@ export const globalStyles = StyleSheet.create({
     // textDecorationLine: 'underline',
   },
   globalTextStyles2: {
-    color: color.ipalforgetTxtColor,
+    color: 'black',
   },
   globalTextStyles3: {
     // color:color.black,

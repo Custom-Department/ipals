@@ -19,12 +19,9 @@ export const TuteeHomeFlatListComp = (props) => {
         paddingBottom: hp('15'),
       }}
       renderItem={({item}) => {
-
-        return( 
-        <TouchableOpacity onPress={()=>navigation.navigate('SubjectDetailScreen',item)}>
-          <TuteeHomeComp data={item} />
-        </TouchableOpacity>
-        )
+        return (
+          <TuteeHomeComp navigate={() => props?.navigate(item)} data={item} />
+        );
       }}
     />
   );

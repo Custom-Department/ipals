@@ -6,165 +6,146 @@ import {
 } from 'react-native-responsive-screen';
 
 export const styles = StyleSheet.create({
-    container: {
-        flexGrow:1,
-        paddingBottom:hp('15')
+  container: {
+    flexGrow: 1,
+    paddingBottom: hp('15'),
+  },
+  bottomBar: {
+    position: 'absolute',
+    backgroundColor: colorTutor_.blue,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
+    height: hp('9'),
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    bottom: 0,
+    width: wp('100'),
+    paddingHorizontal: wp('10'),
+  },
+  classDashBoard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 20,
+  },
+  myClassViewDashBoard: {
+    padding: 20,
+  },
+  picker: {
+    width: wp('90'),
+    backgroundColor: Platform.OS == 'ios' ? 'transparent' : 'white',
+    alignSelf: 'center',
+    borderRadius: 20,
+    overflow: 'hidden',
+    color: 'black',
+  },
+  pickerStyle: {
+    width: Platform.OS == 'ios' ? wp('95') : wp('90'),
+    height: hp(Platform?.OS == 'ios' ? '20' : '6'),
+    color: 'black',
+    backgroundColor: 'transparent',
+    alignSelf: 'center',
+    overflow: 'hidden',
+    marginTop: Platform.OS == 'ios' ? hp('1') : hp('2'),
+    borderRadius: 5,
+    borderWidth: Platform.OS == 'ios' ? 0 : 1,
+    borderColor: 'black',
+    justifyContent: 'center',
+  },
+  loadingView: {
+    // position: 'absolute',
+    height: hp('100'),
+    width: wp('100'),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingText: {color: 'white', fontSize: hp('3'), fontWeight: 'bold'},
+  inputView: {
+    width: wp('90'),
+    flexDirection: 'row',
+    alignSelf: 'center',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    height: hp('8'),
+    borderRadius: 10,
+  },
+  inputField: {
+    width: wp('80'),
+    borderColor: 'black',
+    borderRadius: 10,
+    borderWidth: 1,
+    height: Platform.OS == 'ios' ? hp('5') : hp('6'),
+    paddingLeft: wp('2'),
+    textAlignVertical: 'center',
+    marginBottom: hp('2'),
+    alignSelf: 'center',
+  },
+  buttonView: {
+    backgroundColor: color.bottomBarColor,
+    width: wp('50'),
+    height: hp('6'),
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    marginTop: wp('4'),
+  },
+  buttonText: {color: color.white, fontSize: hp('2'), fontWeight: 'bold'},
+  datePicker: {
+    width: wp('30'),
+    // marginLeft: wp('-9'),
+    backgroundColor: colorTutor_.topNavigationColor,
+    borderRadius: 10,
+    overflow: 'hidden',
+    color: 'white',
+    height: hp('4.5'),
+  },
+  activitiesContainer: {
+    width: wp('32'),
+    height: hp('6'),
+    borderColor: 'black',
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    marginTop: hp('2'),
+    maxHeight: hp('7'),
+  },
+  activitiesMainView: {
+    flexDirection: 'row',
+    width: wp('100'),
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    marginTop: hp('2'),
+    paddingHorizontal: wp('2'),
+  },
+  dateContainer: {
+    backgroundColor: colorTutor_.topNavigationColor,
+    height: hp('4.5'),
+    width: wp('29'),
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  dateText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: hp('2'),
+  },
+  createClass: {
+    marginTop: hp('2'),
+    alignSelf: 'center',
+    width: wp('80'),
+    height: hp('6'),
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
     },
-    bottomBar: {
-        position: "absolute",
-        backgroundColor: colorTutor_.blue,
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        flexDirection: 'row',
-        height: hp('9'),
-        borderTopLeftRadius: 10,
-        borderTopRightRadius: 10,
-        bottom: 0,
-        width: wp('100'),
-        paddingHorizontal: wp('10'),
-
-    },
-    classDashBoard: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: 20,
-    },
-    myClassViewDashBoard: {
-        padding: 20,
-    },
-    picker: {
-      width: wp('90'),
-      backgroundColor: Platform.OS == 'ios' ? 'transparent' : 'white',
-      alignSelf: 'center',
-      borderRadius: 20,
-      overflow: 'hidden',
-      color:'black'
-  
-    },
-  
-    pickerStyle: {
-      width: Platform.OS == 'ios' ? wp('95') : wp('90'),
-  
-      height: hp(Platform?.OS == 'ios' ? '20' : '6'),
-  
-      color: 'black',
-  
-      backgroundColor: 'transparent',
-  
-      alignSelf: 'center',
-  
-      overflow: 'hidden',
-  
-      marginTop: Platform.OS == 'ios' ? hp('1') : hp('2'),
-  
-      borderRadius: 5,
-  
-      borderWidth: Platform.OS == 'ios' ? 0 : 1,
-  
-      borderColor: 'black',
-  
-      justifyContent: 'center',
-  
-    },
-      loadingView: {
-        // position: 'absolute',
-        height: hp('100'),
-        width: wp('100'),
-        justifyContent: 'center',
-        alignItems: 'center',
-    
-      },
-      loadingText: {color: 'white', fontSize: hp('3'), fontWeight: 'bold'},
-      inputView: {
-        width: wp('90'),
-        flexDirection: 'row',
-        alignSelf: 'center',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        backgroundColor:'white',
-        height:hp('8')
-      },
-      inputField: {
-        width: wp('80'),
-        borderColor: 'black',
-        borderRadius: 10,
-        borderWidth: 1,
-        height: Platform.OS == 'ios' ? hp('5') : hp('6'),
-        paddingLeft: wp('2'),
-        textAlignVertical: 'center',
-        marginBottom: hp('2'),
-        alignSelf: 'center',
-      },
-      buttonView: {
-        backgroundColor: color.bottomBarColor,
-        width: wp('50'),
-        height: hp('6'),
-        borderRadius: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-        alignSelf: 'center',
-        marginTop: wp('4'),
-      },
-      buttonText: {color: color.white, fontSize: hp('2'), fontWeight: 'bold'},
-      datePicker: {
-        width: wp('40'),
-        marginLeft: wp('-9'),
-      },
-      activitiesContainer: {
-        width: wp('32'),
-        height: hp('6'),
-        borderColor: 'black',
-        borderWidth: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 10,
-        marginTop: hp('2'),
-        maxHeight: hp('7'),
-      },
-      activitiesMainView: {
-        flexDirection: 'row',
-        width: wp('100'),
-        flexWrap: 'wrap',
-        justifyContent: 'space-around',
-        marginTop: hp('2'),
-        paddingHorizontal:wp('2')
-      },
-      dateContainer: {
-        backgroundColor: colorTutor_.topNavigationColor,
-        height: hp('5.5'),
-        width: wp('29'),
-        borderRadius: 5,
-        justifyContent: 'center',
-        alignItems: 'center',
-      },
-      dateText: {
-        color: 'white',
-        fontWeight: 'bold',
-        fontSize: hp('2'),
-      },
-      createClass:{
-        marginTop:hp('2'),
-        alignSelf:'center',
-        width:wp('80'),
-        height:hp('8'),
-        shadowColor: "#000",
-shadowOffset: {
-	width: 0,
-	height: 1,
-},
-shadowOpacity: 0.20,
-shadowRadius: 1.41,
-
-elevation: 2,
-      },
-      plusView:{
-        justifyContent:'center',
-        height:hp('3.5'),
-        width:wp('8'),
-        backgroundColor:colorTutor_.blue,
-        alignItems:'center',
-        borderRadius:5,
-
-      }
-})
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    elevation: 2,
+  },
+});
