@@ -32,8 +32,11 @@ import {LoginInputComp} from '../../../components/LoginInputComp/LoginInputComp'
 import ChildAccountView from '../../../components/ChildAccountView/ChildAccountView';
 import {PendingReqComp} from '../../../components/PendingReqComp/PendingReqComp';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useDispatch } from 'react-redux';
+import types from '../../../Redux/types';
 
 const SettingScreen = () => {
+  const dispatch=useDispatch();
   const [list, setList] = useState([
     {
       id: 0,
@@ -82,7 +85,7 @@ const SettingScreen = () => {
     deleteAccState,
   } = stateChange;
 
-  const ProfileScreen = ({navigation}) => {
+  const ProfileScreen = () => {
     return (
       <Animatable.View animation="fadeInRight">
         <ScrollView contentContainerStyle={styles.midView}>
@@ -436,7 +439,7 @@ const SettingScreen = () => {
         deleteAccState,
       )}
 
-      <BackHeaderComponent name3={"settings"} name2={"search"} name1={"bell-fill"} bellOnPress={()=>console.log('bell')} settingOnPress={() => console.log('hello')} />
+      <BackHeaderComponent data={true} name3={"settings"} name2={"search"} name1={"bell-fill"} bellOnPress={()=>console.log('bell')} settingOnPress={() => console.log('hello')} />
       {editState ? (
         <ProfileScreen />
       ) : accState ? (
@@ -487,7 +490,9 @@ const SettingScreen = () => {
             name={'info'}
             text={'Help & Guide'}
           />
-          <SettingIconComp name={'sign-out'} text={' Log out'} />
+          <TouchableOpacity onPress={()=>dispatch({type:types.LogoutType  })}>
+          <SettingIconComp  name={'sign-out'} text={' Log out'} />
+          </TouchableOpacity>
         </Animatable.View>
       )}
       <View style={styles.bottomBar}>

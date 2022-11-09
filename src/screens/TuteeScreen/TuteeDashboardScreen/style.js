@@ -127,4 +127,12 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: hp('2'),
   },
+  twoPickerView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: wp('95'),
+    marginBottom: hp('2'),
+    alignItems: 'center',
+    alignSelf: 'center',
+  },
 });

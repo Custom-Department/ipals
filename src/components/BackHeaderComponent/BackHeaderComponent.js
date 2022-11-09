@@ -22,7 +22,7 @@ export const BackHeaderComponent = props => {
             alignItems: 'center',
           }}>
           <Ionicons
-            onPress={() => navigation.goBack()}
+            onPress={() => navigation.goBack()} 
             style={styles.cameraStyle}
             name="arrow-back"
             size={hp('4')}

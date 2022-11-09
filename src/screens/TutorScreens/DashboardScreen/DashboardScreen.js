@@ -6,6 +6,7 @@ import {
   TextComponent,
   ScrollView,
   FlatList,
+  StatusBar,
 } from 'react-native';
 import React, {useEffect, useState, useRef} from 'react';
 import {styles} from './style';
@@ -31,10 +32,58 @@ import moment from 'moment/moment';
 import {ButtonThemeComp} from '../../../components/ButtonThemeComp/ButtonThemeComp';
 import {CreateClassComp} from '../../../components/CreateClassComp/CreateClassComp';
 import {ThreeViewComp} from '../../../components/ThreeViewComp/ThreeViewComp';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import {useDispatch} from 'react-redux';
+import types from '../../../Redux/types';
+import {errorMessage} from '../../../config/NotificationMessage';
+import {errorHandler} from '../../../config/helperFunction';
+import {CreateClassUrl, GetCourcesUrl} from '../../../config/Urls';
+import axios from 'react-native-axios';
+import {useSelector} from 'react-redux';
 
 var arrayCalender = [];
 const DashboardScreen = ({navigation}) => {
-  const [classState, setClassState] = useState(true);
+  const {userData} = useSelector(state => state.userData);
+
+  const dispatch = useDispatch();
+
+  const [isVisibleTime, setIsVisibleTime] = useState(false);
+  const [isVisibleEndTime, setIsVisibleEndTime] = useState(false);
+  const [allStates, setAllStates] = useState({
+    acceptClassState: [],
+    pendingClassState: [],
+    myClassState: [],
+    messagesState: [],
+    courcesState: [],
+    setClassState:false
+  });
+  const [allLoading, setAllLoading] = useState({
+    acceptLoading: false,
+    pendingLoading: false,
+    messageLoading: false,
+    myClassLoading: false,
+    courcesLoading: false,
+    createClassLoading: false,
+  });
+  const {
+    acceptLoading,
+    pendingLoading,
+    messageLoading,
+    myClassLoading,
+    courcesLoading,
+    createClassLoading,
+  } = allLoading;
+  const {
+    acceptClassState,
+    pendingClassState,
+    messagesState,
+    myClassState,
+    courcesState,
+    classState
+  } = allStates;
+  const updateState = data => setAllStates(() => ({...allStates, ...data}));
+  const updateLoadingState = data =>
+    setAllLoading(() => ({...allLoading, ...data}));
 
   const date = new Date();
   var time = new Date();
@@ -56,15 +105,15 @@ const DashboardScreen = ({navigation}) => {
   const [markedDates, setMarkedDates] = useState({});
 
   const [subject, setSubject] = useState('English');
-  const upadateStartDate = e => {
-    let d = new Date(e?.nativeEvent?.timestamp);
+  const upadateStartDate = (e, ios) => {
+    let d = ios ? e : new Date(e?.nativeEvent?.timestamp);
 
     setIsDate(false);
     setStartDate(d);
     setEndDate(d);
   };
-  const upadateEndDate = e => {
-    let d = new Date(e?.nativeEvent?.timestamp);
+  const upadateEndDate = (e, ios) => {
+    let d = ios ? e : new Date(e?.nativeEvent?.timestamp);
     setIsDate2(false);
 
     setEndDate(d);
@@ -130,6 +179,7 @@ const DashboardScreen = ({navigation}) => {
       secondText: "Hi, we aren't ready to start our class today...",
     },
   ]);
+  const [cources, setCources] = useState([]);
   const [list, setList] = useState([
     {
       id: 0,
@@ -171,7 +221,54 @@ const DashboardScreen = ({navigation}) => {
   function close() {
     pickerRef.current.blur();
   }
-
+  const createClasses = () => {
+    updateLoadingState({createClassLoading: true});
+    if (
+      arrayCalender.length > 0 &&
+      subject != null &&
+      endDate != null &&
+      endDate != ''
+    ) {
+      let body = {
+        course_id: subject,
+        from: moment(startDate).format('LT'),
+        to: moment(endDate).format('LT'),
+        schedule: arrayCalender,
+      };
+      console.log(235, body);
+      // axios.defaults.headers.common['Authorization'] = userData.token;
+      axios
+        .post(CreateClassUrl, body, {
+          headers: {Authorization: `Bearer ${userData.token}`},
+        })
+        .then(function (res) {
+          updateLoadingState({createClassLoading: false});
+          console.log(51, res.data.data);
+        })
+        .catch(function (error) {
+          console.log(245, error.response.data);
+          updateLoadingState({createClassLoading: false});
+          errorMessage(errorHandler(error));
+        });
+    } else {
+      errorMessage('Please Select All Fields');
+      console.log('sfls');
+      updateLoadingState({createClassLoading: false});
+    }
+  };
+  const getApiData = (url, state, loading) => {
+    updateLoadingState({loading: true});
+    axios
+      .get(url)
+      .then(function (response) {
+        updateState({courcesState: response.data.data});
+        updateLoadingState({loading: false});
+      })
+      .catch(function (error) {
+        updateLoadingState({loading: false});
+        errorMessage(errorHandler(error));
+      });
+  };
   const DropDownView = () => {
     return (
       <View style={styles.inputView}>
@@ -188,9 +285,11 @@ const DashboardScreen = ({navigation}) => {
             testID="startDatePicker"
             value={startDate}
             mode={'time'}
-            is24Hour={false}
-            display="default"
+            is24Hour={true}
+            display="clock"
             themeVariant="light"
+            accentColor="red"
+            textColor="white"
             style={styles.datePicker}
             onChange={e => {
               upadateStartDate(e);
@@ -208,22 +307,27 @@ const DashboardScreen = ({navigation}) => {
             </Text>
           </TouchableOpacity>
         ) : (
-          <DateTimePicker
-            testID="startDatePicker"
-            mode={'time'}
-            value={startDate}
-            minimumDate={startDate}
-            is24Hour={false}
-            display="default"
-            themeVariant="light"
-            style={styles.datePicker}
-            onChange={e => {
-              upadateStartDate(e);
-            }}
-            onTouchCancel={() => {
-              console.log(276), setIsDate(false);
-            }}
-          />
+          <>
+            <TouchableOpacity
+              onPress={() => setIsVisibleTime(true)}
+              style={styles.dateContainer}>
+              <Text style={styles.dateText}>
+                {moment(startDate).format('LT')}
+              </Text>
+            </TouchableOpacity>
+            <DateTimePickerModal
+              mode={'time'}
+              isVisible={isVisibleTime}
+              onConfirm={e => {
+                console.log(225, e);
+                upadateStartDate(e, true);
+                setIsVisibleTime(false);
+              }}
+              onCancel={() => {
+                console.log(276), setIsVisibleTime(false);
+              }}
+            />
+          </>
         )}
         <Text
           style={{
@@ -240,7 +344,7 @@ const DashboardScreen = ({navigation}) => {
               value={endDate}
               mode={'time'}
               minimumDate={startDate}
-              is24Hour={false}
+              is24Hour={true}
               display="default"
               style={styles.datePicker}
               themeVariant="light"
@@ -254,23 +358,27 @@ const DashboardScreen = ({navigation}) => {
             />
           </>
         ) : endDate != null && Platform.OS == 'ios' ? (
-          <DateTimePicker
-            testID="endDatePicker"
-            mode={'time'}
-            value={endDate}
-            minimumDate={endDate}
-            is24Hour={false}
-            display="default"
-            style={styles.datePicker}
-            themeVariant="light"
-            onChange={e => {
-              upadateEndDate(e);
-              // console.log(143, startDate), setIsDate(false);
-            }}
-            onTouchCancel={() => {
-              console.log(276), setIsDate(false);
-            }}
-          />
+          <>
+            <TouchableOpacity
+              onPress={() => setIsVisibleEndTime(true)}
+              style={styles.dateContainer}>
+              <Text style={styles.dateText}>
+                {moment(endDate).format('LT')}
+              </Text>
+            </TouchableOpacity>
+            <DateTimePickerModal
+              mode={'time'}
+              isVisible={isVisibleEndTime}
+              onConfirm={e => {
+                console.log(225, e);
+                upadateEndDate(e, true);
+                setIsVisibleEndTime(false);
+              }}
+              onCancel={() => {
+                console.log(276), setIsVisibleEndTime(false);
+              }}
+            />
+          </>
         ) : endDate != null && isDate2 == false && Platform.OS == 'android' ? (
           <TouchableOpacity
             onPress={() => setIsDate2(true)}
@@ -280,9 +388,9 @@ const DashboardScreen = ({navigation}) => {
         ) : (
           <View
             style={{
-              backgroundColor: '#E0E0E0',
+              backgroundColor: colorTutor_.topNavigationColor,
               height: hp('4.5'),
-              width: wp('33'),
+              width: wp('29'),
               borderRadius: 8,
             }}
           />
@@ -315,6 +423,8 @@ const DashboardScreen = ({navigation}) => {
         selected: true,
         color: '#00B0BF',
         textColor: '#FFFFFF',
+        borderRadius: 20,
+        fontWeight: 'bold',
       };
     });
     let serviceDate = moment(date);
@@ -322,13 +432,20 @@ const DashboardScreen = ({navigation}) => {
     setSelectedDate(selectedDate);
     setMarkedDates(markedDates);
   };
-
+  useEffect(() => {
+    getApiData(GetCourcesUrl, 'courcesState', 'courcesLoading');
+    // getApiData(GetCourcesUrl, 'courcesState', 'courcesLoading');
+  }, []);
   return (
     <View
       style={{
         backgroundColor: colorTutor_.ipalBlue,
         flex: 1,
       }}>
+      <StatusBar
+        hidden={false}
+        barStyle={Platform.OS == 'ios' ? 'dark-content' : 'default'}
+      />
       <HeaderComponent
         // profileOnPress={() => navigation.navigate('ProfileScreen')}
         profileOnPress={() => navigation.navigate('SettingScreen')}
@@ -387,7 +504,7 @@ const DashboardScreen = ({navigation}) => {
               <ButtonIconComp
                 style={{width: wp('90'), height: hp('7')}}
                 TextStyle={{fontSize: hp('2.6')}}
-                onPress={() => console.log('Create Class')}
+                onPress={() => createClasses()}
                 text="Create Class"
                 size={hp('5.5')}
                 name={'add'}
@@ -406,14 +523,13 @@ const DashboardScreen = ({navigation}) => {
           <ScrollView contentContainerStyle={styles.container}>
             <View style={styles.myClassViewDashBoard}>
               <View style={{flexDirection: 'row'}}>
-                <Ionicons name={'arrow-back'} size={hp('2')} color="white" />
+                <Ionicons onPress={()=>updateState({classState:false})}  name={'arrow-back'} size={hp('3')} color="white" /> 
                 <TextComp
                   style={{marginLeft: wp('3'), color: colorTutor_.TxtColor}}
                   text="My Classes"
                 />
               </View>
             </View>
-            <View></View>
             <Calendar
               style={{width: wp('90'), alignSelf: 'center', borderRadius: 10}}
               markingType={'period'}
@@ -436,8 +552,11 @@ const DashboardScreen = ({navigation}) => {
                 style={styles.picker}
                 selectedValue={subject}
                 onValueChange={(itemValue, itemIndex) => setSubject(itemValue)}>
-                <Picker.Item label="English" value="English" />
-                <Picker.Item label="French" value="French" />
+                <Picker.Item label={'Please Select Subject'} value={null} />
+                {courcesState.length > 0 &&
+                  courcesState.map(res => {
+                    return <Picker.Item label={res.title} value={res.id} />;
+                  })}
               </Picker>
             </View>
             <View>
@@ -456,7 +575,8 @@ const DashboardScreen = ({navigation}) => {
                 style={styles.createClass}
                 TextStyle={{fontSize: hp('2')}}
                 text={'Create class'}
-                onPress={() => setClassState(false)}
+                onPress={() => createClasses()}
+                isLoading={createClassLoading}
               />
             </View>
           </ScrollView>
@@ -465,7 +585,7 @@ const DashboardScreen = ({navigation}) => {
             <View style={styles.classDashBoard}>
               <TextComp text={'My Classes'} />
               <TouchableOpacity
-                onPress={() => setClassState(true)}
+                onPress={() => updateState({classState:true})} //
                 style={styles.plusView}>
                 <Ionicons name={'add'} size={hp('3')} color="white" />
               </TouchableOpacity>
@@ -507,10 +627,10 @@ const DashboardScreen = ({navigation}) => {
       )}
 
       <View style={styles.bottomBar}>
-        <TouchableOpacity onPress={() => console.log('dont have you acc')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Category')}>
           <Text style={globalStyles.globalModuletutor}>Term of use</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => console.log('dont have you acc')}>
+        <TouchableOpacity onPress={() => dispatch({type: types.LogoutType})}>
           <Text style={globalStyles.globalModuletutor}>Privacy Policy</Text>
         </TouchableOpacity>
       </View>
