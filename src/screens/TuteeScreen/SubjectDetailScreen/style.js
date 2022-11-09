@@ -23,6 +23,7 @@ export const styles = StyleSheet.create({
     height: Dimensions.get('window').width * 0.25,
   },
   circleImageView:{
-    flexDirection:'row'
+    flexDirection:'row',
+    
   }
 });
