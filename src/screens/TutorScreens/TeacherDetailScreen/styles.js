@@ -137,4 +137,9 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: hp('2'),
   },
+  innerBottomView: {
+    flexDirection: 'row',
+    width: wp('18'),
+    justifyContent: 'center',
+  },
 });

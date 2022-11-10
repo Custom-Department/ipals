@@ -4,9 +4,10 @@ import {
   View,
   ScrollView,
   Dimensions,
+  RefreshControl,
   StatusBar,
 } from 'react-native';
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef, useCallback} from 'react';
 import {styles} from './style';
 import {globalStyles} from '../../../config/globalStyles';
 import {HeaderComponent} from '../../../components/HeaderComponent/HeaderComponent';
@@ -42,6 +43,7 @@ import {SkypeIndicator} from 'react-native-indicators';
 import {errorMessage} from '../../../config/NotificationMessage';
 import {ClassesDetailView} from '../../../components/ClassesDetailView/ClassesDetailView';
 import {PendingReqComp} from '../../../components/PendingReqComp/PendingReqComp';
+import {store} from '../../../Redux/Reducer';
 
 const TuteeDashboardScreen = ({navigation}) => {
   const {userData} = useSelector(state => state.userData);
@@ -118,6 +120,23 @@ const TuteeDashboardScreen = ({navigation}) => {
 
     setEndDate(d);
   };
+  const wait = timeout => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  };
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = useCallback(() => {
+    updateLoadingState({
+      acceptLoading: true,
+      pendingLoading: true,
+      GetTeacherLoading: true,
+    });
+    wait(2000).then(() => {
+      getApiData(GetTeachreClasses, 'GetTeacherState', 'GetTeacherLoading');
+      getApiData(GetPendingClassesUrl, 'pendingClassState', 'pendingLoading');
+      getApiData(GetApprovedClassesUrl, 'acceptClassState', 'acceptLoading');
+      setRefreshing(false);
+    });
+  }, []);
   const [message, setMessage] = useState([
     {
       id: 0,
@@ -512,70 +531,60 @@ const TuteeDashboardScreen = ({navigation}) => {
         barStyle={Platform.OS == 'ios' ? 'dark-content' : 'default'}
       />
       <HeaderComponent
-      bellOnPress={()=>console.log('bell')}
+        bellOnPress={() => console.log('bell')}
         navigatorName={topNavigator}
         search={true}
         checkIndexStatus={checkIndexStatus}
+        searchFun={() => navigation.navigate('SeacrhFilterScreen')}
       />
       {/* <FilterScreen /> */}
 
-      {index == 0 &&
-        (GetTeacherLoading ? (
-          <SkypeIndicator
-            color={'white'}
-            size={hp('4')}
-            style={{
-              alignSelf: 'center',
-              justifyContent: 'center',
-            }}
-          />
-        ) : GetTeacherState?.length > 0 ? (
-          <TuteeHomeFlatListComp
-            navigate={navigateTeacher}
-            data={GetTeacherState}
-          />
-        ) : (
-          // <FlatList
-          //   data={tutors}
-          //   keyExtractor={(item, index) => index.toString()}
-          //   numColumns={2}
-          //   contentContainerStyle={{
-          //     width: wp('95'),
-          //     alignSelf: 'center',
-          //     paddingBottom: hp('15'),
-          //   }}
-          //   renderItem={({item}) => {
-          //     return <TuteeHomeComp data={item} />;
-          //   }}
-          // />
-          <View>
-            <View style={styles.classDashBoard}>
-              <TextComp text="My Classes" />
-              <HorizontalDividerComp color={colorTutor_.blue} />
-            </View>
-            <InformationTextView text={'You don’t have Classes '} />
-            <View
+      {index == 0 && (
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{flex: 1}}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }>
+          {GetTeacherLoading ? (
+            <SkypeIndicator
+              color={'white'}
+              size={hp('4')}
               style={{
+                alignSelf: 'center',
                 justifyContent: 'center',
-                alignItems: 'center',
-                marginTop: hp('4'),
-              }}>
-              <ButtonIconComp
-                style={{width: wp('90'), height: hp('7')}}
-                TextStyle={{fontSize: hp('2.6')}}
-                onPress={() => console.log('Create Class')}
-                text="Create Class"
-                size={hp('5.5')}
-                name={'add'}
-              />
+              }}
+            />
+          ) : GetTeacherState?.length > 0 ? (
+            <TuteeHomeFlatListComp
+              navigate={navigateTeacher}
+              data={GetTeacherState}
+            />
+          ) : (
+            // <FlatList
+            //   data={tutors}
+            //   keyExtractor={(item, index) => index.toString()}
+            //   numColumns={2}
+            //   contentContainerStyle={{
+            //     width: wp('95'),
+            //     alignSelf: 'center',
+            //     paddingBottom: hp('15'),
+            //   }}
+            //   renderItem={({item}) => {
+            //     return <TuteeHomeComp data={item} />;
+            //   }}
+            // />
+            <View>
+              <View style={styles.classDashBoard}>
+                <TextComp text="My Classes" />
+                <HorizontalDividerComp color={colorTutor_.blue} />
+              </View>
+              <InformationTextView text={'You don’t have Classes '} />
             </View>
-            <View style={{...styles.classDashBoard, marginTop: hp('6')}}>
-              <TextComp text="Pending Requests" />
-              <HorizontalDividerComp width={'53'} color={colorTutor_.blue} />
-            </View>
-            <InformationTextView text={'You don’t have pending requests.'} />
-          </View>
-        ))}
+          )}
+        </ScrollView>
+      )}
+
       {index == 1 && (
         <ScrollView
           // refreshControl={
@@ -605,7 +614,7 @@ const TuteeDashboardScreen = ({navigation}) => {
         <TouchableOpacity onPress={() => dispatch({type: types.LogoutType})}>
           <Text style={globalStyles.globalModuletutor}>Term of use</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => console.log('dont have you acc')}>
+        <TouchableOpacity>
           <Text style={globalStyles.globalModuletutor}>Privacy Policy</Text>
         </TouchableOpacity>
       </View>
@@ -682,7 +691,6 @@ export const FilterScreen = () => {
     ZipCodeData: 'ZipCodeData',
   };
   const getTutorValue = (value, State) => {
-    console.log(113, State, value);
     setTutorValue(pre => ({
       ...tutorValue,
       [State]: value,

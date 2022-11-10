@@ -38,7 +38,10 @@ const PickerComponent = props => {
           props?.data.length > 0 &&
           props?.data?.map(item => {
             return (
-              <Picker.Item label={item?.title || item?.name} value={item.id} />
+              <Picker.Item
+                label={item?.title || item?.name || item?.label}
+                value={item.id}
+              />
             );
           })}
       </Picker>

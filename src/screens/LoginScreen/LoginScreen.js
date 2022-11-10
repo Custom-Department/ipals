@@ -27,7 +27,8 @@ import axios from 'react-native-axios';
 
 const LoginScreen = ({navigation}) => {
   const [loginData, setLoginData] = useState({
-    email: 'test@teacher.com',
+    email: 'studentr@test.com',
+    // email: 'test@teacher.com',
     password: '12345678',
   });
   const dispatch = useDispatch();
@@ -98,7 +99,8 @@ const LoginScreen = ({navigation}) => {
         // onPress={() => navigation.navigate('TuteeDashboardScreen')}
       />
       <View style={styles.forgetView}>
-        <TouchableOpacity onPress={()=>navigation.navigate('TuteeDashboardScreen')}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('TuteeDashboardScreen')}>
           <Text style={globalStyles.globalTextStyles2}>Forget email?</Text>
         </TouchableOpacity>
         <TouchableOpacity>

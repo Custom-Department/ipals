@@ -58,7 +58,6 @@ import {useCallback} from 'react';
 var arrayCalender = [];
 const DashboardScreen = ({navigation}) => {
   const {userData} = useSelector(state => state.userData);
-  console.log(61,userData);
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
@@ -818,7 +817,7 @@ const DashboardScreen = ({navigation}) => {
       } */}
 
       <View style={styles.bottomBar}>
-        <TouchableOpacity onPress={() => navigation.navigate('Category')}>
+        <TouchableOpacity onPress={() => dispatch({type: types.LogoutType})}>
           <Text style={globalStyles.globalModuletutor}>Term of use</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => dispatch({type: types.LogoutType})}>

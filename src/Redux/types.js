@@ -7,4 +7,5 @@ export default {
   UnSavePendingPackages: 'UnSavePendingPackages',
   UpdateCountValue: 'UpdateCountValue',
   DeleteAllPackages: 'DeleteAllPackages',
+  TutorLogoutType: 'TutorLogoutType',
 };

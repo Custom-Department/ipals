@@ -22,32 +22,45 @@ export const BackHeaderComponent = props => {
             alignItems: 'center',
           }}>
           <Ionicons
-            onPress={() => navigation.goBack()} 
+            onPress={() => navigation.goBack()}
             style={styles.cameraStyle}
             name="arrow-back"
-            size={hp('4')}
+            size={hp('3')}
             color="white"
           />
         </View>
+        <Text style={styles.headingText}>{props?.heading}</Text>
         <View style={styles.iconView}>
-          {props?.changeIcon1?props?.changeIcon1:<Octicons
-            onPress={() => props?.bellOnPress()}
-            name={props?.name1}
-            size={hp('3')}
-            color={colorTutor_.blue}
-          />}
-            {props?.changeIcon2?props?.changeIcon2:<Ionicons
+          {props?.changeIcon1 ? (
+            props?.changeIcon1
+          ) : (
+            <Octicons
+              onPress={() => props?.bellOnPress()}
+              name={props?.name1}
+              size={hp('3')}
+              color={colorTutor_.blue}
+            />
+          )}
+          {props?.changeIcon2 ? (
+            props?.changeIcon2
+          ) : (
+            <Ionicons
               onPress={() => console.log('Setting')}
               name={props?.name2}
               size={hp('3')}
               color={colorTutor_.blue}
-            />}
-          {props?.changeIcon3 ?props?.changeIcon3:<Ionicons
-            onPress={() => props?.settingOnPress()}
-            name={props?.name3}
-            size={hp('3')}
-            color={colorTutor_.blue}
-          />}
+            />
+          )}
+          {props?.changeIcon3 ? (
+            props?.changeIcon3
+          ) : (
+            <Ionicons
+              onPress={() => props?.settingOnPress()}
+              name={props?.name3}
+              size={hp('3')}
+              color={colorTutor_.blue}
+            />
+          )}
         </View>
       </View>
     </View>

@@ -10,7 +10,8 @@ import {SkypeIndicator} from 'react-native-indicators';
 export const ButtonThemeComp = props => {
   return (
     <TouchableOpacity
-      disabled={props?.isLoading}
+      // disabled={true}
+      disabled={props.disabled ? props.disabled : props?.isLoading}
       onPress={() => props?.onPress()}
       style={{...styles.ButtonView, ...props?.style}}>
       {props.isLoading ? (
