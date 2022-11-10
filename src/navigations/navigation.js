@@ -23,6 +23,7 @@ export default function StackNavigatior() {
             component={Tutor.DashboardScreen}
             />
         <Stack.Screen name="SettingScreen" component={Tutor.SettingScreen} />
+
         </>
 
         ) : userData?.user?.user_type == 'student' ? (
@@ -35,6 +36,8 @@ export default function StackNavigatior() {
             name="SubjectDetailScreen"
             component={Tutee.SubjectDetailScreen}
           />
+        <Stack.Screen name="SettingScreen" component={Tutor.SettingScreen} />
+
           </>
         ) : (
           <>
@@ -47,6 +50,7 @@ export default function StackNavigatior() {
             name="SubjectDetailScreen"
             component={Tutee.SubjectDetailScreen}
           />
+
             <Stack.Screen
               name="OnboardScreen"
               component={screens.OnboardScreen}

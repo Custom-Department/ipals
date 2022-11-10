@@ -27,7 +27,9 @@ import axios from 'react-native-axios';
 
 const LoginScreen = ({navigation}) => {
   const [loginData, setLoginData] = useState({
-    email: 'test@teacher.com',
+    // email: 'test@teacher.com',
+    // password: '12345678',
+    email: 'teacher@test4com',
     password: '12345678',
   });
   const dispatch = useDispatch();
@@ -39,7 +41,7 @@ const LoginScreen = ({navigation}) => {
     if (
       email != '' &&
       password != '' &&
-      reg.test(email) === true &&
+      reg.test(email) === false &&
       password.length >= 8
     ) {
       let body = {

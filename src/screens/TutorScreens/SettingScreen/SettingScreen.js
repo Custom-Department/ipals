@@ -9,9 +9,8 @@ import {
   StyleSheet,
   FlatList,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import {colorTutor_} from '../../../config/color';
-
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -32,10 +31,20 @@ import {LoginInputComp} from '../../../components/LoginInputComp/LoginInputComp'
 import ChildAccountView from '../../../components/ChildAccountView/ChildAccountView';
 import {PendingReqComp} from '../../../components/PendingReqComp/PendingReqComp';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import { useDispatch } from 'react-redux';
 import types from '../../../Redux/types';
+import axios from 'react-native-axios';
+import { GetCourseUrl, UpdateProfileUrl } from '../../../config/Urls';
+import { errorHandler } from '../../../config/helperFunction';
+import { errorMessage } from '../../../config/NotificationMessage';
 
-const SettingScreen = () => {
+const SettingScreen = ({route}) => {
+  
+  const {user,token}=route.params;
+  // const item=route.params;
+  console.log(41,token);
+
   const dispatch=useDispatch();
   const [list, setList] = useState([
     {
@@ -75,6 +84,11 @@ const SettingScreen = () => {
     createAccoutState: false,
     childAccState: false,
     deleteAccState: false,
+    BioData:user?.bio,
+    isLoading:false,
+    userImage: [],
+    subjectModelLoader:false,
+    subjectModelList:[]
   });
   const updateState = data => setStateChange(() => ({...stateChange, ...data}));
   const {
@@ -83,8 +97,138 @@ const SettingScreen = () => {
     createAccoutState,
     childAccState,
     deleteAccState,
+    BioData,
+    isLoading,
+    userImage,
+    subjectModelLoader,
+    subjectModelList
   } = stateChange;
 
+  useEffect(() => {
+    ProfileScreen()
+    console.log('outside Console')
+    
+  
+    return () => {
+      console.log('inside Console')
+    }
+  }, [])
+  
+  // const loginUserFun = () => {
+  //   // setIsloading(true);
+  //   const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  //   if (
+  //     email != '' &&
+  //     password != '' &&
+  //     reg.test(email) === true &&
+  //     password.length >= 8
+  //   ) {
+  //     let body = {
+  //       email: email,
+  //       password: password,
+  //     };
+  //     axios
+  //       .post(LoginUrl, body)
+  //       .then(function (res) {
+  //         setIsloading(false);
+  //         dispatch({
+  //           type: types.LoginType,
+  //           payload: res.data.data,
+  //         });
+  //       })
+  //       .catch(function (error) {
+  //         setIsloading(false);
+  //         console.log(54, error);
+  //         errorMessage(errorHandler(error));
+  //       });
+  //   } else {
+  //     setIsloading(false);
+  //     errorMessage('Please type correct information');
+  //   }
+  // };
+
+
+  // const updateProfileFunc =()=>{
+  //   updateState({isLoading:true})
+  //   if(BioData !=null && BioData !='' && userImage !=null && userImage != ''){
+  //       let body={
+  //         profile_image:userImage,
+  //         bio:BioData
+  //       }
+  //       axios.post(UpdateProfileUrl,body).then(
+  //         res=>{
+  //         updateState({isLoading:false})
+  //         dispatch({
+  //         type: types.LoginType,
+  //         payload: res.data.data,
+  //       });
+  //         }
+  //       )
+  //       .catch(function (error) {
+  //         updateState({isLoading:false})
+
+  //                 console.log(54, error);
+  //                 errorMessage(errorHandler(error));
+  //               });
+  //           } else {
+  //             updateState({isLoading:false})
+  //             errorMessage('Please type correct information');
+  //           }
+  //   }
+  // }
+
+
+  const getSubjectFunct = () => {
+    updateState({subjectModelLoader: true});
+    axios
+      .get(GetCourseUrl, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(function (response) {
+        updateState({subjectModelList: response.data.data});
+        // updateLoadingState({[loading]: false});
+    updateState({subjectModelLoader: false});
+      })
+      .catch(function (error) {
+        // updateLoadingState({[loading]: false});
+        updateState({subjectModelLoader: false});
+        errorMessage(errorHandler(error));
+      });
+  };
+  const pickImagesFromGalary = () => {
+
+    launchImageLibrary(
+      {
+        selectionLimit: 1,
+        mediaType: 'photo',
+        quality: 0.5,
+        maxWidth: 300,
+        maxHeight: 300,
+      },
+      res => {
+        if (!res?.didCancel) {
+          updateState({userImage: res?.assets});
+          console.log(164,userImage)
+        }
+      },
+    );
+  };
+  // const pickImagefromCamera = () => {
+  //   launchCamera(
+  //     {
+  //       selectionLimit: 1,
+  //       mediaType: 'photo',
+  //       quality: 0.5,
+  //       maxWidth: 300,
+  //       maxHeight: 300,
+  //     },
+  //     res => {
+  //       if (!res?.didCancel) {
+  //         updateState({userImage: res?.assets});
+  //       }
+  //     },
+  //   );
+  // };
   const ProfileScreen = () => {
     return (
       <Animatable.View animation="fadeInRight">
@@ -98,6 +242,7 @@ const SettingScreen = () => {
               onPress={() => updateState({editState: false})}
             />
           </View>
+          
           <ImageBackground
             style={{
               justifyContent: 'center',
@@ -112,19 +257,25 @@ const SettingScreen = () => {
                   Dimensions.get('window').height,
               ),
             }}
-            source={require('../../../image/userprofile.jpg')}>
-            <FontAwesome name="camera" size={hp('3.8')} color="white" />
+            source={{uri:userImage.length>0?userImage[0]?.uri:user?.profileImageLink}}            
+            >
+            <FontAwesome onPress={()=>pickImagesFromGalary()} name="camera" size={hp('3.8')} color="white" />
           </ImageBackground>
-          <TextComp style={styles.textharMatin} text={'Harley Martin'} />
+          <TextComp style={styles.textharMatin} text={user?.f_name+" "+user?.l_name} />
           <View
             style={{
               flexDirection: 'row',
-              width: wp('70'),
-              justifyContent: 'space-evenly',
+              width: wp('100'),
+              alignItems:'center',
+              justifyContent: 'center',
+              flexWrap:'wrap',
+              display:'flex'
             }}>
-            <View style={styles.subView}>
+          {user?.course.map(res =>{
+            return(
+              <View style={styles.subView}>
               <TextComp
-                text="English"
+                text={res?.title}
                 style={{
                   fontSize: hp('1.3'),
                   textAlign: 'center',
@@ -132,32 +283,30 @@ const SettingScreen = () => {
                 }}
               />
             </View>
-            <View style={styles.subView}>
-              <TextComp
-                text="Math"
-                style={{fontSize: hp('1.3'), color: 'white'}}
-              />
-            </View>
-            <View style={styles.subView}>
-              <TextComp
-                text="Physics"
-                style={{fontSize: hp('1.3'), color: 'white'}}
-              />
-            </View>
-            <View
+            )
+          })}
+        
+            
+            <TouchableOpacity
+              onPress={()=>getSubjectFunct()}
               style={{...styles.subView, backgroundColor: colorTutor_.blue}}>
               <TextComp
                 text="Add Subject"
                 style={{fontSize: hp('1.3'), color: 'white'}}
               />
-            </View>
+            </TouchableOpacity>
           </View>
-          <View style={styles.desView}>
-            <TextComp
-              style={styles.textdes}
-              text={`Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,when an unknown printer took a galley of type and scrambled it to make a type specimen book.It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.`}
+          <LoginInputComp
+              placeholder={'About Yourself'}
+              style={{height: hp('20'),  width: wp('95')}}
+              value={BioData}
+              onChangeText={BioData => updateState({BioData: BioData})}
+              multiline={true}
+              inputStyle={{
+                alignSelf: 'flex-start',
+                paddingTop: hp('2'),
+              }}
             />
-          </View>
           <ButtonThemeComp
             TextStyle={{fontSize: hp('1.9')}}
             style={{

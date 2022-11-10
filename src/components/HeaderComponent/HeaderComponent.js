@@ -56,7 +56,7 @@ export const HeaderComponent = props => {
             />
           )}
           <Ionicons
-            onPress={() => props?.profileOnPress()?props?.profileOnPress():console.log("hello")}
+            onPress={() => {props?.profileOnPress() ? props?.profileOnPress():console.log("hello")}}
             name="settings"
             size={hp('3')}
             color={colorTutor_.blue}

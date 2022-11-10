@@ -27,6 +27,8 @@ export const CreateStudentRequestUrl = getApi('student/student-request');
 export const GetTeacherClassesUrl = getApi('student/get-teacher-class/');
 export const GetApprovedClassesUrl = getApi('student/get-approve-class');
 export const GetPendingClassesUrl = getApi('student/get-pending-class');
+export const UpdateProfileUrl = getApi('profile-update');
+export const GetCourseUrl = getApi('get-course');
 export const StripePublishKey =
   'pk_test_51LI9HwEE1bl5YY9CXbeFOKtVHFcnF3Vr6cNpK50WFsAHQFU9pcenE3iSddJ2pzdx7IIPwzXG6plCCxXwet33HpIG00nyziJs1r';
 // export const StripePublishKey =

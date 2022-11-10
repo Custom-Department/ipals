@@ -65,8 +65,12 @@ export default styles = StyleSheet.create({
     paddingRight: hp('1.5'),
     alignSelf: 'center',
     marginTop: hp('1'),
+    marginRight:wp('1'),
+    marginLeft:wp('1')
+
   },
   desView: {
+    width:wp('90'),
     marginTop: hp('3'),
     backgroundColor: 'white',
     padding: 10,

@@ -83,12 +83,7 @@ const TuteeDashboardScreen = ({navigation}) => {
     setAllLoading(prev => ({...prev, ...data}));
   };
   const date = new Date();
-  // var d = new Date(); // for now
-  // d.getHours(); // => 9
-  // d.getMinutes(); // =>  30
-  // d.getSeconds(); // => 51
-  // console.log(d.getHours())
-  // setHour(d.getHours);
+
   var time = new Date();
   var getTime = time.toLocaleString('en-US', {
     hour: 'numeric',
@@ -97,7 +92,6 @@ const TuteeDashboardScreen = ({navigation}) => {
   });
   const [timezone, setTimeZone] = useState(getTime);
   const time1 = date.setDate(date.getDate() + 1);
-  const [selectedLanguage, setSelectedLanguage] = useState('English');
   const [isDate, setIsDate] = useState(false);
   const [isDate2, setIsDate2] = useState(false);
   const [startDate, setStartDate] = useState(time);
@@ -512,12 +506,12 @@ const TuteeDashboardScreen = ({navigation}) => {
         barStyle={Platform.OS == 'ios' ? 'dark-content' : 'default'}
       />
       <HeaderComponent
+      profileOnPress={() => navigation.navigate('SettingScreen',userData)}
       bellOnPress={()=>console.log('bell')}
         navigatorName={topNavigator}
         search={true}
         checkIndexStatus={checkIndexStatus}
       />
-      {/* <FilterScreen /> */}
 
       {index == 0 &&
         (GetTeacherLoading ? (
@@ -535,19 +529,6 @@ const TuteeDashboardScreen = ({navigation}) => {
             data={GetTeacherState}
           />
         ) : (
-          // <FlatList
-          //   data={tutors}
-          //   keyExtractor={(item, index) => index.toString()}
-          //   numColumns={2}
-          //   contentContainerStyle={{
-          //     width: wp('95'),
-          //     alignSelf: 'center',
-          //     paddingBottom: hp('15'),
-          //   }}
-          //   renderItem={({item}) => {
-          //     return <TuteeHomeComp data={item} />;
-          //   }}
-          // />
           <View>
             <View style={styles.classDashBoard}>
               <TextComp text="My Classes" />
@@ -578,9 +559,6 @@ const TuteeDashboardScreen = ({navigation}) => {
         ))}
       {index == 1 && (
         <ScrollView
-          // refreshControl={
-          //   <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          // }
           contentContainerStyle={{paddingBottom: hp('10')}}
           showsVerticalScrollIndicator={false}>
           <IndexZeroComp />

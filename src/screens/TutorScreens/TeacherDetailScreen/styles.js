@@ -52,13 +52,14 @@ export const styles = StyleSheet.create({
   },
   subView: {
     backgroundColor: colorTutor_.ipallightGreen,
-    borderRadius: 10,
-    paddingTop: hp('0.5'),
-    paddingBottom: hp('0.5'),
-    paddingLeft: hp('1'),
-    paddingRight: hp('1'),
-    alignSelf: 'flex-start',
-    marginTop: hp('1'),
+    borderRadius: 25,
+    padding:5,
+    alignItems:'center',
+    width:wp('18'),
+    marginBottom:hp('1'),
+    marginTop:hp('1'),
+    marginRight:wp('1.5'),
+    marginLeft:wp('1.5'),
   },
   subjectView: {
     flexDirection: 'row',
@@ -121,20 +122,44 @@ export const styles = StyleSheet.create({
     marginRight: wp('2'),
   },
   modalSubjectView: {
-    width: wp('80'),
+    display:'flex',
+    flexWrap:'wrap',
+  
+    width: wp('70'),
+    justifyContent:'center',
     backgroundColor: colorTutor_.ipalBlue,
-    height: hp('5.5'),
     alignSelf: 'center',
     borderRadius: 10,
     flexDirection: 'row',
     marginTop: hp('2'),
     alignItems: 'center',
-    justifyContent: 'space-around',
-    alignContent: 'center',
+    // justifyContent: 'space-around',
   },
   heading: {
     marginLeft: wp('5'),
     fontWeight: 'bold',
     marginTop: hp('2'),
   },
+  schedularView:{
+    
+    width:wp('90'),
+    flexDirection:'row',
+    display:'flex',
+    flexWrap:'wrap',
+    alignSelf:'center',
+    marginTop:hp('2'),
+    marginBottom:hp('5'),
+    paddingBottom:hp('4'),    
+  },
+  schedularInerView:{
+    marginLeft:wp('6.1'),
+    marginBottom:hp('1'),
+    justifyContent:'center',
+    alignItems:'center'
+  },
+  Bottombtn:{
+    alignItems:'center',
+    marginBottom:wp('3'),
+    marginTop:hp('1')
+  }
 });
