@@ -11,7 +11,9 @@ import {TextComp} from '../TextComponent';
 const InformationTextView = props => {
   let name = props?.name ?? 'exclamationcircle';
   return (
-    <TouchableOpacity onPress={() => props?.onPress()} style={styles.container}>
+    <TouchableOpacity
+      onPress={() => console.log('sds')}
+      style={styles.container}>
       <AntDesign
         style={{marginHorizontal: wp('2')}}
         name={name}
@@ -36,7 +38,6 @@ const styles = StyleSheet.create({
     height: hp('7'),
     borderRadius: 5,
     borderColor: 'black',
-    // borderWidth: 1,
     alignItems: 'center',
     padding: 10,
     marginTop: hp('2'),

@@ -36,6 +36,8 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import moment from 'moment/moment';
 import { RadioButton } from 'react-native-paper';
+import {BackHeaderComponent} from '../../../components/BackHeaderComponent/BackHeaderComponent';
+
 const TeacherDetailScreen = ({route, navigation}) => {
   const [checked, setChecked] = useState(false);
   const [scheduleDays, setScheduleDays] = useState([]);
@@ -127,11 +129,20 @@ const TeacherDetailScreen = ({route, navigation}) => {
           width={'40'}
         />
         <View style={styles.centerView}>
-          <FontAwesome name="book" size={hp('2')} color={'gray'} />
-          <TextComp style={{fontSize: hp('1.6')}} text={data.course.title} />
+          <View style={styles.innerBottomView}>
+            <FontAwesome name="book" size={hp('2')} color={'gray'} />
+            <TextComp style={{fontSize: hp('1.6')}} text={data.course.title} />
+          </View>
           <View style={styles.verDivider} />
-          <MaterialIcons name="timer" size={hp('2.5')} color={'gray'} />
-          <TextComp style={{fontSize: hp('1.6')}} text={data.total_hours} />
+          <View
+            style={{
+              ...styles.innerBottomView,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <MaterialIcons name="timer" size={hp('2.5')} color={'gray'} />
+            <TextComp style={{fontSize: hp('1.6')}} text={data.total_hours} />
+          </View>
         </View>
         <ButtonThemeComp
           onPress={() =>{setScheduleDays(data?.class_schedules), updateLoadingState({isVisible: true})}}
@@ -230,7 +241,7 @@ const TeacherDetailScreen = ({route, navigation}) => {
         backgroundColor: colorTutor_.ipalBlue,
         flex: 1,
       }}>
-      <HeaderComponent navigatorName={topNavigator} search={true} />
+      <BackHeaderComponent heading={'Teacher About'} />
       <ScrollView
         contentContainerStyle={{paddingBottom: hp('10')}}
         showsVerticalScrollIndicator={false}>
@@ -295,6 +306,7 @@ const TeacherDetailScreen = ({route, navigation}) => {
             style={{
               alignSelf: 'center',
               justifyContent: 'center',
+              marginTop: hp('10'),
             }}
           />
         ) : (

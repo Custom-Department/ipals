@@ -7,7 +7,7 @@ import {colorTutor_} from '../../config/color';
 
 export default styles = StyleSheet.create({
   topView: {
-    height: Platform.OS == 'ios' ? hp('18') : hp('10'),
+    height: Platform.OS == 'ios' ? hp('12') : hp('10'),
     width: wp('100'),
     backgroundColor: colorTutor_.lightBlue,
     borderBottomLeftRadius: 15,
@@ -33,12 +33,12 @@ export default styles = StyleSheet.create({
     flexDirection: 'row',
     width: wp('98'),
     justifyContent: 'space-between',
+    marginTop: hp('1'),
   },
   iconView: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     width: wp('35'),
-
   },
   mainBtnContainer: {
     flexDirection: 'row',
@@ -75,5 +75,13 @@ export default styles = StyleSheet.create({
   },
   cameraStyle: {
     marginRight: wp('3'),
+    width: wp('18'),
+  },
+  headingText: {
+    color: 'white',
+    fontSize: hp('2'),
+    textAlign: 'center',
+    fontWeight: 'bold',
+    width: wp('50'),
   },
 });

@@ -161,5 +161,10 @@ export const styles = StyleSheet.create({
     alignItems:'center',
     marginBottom:wp('3'),
     marginTop:hp('1')
-  }
+  },
+  innerBottomView: {
+    flexDirection: 'row',
+    width: wp('18'),
+    justifyContent: 'center',
+  },
 });

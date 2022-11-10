@@ -492,10 +492,10 @@ const CreateAccount = ({navigation}) => {
                       Education
                     </Text>
                     <LoginInputComp
-                      secureTextEntry={false}
-                      keyboardType="number-pad"
                       style={{width: wp('45')}}
                       placeholder={'Education'}
+                      secureTextEntry={false}
+                      keyboardType="number-pad"
                       value={EducationData[i]}
                       onChangeText={e => {
                         EducationData[i] = e;
@@ -587,7 +587,6 @@ const CreateAccount = ({navigation}) => {
             }}
             TextStyle={{fontSize: hp('2')}}
             text={'Create Account'}
-            onPress={() => navigation.navigate('TuteeDashboardScreen')}
           />
         </ScrollView>
         {/* <LinkedInModal

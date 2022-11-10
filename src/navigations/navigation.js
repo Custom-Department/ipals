@@ -15,42 +15,39 @@ export default function StackNavigatior() {
           animation: 'slide_from_left',
           headerShown: false,
         }}>
-        {/* <Stack.Screen name="MybottomTabs" component={MybottomTabs} /> */}
-        {userData?.user?.user_type == 'teacher' ? (
-        <>
-        <Stack.Screen
-            name="DashboardScreen"
-            component={Tutor.DashboardScreen}
-            />
-        <Stack.Screen name="SettingScreen" component={Tutor.SettingScreen} />
-
-        </>
-
-        ) : userData?.user?.user_type == 'student' ? (
+        {userData?.user?.user_type == 'student' ? (
           <>
-          <Stack.Screen
-            name="TuteeDashboardScreen"
-            component={Tutee.TuteeDashboardScreen}
-          />
-          <Stack.Screen
-            name="SubjectDetailScreen"
-            component={Tutee.SubjectDetailScreen}
-          />
-        <Stack.Screen name="SettingScreen" component={Tutor.SettingScreen} />
-
+            <Stack.Screen
+              name="TuteeDashboardScreen"
+              component={Tutee.TuteeDashboardScreen}
+            />
+            <Stack.Screen
+              name="SeacrhFilterScreen"
+              component={Tutee.SeacrhFilterScreen}
+            />
+            {/* <Stack.Screen
+              name="SubjectDetailScreen"
+              component={Tutee.SubjectDetailScreen}
+            /> */}
+          </>
+        ) : userData?.user?.user_type == 'teacher' ? (
+          <>
+            <Stack.Screen
+              name="DashboardScreen"
+              component={Tutor.DashboardScreen}
+            />
+            <Stack.Screen
+              name="SettingScreen"
+              component={Tutor.SettingScreen}
+            />
           </>
         ) : (
           <>
             <Stack.Screen name="LoginScreen" component={screens.LoginScreen} />
             <Stack.Screen
-            name="TuteeDashboardScreen"
-            component={Tutee.TuteeDashboardScreen}
-          />
-          <Stack.Screen
-            name="SubjectDetailScreen"
-            component={Tutee.SubjectDetailScreen}
-          />
-
+              name="SubjectDetailScreen"
+              component={Tutee.SubjectDetailScreen}
+            />
             <Stack.Screen
               name="OnboardScreen"
               component={screens.OnboardScreen}
@@ -59,13 +56,17 @@ export default function StackNavigatior() {
               name="CreateAccount"
               component={screens.CreateAccount}
             />
-
           </>
         )}
         {/* <Stack.Screen name="LoginScreen" component={screens.LoginScreen} />
         <Stack.Screen name="OnboardScreen" component={screens.OnboardScreen} />
         <Stack.Screen name="CreateAccount" component={screens.CreateAccount} /> */}
         <Stack.Screen name="ProfileScreen" component={Tutor.ProfileScreen} />
+
+        <Stack.Screen
+          name="TeacherFilterScreen"
+          component={Tutee.TeacherFilterScreen}
+        />
         <Stack.Screen name="MessageScreen" component={Tutor.MessageScreen} />
         <Stack.Screen
           name="TeacherDetailScreen"

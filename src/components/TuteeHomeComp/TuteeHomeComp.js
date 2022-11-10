@@ -24,7 +24,7 @@ export const TuteeHomeComp = props => {
         }}
       />
       <TextComp
-        text={data?.f_name + ' ' + data.id + data.l_name}
+        text={data?.f_name + ' ' + data.l_name}
         style={{marginTop: hp('1'), fontSize: hp('2')}}
       />
       <HorizontalDividerComp style={styles.divider} />
