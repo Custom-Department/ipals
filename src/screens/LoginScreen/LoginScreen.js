@@ -40,7 +40,7 @@ const LoginScreen = ({navigation}) => {
     if (
       email != '' &&
       password != '' &&
-      reg.test(email) === true &&
+      reg.test(email) === false &&
       password.length >= 8
     ) {
       let body = {

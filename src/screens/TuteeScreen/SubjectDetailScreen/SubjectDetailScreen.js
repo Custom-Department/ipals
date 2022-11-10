@@ -6,7 +6,6 @@ import { BackHeaderComponent } from '../../../components/BackHeaderComponent/Bac
 import { CircleImageComp } from '../../../components/CircleImageComp/CircleImageComp'
 const SubjectDetailScreen = ({route}) => {
   const items=route.params;
-  console.log(items,9)
   return (
     <View style={styles.container}>
       <BackHeaderComponent data={true} name3={"settings"} name2={"search"} name1={"bell-fill"} bellOnPress={()=>console.log('bell')} settingOnPress={() => console.log('hello')} />

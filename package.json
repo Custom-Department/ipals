@@ -33,6 +33,7 @@
     "react-native-axios": "^0.17.1",
     "react-native-calendars": "^1.1290.0",
     "react-native-flash-message": "^0.3.1",
+    "react-native-image-picker": "^4.10.0",
     "react-native-indicators": "^0.17.0",
     "react-native-modal-datetime-picker": "^14.0.0",
     "react-native-paper": "^4.12.5",

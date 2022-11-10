@@ -35,11 +35,17 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import moment from 'moment/moment';
+import { RadioButton } from 'react-native-paper';
 import {BackHeaderComponent} from '../../../components/BackHeaderComponent/BackHeaderComponent';
 
 const TeacherDetailScreen = ({route, navigation}) => {
+  const [checked, setChecked] = useState(false);
+  const [scheduleDays, setScheduleDays] = useState([]);
+  const scheduleArray=[];
+  console.log(4222222,scheduleDays)
   const {userData} = useSelector(state => state.userData);
   const item = route.params;
+
   const [topNavigator, setTopNavigator] = useState([
     'HOME',
     'MY CLASSES',
@@ -89,7 +95,7 @@ const TeacherDetailScreen = ({route, navigation}) => {
   //   };
   const getApiData = () => {
     updateLoadingState({startLoading: true});
-    let url = GetTeacherClassesUrl + '10';
+    let url = GetTeacherClassesUrl +'16' ;
     // let url = GetTeacherClassesUrl + item.id;
     axios
       .get(url, {
@@ -139,7 +145,7 @@ const TeacherDetailScreen = ({route, navigation}) => {
           </View>
         </View>
         <ButtonThemeComp
-          onPress={() => updateLoadingState({isVisible: true})}
+          onPress={() =>{setScheduleDays(data?.class_schedules), updateLoadingState({isVisible: true})}}
           style={styles.bottomButton}
           text={'Apply Now'}
         />
@@ -173,7 +179,6 @@ const TeacherDetailScreen = ({route, navigation}) => {
               <View
                 style={{
                   ...styles.subView,
-                  marginTop: hp('1.2'),
                   backgroundColor: colorTutor_.blue,
                 }}>
                 <TextComp
@@ -181,8 +186,46 @@ const TeacherDetailScreen = ({route, navigation}) => {
                   style={{fontSize: hp('1.7'), color: 'white'}}
                 />
               </View>
+                
+
             </View>
+            
             <TextComp text="Select schedule for class" style={styles.heading} />
+            <ScrollView contentContainerStyle={styles.schedularView}>
+                {console.log(187,scheduleArray)}
+              {scheduleDays.map(res => {
+                //  const filterDay=moment(res?.schedule).format('dddd'); 
+                 const Month=moment(res?.schedule).format("MMM Do YY");
+                 const [radio,setRadio]=useState(false);
+                 
+                 if(scheduleArray.includes(res?.schedule))
+                 {
+                   const a = scheduleArray.indexOf(res?.schedule);
+                   scheduleArray.splice(a, 1);
+                 }
+                 else {
+                  scheduleArray.push(res?.schedule)
+                
+                }
+                return (
+                  <View style={styles.schedularInerView}>
+                  <TextComp text={Month}/>
+                  <RadioButton
+                    color='red'
+                    value={radio}
+                    status={ radio === true ? 'checked' : 'unchecked' }
+                    onPress={() =>{setRadio(!radio)}}
+                    />
+                  </View>
+                      )
+              })}
+    
+
+              </ScrollView>
+            <View style={styles.Bottombtn}>
+            <ButtonThemeComp text={'Apply For Class'} />
+
+            </View>
           </View>
         </View>
       </Modal>
@@ -190,6 +233,7 @@ const TeacherDetailScreen = ({route, navigation}) => {
   };
   useEffect(() => {
     getApiData();
+    ModalView()
   }, []);
   return (
     <View
@@ -225,12 +269,14 @@ const TeacherDetailScreen = ({route, navigation}) => {
                 {item.course.length > 0 &&
                   topNavigator.map(res => {
                     return (
+                      
                       <View style={styles.subView}>
                         <TextComp
                           text="English"
                           style={{fontSize: hp('1.3'), color: 'white'}}
                         />
                       </View>
+                      
                     );
                   })}
               </View>
