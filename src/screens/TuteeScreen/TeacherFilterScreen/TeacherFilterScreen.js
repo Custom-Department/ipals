@@ -24,7 +24,8 @@ import {BackHeaderComponent} from '../../../components/BackHeaderComponent/BackH
 
 const TeacherFilterScreen = ({route, navigation}) => {
   const item = route.params.item;
-  const {userData} = useSelector(state => state.userData);
+  const {userData, token} = useSelector(state => state.userData);
+  console.log(20, token);
   const dispatch = useDispatch();
   const [allStates, setAllStates] = useState({
     acceptClassState: [],
@@ -82,10 +83,10 @@ const TeacherFilterScreen = ({route, navigation}) => {
       params: body,
     };
     // console.log(23,config.)
-    config.headers.Authorization = `Bearer ${userData.token}`;
+    config.headers.Authorization = `Bearer ${token}`;
     axios
       .get(url, {
-        headers: {Authorization: `Bearer ${userData.token}`},
+        headers: {Authorization: `Bearer ${token}`},
         params: {
           f_name: '',
           l_name: '',

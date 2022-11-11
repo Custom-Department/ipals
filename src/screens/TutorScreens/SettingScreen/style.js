@@ -9,6 +9,34 @@ export default styles = StyleSheet.create({
     flex: 1,
     marginTop: hp('3'),
   },
+  heading: {
+    marginLeft: wp('5'),
+    fontWeight: 'bold',
+    marginTop: hp('2'),
+  },
+
+daysView: {
+flexDirection: 'row',
+width: wp('90'),
+flexWrap: 'wrap',
+justifyContent: 'space-around',
+},
+
+
+  activitiesContainer: {
+    width: wp('30'),
+    height: hp('6'),
+    borderColor: 'black',
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    marginTop: hp('2'),
+    maxHeight: hp('7'),
+    marginLeft:wp('2'),
+    marginRight:wp('1'),
+    marginBottom:hp('2')
+  },
   midView: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -121,4 +149,25 @@ export default styles = StyleSheet.create({
     width: wp('85'),
     marginTop: hp('3.5'),
   },
+  modalMainView: {
+    position:'absolute',
+    zIndex:1,
+    height:hp('100'),
+    width:wp('100'),
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalInnerView: {
+    
+    width: wp('90'),
+    borderRadius: 10,
+    height: hp('50'),
+    backgroundColor: 'white',
+    overflow: Platform.OS == 'ios' ? 'visible' : 'hidden',
+    zIndex: 1,
+  },
+  Bottombtn:{
+    alignSelf:'center'
+  }
 });

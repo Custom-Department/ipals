@@ -47,7 +47,8 @@ import {Picker} from '@react-native-picker/picker';
 const TeacherDetailScreen = ({route, navigation}) => {
   const [checked, setChecked] = useState(false);
   const [scheduleDays, setScheduleDays] = useState([]);
-  const {userData} = useSelector(state => state.userData);
+  const {userData, token} = useSelector(state => state.userData);
+
   const item = route.params;
 
   const [topNavigator, setTopNavigator] = useState([
@@ -95,7 +96,7 @@ const TeacherDetailScreen = ({route, navigation}) => {
     let url = GetTeacherClassesUrl + item.id;
     axios
       .get(url, {
-        headers: {Authorization: `Bearer ${userData.token}`},
+        headers: {Authorization: `Bearer ${token}`},
       })
       .then(function (response) {
         updateLoadingState({startLoading: false});
@@ -165,29 +166,6 @@ const TeacherDetailScreen = ({route, navigation}) => {
       </View>
     );
   };
-  const getTimeSlots = () => {
-    if (scheduleArray != null && scheduleArray != '') {
-      let body = {
-        course_id: subjectTitle.id,
-        teacher_id: getData[0].user_id,
-        schedule: scheduleArray,
-      };
-      axios
-        .post(GetTimelotUrl, body, {
-          headers: {Authorization: `Bearer ${userData.token}`},
-        })
-        .then(function (res) {
-          updateState({allTimeSlot: res.data.data});
-          updateLoadingState({timeSlotButton: false});
-        })
-        .catch(function (error) {
-          updateLoadingState({timeSlotButton: false});
-          errorMessage(errorHandler(error));
-        });
-    } else {
-      errorMessage('Please Select Date');
-    }
-  };
   const applyForClass = () => {
     updateLoadingState({timeSlotButton: true});
     const from = moment(getSpecData.from, 'h:mm:ss A').format('HH:mm');
@@ -205,7 +183,7 @@ const TeacherDetailScreen = ({route, navigation}) => {
       };
       axios
         .post(CreateStudentRequestUrl, body, {
-          headers: {Authorization: `Bearer ${userData.token}`},
+          headers: {Authorization: `Bearer ${token}`},
         })
         .then(function (res) {
           updateLoadingState({isVisible: false});
@@ -363,7 +341,7 @@ const TeacherDetailScreen = ({route, navigation}) => {
             color={colorTutor_.topNavigationColor}
           />
           <ButtonThemeComp
-            onPress={() => applyClass()}
+            onPress={() => console.log('dmfmd')}
             text="Apply Now"
             style={styles.buttonView}
           />

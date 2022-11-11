@@ -8,4 +8,7 @@ export default {
   UpdateCountValue: 'UpdateCountValue',
   DeleteAllPackages: 'DeleteAllPackages',
   TutorLogoutType: 'TutorLogoutType',
+  UpdateProfile: 'UpdateProfile',
+  SaveToken: 'SaveToken',
+  LoginTypeToken: 'LoginTypeToken',
 };

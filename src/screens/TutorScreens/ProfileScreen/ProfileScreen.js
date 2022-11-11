@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import {HeaderComponent} from '../../../components/HeaderComponent/HeaderComponent';
-import {colorTutor_} from '../../../config/color';
+import {color, colorTutor_} from '../../../config/color';
 import {globalStyles} from '../../../config/globalStyles';
 import {styles} from './style';
 import {
@@ -29,216 +29,221 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import InformationTextView from '../../../components/InformationTextView/InformationTextView';
 import {BackHeaderComponent} from '../../../components/BackHeaderComponent/BackHeaderComponent';
+import {useDispatch, useSelector} from 'react-redux';
+import {LoginInputComp} from '../../../components/LoginInputComp/LoginInputComp';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import axios from 'react-native-axios';
+import {GetCourseUrl, UpdateProfileUrl} from '../../../config/Urls';
+import {useEffect} from 'react';
+import {
+  errorMessage,
+  successMessage,
+} from '../../../config/NotificationMessage';
+import {errorHandler} from '../../../config/helperFunction';
+import types from '../../../Redux/types';
 
-const SettingScreen1 = () => {
-  const [accState, setAccState] = useState(false);
-  const [deleteAccState, setDeleteAccState] = useState(false);
-  const [createChildAcState, setCreateChildAcState] = useState(false);
+const ProfileScreen = ({navigation}) => {
+  const {userData, token} = useSelector(state => state.userData);
 
-  const AccountSettings = () => {
-    return (
-      <Animatable.View
-        animation="fadeInRight"
-        style={settingstyles.setContainer}>
-        <View style={{flexDirection: 'row'}}>
-          <Ionicons
-            name={'md-arrow-back'}
-            size={hp('3')}
-            color={'white'}
-            onPress={() => setAccState(false)}
-          />
-          <TextComp
-            color={colorTutor_.TxtColor}
-            text={'Settings'}
-            style={{
-              marginLeft: wp('3'),
-              marginBottom: hp('2'),
-              fontSize: hp('2'),
-            }}
-          />
-        </View>
-        <TouchableOpacity onPress={() => setCreateChildAcState(true)}>
-          <SettingIconComp
-            changeIcon={
-              <MaterialCommunityIcons
-                name={'account-child'}
-                size={hp('3')}
-                color={'white'}
-              />
-            }
-            text={'Create child account'}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setDeleteAccState(true)}>
-          <SettingIconComp
-            changeIcon={
-              <MaterialIcons name={'delete'} size={hp('3')} color={'white'} />
-            }
-            text={'Delete Account'}
-          />
-        </TouchableOpacity>
-      </Animatable.View>
-    );
+  const dispatch = useDispatch();
+  const [stateChange, setStateChange] = useState({
+    editState: false,
+    accState: false,
+    createAccoutState: false,
+    childAccState: false,
+    deleteAccState: false,
+    BioData: userData?.bio,
+    isLoading: false,
+    userImage: [],
+    subjectModelLoader: false,
+    subjectModelList: [],
+    activities: [],
+    idSubjectArray: [],
+    isVisible: false,
+  });
+  const updateState = data => setStateChange(prev => ({...prev, ...data}));
+  const {
+    editState,
+    accState,
+    createAccoutState,
+    childAccState,
+    deleteAccState,
+    BioData,
+    isLoading,
+    userImage,
+    subjectModelLoader,
+    subjectModelList,
+    activities,
+    idSubjectArray,
+    isVisible,
+  } = stateChange;
+
+  useEffect(() => {
+    getSubjectFunct();
+    return () => {
+      updateState({isVisible: false});
+    };
+  }, []);
+
+  const getSubjectFunct = () => {
+    updateState({subjectModelLoader: true});
+    axios
+      .get(GetCourseUrl, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(function (response) {
+        updateState({subjectModelList: response.data.data});
+        updateState({subjectModelLoader: false});
+      })
+      .catch(function (error) {
+        updateState({subjectModelLoader: false});
+        errorMessage(errorHandler(error));
+      });
   };
 
-  const DeleteAccount = () => {
-    return (
-      <Animatable.View
-        animation="fadeInRight"
-        style={settingstyles.setContainer}>
-        <View style={{flexDirection: 'row'}}>
-          <Ionicons
-            style={styles.icon1}
-            name={'md-arrow-back'}
-            size={hp('3')}
-            color={'white'}
-            onPress={() => setDeleteAccState(false)}
-          />
-          <TextComp
-            color={colorTutor_.TxtColor}
-            text={'Delete account'}
-            style={{
-              marginLeft: wp('3'),
-              marginBottom: hp('2'),
-              fontSize: hp('2'),
-            }}
-          />
-        </View>
-        <TextComp
-          text="Are you sure you want to delete account ?"
-          style={{
-            color: 'white',
-            textAlign: 'center',
-            fontSize: hp('2.0'),
-            marginTop: hp('3'),
-          }}
-        />
-        <View style={styles.buttonView}>
-          <ButtonThemeComp
-            style={{
-              ...styles.yesView,
-            }}
-            text={'Yes'}
-            onPress={() => navigation.navigate('DashboardScreen')}
-          />
-          <ButtonThemeComp
-            style={{
-              backgroundColor: colorTutor_.topNavigationColor,
-              ...styles.yesView,
-            }}
-            text={'No'}
-            onPress={() => navigation.navigate('DashboardScreen')}
-          />
-        </View>
-      </Animatable.View>
-    );
-  };
+  const updateProfileFunc = () => {
+    updateState({isLoading: true});
+    if (activities.length > 0) {
+      activities.map(res => {
+        return idSubjectArray.push(res?.id);
+      });
+    } else {
+      userData?.course?.map(res => {
+        return idSubjectArray.push(res?.id);
+      });
+    }
+    // bodyFormData.append('profile_image',userImage[0]?.fileName);
 
-  const CreateChildAccount = () => {
+    if (BioData != null && BioData != '') {
+      var bodyFormData = new FormData();
+
+      bodyFormData.append('profile_image', {
+        name: userImage[0]?.fileName,
+        uri: userImage[0]?.uri,
+        type: userImage[0]?.type,
+      });
+      bodyFormData.append('bio', BioData);
+      bodyFormData.append('course_id', [1]);
+      console.log(34, bodyFormData);
+      axios
+        .post(UpdateProfileUrl, bodyFormData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+        .then(res => {
+          updateState({isLoading: false});
+          console.log(137, res.data.data);
+          dispatch({
+            type: types.UpdateProfile,
+            payload: {user: res.data.data},
+          });
+          successMessage('Your Profile Successful Updated');
+        })
+        .catch(function (error) {
+          updateState({isLoading: false});
+          console.log(149, error);
+          errorMessage(errorHandler(error));
+        });
+    } else {
+      updateState({isLoading: false});
+      errorMessage('Please type correct information');
+    }
+  };
+  const SubjectDetailScreen = () => {
     return (
-      <Animatable.View
-        animation="fadeInRight"
-        style={settingstyles.setContainer}>
-        <View style={{flexDirection: 'row'}}>
-          <Ionicons
-            style={styles.icon1}
-            name={'md-arrow-back'}
-            size={hp('3')}
-            color={'white'}
-            onPress={() => setCreateChildAcState(false)}
-          />
-          <TextComp
-            color={colorTutor_.TxtColor}
-            text={'Create child account'}
-            style={{
-              marginLeft: wp('3'),
-              marginBottom: hp('2'),
-              fontSize: hp('2'),
-            }}
-          />
-          <InformationTextView text={'You don’t have Classes '} />
+      <View style={styles.modalMainView}>
+        <View style={styles.modalInnerView}>
+          <TextComp text="Select schedule for class" style={styles.heading} />
+          <View style={styles.daysView}>
+            {subjectModelList.length > 0
+              ? subjectModelList.map((res, i) => {
+                  return (
+                    <TouchableOpacity
+                      onPress={() => selectActivities(res, i)}
+                      style={{
+                        ...styles.activitiesContainer,
+                        backgroundColor: activities.includes(res)
+                          ? color.lightPurple
+                          : 'white',
+                        borderColor: activities.includes(res)
+                          ? color.orderBoxColor
+                          : 'black',
+                        borderWidth: activities.includes(res) ? 2 : 1,
+                      }}>
+                      <TextComp
+                        text={res?.title}
+                        style={{
+                          textAlign: 'center',
+                          color: activities.includes(res)
+                            ? color.orderBoxColor
+                            : 'black',
+                          fontWeight: activities.includes(res)
+                            ? 'bold'
+                            : 'normal',
+                          fontSize: hp('1.5'),
+                        }}
+                      />
+                    </TouchableOpacity>
+                  );
+                })
+              : null}
+          </View>
+
+          <View style={styles.Bottombtn}>
+            {/* <ButtonThemeComp onPress={()=>updateState({isVisible:false})} text={'Apply For Class'} /> */}
+            <ButtonThemeComp
+              onPress={() => {
+                updateState({isVisible: false});
+              }}
+              text={'Apply For Class'}
+            />
+          </View>
         </View>
-      </Animatable.View>
+      </View>
     );
   };
-  return accState ? (
-    deleteAccState ? (
-      <DeleteAccount />
-    ) : createChildAcState == true ? (
-      <CreateChildAccount />
-    ) : (
-      <AccountSettings />
-    )
-  ) : (
-    <Animatable.View animation="fadeInLeft" style={settingstyles.setContainer}>
-      <TextComp
-        color={colorTutor_.TxtColor}
-        text={'Settings'}
-        style={{
-          marginLeft: wp('3'),
-          marginBottom: hp('2'),
-          fontSize: hp('2'),
-        }}
-      />
-      <SettingIconComp
-        name={'bell-fill'}
-        text={'Notifications'}
-        switch={true}
-      />
-      <TouchableOpacity onPress={() => setAccState(true)}>
-        <SettingIconComp
-          onPress={() => console.log('hellow')}
-          name={'person-fill'}
-          text={' Account settings'}
-        />
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => setAccState(true)}>
-        <SettingIconComp
-          text={'Edit Profile'}
-          changeIcon={
-            <FontAwesome5
+  const selectActivities = (v, i) => {
+    if (activities.includes(v)) {
+      updateState({
+        activities: activities.filter(activities => activities.id !== v.id),
+      });
+    } else {
+      updateState({activities: [...activities, v]});
+    }
+  };
+  const pickImagesFromGalary = () => {
+    launchImageLibrary(
+      {
+        selectionLimit: 1,
+        mediaType: 'photo',
+        quality: 0.5,
+        maxWidth: 300,
+        maxHeight: 300,
+      },
+      res => {
+        if (!res?.didCancel) {
+          updateState({userImage: res?.assets});
+        }
+      },
+    );
+  };
+  return (
+    <>
+      <Animatable.View animation="fadeInRight">
+        <ScrollView contentContainerStyle={styles.midView}>
+          <View style={{flexDirection: 'row', alignSelf: 'baseline'}}>
+            <Ionicons
               style={styles.icon1}
-              name={'user-edit'}
+              name={'md-arrow-back'}
               size={hp('3')}
               color={'white'}
+              // onPress={() => updateState({editState: false})}
+              onPress={() => navigation.goBack()}
             />
-          }
-        />
-      </TouchableOpacity>
-      <SettingIconComp
-        onPress={() => console.log('hellow')}
-        name={'info'}
-        text={'Help & Guide'}
-      />
-      <SettingIconComp
-        onPress={() => console.log('hellow')}
-        name={'sign-out'}
-        text={' Log out'}
-      />
-    </Animatable.View>
-  );
-};
-export const settingstyles = StyleSheet.create({
-  setContainer: {
-    flex: 1,
-    marginLeft: wp('5'),
-    marginTop: hp('3'),
-  },
-});
-const ProfileScreen = () => {
-  const [settingScreenState, setSettingScreenState] = useState(false);
+          </View>
 
-  return (
-    <View
-      style={{
-        backgroundColor: colorTutor_.ipalBlue,
-        flex: 1,
-      }}>
-      <BackHeaderComponent name3={"settings"} bellOnPress={()=>console.log('bell')} />
-      {settingScreenState == true ? (
-        <SettingScreen1 />
-      ) : (
-        <ScrollView contentContainerStyle={styles.midView}>
           <ImageBackground
             style={{
               justifyContent: 'center',
@@ -253,74 +258,112 @@ const ProfileScreen = () => {
                   Dimensions.get('window').height,
               ),
             }}
-            source={require('../../../image/userprofile.jpg')}>
+            source={{
+              uri:
+                userImage.length > 0
+                  ? userImage[0]?.uri
+                  : userData?.profileImageLink,
+            }}>
             <FontAwesome
-              style={styles.cameraStyle}
+              onPress={() => pickImagesFromGalary()}
               name="camera"
               size={hp('3.8')}
               color="white"
             />
           </ImageBackground>
-          <TextComp style={styles.textharMatin} text={'Harley Martin'} />
+          <TextComp
+            style={styles.textharMatin}
+            text={userData?.f_name + ' ' + userData?.l_name}
+          />
           <View
             style={{
               flexDirection: 'row',
-              width: wp('70'),
-              justifyContent: 'space-evenly',
+              width: wp('100'),
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexWrap: 'wrap',
+              display: 'flex',
             }}>
+            {activities.length > 0
+              ? activities?.map(res => {
+                  return (
+                    <View style={styles.subView}>
+                      <TextComp
+                        text={res?.title}
+                        style={{
+                          fontSize: hp('1.3'),
+                          textAlign: 'center',
+                          color: 'white',
+                        }}
+                      />
+                    </View>
+                  );
+                })
+              : userData?.course?.map(res => {
+                  return (
+                    <View style={styles.subView}>
+                      <TextComp
+                        text={res?.title}
+                        style={{
+                          fontSize: hp('1.3'),
+                          textAlign: 'center',
+                          color: 'white',
+                        }}
+                      />
+                    </View>
+                  );
+                })}
+
+            {/* { activities.length>0?activities?.map: userData?.user?.course?.map (res =>{
+          return(
             <View style={styles.subView}>
-              <TextComp
-                text="English"
-                style={{
-                  fontSize: hp('1.3'),
-                  textAlign: 'center',
-                  color: 'white',
-                }}
-              />
-            </View>
-            <View style={styles.subView}>
-              <TextComp
-                text="Math"
-                style={{fontSize: hp('1.3'), color: 'white'}}
-              />
-            </View>
-            <View style={styles.subView}>
-              <TextComp
-                text="Physics"
-                style={{fontSize: hp('1.3'), color: 'white'}}
-              />
-            </View>
-            <View
+            <TextComp
+              text={res?.title}
+              style={{
+                fontSize: hp('1.3'),
+                textAlign: 'center',
+                color: 'white',
+              }}
+            />
+          </View>
+          )
+        })} */}
+            <TouchableOpacity
+              onPress={() => {
+                updateState({isVisible: true});
+              }}
               style={{...styles.subView, backgroundColor: colorTutor_.blue}}>
               <TextComp
                 text="Add Subject"
                 style={{fontSize: hp('1.3'), color: 'white'}}
               />
-            </View>
+            </TouchableOpacity>
           </View>
-          <View style={styles.desView}>
-            <TextComp
-              style={styles.textdes}
-              text={`Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,when an unknown printer took a galley of type and scrambled it to make a type specimen book.It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.`}
-            />
-          </View>
+          <LoginInputComp
+            placeholder={'About Yourself'}
+            style={{height: hp('20'), width: wp('95')}}
+            value={BioData}
+            onChangeText={BioData => updateState({BioData: BioData})}
+            multiline={true}
+            inputStyle={{
+              alignSelf: 'flex-start',
+              paddingTop: hp('2'),
+            }}
+          />
           <ButtonThemeComp
             TextStyle={{fontSize: hp('1.9')}}
-            style={{width: wp('80'), height: hp('7'), marginVertical: hp('3')}}
-            onPress={() => console.log('Save Profile')}
+            style={{
+              width: wp('80'),
+              height: hp('7'),
+              marginVertical: hp('3'),
+            }}
+            onPress={() => updateProfileFunc()}
             text="Save Profile"
           />
         </ScrollView>
-      )}
-      <View style={styles.bottomBar}>
-        <TouchableOpacity onPress={() => console.log('dont have you acc')}>
-          <Text style={globalStyles.globalModuletutor}>Term of use</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => console.log('dont have you acc')}>
-          <Text style={globalStyles.globalModuletutor}>Privacy Policy</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+      </Animatable.View>
+      {isVisible && <SubjectDetailScreen />}
+    </>
   );
 };
 

@@ -28,9 +28,12 @@ import axios from 'react-native-axios';
 const LoginScreen = ({navigation}) => {
   const [loginData, setLoginData] = useState({
     email: 'studentr@test.com',
+    // email: 'teacher@test.com',
+
     // email: 'test@teacher.com',
     password: '12345678',
   });
+
   const dispatch = useDispatch();
   const [isloading, setIsloading] = useState(false);
   const {email, password} = loginData;
@@ -55,6 +58,10 @@ const LoginScreen = ({navigation}) => {
             type: types.LoginType,
             payload: res.data.data,
           });
+          // dispatch({
+          //   type: types.LoginTypeToken,
+          //   payload: token,
+          // });
         })
         .catch(function (error) {
           setIsloading(false);
@@ -84,6 +91,12 @@ const LoginScreen = ({navigation}) => {
       />
       <LoginInputComp
         ref={inputElement}
+        // ref={nextS.current.focus()}
+        otherProps={{
+          blurOnSubmit: false,
+        }}
+        // onSubmitEditing={()=>divElement.focus()}
+
         placeholder={'Email Address'}
         value={email}
         onChangeText={e => updateState({email: e})}

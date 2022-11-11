@@ -57,7 +57,8 @@ import {useCallback} from 'react';
 
 var arrayCalender = [];
 const DashboardScreen = ({navigation}) => {
-  const {userData} = useSelector(state => state.userData);
+  const {userData, token} = useSelector(state => state.userData);
+
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
@@ -273,7 +274,7 @@ const DashboardScreen = ({navigation}) => {
         data: body,
         params: params,
       };
-      config.headers.Authorization = `Bearer ${userData.token}`;
+      config.headers.Authorization = `Bearer ${token}`;
 
       axios(config)
         .then(function (res) {
@@ -300,7 +301,7 @@ const DashboardScreen = ({navigation}) => {
     updateLoadingState({[loading]: true});
     axios
       .get(url, {
-        headers: {Authorization: `Bearer ${userData.token}`},
+        headers: {Authorization: `Bearer ${token}`},
       })
       .then(function (response) {
         updateState({[state]: response.data.data});
@@ -429,7 +430,7 @@ const DashboardScreen = ({navigation}) => {
 
     axios
       .put(url, body, {
-        headers: {Authorization: `Bearer ${userData.token}`},
+        headers: {Authorization: `Bearer ${token}`},
       })
       .then(function (response) {
         updateLoadingState({pendingLoading: false});
@@ -576,7 +577,7 @@ const DashboardScreen = ({navigation}) => {
     let url = DeleteMyClassUrl + data.id;
     axios
       .delete(url, {
-        headers: {Authorization: `Bearer ${userData.token}`},
+        headers: {Authorization: `Bearer ${token}`},
       })
       .then(function (response) {
         getApiData(GetMyClasses, 'myClassState', 'myClassLoading');
