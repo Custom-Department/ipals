@@ -6,6 +6,7 @@ import {
   Dimensions,
   RefreshControl,
   StatusBar,
+  FlatList,
 } from 'react-native';
 import React, {useEffect, useState, useRef, useCallback} from 'react';
 import {styles} from './style';

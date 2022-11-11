@@ -120,7 +120,7 @@ const ProfileScreen = ({navigation}) => {
         return idSubjectArray.push(res?.id)
        })      
     }
-    console.log(110,idSubjectArray,BioData,userImage[0]?.fileName, userData.token);
+    console.log(110,idSubjectArray,BioData,userImage[0]?.fileName, userData);
     // bodyFormData.append('profile_image',userImage[0]?.fileName);
     bodyFormData.append('profile_image',{
       name: userImage[0]?.fileName,
@@ -138,10 +138,6 @@ const ProfileScreen = ({navigation}) => {
           res=>{
             console.log(146,res)
             updateState({isLoading:false})
-        //   dispatch({
-        //   type: types.LoginType,
-        //   payload: res.data.data,
-        // });
           successMessage("Your Profile Successful Updated")
       }
 
@@ -158,7 +154,7 @@ const ProfileScreen = ({navigation}) => {
             }
     }
   const SubjectDetailScreen = () => {
-    return (
+    return (<>
      
         <View style={styles.modalMainView}>
           <View style={styles.modalInnerView}>
@@ -170,6 +166,7 @@ const ProfileScreen = ({navigation}) => {
           {subjectModelList.length > 0
               ? subjectModelList.map((res, i) => {
                   return (
+                    <>
                     <TouchableOpacity
                       onPress={() => selectActivities(res, i)}
                       style={{
@@ -197,6 +194,115 @@ const ProfileScreen = ({navigation}) => {
                     
                       
                     </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => selectActivities(res, i)}
+                      style={{
+                        ...styles.activitiesContainer,
+                        backgroundColor: activities.includes(res)
+                          ? color.lightPurple
+                          : 'white',
+                        borderColor: activities.includes(res)
+                          ? color.orderBoxColor
+                          : 'black',
+                        borderWidth: activities.includes(res) ? 2 : 1,
+                      }}>
+                      <TextComp
+                        text={res?.title}  
+                        style={{
+                          textAlign: 'center',
+                          color: activities.includes(res)
+                            ? color.orderBoxColor
+                            : 'black',
+                          fontWeight: activities.includes(res)
+                            ? 'bold'
+                            : 'normal',
+                          fontSize: hp('1.5'),
+                        }}/>
+                    
+                      
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => selectActivities(res, i)}
+                      style={{
+                        ...styles.activitiesContainer,
+                        backgroundColor: activities.includes(res)
+                          ? color.lightPurple
+                          : 'white',
+                        borderColor: activities.includes(res)
+                          ? color.orderBoxColor
+                          : 'black',
+                        borderWidth: activities.includes(res) ? 2 : 1,
+                      }}>
+                      <TextComp
+                        text={res?.title}  
+                        style={{
+                          textAlign: 'center',
+                          color: activities.includes(res)
+                            ? color.orderBoxColor
+                            : 'black',
+                          fontWeight: activities.includes(res)
+                            ? 'bold'
+                            : 'normal',
+                          fontSize: hp('1.5'),
+                        }}/>
+                    
+                      
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => selectActivities(res, i)}
+                      style={{
+                        ...styles.activitiesContainer,
+                        backgroundColor: activities.includes(res)
+                          ? color.lightPurple
+                          : 'white',
+                        borderColor: activities.includes(res)
+                          ? color.orderBoxColor
+                          : 'black',
+                        borderWidth: activities.includes(res) ? 2 : 1,
+                      }}>
+                      <TextComp
+                        text={res?.title}  
+                        style={{
+                          textAlign: 'center',
+                          color: activities.includes(res)
+                            ? color.orderBoxColor
+                            : 'black',
+                          fontWeight: activities.includes(res)
+                            ? 'bold'
+                            : 'normal',
+                          fontSize: hp('1.5'),
+                        }}/>
+                    
+                      
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => selectActivities(res, i)}
+                      style={{
+                        ...styles.activitiesContainer,
+                        backgroundColor: activities.includes(res)
+                          ? color.lightPurple
+                          : 'white',
+                        borderColor: activities.includes(res)
+                          ? color.orderBoxColor
+                          : 'black',
+                        borderWidth: activities.includes(res) ? 2 : 1,
+                      }}>
+                      <TextComp
+                        text={res?.title}  
+                        style={{
+                          textAlign: 'center',
+                          color: activities.includes(res)
+                            ? color.orderBoxColor
+                            : 'black',
+                          fontWeight: activities.includes(res)
+                            ? 'bold'
+                            : 'normal',
+                          fontSize: hp('1.5'),
+                        }}/>
+                    
+                      
+                    </TouchableOpacity>
+                    </>
                      
                   );
                 })
@@ -205,12 +311,12 @@ const ProfileScreen = ({navigation}) => {
               </View>
 
            <View style={styles.Bottombtn}>
-                       {/* <ButtonThemeComp onPress={()=>updateState({isVisible:false})} text={'Apply For Class'} /> */}
                        <ButtonThemeComp onPress={()=>{updateState({isVisible:false})}} text={'Apply For Class'} />
-                        {console.log(155,activities)}
                        </View>
           </View>
         </View>
+        </>
+    
     );
   };
   const selectActivities = (v, i) => {
@@ -241,20 +347,11 @@ const ProfileScreen = ({navigation}) => {
   };
   return (
     <>
-    <Animatable.View animation="fadeInRight">
-      <ScrollView contentContainerStyle={styles.midView}>
-        <View style={{flexDirection: 'row', alignSelf: 'baseline'}}>
-          <Ionicons
-            style={styles.icon1}
-            name={'md-arrow-back'}
-            size={hp('3')}
-            color={'white'}
-            // onPress={() => updateState({editState: false})}
-            onPress={() => navigation.goBack()}
-          />
-        </View>
-        
-        <ImageBackground
+    <Animatable.View style={{flex:1,backgroundColor: colorTutor_.ipalBlue}} animation="fadeInRight">
+    <BackHeaderComponent heading={'Profile Screen'} data={true} name3={"settings"} name2={"search"} name1={"bell-fill"} 
+    bellOnPress={()=>console.log('bell')} settingOnPress={() => console.log('hello')} />
+      <ScrollView keyboardShouldPersistTaps='always' contentContainerStyle={styles.midView}>      
+       <ImageBackground
           style={{
             justifyContent: 'center',
             alignItems: 'center',
@@ -313,23 +410,10 @@ const ProfileScreen = ({navigation}) => {
           )
         })}
       
-       {/* { activities.length>0?activities?.map: userData?.user?.course?.map (res =>{
-          return(
-            <View style={styles.subView}>
-            <TextComp
-              text={res?.title}
-              style={{
-                fontSize: hp('1.3'),
-                textAlign: 'center',
-                color: 'white',
-              }}
-            />
-          </View>
-          )
-        })} */}
+
           <TouchableOpacity
             onPress={()=>{updateState({isVisible:true})}}
-            style={{...styles.subView, backgroundColor: colorTutor_.blue}}>
+            style={{...styles.subView,marginLeft:wp('2'), backgroundColor: colorTutor_.blue}}>
             <TextComp
               text="Add Subject"
               style={{fontSize: hp('1.3'), color: 'white'}}
@@ -342,6 +426,7 @@ const ProfileScreen = ({navigation}) => {
             value={BioData}
             onChangeText={BioData => updateState({BioData: BioData})}
             multiline={true}
+            
             inputStyle={{
               alignSelf: 'flex-start',
               paddingTop: hp('2'),
@@ -358,8 +443,15 @@ const ProfileScreen = ({navigation}) => {
           text="Save Profile"
         />
       </ScrollView>
-    
     </Animatable.View>
+    <View style={styles.bottomBar}>
+        <TouchableOpacity onPress={() => console.log('dont have you acc')}>
+          <Text style={globalStyles.globalModuletutor}>Term of use</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => console.log('dont have you acc')}>
+          <Text style={globalStyles.globalModuletutor}>Privacy Policy</Text>
+        </TouchableOpacity>
+      </View>
       { isVisible && <SubjectDetailScreen/>}
 </>
   );
