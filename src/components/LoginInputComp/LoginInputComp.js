@@ -43,9 +43,13 @@ export const LoginInputComp = props => {
           fontSize: hp('2'),
           // width: wp('65'),
           flex: 1,
+
           // alignSelf: 'flex-start',
           ...props.inputStyle,
+
         }}
+        onSubmitEditing={props?.onSubmitEditing}
+        {...props.otherProps}
         onChange={props?.onChange}
         onEndEditing={props?.onEndEditing}
         onSelectionChange={props?.onSelectionChange}

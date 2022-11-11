@@ -299,6 +299,7 @@ const CreateAccount = ({navigation}) => {
         </View>
         <ScrollView
           showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps={'always'}
           contentContainerStyle={{
             paddingTop: hp('14'),
             paddingBottom: isKeyboardVisible,

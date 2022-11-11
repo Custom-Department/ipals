@@ -8,9 +8,10 @@ import {
   ScrollView,
   StyleSheet,
   FlatList,
+  Modal,
 } from 'react-native';
 import React, {useState,useEffect} from 'react';
-import {colorTutor_} from '../../../config/color';
+import {color, colorTutor_} from '../../../config/color';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -39,11 +40,9 @@ import { GetCourseUrl, UpdateProfileUrl } from '../../../config/Urls';
 import { errorHandler } from '../../../config/helperFunction';
 import { errorMessage } from '../../../config/NotificationMessage';
 
-const SettingScreen = ({route}) => {
-  
+const SettingScreen = ({route,navigation}) => {
+  const [isVisible,setIsVisible]=useState();
   const {user,token}=route.params;
-  // const item=route.params;
-  console.log(41,token);
 
   const dispatch=useDispatch();
   const [list, setList] = useState([
@@ -88,9 +87,11 @@ const SettingScreen = ({route}) => {
     isLoading:false,
     userImage: [],
     subjectModelLoader:false,
-    subjectModelList:[]
+    subjectModelList:[],
+    activities: [],
+    idSubjectArray:[]
   });
-  const updateState = data => setStateChange(() => ({...stateChange, ...data}));
+  const updateState = data => setStateChange((prev) => ({...prev, ...data}));
   const {
     editState,
     accState,
@@ -101,18 +102,77 @@ const SettingScreen = ({route}) => {
     isLoading,
     userImage,
     subjectModelLoader,
-    subjectModelList
+    subjectModelList,
+    activities,
+    idSubjectArray
   } = stateChange;
 
-  useEffect(() => {
-    ProfileScreen()
-    console.log('outside Console')
-    
-  
-    return () => {
-      console.log('inside Console')
+  const selectActivities = (v, i) => {
+    if (activities.includes(v)) {
+      updateState({
+        activities: activities.filter(activities => activities.id !== v.id),
+      });
+    } else {
+      updateState({activities: [...activities, v]});
     }
-  }, [])
+  };
+  const SubjectDetailScreen = () => {
+    return (
+     
+        <View style={styles.modalMainView}>
+          <View style={styles.modalInnerView}>
+           
+        
+
+          <TextComp text="Select schedule for class" style={styles.heading} />
+          <View style={styles.daysView}>
+          {subjectModelList.length > 0
+              ? subjectModelList.map((res, i) => {
+                  return (
+                    <TouchableOpacity
+                      onPress={() => selectActivities(res, i)}
+                      style={{
+                        ...styles.activitiesContainer,
+                        backgroundColor: activities.includes(res)
+                          ? color.lightPurple
+                          : 'white',
+                        borderColor: activities.includes(res)
+                          ? color.orderBoxColor
+                          : 'black',
+                        borderWidth: activities.includes(res) ? 2 : 1,
+                      }}>
+                      <TextComp
+                        text={res?.title}  
+                        style={{
+                          textAlign: 'center',
+                          color: activities.includes(res)
+                            ? color.orderBoxColor
+                            : 'black',
+                          fontWeight: activities.includes(res)
+                            ? 'bold'
+                            : 'normal',
+                          fontSize: hp('1.5'),
+                        }}/>
+                    
+                      
+                    </TouchableOpacity>
+                     
+                  );
+                })
+
+              : null}
+              </View>
+
+           <View style={styles.Bottombtn}>
+                       {/* <ButtonThemeComp onPress={()=>updateState({isVisible:false})} text={'Apply For Class'} /> */}
+                       <ButtonThemeComp onPress={()=>setIsVisible(false)} text={'Apply For Class'} />
+           
+                       </View>
+          </View>
+        </View>
+    );
+  };
+
   
   // const loginUserFun = () => {
   //   // setIsloading(true);
@@ -146,14 +206,14 @@ const SettingScreen = ({route}) => {
   //     errorMessage('Please type correct information');
   //   }
   // };
-
-
   // const updateProfileFunc =()=>{
+  
   //   updateState({isLoading:true})
   //   if(BioData !=null && BioData !='' && userImage !=null && userImage != ''){
   //       let body={
   //         profile_image:userImage,
-  //         bio:BioData
+  //         bio:BioData,
+  //         course_id:idSubjectArray
   //       }
   //       axios.post(UpdateProfileUrl,body).then(
   //         res=>{
@@ -175,10 +235,12 @@ const SettingScreen = ({route}) => {
   //             errorMessage('Please type correct information');
   //           }
   //   }
-  // }
+  
 
 
   const getSubjectFunct = () => {
+    setIsVisible(true)
+    // updateState({isVisible:true,subjectModelLoader: true});
     updateState({subjectModelLoader: true});
     axios
       .get(GetCourseUrl, {
@@ -208,29 +270,14 @@ const SettingScreen = ({route}) => {
       res => {
         if (!res?.didCancel) {
           updateState({userImage: res?.assets});
-          console.log(164,userImage)
         }
       },
     );
   };
-  // const pickImagefromCamera = () => {
-  //   launchCamera(
-  //     {
-  //       selectionLimit: 1,
-  //       mediaType: 'photo',
-  //       quality: 0.5,
-  //       maxWidth: 300,
-  //       maxHeight: 300,
-  //     },
-  //     res => {
-  //       if (!res?.didCancel) {
-  //         updateState({userImage: res?.assets});
-  //       }
-  //     },
-  //   );
-  // };
   const ProfileScreen = () => {
+    console.log('profile')
     return (
+   
       <Animatable.View animation="fadeInRight">
         <ScrollView contentContainerStyle={styles.midView}>
           <View style={{flexDirection: 'row', alignSelf: 'baseline'}}>
@@ -271,7 +318,22 @@ const SettingScreen = ({route}) => {
               flexWrap:'wrap',
               display:'flex'
             }}>
-          {user?.course.map(res =>{
+          {/* {activities.length>0?
+          activities?.map(res =>{
+            return(
+              <View style={styles.subView}>
+              <TextComp
+                text={res?.title}
+                style={{
+                  fontSize: hp('1.3'),
+                  textAlign: 'center',
+                  color: 'white',
+                }}
+              />
+            </View>
+            )
+          })
+          :user?.course?.map(res =>{
             return(
               <View style={styles.subView}>
               <TextComp
@@ -285,10 +347,23 @@ const SettingScreen = ({route}) => {
             </View>
             )
           })}
-        
-            
+         */}
+         {   user?.course?.map(res =>{
+            return(
+              <View style={styles.subView}>
+              <TextComp
+                text={res?.title}
+                style={{
+                  fontSize: hp('1.3'),
+                  textAlign: 'center',
+                  color: 'white',
+                }}
+              />
+            </View>
+            )
+          })}
             <TouchableOpacity
-              onPress={()=>getSubjectFunct()}
+              onPress={()=>{getSubjectFunct()}}
               style={{...styles.subView, backgroundColor: colorTutor_.blue}}>
               <TextComp
                 text="Add Subject"
@@ -318,6 +393,7 @@ const SettingScreen = ({route}) => {
             text="Save Profile"
           />
         </ScrollView>
+      
       </Animatable.View>
     );
   };
@@ -622,7 +698,8 @@ const SettingScreen = ({route}) => {
               text={' Account settings'}
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => updateState({editState: true})}>
+          {/* <TouchableOpacity onPress={() => updateState({editState: true})}> */}
+          <TouchableOpacity onPress={() => navigation.navigate('ProfileScreen')}>
             <SettingIconComp
               text={'Edit Profile'}
               changeIcon={
@@ -652,7 +729,10 @@ const SettingScreen = ({route}) => {
           <Text style={globalStyles.globalModuletutor}>Privacy Policy</Text>
         </TouchableOpacity>
       </View>
+      { isVisible && <SubjectDetailScreen/>}
+
     </View>
+    
   );
-};
+            }
 export default SettingScreen;

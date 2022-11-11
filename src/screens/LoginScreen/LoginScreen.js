@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState,} from 'react';
 import {styles} from './style';
 import {LoginInputComp} from '../../components/LoginInputComp/LoginInputComp';
 import {color, colorTutor_} from '../../config/color';
@@ -27,10 +27,13 @@ import axios from 'react-native-axios';
 
 const LoginScreen = ({navigation}) => {
   const [loginData, setLoginData] = useState({
-    email: 'studentr@test.com',
+    // email: 'studentr@test.com',
+    email: 'teacher@test4com',
+    
     // email: 'test@teacher.com',
     password: '12345678',
   });
+
   const dispatch = useDispatch();
   const [isloading, setIsloading] = useState(false);
   const {email, password} = loginData;
@@ -79,6 +82,12 @@ const LoginScreen = ({navigation}) => {
         source={require('../../image/logo.png')}
       />
       <LoginInputComp
+      // ref={nextS.current.focus()}
+        otherProps={{
+        blurOnSubmit:false
+        }}
+          // onSubmitEditing={()=>divElement.focus()}
+
         placeholder={'Email Address'}
         value={email}
         onChangeText={e => updateState({email: e})}
