@@ -8,9 +8,10 @@ import {
   ScrollView,
   Modal,
   Platform,
+  TouchableOpacity,
 } from 'react-native';
 import {HeaderComponent} from '../../../components/HeaderComponent/HeaderComponent';
-import {colorTutor_} from '../../../config/color';
+import {color, colorTutor_} from '../../../config/color';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -23,10 +24,14 @@ import {ButtonThemeComp} from '../../../components/ButtonThemeComp/ButtonThemeCo
 import {
   CreateStudentRequestUrl,
   GetTeacherClassesUrl,
+  GetTimelotUrl,
 } from '../../../config/Urls';
 import axios from 'react-native-axios';
 import {useEffect} from 'react';
-import {errorMessage} from '../../../config/NotificationMessage';
+import {
+  errorMessage,
+  successMessage,
+} from '../../../config/NotificationMessage';
 import {errorHandler} from '../../../config/helperFunction';
 import {useSelector} from 'react-redux';
 import {SkypeIndicator} from 'react-native-indicators';
@@ -35,14 +40,13 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import moment from 'moment/moment';
-import { RadioButton } from 'react-native-paper';
+import {RadioButton} from 'react-native-paper';
 import {BackHeaderComponent} from '../../../components/BackHeaderComponent/BackHeaderComponent';
+import {Picker} from '@react-native-picker/picker';
 
 const TeacherDetailScreen = ({route, navigation}) => {
   const [checked, setChecked] = useState(false);
   const [scheduleDays, setScheduleDays] = useState([]);
-  const scheduleArray=[];
-  console.log(4222222,scheduleDays)
   const {userData} = useSelector(state => state.userData);
   const item = route.params;
 
@@ -54,49 +58,41 @@ const TeacherDetailScreen = ({route, navigation}) => {
   const [data, setData] = useState({
     getData: [],
     postData: {},
+    scheduleArray: '',
+    subjectTitle: '',
+    timeSlot: null,
+    allTimeSlot: [],
+    subjectId: '',
+    getSpecData: {},
   });
   const [loading, setLoading] = useState({
     startLoading: true,
     buttonloading: false,
     isVisible: false,
+    timeSlotButton: false,
   });
   const [showModal, setShowModal] = useState(false);
-  const {getData, postData} = data;
-  const {startLoading, buttonloading, isVisible} = loading;
+  const {
+    getData,
+    postData,
+    scheduleArray,
+    subjectTitle,
+    timeSlot,
+    allTimeSlot,
+    subjectId,
+    getSpecData,
+  } = data;
+  const {startLoading, buttonloading, isVisible, timeSlotButton} = loading;
   const updateState = data => {
     setData(prev => ({...prev, ...data}));
   };
   const updateLoadingState = data => {
     setLoading(prev => ({...prev, ...data}));
   };
-  //   const scheduleData = item.course.map(res => data.push(res.))
-  //   const applyClass = () => {
-  //     setIsloading(true);
-  //     let body = {
-  //       my_class_id: 30,
-  //       course_id: 1,
-  //       from: '04:13',
-  //       // schedule:item.course.length > 0 ?  : [],
-  //       to: '07:13',
-  //     };
-  //     axios
-  //       .post(SignUpUrl, body)
-  //       .then(function (res) {
-  //         dispatch({
-  //           type: types.LoginType,
-  //           payload: res.data.data,
-  //         });
-  //         setIsloading(false);
-  //       })
-  //       .catch(function (error) {
-  //         setIsloading(false);
-  //         errorMessage(errorHandler(error));
-  //       });
-  //   };
   const getApiData = () => {
     updateLoadingState({startLoading: true});
-    let url = GetTeacherClassesUrl +'16' ;
-    // let url = GetTeacherClassesUrl + item.id;
+    // let url = GetTeacherClassesUrl + '16';
+    let url = GetTeacherClassesUrl + item.id;
     axios
       .get(url, {
         headers: {Authorization: `Bearer ${userData.token}`},
@@ -109,6 +105,17 @@ const TeacherDetailScreen = ({route, navigation}) => {
         updateLoadingState({startLoading: false});
         errorMessage(errorHandler(error));
       });
+  };
+  const selectActivities = (v, i) => {
+    if (scheduleArray.includes(v)) {
+      updateState({
+        scheduleArray: scheduleArray.filter(
+          scheduleArray => scheduleArray.id !== v.id,
+        ),
+      });
+    } else {
+      updateState({scheduleArray: [...scheduleArray, v]});
+    }
   };
   const RenderCard = prop => {
     const {data} = prop;
@@ -138,102 +145,166 @@ const TeacherDetailScreen = ({route, navigation}) => {
             style={{
               ...styles.innerBottomView,
               alignItems: 'center',
+              width: wp('23'),
               justifyContent: 'center',
             }}>
-            <MaterialIcons name="timer" size={hp('2.5')} color={'gray'} />
-            <TextComp style={{fontSize: hp('1.6')}} text={data.total_hours} />
+            <MaterialIcons name="timer" size={hp('2')} color={'gray'} />
+            <TextComp style={{fontSize: hp('1.5')}} text={data.total_hours} />
           </View>
         </View>
         <ButtonThemeComp
-          onPress={() =>{setScheduleDays(data?.class_schedules), updateLoadingState({isVisible: true})}}
+          onPress={() => {
+            setScheduleDays(data?.class_schedules),
+              updateState({subjectTitle: data?.course});
+            updateState({getSpecData: data});
+            updateLoadingState({isVisible: true});
+          }}
           style={styles.bottomButton}
           text={'Apply Now'}
         />
       </View>
     );
   };
+  const getTimeSlots = () => {
+    if (scheduleArray != null && scheduleArray != '') {
+      let body = {
+        course_id: subjectTitle.id,
+        teacher_id: getData[0].user_id,
+        schedule: scheduleArray,
+      };
+      axios
+        .post(GetTimelotUrl, body, {
+          headers: {Authorization: `Bearer ${userData.token}`},
+        })
+        .then(function (res) {
+          updateState({allTimeSlot: res.data.data});
+          updateLoadingState({timeSlotButton: false});
+        })
+        .catch(function (error) {
+          updateLoadingState({timeSlotButton: false});
+          errorMessage(errorHandler(error));
+        });
+    } else {
+      errorMessage('Please Select Date');
+    }
+  };
+  const applyForClass = () => {
+    updateLoadingState({timeSlotButton: true});
+    const from = moment(getSpecData.from, 'h:mm:ss A').format('HH:mm');
+    const to = moment(getSpecData.to, 'h:mm:ss A').format('HH:mm');
+    if (scheduleArray.length > 0) {
+      const fromToObject = scheduleArray.map(res => {
+        return res.schedule;
+      });
+      let body = {
+        my_class_id: getSpecData.id,
+        course_id: subjectTitle.id,
+        from: from,
+        schedule: fromToObject,
+        to: to,
+      };
+      axios
+        .post(CreateStudentRequestUrl, body, {
+          headers: {Authorization: `Bearer ${userData.token}`},
+        })
+        .then(function (res) {
+          updateLoadingState({isVisible: false});
+          updateLoadingState({timeSlotButton: false});
+          successMessage('Your Have Succefully Apply for Class');
+        })
+        .catch(function (error) {
+          updateLoadingState({timeSlotButton: false});
+          errorMessage(errorHandler(error));
+        });
+    } else {
+      errorMessage('Please Select Days');
+    }
+  };
   const ModalView = () => {
     return (
-      <Modal
-        animationType="slide"
-        transparent={true}
-        collapsable={true}
-        visible={isVisible}
-        onRequestClose={() => {
-          updateLoadingState({isVisible: false});
-        }}>
-        <View style={styles.modalMainView}>
-          <View style={styles.modalInnerView}>
-            <Entypo
-              name="circle-with-cross"
-              color={'gray'}
-              size={hp('3')}
-              onPress={() => updateLoadingState({isVisible: false})}
-              style={styles.crowsIcon}
-            />
-            <TextComp
-              text="Subject"
-              style={{marginLeft: wp('5'), fontWeight: 'bold'}}
-            />
-            <View style={styles.modalSubjectView}>
-              <View
-                style={{
-                  ...styles.subView,
-                  backgroundColor: colorTutor_.blue,
-                }}>
-                <TextComp
-                  text={'English'}
-                  style={{fontSize: hp('1.7'), color: 'white'}}
-                />
-              </View>
-                
-
-            </View>
-            
-            <TextComp text="Select schedule for class" style={styles.heading} />
-            <ScrollView contentContainerStyle={styles.schedularView}>
-                {console.log(187,scheduleArray)}
-              {scheduleDays.map(res => {
-                //  const filterDay=moment(res?.schedule).format('dddd'); 
-                 const Month=moment(res?.schedule).format("MMM Do YY");
-                 const [radio,setRadio]=useState(false);
-                 
-                 if(scheduleArray.includes(res?.schedule))
-                 {
-                   const a = scheduleArray.indexOf(res?.schedule);
-                   scheduleArray.splice(a, 1);
-                 }
-                 else {
-                  scheduleArray.push(res?.schedule)
-                
-                }
-                return (
-                  <View style={styles.schedularInerView}>
-                  <TextComp text={Month}/>
-                  <RadioButton
-                    color='red'
-                    value={radio}
-                    status={ radio === true ? 'checked' : 'unchecked' }
-                    onPress={() =>{setRadio(!radio)}}
-                    />
-                  </View>
-                      )
-              })}
-    
-
-              </ScrollView>
-            <View style={styles.Bottombtn}>
-            <ButtonThemeComp text={'Apply For Class'} />
-
+      <View style={styles.modalMainView}>
+        <View style={styles.modalInnerView}>
+          <Entypo
+            name="circle-with-cross"
+            color={'gray'}
+            size={hp('3')}
+            onPress={() => {
+              updateLoadingState({
+                isVisible: false,
+              }),
+                updateState({
+                  scheduleArray: '',
+                  timeSlot: null,
+                  allTimeSlot: [],
+                });
+            }}
+            style={styles.crowsIcon}
+          />
+          <TextComp
+            text="Subject"
+            style={{marginLeft: wp('5'), fontWeight: 'bold'}}
+          />
+          <View style={styles.modalSubjectView}>
+            <View
+              style={{
+                ...styles.subView,
+                backgroundColor: colorTutor_.blue,
+              }}>
+              <TextComp
+                text={subjectTitle?.title}
+                style={{fontSize: hp('1.7'), color: 'white'}}
+              />
             </View>
           </View>
+
+          <TextComp text="Select schedule for class" style={styles.heading} />
+          <ScrollView>
+            <View style={styles.daysView}>
+              {scheduleDays.map((res, i) => {
+                const Month = moment(res?.schedule).format('YYYY-MM-DD');
+                return (
+                  <TouchableOpacity
+                    onPress={() => selectActivities(res, i)}
+                    style={{
+                      ...styles.activitiesContainer,
+                      backgroundColor: scheduleArray.includes(res)
+                        ? color.lightPurple
+                        : 'white',
+                      borderColor: scheduleArray.includes(res)
+                        ? color.orderBoxColor
+                        : 'black',
+                      borderWidth: scheduleArray.includes(res) ? 2 : 1,
+                    }}>
+                    <Text
+                      style={{
+                        textAlign: 'center',
+                        color: scheduleArray.includes(res)
+                          ? color.orderBoxColor
+                          : 'black',
+                        fontWeight: scheduleArray.includes(res)
+                          ? 'bold'
+                          : 'normal',
+                        fontSize: hp('1.5'),
+                      }}>
+                      {Month}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+            <ButtonThemeComp
+              style={styles.getTimeButton}
+              text={'Apply For Class'}
+              onPress={() => applyForClass()}
+              isLoading={timeSlotButton}
+            />
+          </ScrollView>
         </View>
-      </Modal>
+      </View>
     );
   };
   useEffect(() => {
     getApiData();
-    ModalView()
   }, []);
   return (
     <View
@@ -269,14 +340,12 @@ const TeacherDetailScreen = ({route, navigation}) => {
                 {item.course.length > 0 &&
                   topNavigator.map(res => {
                     return (
-                      
                       <View style={styles.subView}>
                         <TextComp
                           text="English"
                           style={{fontSize: hp('1.3'), color: 'white'}}
                         />
                       </View>
-                      
                     );
                   })}
               </View>
@@ -328,7 +397,7 @@ const TeacherDetailScreen = ({route, navigation}) => {
           )
         )}
       </ScrollView>
-      <ModalView />
+      {isVisible && <ModalView />}
     </View>
   );
 };

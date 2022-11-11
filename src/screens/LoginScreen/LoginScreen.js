@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {styles} from './style';
 import {LoginInputComp} from '../../components/LoginInputComp/LoginInputComp';
 import {color, colorTutor_} from '../../config/color';
@@ -40,7 +40,7 @@ const LoginScreen = ({navigation}) => {
     if (
       email != '' &&
       password != '' &&
-      reg.test(email) === false &&
+      reg.test(email) === true &&
       password.length >= 8
     ) {
       let body = {
@@ -66,6 +66,10 @@ const LoginScreen = ({navigation}) => {
       errorMessage('Please type correct information');
     }
   };
+  const focusInput = () => {
+    inputElement.current.focus();
+  };
+  const inputElement = useRef();
   const updateState = data => setLoginData(() => ({...loginData, ...data}));
   return (
     <View style={styles.container}>
@@ -79,6 +83,7 @@ const LoginScreen = ({navigation}) => {
         source={require('../../image/logo.png')}
       />
       <LoginInputComp
+        ref={inputElement}
         placeholder={'Email Address'}
         value={email}
         onChangeText={e => updateState({email: e})}
@@ -118,7 +123,7 @@ const LoginScreen = ({navigation}) => {
           alignSelf: 'center',
         }}
       />
-      <TouchableOpacity onPress={() => console.log('dont have you acc')}>
+      <TouchableOpacity onPress={() => focusInput()}>
         <Text style={{color: 'black'}}>Don't have you account</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('CreateAccount')}>

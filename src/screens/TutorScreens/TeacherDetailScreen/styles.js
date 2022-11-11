@@ -53,13 +53,13 @@ export const styles = StyleSheet.create({
   subView: {
     backgroundColor: colorTutor_.ipallightGreen,
     borderRadius: 25,
-    padding:5,
-    alignItems:'center',
-    width:wp('18'),
-    marginBottom:hp('1'),
-    marginTop:hp('1'),
-    marginRight:wp('1.5'),
-    marginLeft:wp('1.5'),
+    padding: 5,
+    alignItems: 'center',
+    width: wp('18'),
+    marginBottom: hp('1'),
+    marginTop: hp('1'),
+    marginRight: wp('1.5'),
+    marginLeft: wp('1.5'),
   },
   subjectView: {
     flexDirection: 'row',
@@ -90,6 +90,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignSelf: 'center',
     marginTop: hp('1'),
+    // backgroundColor: 'red',
   },
   verDivider: {
     height: hp('7'),
@@ -104,17 +105,22 @@ export const styles = StyleSheet.create({
   },
   modalMainView: {
     flex: 1,
+    width: wp('100'),
+    height: hp('100'),
     backgroundColor: 'rgba(0, 0, 0, 0.6)',
     justifyContent: 'center',
     alignItems: 'center',
+    position: 'absolute',
+    zIndex: 1,
   },
   modalInnerView: {
     width: wp('90'),
     borderRadius: 10,
-    height: hp('50'),
+    // height: hp('80'),
     backgroundColor: 'white',
     overflow: Platform.OS == 'ios' ? 'visible' : 'hidden',
     zIndex: 1,
+    paddingBottom: hp('2'),
   },
   crowsIcon: {
     marginTop: hp('1'),
@@ -122,11 +128,11 @@ export const styles = StyleSheet.create({
     marginRight: wp('2'),
   },
   modalSubjectView: {
-    display:'flex',
-    flexWrap:'wrap',
-  
+    display: 'flex',
+    flexWrap: 'wrap',
+
     width: wp('70'),
-    justifyContent:'center',
+    justifyContent: 'center',
     backgroundColor: colorTutor_.ipalBlue,
     alignSelf: 'center',
     borderRadius: 10,
@@ -140,31 +146,54 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: hp('2'),
   },
-  schedularView:{
-    
-    width:wp('90'),
-    flexDirection:'row',
-    display:'flex',
-    flexWrap:'wrap',
-    alignSelf:'center',
-    marginTop:hp('2'),
-    marginBottom:hp('5'),
-    paddingBottom:hp('4'),    
+  schedularView: {
+    width: wp('90'),
+    flexDirection: 'row',
+    display: 'flex',
+    flexWrap: 'wrap',
+    alignSelf: 'center',
+    // marginTop: hp('2'),
+    marginBottom: hp('5'),
+    paddingBottom: hp('4'),
   },
-  schedularInerView:{
-    marginLeft:wp('6.1'),
-    marginBottom:hp('1'),
-    justifyContent:'center',
-    alignItems:'center'
+  schedularInerView: {
+    marginLeft: wp('6.1'),
+    marginBottom: hp('1'),
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  Bottombtn:{
-    alignItems:'center',
-    marginBottom:wp('3'),
-    marginTop:hp('1')
+  Bottombtn: {
+    alignItems: 'center',
+    marginBottom: wp('3'),
+    marginTop: hp('1'),
   },
   innerBottomView: {
     flexDirection: 'row',
     width: wp('18'),
     justifyContent: 'center',
+    // backgroundColor: 'yellow',
+  },
+  activitiesContainer: {
+    width: wp('30'),
+    height: hp('5'),
+    borderColor: 'black',
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    marginTop: hp('2'),
+    maxHeight: hp('7'),
+  },
+  daysView: {
+    flexDirection: 'row',
+    width: wp('90'),
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+  },
+  getTimeButton: {
+    alignSelf: 'center',
+    width: wp('60'),
+    height: hp('5'),
+    marginTop: hp('2'),
   },
 });
