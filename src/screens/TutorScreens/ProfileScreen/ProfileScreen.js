@@ -29,36 +29,39 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import InformationTextView from '../../../components/InformationTextView/InformationTextView';
 import {BackHeaderComponent} from '../../../components/BackHeaderComponent/BackHeaderComponent';
-import { useDispatch, useSelector } from 'react-redux';
-import { LoginInputComp } from '../../../components/LoginInputComp/LoginInputComp';
+import {useDispatch, useSelector} from 'react-redux';
+import {LoginInputComp} from '../../../components/LoginInputComp/LoginInputComp';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import axios from 'react-native-axios';
-import { GetCourseUrl, UpdateProfileUrl } from '../../../config/Urls';
-import { useEffect } from 'react';
-import { errorMessage, successMessage } from '../../../config/NotificationMessage';
-import { errorHandler } from '../../../config/helperFunction';
+import {GetCourseUrl, UpdateProfileUrl} from '../../../config/Urls';
+import {useEffect} from 'react';
+import {
+  errorMessage,
+  successMessage,
+} from '../../../config/NotificationMessage';
+import {errorHandler} from '../../../config/helperFunction';
 import types from '../../../Redux/types';
 
 const ProfileScreen = ({navigation}) => {
   const {userData} = useSelector(state => state.userData);
   const dispatch = useDispatch();
 
-    const [stateChange, setStateChange] = useState({
+  const [stateChange, setStateChange] = useState({
     editState: false,
     accState: false,
     createAccoutState: false,
     childAccState: false,
     deleteAccState: false,
-    BioData:userData?.user?.bio,
-    isLoading:false,
+    BioData: userData?.user?.bio,
+    isLoading: false,
     userImage: [],
-    subjectModelLoader:false,
-    subjectModelList:[],
+    subjectModelLoader: false,
+    subjectModelList: [],
     activities: [],
-    idSubjectArray:[],
-    isVisible:false
+    idSubjectArray: [],
+    isVisible: false,
   });
-  const updateState = data => setStateChange((prev) => ({...prev, ...data}));
+  const updateState = data => setStateChange(prev => ({...prev, ...data}));
   const {
     editState,
     accState,
@@ -72,20 +75,17 @@ const ProfileScreen = ({navigation}) => {
     subjectModelList,
     activities,
     idSubjectArray,
-    isVisible
+    isVisible,
   } = stateChange;
-  
-  
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     getSubjectFunct();
-    console.log('mount')
+    console.log('mount');
     return () => {
-      updateState({isVisible:false})
-      console.log(userData?.user?.course?.pivot,"cleaned up");
+      updateState({isVisible: false});
+      console.log(userData?.user?.course?.pivot, 'cleaned up');
     };
-    
-  },[])
+  }, []);
 
   const getSubjectFunct = () => {
     // updateState({isVisible:true,subjectModelLoader: true});
@@ -97,7 +97,7 @@ const ProfileScreen = ({navigation}) => {
       .then(function (response) {
         updateState({subjectModelList: response.data.data});
         // updateLoadingState({[loading]: false});
-    updateState({subjectModelLoader: false});
+        updateState({subjectModelLoader: false});
       })
       .catch(function (error) {
         // updateLoadingState({[loading]: false});
@@ -106,217 +106,210 @@ const ProfileScreen = ({navigation}) => {
       });
   };
 
-  
-  const updateProfileFunc =()=>{
+  const updateProfileFunc = () => {
     var bodyFormData = new FormData();
-    updateState({isLoading:true})
-    if(activities != []){
-      activities.map((res)=>{
-       return idSubjectArray.push(res?.id)
-      })
+    updateState({isLoading: true});
+    if (activities != []) {
+      activities.map(res => {
+        return idSubjectArray.push(res?.id);
+      });
+    } else {
+      userData?.user?.course?.map(res => {
+        return idSubjectArray.push(res?.id);
+      });
     }
-    else{
-      userData?.user?.course?.map((res)=>{
-        return idSubjectArray.push(res?.id)
-       })      
-    }
-    console.log(110,idSubjectArray,BioData,userImage[0]?.fileName, userData);
+    console.log(110, idSubjectArray, BioData, userImage[0]?.fileName, userData);
     // bodyFormData.append('profile_image',userImage[0]?.fileName);
-    bodyFormData.append('profile_image',{
+    bodyFormData.append('profile_image', {
       name: userImage[0]?.fileName,
       uri: userImage[0]?.uri,
       type: userImage[0]?.type,
     });
-    bodyFormData.append('bio',BioData);
-    bodyFormData.append('course_id',1);
-    
-    if(BioData !=null && BioData !='' && userImage !=null && userImage != ''){
-        axios.post(UpdateProfileUrl,bodyFormData,{
-          headers: {Authorization: `Bearer ${userData.token}`,"Content-Type": "multipart/form-data"},
-        }).then(
+    bodyFormData.append('bio', BioData);
+    bodyFormData.append('course_id', 1);
 
-          res=>{
-            console.log(146,res)
-            updateState({isLoading:false})
-          successMessage("Your Profile Successful Updated")
-      }
-
-        )
+    if (BioData != null && BioData != '') {
+      axios
+        .post(UpdateProfileUrl, bodyFormData, {
+          headers: {
+            Authorization: `Bearer ${userData.token}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+        .then(res => {
+          console.log(146, res);
+          updateState({isLoading: false});
+          successMessage('Your Profile Successful Updated');
+        })
         .catch(function (error) {
-          updateState({isLoading:false})
+          updateState({isLoading: false});
 
-                  console.log(54, error);
-                  errorMessage(errorHandler(error));
-                });
-            } else {
-              updateState({isLoading:false})
-              errorMessage('Please type correct information');
-            }
+          console.log(54, error);
+          errorMessage(errorHandler(error));
+        });
+    } else {
+      updateState({isLoading: false});
+      errorMessage('Please type correct information');
     }
+  };
   const SubjectDetailScreen = () => {
-    return (<>
-     
+    return (
+      <>
         <View style={styles.modalMainView}>
           <View style={styles.modalInnerView}>
-           
-        
+            <TextComp text="Select schedule for class" style={styles.heading} />
+            <View style={styles.daysView}>
+              {subjectModelList.length > 0
+                ? subjectModelList.map((res, i) => {
+                    return (
+                      <>
+                        <TouchableOpacity
+                          onPress={() => selectActivities(res, i)}
+                          style={{
+                            ...styles.activitiesContainer,
+                            backgroundColor: activities.includes(res)
+                              ? color.lightPurple
+                              : 'white',
+                            borderColor: activities.includes(res)
+                              ? color.orderBoxColor
+                              : 'black',
+                            borderWidth: activities.includes(res) ? 2 : 1,
+                          }}>
+                          <TextComp
+                            text={res?.title}
+                            style={{
+                              textAlign: 'center',
+                              color: activities.includes(res)
+                                ? color.orderBoxColor
+                                : 'black',
+                              fontWeight: activities.includes(res)
+                                ? 'bold'
+                                : 'normal',
+                              fontSize: hp('1.5'),
+                            }}
+                          />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          onPress={() => selectActivities(res, i)}
+                          style={{
+                            ...styles.activitiesContainer,
+                            backgroundColor: activities.includes(res)
+                              ? color.lightPurple
+                              : 'white',
+                            borderColor: activities.includes(res)
+                              ? color.orderBoxColor
+                              : 'black',
+                            borderWidth: activities.includes(res) ? 2 : 1,
+                          }}>
+                          <TextComp
+                            text={res?.title}
+                            style={{
+                              textAlign: 'center',
+                              color: activities.includes(res)
+                                ? color.orderBoxColor
+                                : 'black',
+                              fontWeight: activities.includes(res)
+                                ? 'bold'
+                                : 'normal',
+                              fontSize: hp('1.5'),
+                            }}
+                          />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          onPress={() => selectActivities(res, i)}
+                          style={{
+                            ...styles.activitiesContainer,
+                            backgroundColor: activities.includes(res)
+                              ? color.lightPurple
+                              : 'white',
+                            borderColor: activities.includes(res)
+                              ? color.orderBoxColor
+                              : 'black',
+                            borderWidth: activities.includes(res) ? 2 : 1,
+                          }}>
+                          <TextComp
+                            text={res?.title}
+                            style={{
+                              textAlign: 'center',
+                              color: activities.includes(res)
+                                ? color.orderBoxColor
+                                : 'black',
+                              fontWeight: activities.includes(res)
+                                ? 'bold'
+                                : 'normal',
+                              fontSize: hp('1.5'),
+                            }}
+                          />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          onPress={() => selectActivities(res, i)}
+                          style={{
+                            ...styles.activitiesContainer,
+                            backgroundColor: activities.includes(res)
+                              ? color.lightPurple
+                              : 'white',
+                            borderColor: activities.includes(res)
+                              ? color.orderBoxColor
+                              : 'black',
+                            borderWidth: activities.includes(res) ? 2 : 1,
+                          }}>
+                          <TextComp
+                            text={res?.title}
+                            style={{
+                              textAlign: 'center',
+                              color: activities.includes(res)
+                                ? color.orderBoxColor
+                                : 'black',
+                              fontWeight: activities.includes(res)
+                                ? 'bold'
+                                : 'normal',
+                              fontSize: hp('1.5'),
+                            }}
+                          />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          onPress={() => selectActivities(res, i)}
+                          style={{
+                            ...styles.activitiesContainer,
+                            backgroundColor: activities.includes(res)
+                              ? color.lightPurple
+                              : 'white',
+                            borderColor: activities.includes(res)
+                              ? color.orderBoxColor
+                              : 'black',
+                            borderWidth: activities.includes(res) ? 2 : 1,
+                          }}>
+                          <TextComp
+                            text={res?.title}
+                            style={{
+                              textAlign: 'center',
+                              color: activities.includes(res)
+                                ? color.orderBoxColor
+                                : 'black',
+                              fontWeight: activities.includes(res)
+                                ? 'bold'
+                                : 'normal',
+                              fontSize: hp('1.5'),
+                            }}
+                          />
+                        </TouchableOpacity>
+                      </>
+                    );
+                  })
+                : null}
+            </View>
 
-          <TextComp text="Select schedule for class" style={styles.heading} />
-          <View style={styles.daysView}>
-          {subjectModelList.length > 0
-              ? subjectModelList.map((res, i) => {
-                  return (
-                    <>
-                    <TouchableOpacity
-                      onPress={() => selectActivities(res, i)}
-                      style={{
-                        ...styles.activitiesContainer,
-                        backgroundColor: activities.includes(res)
-                          ? color.lightPurple
-                          : 'white',
-                        borderColor: activities.includes(res)
-                          ? color.orderBoxColor
-                          : 'black',
-                        borderWidth: activities.includes(res) ? 2 : 1,
-                      }}>
-                      <TextComp
-                        text={res?.title}  
-                        style={{
-                          textAlign: 'center',
-                          color: activities.includes(res)
-                            ? color.orderBoxColor
-                            : 'black',
-                          fontWeight: activities.includes(res)
-                            ? 'bold'
-                            : 'normal',
-                          fontSize: hp('1.5'),
-                        }}/>
-                    
-                      
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() => selectActivities(res, i)}
-                      style={{
-                        ...styles.activitiesContainer,
-                        backgroundColor: activities.includes(res)
-                          ? color.lightPurple
-                          : 'white',
-                        borderColor: activities.includes(res)
-                          ? color.orderBoxColor
-                          : 'black',
-                        borderWidth: activities.includes(res) ? 2 : 1,
-                      }}>
-                      <TextComp
-                        text={res?.title}  
-                        style={{
-                          textAlign: 'center',
-                          color: activities.includes(res)
-                            ? color.orderBoxColor
-                            : 'black',
-                          fontWeight: activities.includes(res)
-                            ? 'bold'
-                            : 'normal',
-                          fontSize: hp('1.5'),
-                        }}/>
-                    
-                      
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() => selectActivities(res, i)}
-                      style={{
-                        ...styles.activitiesContainer,
-                        backgroundColor: activities.includes(res)
-                          ? color.lightPurple
-                          : 'white',
-                        borderColor: activities.includes(res)
-                          ? color.orderBoxColor
-                          : 'black',
-                        borderWidth: activities.includes(res) ? 2 : 1,
-                      }}>
-                      <TextComp
-                        text={res?.title}  
-                        style={{
-                          textAlign: 'center',
-                          color: activities.includes(res)
-                            ? color.orderBoxColor
-                            : 'black',
-                          fontWeight: activities.includes(res)
-                            ? 'bold'
-                            : 'normal',
-                          fontSize: hp('1.5'),
-                        }}/>
-                    
-                      
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() => selectActivities(res, i)}
-                      style={{
-                        ...styles.activitiesContainer,
-                        backgroundColor: activities.includes(res)
-                          ? color.lightPurple
-                          : 'white',
-                        borderColor: activities.includes(res)
-                          ? color.orderBoxColor
-                          : 'black',
-                        borderWidth: activities.includes(res) ? 2 : 1,
-                      }}>
-                      <TextComp
-                        text={res?.title}  
-                        style={{
-                          textAlign: 'center',
-                          color: activities.includes(res)
-                            ? color.orderBoxColor
-                            : 'black',
-                          fontWeight: activities.includes(res)
-                            ? 'bold'
-                            : 'normal',
-                          fontSize: hp('1.5'),
-                        }}/>
-                    
-                      
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() => selectActivities(res, i)}
-                      style={{
-                        ...styles.activitiesContainer,
-                        backgroundColor: activities.includes(res)
-                          ? color.lightPurple
-                          : 'white',
-                        borderColor: activities.includes(res)
-                          ? color.orderBoxColor
-                          : 'black',
-                        borderWidth: activities.includes(res) ? 2 : 1,
-                      }}>
-                      <TextComp
-                        text={res?.title}  
-                        style={{
-                          textAlign: 'center',
-                          color: activities.includes(res)
-                            ? color.orderBoxColor
-                            : 'black',
-                          fontWeight: activities.includes(res)
-                            ? 'bold'
-                            : 'normal',
-                          fontSize: hp('1.5'),
-                        }}/>
-                    
-                      
-                    </TouchableOpacity>
-                    </>
-                     
-                  );
-                })
-
-              : null}
-              </View>
-
-           <View style={styles.Bottombtn}>
-                       <ButtonThemeComp onPress={()=>{updateState({isVisible:false})}} text={'Apply For Class'} />
-                       </View>
+            <View style={styles.Bottombtn}>
+              <ButtonThemeComp
+                onPress={() => {
+                  updateState({isVisible: false});
+                }}
+                text={'Apply For Class'}
+              />
+            </View>
           </View>
         </View>
-        </>
-    
+      </>
     );
   };
   const selectActivities = (v, i) => {
@@ -329,7 +322,6 @@ const ProfileScreen = ({navigation}) => {
     }
   };
   const pickImagesFromGalary = () => {
-
     launchImageLibrary(
       {
         selectionLimit: 1,
@@ -347,104 +339,129 @@ const ProfileScreen = ({navigation}) => {
   };
   return (
     <>
-    <Animatable.View style={{flex:1,backgroundColor: colorTutor_.ipalBlue}} animation="fadeInRight">
-    <BackHeaderComponent heading={'Profile Screen'} data={true} name3={"settings"} name2={"search"} name1={"bell-fill"} 
-    bellOnPress={()=>console.log('bell')} settingOnPress={() => console.log('hello')} />
-      <ScrollView keyboardShouldPersistTaps='always' contentContainerStyle={styles.midView}>      
-       <ImageBackground
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: Dimensions.get('window').width * 0.35,
+      <Animatable.View
+        style={{flex: 1, backgroundColor: colorTutor_.ipalBlue}}
+        animation="fadeInRight">
+        <BackHeaderComponent
+          heading={'Profile Screen'}
+          data={true}
+          bellOnPress={() => console.log('bell')}
+          settingOnPress={() => console.log('hello')}
+        />
+        <ScrollView
+          keyboardShouldPersistTaps="always"
+          contentContainerStyle={styles.midView}>
+          <ImageBackground
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: Dimensions.get('window').width * 0.35,
 
-            height: Dimensions.get('window').width * 0.35,
-          }}
-          imageStyle={{
-            borderRadius: Math.round(
-              Dimensions.get('window').width +
-                Dimensions.get('window').height,
-            ),
-          }}
-          source={{uri:userImage.length>0?userImage[0]?.uri:userData?.user?.profileImageLink}}            
-          >
-          <FontAwesome onPress={()=>pickImagesFromGalary()} name="camera" size={hp('3.8')} color="white" />
-        </ImageBackground>
-        <TextComp style={styles.textharMatin} text={userData?.user?.f_name+" "+userData?.user?.l_name} />
-        <View
-          style={{
-            flexDirection: 'row',
-            width: wp('100'),
-            alignItems:'center',
-            justifyContent: 'center',
-            flexWrap:'wrap',
-            display:'flex'
-          }}>
-        {activities.length>0?
-        activities?.map(res =>{
-          return(
-            <View style={styles.subView}>
-            <TextComp
-              text={res?.title}
-              style={{
-                fontSize: hp('1.3'),
-                textAlign: 'center',
-                color: 'white',
-              }}
+              height: Dimensions.get('window').width * 0.35,
+            }}
+            imageStyle={{
+              borderRadius: Math.round(
+                Dimensions.get('window').width +
+                  Dimensions.get('window').height,
+              ),
+            }}
+            source={{
+              uri:
+                userImage.length > 0
+                  ? userImage[0]?.uri
+                  : userData?.user?.profileImageLink,
+            }}>
+            <FontAwesome
+              onPress={() => pickImagesFromGalary()}
+              name="camera"
+              size={hp('3.8')}
+              color="white"
             />
-          </View>
-          )
-        })
-        :userData?.user?.course?.map(res =>{
-          console.log('out')
-          return(
-            <View style={styles.subView}>
-            <TextComp
-              text={res?.title}
-              style={{
-                fontSize: hp('1.3'),
-                textAlign: 'center',
-                color: 'white',
-              }}
-            />
-          </View>
-          )
-        })}
-      
+          </ImageBackground>
+          <TextComp
+            style={styles.textharMatin}
+            text={userData?.user?.f_name + ' ' + userData?.user?.l_name}
+          />
+          <View
+            style={{
+              flexDirection: 'row',
+              width: wp('100'),
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexWrap: 'wrap',
+              display: 'flex',
+            }}>
+            {activities.length > 0
+              ? activities?.map(res => {
+                  return (
+                    <View style={styles.subView}>
+                      <TextComp
+                        text={res?.title}
+                        style={{
+                          fontSize: hp('1.3'),
+                          textAlign: 'center',
+                          color: 'white',
+                        }}
+                      />
+                    </View>
+                  );
+                })
+              : userData?.user?.course?.map(res => {
+                  console.log('out');
+                  return (
+                    <View style={styles.subView}>
+                      <TextComp
+                        text={res?.title}
+                        style={{
+                          fontSize: hp('1.3'),
+                          textAlign: 'center',
+                          color: 'white',
+                        }}
+                      />
+                    </View>
+                  );
+                })}
 
-          <TouchableOpacity
-            onPress={()=>{updateState({isVisible:true})}}
-            style={{...styles.subView,marginLeft:wp('2'), backgroundColor: colorTutor_.blue}}>
-            <TextComp
-              text="Add Subject"
-              style={{fontSize: hp('1.3'), color: 'white'}}
-            />
-          </TouchableOpacity>
-        </View>
-        <LoginInputComp
+            <TouchableOpacity
+              onPress={() => {
+                updateState({isVisible: true});
+              }}
+              style={{
+                ...styles.subView,
+                marginLeft: wp('2'),
+                backgroundColor: colorTutor_.blue,
+              }}>
+              <TextComp
+                text="Add Subject"
+                style={{fontSize: hp('1.3'), color: 'white'}}
+              />
+            </TouchableOpacity>
+          </View>
+          <LoginInputComp
             placeholder={'About Yourself'}
-            style={{height: hp('20'),  width: wp('95')}}
+            style={{height: hp('20'), width: wp('95')}}
             value={BioData}
             onChangeText={BioData => updateState({BioData: BioData})}
             multiline={true}
-            
             inputStyle={{
               alignSelf: 'flex-start',
               paddingTop: hp('2'),
             }}
           />
-        <ButtonThemeComp
-          TextStyle={{fontSize: hp('1.9')}}
-          style={{
-            width: wp('80'),
-            height: hp('7'),
-            marginVertical: hp('3'),
-          }}
-          onPress={() => updateProfileFunc()}
-          text="Save Profile"
-        />
-      </ScrollView>
-    </Animatable.View>
-    <View style={styles.bottomBar}>
+          <ButtonThemeComp
+            TextStyle={{fontSize: hp('1.9')}}
+            style={{
+              width: wp('80'),
+              height: hp('7'),
+              marginVertical: hp('3'),
+            }}
+            isLoading={isLoading}
+            onPress={() => updateProfileFunc()}
+            text="Save Profile"
+          />
+        </ScrollView>
+      </Animatable.View>
+      <View style={styles.bottomBar}>
         <TouchableOpacity onPress={() => console.log('dont have you acc')}>
           <Text style={globalStyles.globalModuletutor}>Term of use</Text>
         </TouchableOpacity>
@@ -452,8 +469,8 @@ const ProfileScreen = ({navigation}) => {
           <Text style={globalStyles.globalModuletutor}>Privacy Policy</Text>
         </TouchableOpacity>
       </View>
-      { isVisible && <SubjectDetailScreen/>}
-</>
+      {isVisible && <SubjectDetailScreen />}
+    </>
   );
 };
 

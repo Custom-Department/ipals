@@ -476,6 +476,7 @@ const TuteeDashboardScreen = ({navigation}) => {
           renderItem={({item}) => {
             return (
               <PendingReqComp
+                tickStatus={false}
                 checkPendingReq={() => checkPendingReq(item)}
                 onPress={item => updateStatus(item, 'approve')}
                 onCancel={item => updateStatus(item, 'reject')}
@@ -526,7 +527,7 @@ const TuteeDashboardScreen = ({navigation}) => {
         barStyle={Platform.OS == 'ios' ? 'dark-content' : 'default'}
       />
       <HeaderComponent
-      profileOnPress={() => navigation.navigate('SettingScreen',userData)}
+        profileOnPress={() => navigation.navigate('SettingScreen', userData)}
         bellOnPress={() => console.log('bell')}
         navigatorName={topNavigator}
         search={true}
@@ -593,10 +594,13 @@ const TuteeDashboardScreen = ({navigation}) => {
           {message.length > 0 &&
             message.map(res => {
               return (
-                <ThreeViewComp
-                  data={res}
-                  viewStyle={{marginTop: hp('2'), alignSelf: 'center'}}
-                />
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('MessageScreen', res)}>
+                  <ThreeViewComp
+                    data={res}
+                    viewStyle={{marginTop: hp('2'), alignSelf: 'center'}}
+                  />
+                </TouchableOpacity>
               );
             })}
         </ScrollView>

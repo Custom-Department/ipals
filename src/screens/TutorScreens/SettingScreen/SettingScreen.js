@@ -121,9 +121,6 @@ const SettingScreen = ({route,navigation}) => {
      
         <View style={styles.modalMainView}>
           <View style={styles.modalInnerView}>
-           
-        
-
           <TextComp text="Select schedule for class" style={styles.heading} />
           <View style={styles.daysView}>
           {subjectModelList.length > 0
@@ -153,13 +150,10 @@ const SettingScreen = ({route,navigation}) => {
                             : 'normal',
                           fontSize: hp('1.5'),
                         }}/>
-                    
-                      
                     </TouchableOpacity>
                      
                   );
                 })
-
               : null}
               </View>
 
@@ -664,7 +658,7 @@ const SettingScreen = ({route,navigation}) => {
         deleteAccState,
       )}
 
-      <BackHeaderComponent data={true} name3={"settings"} name2={"search"} name1={"bell-fill"} bellOnPress={()=>console.log('bell')} settingOnPress={() => console.log('hello')} />
+      <BackHeaderComponent heading={'SettingScreen'} data={true} name3={"settings"} name2={"search"} bellOnPress={()=>console.log('bell')} settingOnPress={() => console.log('hello')} />
       {editState ? (
         <ProfileScreen />
       ) : accState ? (

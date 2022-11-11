@@ -39,12 +39,14 @@ export const PendingReqComp = props => {
           flex: 1,
           padding: 15,
         }}>
-        <TouchableOpacity onPress={() => props?.onPress(props)}>
-          <Image
-            style={{height: 20, width: 20, margin: 5}}
-            source={require('../../image/rightick.png')}
-          />
-        </TouchableOpacity>
+        {props.tickStatus != false && (
+          <TouchableOpacity onPress={() => props?.onPress(props)}>
+            <Image
+              style={{height: 20, width: 20, margin: 5}}
+              source={require('../../image/rightick.png')}
+            />
+          </TouchableOpacity>
+        )}
         <Image
           style={{height: 20, width: 20, margin: 5, tintColor: 'grey'}}
           source={require('../../image/line.png')}

@@ -179,7 +179,7 @@ const DashboardScreen = ({navigation}) => {
     {
       id: 2,
 
-      firstText: 'Nadia Salvester',
+      firstText: 'Nadia Salvester ',
 
       image: require('../../../image/profile.jpg'),
 
@@ -611,7 +611,7 @@ const DashboardScreen = ({navigation}) => {
         barStyle={Platform.OS == 'ios' ? 'dark-content' : 'default'}
       />
       <HeaderComponent
-        profileOnPress={() => navigation.navigate('SettingScreen')}
+        profileOnPress={() => navigation.navigate('SettingScreen', userData)}
         navigatorName={topNavigator}
         checkIndexStatus={checkIndexStatus}
       />
@@ -774,10 +774,16 @@ const DashboardScreen = ({navigation}) => {
           {message.length > 0 &&
             message.map(res => {
               return (
-                <ThreeViewComp
-                  data={res}
-                  viewStyle={{marginTop: hp('2'), alignSelf: 'center'}}
-                />
+                <TouchableOpacity
+                  onPress={() => {
+                    console.log('aslkjd'),
+                      navigation.navigate('MessageScreen', res);
+                  }}>
+                  <ThreeViewComp
+                    data={res}
+                    viewStyle={{marginTop: hp('2'), alignSelf: 'center'}}
+                  />
+                </TouchableOpacity>
               );
             })}
         </ScrollView>
