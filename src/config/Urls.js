@@ -23,6 +23,7 @@ export const GetMyClasses = getApi('teacher/get-my-class');
 export const UpdateMyClasses = getApi('teacher/update-my-class/');
 export const UpdateRequestStatusUrl = getApi('teacher/status-update-request/');
 export const GetTeachreClasses = getApi('student/get-teacher');
+export const GetTimelotUrl = getApi('student/get-time-slot');
 export const CreateStudentRequestUrl = getApi('student/student-request');
 export const GetTeacherClassesUrl = getApi('student/get-teacher-class/');
 export const GetApprovedClassesUrl = getApi('student/get-approve-class');

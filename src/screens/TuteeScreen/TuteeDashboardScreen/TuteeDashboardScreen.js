@@ -37,6 +37,7 @@ import {
   GetPendingClassesUrl,
   GetPendingClassUrl,
   GetTeachreClasses,
+  UpdateRequestStatusUrl,
 } from '../../../config/Urls';
 import axios from 'react-native-axios';
 import {errorHandler} from '../../../config/helperFunction';
@@ -47,7 +48,8 @@ import {PendingReqComp} from '../../../components/PendingReqComp/PendingReqComp'
 import {store} from '../../../Redux/Reducer';
 
 const TuteeDashboardScreen = ({navigation}) => {
-  const {userData} = useSelector(state => state.userData);
+  const {userData, token} = useSelector(state => state.userData);
+  // const {token} = useSelector(state => state.token);
   const dispatch = useDispatch();
   const [allStates, setAllStates] = useState({
     acceptClassState: [],
@@ -125,6 +127,7 @@ const TuteeDashboardScreen = ({navigation}) => {
       pendingLoading: true,
       GetTeacherLoading: true,
     });
+    console.log(516, token);
     wait(2000).then(() => {
       getApiData(GetTeachreClasses, 'GetTeacherState', 'GetTeacherLoading');
       getApiData(GetPendingClassesUrl, 'pendingClassState', 'pendingLoading');
@@ -187,85 +190,6 @@ const TuteeDashboardScreen = ({navigation}) => {
       id: 4,
     },
   ];
-  const [tutors, setTutors] = useState([
-    {
-      id: 0,
-      firstText: 'Sarah Welson',
-      image: require('../../../image/profile.jpg'),
-      secondText: "Hi, we aren't ready to start our class today...",
-      subject: subject,
-    },
-    {
-      id: 1,
-      firstText: 'Sarah Welson',
-      image: require('../../../image/profile.jpg'),
-      subject: subject,
-      secondText: "Hi, we aren't ready to start our class today...",
-    },
-    {
-      id: 2,
-      firstText: 'Sarah Welson',
-      subject: subject,
-      image: require('../../../image/profile.jpg'),
-      secondText: "Hi, we aren't ready to start our class today...",
-    },
-    {
-      id: 3,
-      firstText: 'Sarah Welson',
-      subject: subject,
-      image: require('../../../image/profile.jpg'),
-      secondText: "Hi, we aren't ready to start our class today...",
-    },
-    {
-      id: 4,
-      firstText: 'Sarah Welson',
-      subject: subject,
-      image: require('../../../image/profile.jpg'),
-      secondText: "Hi, we aren't ready to start our class today...",
-    },
-    {
-      id: 5,
-      firstText: 'Sarah Welson',
-      subject: subject,
-      image: require('../../../image/profile.jpg'),
-      secondText: "Hi, we aren't ready to start our class today...",
-    },
-    {
-      id: 6,
-      firstText: 'Sarah Welson',
-      subject: subject,
-      image: require('../../../image/profile.jpg'),
-      secondText: "Hi, we aren't ready to start our class today...",
-    },
-    {
-      id: 7,
-      firstText: 'Sarah Welson',
-      subject: subject,
-      image: require('../../../image/profile.jpg'),
-      secondText: "Hi, we aren't ready to start our class today...",
-    },
-    {
-      id: 8,
-      firstText: 'Sarah Welson',
-      subject: subject,
-      image: require('../../../image/profile.jpg'),
-      secondText: "Hi, we aren't ready to start our class today...",
-    },
-    {
-      id: 9,
-      firstText: 'Sarah Welson',
-      subject: subject,
-      image: require('../../../image/profile.jpg'),
-      secondText: "Hi, we aren't ready to start our class today...",
-    },
-    {
-      id: 10,
-      firstText: 'Sarah Welson',
-      subject: subject,
-      image: require('../../../image/profile.jpg'),
-      secondText: "Hi, we aren't ready to start our class today...",
-    },
-  ]);
   const pickerRef = useRef('English');
 
   function open() {
@@ -439,6 +363,32 @@ const TuteeDashboardScreen = ({navigation}) => {
       </View>
     );
   };
+  const updateStatus = (data, status) => {
+    updateLoadingState({pendingLoading: true});
+    let url = UpdateRequestStatusUrl + data.data.id;
+    let body = {
+      status: status,
+    };
+
+    axios
+      .put(url, body, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(function (response) {
+        updateLoadingState({pendingLoading: false});
+        getApiData(GetPendingClassesUrl, 'pendingClassState', 'pendingLoading');
+        status == 'approve' &&
+          getApiData(
+            GetApprovedClassesUrl,
+            'acceptClassState',
+            'acceptLoading',
+          );
+      })
+      .catch(function (error) {
+        updateLoadingState({pendingLoading: false});
+        errorMessage(errorHandler(error));
+      });
+  };
   const PendingView = () => {
     return pendingLoading ? (
       <>
@@ -478,7 +428,6 @@ const TuteeDashboardScreen = ({navigation}) => {
               <PendingReqComp
                 tickStatus={false}
                 checkPendingReq={() => checkPendingReq(item)}
-                onPress={item => updateStatus(item, 'approve')}
                 onCancel={item => updateStatus(item, 'reject')}
                 data={item}
               />
@@ -497,7 +446,7 @@ const TuteeDashboardScreen = ({navigation}) => {
     updateLoadingState({[loading]: true});
     axios
       .get(url, {
-        headers: {Authorization: `Bearer ${userData.token}`},
+        headers: {Authorization: `Bearer ${token}`},
       })
       .then(function (response) {
         updateState({[state]: response.data.data});
@@ -515,6 +464,7 @@ const TuteeDashboardScreen = ({navigation}) => {
     getApiData(GetTeachreClasses, 'GetTeacherState', 'GetTeacherLoading');
     getApiData(GetPendingClassesUrl, 'pendingClassState', 'pendingLoading');
     getApiData(GetApprovedClassesUrl, 'acceptClassState', 'acceptLoading');
+    console.log(516, token);
   }, []);
   return (
     <View

@@ -43,16 +43,16 @@ import {errorHandler} from '../../../config/helperFunction';
 import types from '../../../Redux/types';
 
 const ProfileScreen = ({navigation}) => {
-  const {userData} = useSelector(state => state.userData);
-  const dispatch = useDispatch();
+  const {userData, token} = useSelector(state => state.userData);
 
+  const dispatch = useDispatch();
   const [stateChange, setStateChange] = useState({
     editState: false,
     accState: false,
     createAccoutState: false,
     childAccState: false,
     deleteAccState: false,
-    BioData: userData?.user?.bio,
+    BioData: userData?.bio,
     isLoading: false,
     userImage: [],
     subjectModelLoader: false,
@@ -80,71 +80,70 @@ const ProfileScreen = ({navigation}) => {
 
   useEffect(() => {
     getSubjectFunct();
-    console.log('mount');
     return () => {
       updateState({isVisible: false});
-      console.log(userData?.user?.course?.pivot, 'cleaned up');
     };
   }, []);
 
   const getSubjectFunct = () => {
-    // updateState({isVisible:true,subjectModelLoader: true});
     updateState({subjectModelLoader: true});
     axios
       .get(GetCourseUrl, {
-        headers: {Authorization: `Bearer ${userData?.token}`},
+        headers: {Authorization: `Bearer ${token}`},
       })
       .then(function (response) {
         updateState({subjectModelList: response.data.data});
-        // updateLoadingState({[loading]: false});
         updateState({subjectModelLoader: false});
       })
       .catch(function (error) {
-        // updateLoadingState({[loading]: false});
         updateState({subjectModelLoader: false});
         errorMessage(errorHandler(error));
       });
   };
 
   const updateProfileFunc = () => {
-    var bodyFormData = new FormData();
     updateState({isLoading: true});
-    if (activities != []) {
+    if (activities.length > 0) {
       activities.map(res => {
         return idSubjectArray.push(res?.id);
       });
     } else {
-      userData?.user?.course?.map(res => {
+      userData?.course?.map(res => {
         return idSubjectArray.push(res?.id);
       });
     }
-    console.log(110, idSubjectArray, BioData, userImage[0]?.fileName, userData);
     // bodyFormData.append('profile_image',userImage[0]?.fileName);
-    bodyFormData.append('profile_image', {
-      name: userImage[0]?.fileName,
-      uri: userImage[0]?.uri,
-      type: userImage[0]?.type,
-    });
-    bodyFormData.append('bio', BioData);
-    bodyFormData.append('course_id', 1);
 
     if (BioData != null && BioData != '') {
+      var bodyFormData = new FormData();
+
+      bodyFormData.append('profile_image', {
+        name: userImage[0]?.fileName,
+        uri: userImage[0]?.uri,
+        type: userImage[0]?.type,
+      });
+      bodyFormData.append('bio', BioData);
+      bodyFormData.append('course_id', [1]);
+      console.log(34, bodyFormData);
       axios
         .post(UpdateProfileUrl, bodyFormData, {
           headers: {
-            Authorization: `Bearer ${userData.token}`,
+            Authorization: `Bearer ${token}`,
             'Content-Type': 'multipart/form-data',
           },
         })
         .then(res => {
-          console.log(146, res);
           updateState({isLoading: false});
+          console.log(137, res.data.data);
+          dispatch({
+            type: types.UpdateProfile,
+            payload: {user: res.data.data},
+          });
           successMessage('Your Profile Successful Updated');
         })
         .catch(function (error) {
           updateState({isLoading: false});
-
-          console.log(54, error);
+          console.log(149, error);
           errorMessage(errorHandler(error));
         });
     } else {
@@ -369,7 +368,7 @@ const ProfileScreen = ({navigation}) => {
               uri:
                 userImage.length > 0
                   ? userImage[0]?.uri
-                  : userData?.user?.profileImageLink,
+                  : userData?.profileImageLink,
             }}>
             <FontAwesome
               onPress={() => pickImagesFromGalary()}
@@ -380,7 +379,7 @@ const ProfileScreen = ({navigation}) => {
           </ImageBackground>
           <TextComp
             style={styles.textharMatin}
-            text={userData?.user?.f_name + ' ' + userData?.user?.l_name}
+            text={userData?.f_name + ' ' + userData?.l_name}
           />
           <View
             style={{
@@ -406,8 +405,7 @@ const ProfileScreen = ({navigation}) => {
                     </View>
                   );
                 })
-              : userData?.user?.course?.map(res => {
-                  console.log('out');
+              : userData?.course?.map(res => {
                   return (
                     <View style={styles.subView}>
                       <TextComp
@@ -422,6 +420,20 @@ const ProfileScreen = ({navigation}) => {
                   );
                 })}
 
+            {/* { activities.length>0?activities?.map: userData?.user?.course?.map (res =>{
+          return(
+            <View style={styles.subView}>
+            <TextComp
+              text={res?.title}
+              style={{
+                fontSize: hp('1.3'),
+                textAlign: 'center',
+                color: 'white',
+              }}
+            />
+          </View>
+          )
+        })} */}
             <TouchableOpacity
               onPress={() => {
                 updateState({isVisible: true});
