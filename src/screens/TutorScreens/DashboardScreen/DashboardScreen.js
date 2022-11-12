@@ -612,9 +612,9 @@ const DashboardScreen = ({navigation}) => {
         barStyle={Platform.OS == 'ios' ? 'dark-content' : 'default'}
       />
       <HeaderComponent
-        profileOnPress={() => navigation.navigate('SettingScreen')}
         navigatorName={topNavigator}
         checkIndexStatus={checkIndexStatus}
+        profileOnPress={() => navigation.navigate('SettingScreen', userData)}
       />
       {index == 0 && (
         <ScrollView
