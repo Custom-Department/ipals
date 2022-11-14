@@ -11,6 +11,20 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  activitiesContainer: {
+    width: wp('25'),
+    height: hp('4'),
+    borderColor: 'black',
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    marginTop: hp('2'),
+    maxHeight: hp('7'),
+    marginLeft:wp('2'),
+    marginRight:wp('1'),
+    marginBottom:hp('2')
+  },
   midView: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -51,6 +65,7 @@ export const styles = StyleSheet.create({
     paddingBottom: hp('0.5'),
     paddingLeft: hp('1.5'),
     paddingRight: hp('1.5'),
+    
     alignSelf: 'center',
     marginTop: hp('1'),
   },
@@ -96,17 +111,18 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalInnerView: {
-    
     width: wp('90'),
     borderRadius: 10,
-    height: hp('50'),
+    paddingBottom:hp('2'),
     backgroundColor: 'white',
     overflow: Platform.OS == 'ios' ? 'visible' : 'hidden',
     zIndex: 1,
   },
+
   Bottombtn:{
     alignSelf:'center'
   },
+  
   heading: {
     marginLeft: wp('5'),
     fontWeight: 'bold',
@@ -114,10 +130,11 @@ export const styles = StyleSheet.create({
   },
 
 daysView: {
+  width:wp('85'),
+  alignSelf:'center',
 flexDirection: 'row',
-width: wp('90'),
-flexWrap: 'wrap',
-justifyContent: 'space-around',
+// flexWrap: 'wrap',
+flexWrap:'wrap',
 },
 
 });

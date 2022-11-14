@@ -21,8 +21,6 @@ width: wp('90'),
 flexWrap: 'wrap',
 justifyContent: 'space-around',
 },
-
-
   activitiesContainer: {
     width: wp('30'),
     height: hp('6'),
@@ -162,7 +160,6 @@ justifyContent: 'space-around',
     
     width: wp('90'),
     borderRadius: 10,
-    height: hp('50'),
     backgroundColor: 'white',
     overflow: Platform.OS == 'ios' ? 'visible' : 'hidden',
     zIndex: 1,

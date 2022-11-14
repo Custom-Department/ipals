@@ -68,28 +68,28 @@ const SeacrhFilterScreen = ({navigation}) => {
   const updateState = data => setPickerState(prev => ({...prev, ...data}));
   const {CityData, CountryData, StateData, ZipCodeData} = pickerState;
   const onPressFilter = () => {
-    dispatch({
-      type: types.LogoutType,
-    });
-    // const allData = {
-    //   name: teacherName,
-    //   countryId: tutorValue.CountryData,
-    //   cityId: tutorValue.CityData,
-    //   stateId: tutorValue.StateData,
-    //   zipCode: zipCode,
-    // };
-    // if (
-    //   teacherName != '' ||
-    //   teacherName != null ||
-    //   tutorValue.CityData != null ||
-    //   tutorValue.CountryData != null ||
-    //   tutorValue.StateData != null ||
-    //   zipCode != ''
-    // ) {
-    //   navigation.navigate('TeacherFilterScreen', {item: allData});
-    // } else {
-    //   errorMessage('Please type for apply filter');
-    // }
+    // dispatch({
+    //   type: types.LogoutType,
+    // });
+    const allData = {
+      name: teacherName,
+      countryId: tutorValue.CountryData,
+      cityId: tutorValue.CityData,
+      stateId: tutorValue.StateData,
+      zipCode: zipCode,
+    };
+    if (
+      teacherName != '' ||
+      teacherName != null ||
+      tutorValue.CityData != null ||
+      tutorValue.CountryData != null ||
+      tutorValue.StateData != null ||
+      zipCode != ''
+    ) {
+      navigation.navigate('TeacherFilterScreen', {item: allData});
+    } else {
+      errorMessage('Please type for apply filter');
+    }
   };
   useEffect(() => {
     getPickerData('CountryData', GetCountryUrl);

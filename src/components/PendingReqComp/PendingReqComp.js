@@ -8,9 +8,11 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 export const PendingReqComp = props => {
+  const {user} = props.data.my_class ?? props.data;
   return (
     <TouchableOpacity
-      onPress={() => props?.checkPendingReq(props)}
+      onPress={() => console.log('HGUJBU')}
+      // onPress={() => props?.checkPendingReq(props)}
       style={{
         flexDirection: 'row',
         backgroundColor: 'white',
@@ -27,11 +29,9 @@ export const PendingReqComp = props => {
           borderRadius: 20,
           marginTop: 5,
         }}
-        source={require('../../image/profile.jpg')}
+        source={{uri: user?.profileImageLink}}
       />
-      <Text style={{color: 'black', padding: 15}}>
-        {props?.data?.user?.f_name}
-      </Text>
+      <Text style={{color: 'black', padding: 15}}>{user?.f_name}</Text>
       <View
         style={{
           flexDirection: 'row',
@@ -39,12 +39,14 @@ export const PendingReqComp = props => {
           flex: 1,
           padding: 15,
         }}>
-        <TouchableOpacity onPress={() => props?.onPress(props)}>
-          <Image
-            style={{height: 20, width: 20, margin: 5}}
-            source={require('../../image/rightick.png')}
-          />
-        </TouchableOpacity>
+        {props.tickStatus != false && (
+          <TouchableOpacity onPress={() => props?.onPress(props)}>
+            <Image
+              style={{height: 20, width: 20, margin: 5}}
+              source={require('../../image/rightick.png')}
+            />
+          </TouchableOpacity>
+        )}
         <Image
           style={{height: 20, width: 20, margin: 5, tintColor: 'grey'}}
           source={require('../../image/line.png')}

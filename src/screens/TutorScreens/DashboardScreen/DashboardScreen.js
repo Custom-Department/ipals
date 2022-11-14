@@ -775,10 +775,13 @@ const DashboardScreen = ({navigation}) => {
           {message.length > 0 &&
             message.map(res => {
               return (
-                <ThreeViewComp
-                  data={res}
-                  viewStyle={{marginTop: hp('2'), alignSelf: 'center'}}
-                />
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('MessageScreen', res)}>
+                  <ThreeViewComp
+                    data={res}
+                    viewStyle={{marginTop: hp('2'), alignSelf: 'center'}}
+                  />
+                </TouchableOpacity>
               );
             })}
         </ScrollView>

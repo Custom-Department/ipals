@@ -12,10 +12,12 @@ import { colorTutor_ } from '../../../config/color';
 import { TextComp } from '../../../components/TextComponent';
 import { styles } from './style';
 import { LoginInputComp } from '../../../components/LoginInputComp/LoginInputComp';
-const MessageScreen = () => {
+const MessageScreen = ({route}) => {
+  const items=route.params
+  console.log(17,items)
   return (
     <View style={{flex:1}}>
-      <BackHeaderComponent changeIcon3={
+      <BackHeaderComponent heading={items?.firstText} changeIcon3={
         <Entypo
         onPress={() => props?.settingOnPress()}
         name={'dots-three-vertical'}

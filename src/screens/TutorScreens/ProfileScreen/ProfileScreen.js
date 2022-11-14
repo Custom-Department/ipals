@@ -153,55 +153,58 @@ const ProfileScreen = ({navigation}) => {
   };
   const SubjectDetailScreen = () => {
     return (
-      <View style={styles.modalMainView}>
-        <View style={styles.modalInnerView}>
-          <TextComp text="Select schedule for class" style={styles.heading} />
-          <View style={styles.daysView}>
-            {subjectModelList.length > 0
-              ? subjectModelList.map((res, i) => {
-                  return (
-                    <TouchableOpacity
-                      onPress={() => selectActivities(res, i)}
-                      style={{
-                        ...styles.activitiesContainer,
-                        backgroundColor: activities.includes(res)
-                          ? color.lightPurple
-                          : 'white',
-                        borderColor: activities.includes(res)
-                          ? color.orderBoxColor
-                          : 'black',
-                        borderWidth: activities.includes(res) ? 2 : 1,
-                      }}>
-                      <TextComp
-                        text={res?.title}
-                        style={{
-                          textAlign: 'center',
-                          color: activities.includes(res)
-                            ? color.orderBoxColor
-                            : 'black',
-                          fontWeight: activities.includes(res)
-                            ? 'bold'
-                            : 'normal',
-                          fontSize: hp('1.5'),
-                        }}
-                      />
-                    </TouchableOpacity>
-                  );
-                })
-              : null}
-          </View>
+      <>
+        <View style={styles.modalMainView}>
+          <View style={styles.modalInnerView}>
+            <TextComp text="Select schedule for class" style={styles.heading} />
+            <View style={styles.daysView}>
+              {subjectModelList.length > 0
+                ? subjectModelList.map((res, i) => {
+                    return (
+                      <>
+                        <TouchableOpacity
+                          onPress={() => selectActivities(res, i)}
+                          style={{
+                            ...styles.activitiesContainer,
+                            backgroundColor: activities.includes(res)
+                              ? color.lightPurple
+                              : 'white',
+                            borderColor: activities.includes(res)
+                              ? color.orderBoxColor
+                              : 'black',
+                            borderWidth: activities.includes(res) ? 2 : 1,
+                          }}>
+                          <TextComp
+                            text={res?.title}
+                            style={{
+                              textAlign: 'center',
+                              color: activities.includes(res)
+                                ? color.orderBoxColor
+                                : 'black',
+                              fontWeight: activities.includes(res)
+                                ? 'bold'
+                                : 'normal',
+                              fontSize: hp('1.5'),
+                            }}
+                          />
+                        </TouchableOpacity>
+                      </>
+                    );
+                  })
+                : null}
+            </View>
 
-          <View style={styles.Bottombtn}>
-            {/* <ButtonThemeComp onPress={()=>updateState({isVisible:false})} text={'Apply For Class'} /> */}
-            <ButtonThemeComp
-              onPress={() => {
-                updateState({isVisible: false});
-              }}
-              text={'Apply For Class'}
-            />
+            <View style={styles.Bottombtn}>
+              <ButtonThemeComp
+                onPress={() => {
+                  updateState({isVisible: false});
+                }}
+                text={'Apply For Class'}
+              />
+            </View>
           </View>
         </View>
-      </View>
+      </>
     );
   };
   const selectActivities = (v, i) => {
@@ -231,19 +234,18 @@ const ProfileScreen = ({navigation}) => {
   };
   return (
     <>
-      <Animatable.View animation="fadeInRight">
-        <ScrollView contentContainerStyle={styles.midView}>
-          <View style={{flexDirection: 'row', alignSelf: 'baseline'}}>
-            <Ionicons
-              style={styles.icon1}
-              name={'md-arrow-back'}
-              size={hp('3')}
-              color={'white'}
-              // onPress={() => updateState({editState: false})}
-              onPress={() => navigation.goBack()}
-            />
-          </View>
-
+      <Animatable.View
+        style={{flex: 1, backgroundColor: colorTutor_.ipalBlue}}
+        animation="fadeInRight">
+        <BackHeaderComponent
+          heading={'Profile Screen'}
+          data={true}
+          bellOnPress={() => console.log('bell')}
+          settingOnPress={() => console.log('hello')}
+        />
+        <ScrollView
+          keyboardShouldPersistTaps="always"
+          contentContainerStyle={styles.midView}>
           <ImageBackground
             style={{
               justifyContent: 'center',
@@ -332,7 +334,11 @@ const ProfileScreen = ({navigation}) => {
               onPress={() => {
                 updateState({isVisible: true});
               }}
-              style={{...styles.subView, backgroundColor: colorTutor_.blue}}>
+              style={{
+                ...styles.subView,
+                marginLeft: wp('2'),
+                backgroundColor: colorTutor_.blue,
+              }}>
               <TextComp
                 text="Add Subject"
                 style={{fontSize: hp('1.3'), color: 'white'}}
@@ -357,11 +363,20 @@ const ProfileScreen = ({navigation}) => {
               height: hp('7'),
               marginVertical: hp('3'),
             }}
+            isLoading={isLoading}
             onPress={() => updateProfileFunc()}
             text="Save Profile"
           />
         </ScrollView>
       </Animatable.View>
+      <View style={styles.bottomBar}>
+        <TouchableOpacity onPress={() => console.log('dont have you acc')}>
+          <Text style={globalStyles.globalModuletutor}>Term of use</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => console.log('dont have you acc')}>
+          <Text style={globalStyles.globalModuletutor}>Privacy Policy</Text>
+        </TouchableOpacity>
+      </View>
       {isVisible && <SubjectDetailScreen />}
     </>
   );

@@ -16,7 +16,7 @@ export const TuteeHomeComp = props => {
       onPress={() => props?.navigate(data)}
       style={styles.mainView}>
       <CircleImageComp
-        image={require('../../image/profile.jpg')}
+        image={{uri: data?.profileImageLink}}
         styles={{
           alignSelf: 'center',
           // position: 'absolute',
