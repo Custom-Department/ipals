@@ -668,10 +668,8 @@ const SettingScreen = ({route, navigation}) => {
       )}
 
       <BackHeaderComponent
-        heading={'Setting'}
+        heading={'S E T T I N G'}
         data={true}
-        name3={'settings'}
-        name2={'search'}
         bellOnPress={() => console.log('bell')}
         settingOnPress={() => console.log('hello')}
       />
@@ -696,11 +694,14 @@ const SettingScreen = ({route, navigation}) => {
               fontSize: hp('2'),
             }}
           />
-          <SettingIconComp
-            name={'bell-fill'}
-            text={'Notifications'}
-            switch={true}
-          />
+          <TouchableOpacity
+            onPress={() => navigation.navigate('NotificationScreen')}>
+            <SettingIconComp
+              name={'bell-fill'}
+              text={'Notifications'}
+              switch={true}
+            />
+          </TouchableOpacity>
           <TouchableOpacity onPress={() => updateState({accState: true})}>
             <SettingIconComp
               onPress={() => console.log('hellow')}

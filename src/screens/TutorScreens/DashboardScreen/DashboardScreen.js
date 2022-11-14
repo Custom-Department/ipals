@@ -615,6 +615,7 @@ const DashboardScreen = ({navigation}) => {
         headerText={userData.f_name}
         uri={userData?.profileImageLink}
         profileOnPress={() => navigation.navigate('SettingScreen', userData)}
+        bellOnPress={() => navigation.navigate('NotificationScreen')}
         navigatorName={topNavigator}
         checkIndexStatus={checkIndexStatus}
       />

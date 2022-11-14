@@ -338,9 +338,7 @@ const ProfileScreen = ({navigation}) => {
   };
   return (
     <>
-      <Animatable.View
-        style={{flex: 1, backgroundColor: colorTutor_.ipalBlue}}
-        animation="fadeInRight">
+      <View style={{flex: 1, backgroundColor: colorTutor_.ipalBlue}}>
         <BackHeaderComponent
           heading={'Profile Screen'}
           data={true}
@@ -472,7 +470,7 @@ const ProfileScreen = ({navigation}) => {
             text="Save Profile"
           />
         </ScrollView>
-      </Animatable.View>
+      </View>
       <View style={styles.bottomBar}>
         <TouchableOpacity onPress={() => console.log('dont have you acc')}>
           <Text style={globalStyles.globalModuletutor}>Term of use</Text>

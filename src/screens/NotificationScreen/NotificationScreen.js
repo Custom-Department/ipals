@@ -47,7 +47,7 @@ export const NotificationScreen = () => {
   return (
     <View style={{flex: 1, backgroundColor: colorTutor_.topNavigationColor}}>
       <BackHeaderComponent
-        heading={'Notification'}
+        heading={'N o t i f i c a t i o n'}
         data={true}
         bellOnPress={() => console.log('bell')}
         settingOnPress={() => console.log('hello')}

@@ -100,7 +100,7 @@ const SeacrhFilterScreen = ({navigation}) => {
         backgroundColor: colorTutor_.ipalBlue,
         flex: 1,
       }}>
-      <BackHeaderComponent heading={'Search Filter'} />
+      <BackHeaderComponent heading={'S e a r c h  F i l t e r'} />
       <ScrollView contentContainerStyle={{flex: 1}}>
         <TextComp
           text="Search by name"
