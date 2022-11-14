@@ -10,7 +10,7 @@ import {
   FlatList,
   Modal,
 } from 'react-native';
-import React, {useState,useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {color, colorTutor_} from '../../../config/color';
 import {
   widthPercentageToDP as wp,
@@ -33,18 +33,18 @@ import ChildAccountView from '../../../components/ChildAccountView/ChildAccountV
 import {PendingReqComp} from '../../../components/PendingReqComp/PendingReqComp';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import { useDispatch } from 'react-redux';
+import {useDispatch} from 'react-redux';
 import types from '../../../Redux/types';
 import axios from 'react-native-axios';
-import { GetCourseUrl, UpdateProfileUrl } from '../../../config/Urls';
-import { errorHandler } from '../../../config/helperFunction';
-import { errorMessage } from '../../../config/NotificationMessage';
+import {GetCourseUrl, UpdateProfileUrl} from '../../../config/Urls';
+import {errorHandler} from '../../../config/helperFunction';
+import {errorMessage} from '../../../config/NotificationMessage';
 
-const SettingScreen = ({route,navigation}) => {
-  const [isVisible,setIsVisible]=useState();
-  const {user,token}=route.params;
+const SettingScreen = ({route, navigation}) => {
+  const [isVisible, setIsVisible] = useState();
+  const {user, token} = route.params;
 
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
   const [list, setList] = useState([
     {
       id: 0,
@@ -83,15 +83,15 @@ const SettingScreen = ({route,navigation}) => {
     createAccoutState: false,
     childAccState: false,
     deleteAccState: false,
-    BioData:user?.bio,
-    isLoading:false,
+    BioData: user?.bio,
+    isLoading: false,
     userImage: [],
-    subjectModelLoader:false,
-    subjectModelList:[],
+    subjectModelLoader: false,
+    subjectModelList: [],
     activities: [],
-    idSubjectArray:[]
+    idSubjectArray: [],
   });
-  const updateState = data => setStateChange((prev) => ({...prev, ...data}));
+  const updateState = data => setStateChange(prev => ({...prev, ...data}));
   const {
     editState,
     accState,
@@ -104,7 +104,7 @@ const SettingScreen = ({route,navigation}) => {
     subjectModelLoader,
     subjectModelList,
     activities,
-    idSubjectArray
+    idSubjectArray,
   } = stateChange;
 
   const selectActivities = (v, i) => {
@@ -118,12 +118,11 @@ const SettingScreen = ({route,navigation}) => {
   };
   const SubjectDetailScreen = () => {
     return (
-     
-        <View style={styles.modalMainView}>
-          <View style={styles.modalInnerView}>
+      <View style={styles.modalMainView}>
+        <View style={styles.modalInnerView}>
           <TextComp text="Select schedule for class" style={styles.heading} />
           <View style={styles.daysView}>
-          {subjectModelList.length > 0
+            {subjectModelList.length > 0
               ? subjectModelList.map((res, i) => {
                   return (
                     <TouchableOpacity
@@ -139,7 +138,7 @@ const SettingScreen = ({route,navigation}) => {
                         borderWidth: activities.includes(res) ? 2 : 1,
                       }}>
                       <TextComp
-                        text={res?.title}  
+                        text={res?.title}
                         style={{
                           textAlign: 'center',
                           color: activities.includes(res)
@@ -149,25 +148,26 @@ const SettingScreen = ({route,navigation}) => {
                             ? 'bold'
                             : 'normal',
                           fontSize: hp('1.5'),
-                        }}/>
+                        }}
+                      />
                     </TouchableOpacity>
-                     
                   );
                 })
               : null}
-              </View>
+          </View>
 
-           <View style={styles.Bottombtn}>
-                       {/* <ButtonThemeComp onPress={()=>updateState({isVisible:false})} text={'Apply For Class'} /> */}
-                       <ButtonThemeComp onPress={()=>setIsVisible(false)} text={'Apply For Class'} />
-           
-                       </View>
+          <View style={styles.Bottombtn}>
+            {/* <ButtonThemeComp onPress={()=>updateState({isVisible:false})} text={'Apply For Class'} /> */}
+            <ButtonThemeComp
+              onPress={() => setIsVisible(false)}
+              text={'Apply For Class'}
+            />
           </View>
         </View>
+      </View>
     );
   };
 
-  
   // const loginUserFun = () => {
   //   // setIsloading(true);
   //   const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -201,7 +201,7 @@ const SettingScreen = ({route,navigation}) => {
   //   }
   // };
   // const updateProfileFunc =()=>{
-  
+
   //   updateState({isLoading:true})
   //   if(BioData !=null && BioData !='' && userImage !=null && userImage != ''){
   //       let body={
@@ -229,11 +229,9 @@ const SettingScreen = ({route,navigation}) => {
   //             errorMessage('Please type correct information');
   //           }
   //   }
-  
-
 
   const getSubjectFunct = () => {
-    setIsVisible(true)
+    setIsVisible(true);
     // updateState({isVisible:true,subjectModelLoader: true});
     updateState({subjectModelLoader: true});
     axios
@@ -243,7 +241,7 @@ const SettingScreen = ({route,navigation}) => {
       .then(function (response) {
         updateState({subjectModelList: response.data.data});
         // updateLoadingState({[loading]: false});
-    updateState({subjectModelLoader: false});
+        updateState({subjectModelLoader: false});
       })
       .catch(function (error) {
         // updateLoadingState({[loading]: false});
@@ -252,7 +250,6 @@ const SettingScreen = ({route,navigation}) => {
       });
   };
   const pickImagesFromGalary = () => {
-
     launchImageLibrary(
       {
         selectionLimit: 1,
@@ -269,9 +266,8 @@ const SettingScreen = ({route,navigation}) => {
     );
   };
   const ProfileScreen = () => {
-    console.log('profile')
+    console.log('profile');
     return (
-   
       <Animatable.View animation="fadeInRight">
         <ScrollView contentContainerStyle={styles.midView}>
           <View style={{flexDirection: 'row', alignSelf: 'baseline'}}>
@@ -283,7 +279,7 @@ const SettingScreen = ({route,navigation}) => {
               onPress={() => updateState({editState: false})}
             />
           </View>
-          
+
           <ImageBackground
             style={{
               justifyContent: 'center',
@@ -298,21 +294,33 @@ const SettingScreen = ({route,navigation}) => {
                   Dimensions.get('window').height,
               ),
             }}
-            source={{uri:userImage.length>0?userImage[0]?.uri:user?.profileImageLink}}            
-            >
-            <FontAwesome onPress={()=>pickImagesFromGalary()} name="camera" size={hp('3.8')} color="white" />
+            source={{
+              uri:
+                userImage.length > 0
+                  ? userImage[0]?.uri
+                  : user?.profileImageLink,
+            }}>
+            <FontAwesome
+              onPress={() => pickImagesFromGalary()}
+              name="camera"
+              size={hp('3.8')}
+              color="white"
+            />
           </ImageBackground>
-          <TextComp style={styles.textharMatin} text={user?.f_name+" "+user?.l_name} />
+          <TextComp
+            style={styles.textharMatin}
+            text={user?.f_name + ' ' + user?.l_name}
+          />
           <View
             style={{
               flexDirection: 'row',
               width: wp('100'),
-              alignItems:'center',
+              alignItems: 'center',
               justifyContent: 'center',
-              flexWrap:'wrap',
-              display:'flex'
+              flexWrap: 'wrap',
+              display: 'flex',
             }}>
-          {/* {activities.length>0?
+            {/* {activities.length>0?
           activities?.map(res =>{
             return(
               <View style={styles.subView}>
@@ -342,22 +350,24 @@ const SettingScreen = ({route,navigation}) => {
             )
           })}
          */}
-         {   user?.course?.map(res =>{
-            return(
-              <View style={styles.subView}>
-              <TextComp
-                text={res?.title}
-                style={{
-                  fontSize: hp('1.3'),
-                  textAlign: 'center',
-                  color: 'white',
-                }}
-              />
-            </View>
-            )
-          })}
+            {user?.course?.map(res => {
+              return (
+                <View style={styles.subView}>
+                  <TextComp
+                    text={res?.title}
+                    style={{
+                      fontSize: hp('1.3'),
+                      textAlign: 'center',
+                      color: 'white',
+                    }}
+                  />
+                </View>
+              );
+            })}
             <TouchableOpacity
-              onPress={()=>{getSubjectFunct()}}
+              onPress={() => {
+                getSubjectFunct();
+              }}
               style={{...styles.subView, backgroundColor: colorTutor_.blue}}>
               <TextComp
                 text="Add Subject"
@@ -366,16 +376,16 @@ const SettingScreen = ({route,navigation}) => {
             </TouchableOpacity>
           </View>
           <LoginInputComp
-              placeholder={'About Yourself'}
-              style={{height: hp('20'),  width: wp('95')}}
-              value={BioData}
-              onChangeText={BioData => updateState({BioData: BioData})}
-              multiline={true}
-              inputStyle={{
-                alignSelf: 'flex-start',
-                paddingTop: hp('2'),
-              }}
-            />
+            placeholder={'About Yourself'}
+            style={{height: hp('20'), width: wp('95')}}
+            value={BioData}
+            onChangeText={BioData => updateState({BioData: BioData})}
+            multiline={true}
+            inputStyle={{
+              alignSelf: 'flex-start',
+              paddingTop: hp('2'),
+            }}
+          />
           <ButtonThemeComp
             TextStyle={{fontSize: hp('1.9')}}
             style={{
@@ -387,7 +397,6 @@ const SettingScreen = ({route,navigation}) => {
             text="Save Profile"
           />
         </ScrollView>
-      
       </Animatable.View>
     );
   };
@@ -596,7 +605,7 @@ const SettingScreen = ({route,navigation}) => {
   const DeleteAccount = () => {
     return (
       <Animatable.View animation="fadeInRight" style={styles.setContainer}>
-        <View style={{flexDirection: 'row',marginLeft:wp('5')}}>
+        <View style={{flexDirection: 'row', marginLeft: wp('5')}}>
           <Ionicons
             style={styles.icon1}
             name={'md-arrow-back'}
@@ -658,7 +667,14 @@ const SettingScreen = ({route,navigation}) => {
         deleteAccState,
       )}
 
-      <BackHeaderComponent heading={'SettingScreen'} data={true} name3={"settings"} name2={"search"} bellOnPress={()=>console.log('bell')} settingOnPress={() => console.log('hello')} />
+      <BackHeaderComponent
+        heading={'Setting'}
+        data={true}
+        name3={'settings'}
+        name2={'search'}
+        bellOnPress={() => console.log('bell')}
+        settingOnPress={() => console.log('hello')}
+      />
       {editState ? (
         <ProfileScreen />
       ) : accState ? (
@@ -693,7 +709,8 @@ const SettingScreen = ({route,navigation}) => {
             />
           </TouchableOpacity>
           {/* <TouchableOpacity onPress={() => updateState({editState: true})}> */}
-          <TouchableOpacity onPress={() => navigation.navigate('ProfileScreen')}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('ProfileScreen')}>
             <SettingIconComp
               text={'Edit Profile'}
               changeIcon={
@@ -710,8 +727,8 @@ const SettingScreen = ({route,navigation}) => {
             name={'info'}
             text={'Help & Guide'}
           />
-          <TouchableOpacity onPress={()=>dispatch({type:types.LogoutType  })}>
-          <SettingIconComp  name={'sign-out'} text={' Log out'} />
+          <TouchableOpacity onPress={() => dispatch({type: types.LogoutType})}>
+            <SettingIconComp name={'sign-out'} text={' Log out'} />
           </TouchableOpacity>
         </Animatable.View>
       )}
@@ -723,10 +740,8 @@ const SettingScreen = ({route,navigation}) => {
           <Text style={globalStyles.globalModuletutor}>Privacy Policy</Text>
         </TouchableOpacity>
       </View>
-      { isVisible && <SubjectDetailScreen/>}
-
+      {isVisible && <SubjectDetailScreen />}
     </View>
-    
   );
-            }
+};
 export default SettingScreen;

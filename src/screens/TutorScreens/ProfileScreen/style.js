@@ -21,9 +21,9 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: hp('2'),
     maxHeight: hp('7'),
-    marginLeft:wp('2'),
-    marginRight:wp('1'),
-    marginBottom:hp('2')
+    marginLeft: wp('2'),
+    marginRight: wp('1'),
+    marginBottom: hp('2'),
   },
   midView: {
     justifyContent: 'center',
@@ -31,6 +31,7 @@ export const styles = StyleSheet.create({
     alignSelf: 'center',
     width: wp('90'),
     marginTop: hp('3'),
+    paddingBottom: hp('13'),
   },
   bottomBar: {
     position: 'absolute',
@@ -65,7 +66,7 @@ export const styles = StyleSheet.create({
     paddingBottom: hp('0.5'),
     paddingLeft: hp('1.5'),
     paddingRight: hp('1.5'),
-    
+
     alignSelf: 'center',
     marginTop: hp('1'),
   },
@@ -102,10 +103,10 @@ export const styles = StyleSheet.create({
     marginTop: hp('3.5'),
   },
   modalMainView: {
-    position:'absolute',
-    zIndex:1,
-    height:hp('100'),
-    width:wp('100'),
+    position: 'absolute',
+    zIndex: 1,
+    height: hp('100'),
+    width: wp('100'),
     backgroundColor: 'rgba(0, 0, 0, 0.6)',
     justifyContent: 'center',
     alignItems: 'center',
@@ -113,28 +114,27 @@ export const styles = StyleSheet.create({
   modalInnerView: {
     width: wp('90'),
     borderRadius: 10,
-    paddingBottom:hp('2'),
+    paddingBottom: hp('2'),
     backgroundColor: 'white',
     overflow: Platform.OS == 'ios' ? 'visible' : 'hidden',
     zIndex: 1,
   },
 
-  Bottombtn:{
-    alignSelf:'center'
+  Bottombtn: {
+    alignSelf: 'center',
   },
-  
+
   heading: {
     marginLeft: wp('5'),
     fontWeight: 'bold',
     marginTop: hp('2'),
   },
 
-daysView: {
-  width:wp('85'),
-  alignSelf:'center',
-flexDirection: 'row',
-// flexWrap: 'wrap',
-flexWrap:'wrap',
-},
-
+  daysView: {
+    width: wp('85'),
+    alignSelf: 'center',
+    flexDirection: 'row',
+    // flexWrap: 'wrap',
+    flexWrap: 'wrap',
+  },
 });

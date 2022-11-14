@@ -81,7 +81,7 @@ export const ClassesDetailView = props => {
             style={{height: 20, width: 20, margin: 5, tintColor: 'white'}}
             source={require('../../image/book.png')}
           />
-          <Text style={{margin: 5, color: 'white'}}>{data.course.title}</Text>
+          <Text style={{margin: 5, color: 'white'}}>{data?.course?.title}</Text>
         </View>
         <View style={{flexDirection: 'row', marginVertical: 5}}>
           <Image

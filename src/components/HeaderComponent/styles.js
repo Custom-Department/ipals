@@ -63,4 +63,10 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  headerImage: {
+    width: wp('10.5'),
+    height: hp('5.1'),
+    borderRadius: 5,
+    marginRight: wp('3'),
+  },
 });

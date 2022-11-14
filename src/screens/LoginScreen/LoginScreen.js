@@ -136,9 +136,9 @@ const LoginScreen = ({navigation}) => {
           alignSelf: 'center',
         }}
       />
-      <TouchableOpacity onPress={() => focusInput()}>
+      <View>
         <Text style={{color: 'black'}}>Don't have you account</Text>
-      </TouchableOpacity>
+      </View>
       <TouchableOpacity onPress={() => navigation.navigate('CreateAccount')}>
         <Text style={{color: 'black'}}>Create New Account</Text>
       </TouchableOpacity>
