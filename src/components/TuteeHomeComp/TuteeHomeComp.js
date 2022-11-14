@@ -19,7 +19,6 @@ export const TuteeHomeComp = props => {
         image={{uri: data?.profileImageLink}}
         styles={{
           alignSelf: 'center',
-          // position: 'absolute',
           marginTop: hp('-2'),
         }}
       />
