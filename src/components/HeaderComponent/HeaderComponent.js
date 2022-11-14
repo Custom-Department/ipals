@@ -16,6 +16,7 @@ export const HeaderComponent = props => {
     setIndex(value);
     props?.checkIndexStatus(value);
   };
+
   return (
     <View style={styles.topView}>
       <View style={styles.innerTopView}>
@@ -25,17 +26,28 @@ export const HeaderComponent = props => {
             marginLeft: wp('3'),
             alignItems: 'center',
           }}>
-          <Image
-            source={require('../../image/smallImage1.png')}
-            style={{marginRight: wp('4')}}
-          />
+          <View style={styles.headerImage}>
+            <Image
+              source={{
+                uri: props?.uri
+                  ? props?.uri
+                  : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
+              }}
+              style={{
+                width: wp('10.5'),
+                height: hp('5.1'),
+                borderRadius: 5,
+              }}
+            />
+          </View>
+
           <View>
             <Text style={{...styles.txt, ...globalStyles.globalModuletutor2}}>
               Welcome
             </Text>
             <Text
               style={{...globalStyles.globalModuletutor2, fontSize: hp('2.3')}}>
-              Kevin Martin
+              {props?.headerText}
             </Text>
           </View>
         </View>

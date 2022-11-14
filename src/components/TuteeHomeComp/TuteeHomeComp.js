@@ -35,7 +35,8 @@ export const TuteeHomeComp = props => {
             return (
               <View style={styles.subView}>
                 <TextComp
-                  text="English"
+                  text={res?.title}
+                  // text="English"
                   style={{fontSize: hp('1.3'), color: 'white'}}
                 />
               </View>

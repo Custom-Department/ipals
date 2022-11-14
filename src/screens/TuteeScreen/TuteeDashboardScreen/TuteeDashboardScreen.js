@@ -477,8 +477,10 @@ const TuteeDashboardScreen = ({navigation}) => {
         barStyle={Platform.OS == 'ios' ? 'dark-content' : 'default'}
       />
       <HeaderComponent
+        headerText={userData.f_name + ' ' + userData.l_name}
+        uri={userData?.profileImageLink}
         profileOnPress={() => navigation.navigate('SettingScreen', userData)}
-        bellOnPress={() => console.log('bell')}
+        bellOnPress={() => navigation.navigate('NotificationScreen')}
         navigatorName={topNavigator}
         search={true}
         checkIndexStatus={checkIndexStatus}
@@ -488,7 +490,7 @@ const TuteeDashboardScreen = ({navigation}) => {
       {index == 0 && (
         <ScrollView
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{flex: 1}}
+          // contentContainerStyle={{flex: 1}}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }>
@@ -497,6 +499,7 @@ const TuteeDashboardScreen = ({navigation}) => {
               color={'white'}
               size={hp('4')}
               style={{
+                marginTop: hp('30'),
                 alignSelf: 'center',
                 justifyContent: 'center',
               }}
@@ -507,19 +510,6 @@ const TuteeDashboardScreen = ({navigation}) => {
               data={GetTeacherState}
             />
           ) : (
-            // <FlatList
-            //   data={tutors}
-            //   keyExtractor={(item, index) => index.toString()}
-            //   numColumns={2}
-            //   contentContainerStyle={{
-            //     width: wp('95'),
-            //     alignSelf: 'center',
-            //     paddingBottom: hp('15'),
-            //   }}
-            //   renderItem={({item}) => {
-            //     return <TuteeHomeComp data={item} />;
-            //   }}
-            // />
             <View>
               <View style={styles.classDashBoard}>
                 <TextComp text="My Classes" />

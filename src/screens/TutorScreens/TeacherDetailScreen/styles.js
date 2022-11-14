@@ -58,8 +58,8 @@ export const styles = StyleSheet.create({
     width: wp('18'),
     marginBottom: hp('1'),
     marginTop: hp('1'),
-    marginRight: wp('1.5'),
-    marginLeft: wp('1.5'),
+    marginRight: wp('0.8'),
+    // marginLeft: wp('1.5'),
   },
   subjectView: {
     flexDirection: 'row',
@@ -195,5 +195,9 @@ export const styles = StyleSheet.create({
     width: wp('60'),
     height: hp('5'),
     marginTop: hp('2'),
+  },
+  subMainView: {
+    flexWrap: 'wrap',
+    display: 'flex',
   },
 });

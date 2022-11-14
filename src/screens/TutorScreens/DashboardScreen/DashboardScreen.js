@@ -612,9 +612,11 @@ const DashboardScreen = ({navigation}) => {
         barStyle={Platform.OS == 'ios' ? 'dark-content' : 'default'}
       />
       <HeaderComponent
+        headerText={userData.f_name}
+        uri={userData?.profileImageLink}
+        profileOnPress={() => navigation.navigate('SettingScreen', userData)}
         navigatorName={topNavigator}
         checkIndexStatus={checkIndexStatus}
-        profileOnPress={() => navigation.navigate('SettingScreen', userData)}
       />
       {index == 0 && (
         <ScrollView
@@ -786,39 +788,6 @@ const DashboardScreen = ({navigation}) => {
             })}
         </ScrollView>
       )}
-      {/* {index == 0 &&
-      list.length > 0 ? (
-        <ClassesDetailView text={Item?.name} image={Item?.image} />
-      ):(
-      <View style={styles.classDashBoard}>
-      <TextComp text="My Classes" />
-      <HorizontalDividerComp color={colorTutor_.blue} />
-    </View>)
-
-    pendingLoading ? (
-      <SkypeIndicator
-        color={'white'}
-        size={hp('4')}
-        style={{
-          alignSelf: 'center',
-          justifyContent: 'center',
-        }}
-      />
-    ) : pendingClassState == [] ? 
-    <>
-                <View style={{...styles.classDashBoard, marginTop: hp('6')}}>
-              <TextComp text="Pending Requests" />
-              <HorizontalDividerComp width={'53'} color={colorTutor_.blue} />
-            </View>
-            <InformationTextView text={'You don’t have pending requests.'} />
-            </>
-    :
-      pendingClassState.map(res => {
-        return (
-          <PendingReqComp text={Item?.name} image={Item?.image} />
-        );
-      })
-      } */}
 
       <View style={styles.bottomBar}>
         <TouchableOpacity onPress={() => dispatch({type: types.LogoutType})}>

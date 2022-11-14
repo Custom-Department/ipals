@@ -284,6 +284,7 @@ const TeacherDetailScreen = ({route, navigation}) => {
   useEffect(() => {
     getApiData();
   }, []);
+  console.log(287, userData?.course);
   return (
     <View
       style={{
@@ -318,13 +319,16 @@ const TeacherDetailScreen = ({route, navigation}) => {
                   <TextComp text="Subject" style={{fontSize: hp('1.4')}} />
                   <View style={styles.subjectView}>
                     {item.course.length > 0 &&
-                      topNavigator.map(res => {
+                      userData?.course?.map(res => {
                         return (
-                          <View style={styles.subView}>
-                            <TextComp
-                              text="English"
-                              style={{fontSize: hp('1.3'), color: 'white'}}
-                            />
+                          <View style={styles.subMainView}>
+                            <View style={styles.subView}>
+                              <TextComp
+                                // text="English"
+                                text={res?.title}
+                                style={{fontSize: hp('1.3'), color: 'white'}}
+                              />
+                            </View>
                           </View>
                         );
                       })}
@@ -334,10 +338,9 @@ const TeacherDetailScreen = ({route, navigation}) => {
             </View>
           </View>
           <TextComp
-            text={
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."
-            }
-            style={styles.desText}
+            // text={'Lorem'}
+            text={userData?.bio}
+            style={{...styles.desText, textAlign: 'left', marginLeft: wp('10')}}
           />
           <HorizontalDividerComp
             width={'75'}
