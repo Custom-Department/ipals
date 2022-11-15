@@ -28,7 +28,7 @@ function MybottomTabs() {
         tabBarStyle: {
           position: 'absolute',
           elevation: 0,
-          height: hp('10'),
+          height: Platform.OS == 'android' ? hp('10') : hp('12'),
           backgroundColor: MentorColor.MentorThemeFirst,
           borderTopLeftRadius: wp('10'),
           borderTopRightRadius: wp('10'),
@@ -60,8 +60,6 @@ function MybottomTabs() {
                 width: Dimensions.get('window').width * 0.16,
                 height: Dimensions.get('window').width * 0.16,
               }}>
-              {console.log(39, focused, color, size)}
-
               <Ionicons
                 name={color == '#ffff' ? 'home' : 'home-outline'}
                 color={'black'}
@@ -71,8 +69,8 @@ function MybottomTabs() {
           ),
           title: 'Services',
           tabBarLabelStyle: {
-            fontSize: 15,
-            marginBottom: hp('1.5'),
+            fontSize: hp('2'),
+            marginBottom: Platform.OS == 'android' ? hp('1.5') : hp('0'),
             color: 'white',
             borderRadius: 50,
             marginLeft: wp('6'),
@@ -117,8 +115,8 @@ function MybottomTabs() {
           ),
           title: 'Home',
           tabBarLabelStyle: {
-            fontSize: 15,
-            marginBottom: hp('1.5'),
+            fontSize: hp('2'),
+            marginBottom: Platform.OS == 'android' ? hp('1.5') : hp('0'),
             color: 'white',
 
             // ...globalStyles.globalTextStyles3,
@@ -159,8 +157,8 @@ function MybottomTabs() {
           ),
           title: 'Messages',
           tabBarLabelStyle: {
-            fontSize: 15,
-            marginBottom: hp('1.5'),
+            fontSize: hp('2'),
+            marginBottom: Platform.OS == 'android' ? hp('1.5') : hp('0'),
             marginRight: wp('7'),
             color: 'white',
             // ...globalStyles.globalTextStyles3,
