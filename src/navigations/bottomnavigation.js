@@ -5,46 +5,63 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import { Platform, Dimensions, StyleSheet} from 'react-native';
-import { color } from '../config/color';
-import { screens } from '../screens';
-
-
-
+import {Platform, Dimensions, StyleSheet} from 'react-native';
+import {color, MentorColor} from '../config/color';
+import {Mentor} from '../screens/MentorScreens';
+import {screens} from '../screens';
 const Tab = createBottomTabNavigator();
 function MybottomTabs() {
   return (
     <Tab.Navigator
-      initialRouteName="Home"
+      initialRouteName="MentorDashboardScreen"
       screenOptions={({route}) => ({
         tabBarActiveTintColor: color.black,
         tabBarInactiveTintColor: 'transparent',
         headerShown: false,
         tabBarActiveBackgroundColor: color.boxColor,
-        tabBarInactiveBackgroundColor: "red",
+        tabBarInactiveBackgroundColor: 'red',
         tabBarHideOnKeyboard: true,
         swipeEnabled: true,
         animationEnabled: true,
         tabBarStyle: {
-
           height: hp('9'),
-        //   paddingBottom: hp('0'),
-        //   bottom: Platform.OS == 'ios' ? hp('4') : hp('2'),
-        //   width: wp('90'),
-        //   alignSelf: 'center',
-        //   borderRadius: Platform.OS == 'android' ? 10 : 20,
-        //   overflow: 'hidden',
+          //   paddingBottom: hp('0'),
+          //   bottom: Platform.OS == 'ios' ? hp('4') : hp('2'),
+          //   width: wp('90'),
+          //   alignSelf: 'center',
+          //   borderRadius: Platform.OS == 'android' ? 10 : 20,
+          //   overflow: 'hidden',
         },
       })}>
       <Tab.Screen
-        name="Home"
+        name="MentorServices"
         options={{
           tabBarIcon: ({focused, color, size}) => (
-              <Ionicons
-                name={color == '#ffff' ? 'person' : 'person-outline'}
-                color={'white'}
-                size={hp('3')}
-              />
+            <Ionicons
+              name={color == '#ffff' ? 'home' : 'home-outline'}
+              color={'white'}
+              size={hp('3')}
+            />
+          ),
+          title: 'Services',
+          tabBarLabelStyle: {
+            fontSize: 15,
+            marginBottom: hp('1'),
+            color: 'white',
+            // ...globalStyles.globalTextStyles3,
+          },
+        }}
+        component={Mentor.MentorServices}
+      />
+      <Tab.Screen
+        name="MentorDashboardScreen"
+        options={{
+          tabBarIcon: ({focused, color, size}) => (
+            <Ionicons
+              name={color == '#ffff' ? 'person' : 'person-outline'}
+              color={'white'}
+              size={hp('3')}
+            />
           ),
           title: 'Home',
           tabBarLabelStyle: {
@@ -52,60 +69,32 @@ function MybottomTabs() {
             marginBottom: hp('1'),
             color: 'white',
             // ...globalStyles.globalTextStyles3,
-
           },
         }}
-        component={screens.Home}
+        component={Mentor.MentorDashboardScreen}
       />
+
       <Tab.Screen
-        name="Category"
+        name="MentorMessages"
         options={{
           tabBarIcon: ({focused, color, size}) => (
-           
-              <Ionicons
-                name={color == '#ffff' ? 'home' : 'home-outline'}
-                color={'white'}
-                size={hp('3')}
-              />
-          
+            <Ionicons
+              name={color == '#ffff' ? 'home' : 'home-outline'}
+              color={'white'}
+              size={hp('3')}
+            />
           ),
-          title: 'Category',
+          title: 'Messages',
           tabBarLabelStyle: {
             fontSize: 15,
             marginBottom: hp('1'),
             color: 'white',
             // ...globalStyles.globalTextStyles3,
-
           },
         }}
-        component={screens.Category}
-      />
-
-       <Tab.Screen
-        name="Profile"
-        options={{
-          tabBarIcon: ({focused, color, size}) => (
-           
-              <Ionicons
-                name={color == '#ffff' ? 'home' : 'home-outline'}
-                color={'white'}
-                size={hp('3')}
-              />
-          
-          ),
-          title: 'Profile',
-          tabBarLabelStyle: {
-            fontSize: 15,
-            marginBottom: hp('1'),
-            color: 'white',
-            // ...globalStyles.globalTextStyles3,
-
-          },
-        }}
-        component={screens.Profile}
+        component={Mentor.MentorMessages}
       />
     </Tab.Navigator>
-    
   );
 }
 export default MybottomTabs;

@@ -42,3 +42,6 @@ export const colorTutor_ = {
   sendColor: '#88E5DD',
   lightSeaGreen: '#D5E5FA',
 };
+export const MentorColor = {
+  MentorThemeFirst: '#8588A9',
+};

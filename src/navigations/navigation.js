@@ -3,7 +3,9 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {screens} from '../screens';
 import {Tutor} from '../screens/TutorScreens';
 import {Tutee} from '../screens/TuteeScreen';
+import {Mentor} from '../screens/MentorScreens';
 import {useSelector} from 'react-redux';
+import MybottomTabs from './bottomnavigation';
 const Stack = createNativeStackNavigator();
 
 export default function StackNavigatior() {
@@ -65,9 +67,8 @@ export default function StackNavigatior() {
             />
           </>
         )}
-        {/* <Stack.Screen name="LoginScreen" component={screens.LoginScreen} />
-        <Stack.Screen name="OnboardScreen" component={screens.OnboardScreen} />
-        <Stack.Screen name="CreateAccount" component={screens.CreateAccount} /> */}
+        <Stack.Screen name="MybottomTabs" component={MybottomTabs} />
+        {/* <Stack.Screen name="OnboardScreen" component={screens.OnboardScreen} /> */}
         <Stack.Screen name="ProfileScreen" component={Tutor.ProfileScreen} />
         <Stack.Screen
           name="NotificationScreen"
@@ -84,6 +85,15 @@ export default function StackNavigatior() {
           component={Tutor.TeacherDetailScreen}
         />
         <Stack.Screen name="Home" component={screens.Home} />
+        {/* Mentor */}
+        <Stack.Screen
+          name="MentorDashboardScreen"
+          component={Mentor.MentorDashboardScreen}
+        />
+        <Stack.Screen name="MentorServices" component={Mentor.MentorServices} />
+        <Stack.Screen name="MentorMessages" component={Mentor.MentorMessages} />
+        {/* Mentor */}
+
         <Stack.Screen name="Category" component={screens.Category} />
       </Stack.Navigator>
     </>

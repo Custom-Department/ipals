@@ -118,8 +118,7 @@ const LoginScreen = ({navigation}) => {
         // onPress={() => navigation.navigate('TuteeDashboardScreen')}
       />
       <View style={styles.forgetView}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('TuteeDashboardScreen')}>
+        <TouchableOpacity onPress={() => navigation.navigate('MybottomTabs')}>
           <Text style={globalStyles.globalTextStyles2}>Forget email?</Text>
         </TouchableOpacity>
         <TouchableOpacity>
