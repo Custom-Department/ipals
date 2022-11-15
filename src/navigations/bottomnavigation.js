@@ -161,7 +161,7 @@ function MybottomTabs() {
           tabBarLabelStyle: {
             fontSize: 15,
             marginBottom: hp('1.5'),
-            marginRight: wp('6'),
+            marginRight: wp('7'),
             color: 'white',
             // ...globalStyles.globalTextStyles3,
           },
