@@ -246,10 +246,10 @@ const TeacherDetailScreen = ({route, navigation}) => {
                     style={{
                       ...styles.activitiesContainer,
                       backgroundColor: scheduleArray.includes(res)
-                        ? color.lightPurple
+                        ? colorTutor_.lightSeaGreen
                         : 'white',
                       borderColor: scheduleArray.includes(res)
-                        ? color.orderBoxColor
+                        ? colorTutor_.blue
                         : 'black',
                       borderWidth: scheduleArray.includes(res) ? 2 : 1,
                     }}>
@@ -257,7 +257,7 @@ const TeacherDetailScreen = ({route, navigation}) => {
                       style={{
                         textAlign: 'center',
                         color: scheduleArray.includes(res)
-                          ? color.orderBoxColor
+                          ? colorTutor_.blue
                           : 'black',
                         fontWeight: scheduleArray.includes(res)
                           ? 'bold'
@@ -299,7 +299,7 @@ const TeacherDetailScreen = ({route, navigation}) => {
           <View style={styles.innerTopView}>
             <CircleImageComp
               styles={styles.circleImage}
-              image={require('../../../image/profile.jpg')}
+              image={{uri: item.profileImageLink}}
             />
             <View
               style={{
@@ -314,23 +314,27 @@ const TeacherDetailScreen = ({route, navigation}) => {
                 style={styles.topLine}
                 color={colorTutor_.topNavigationColor}
               />
-              <TextComp text="Subject" style={{fontSize: hp('1.4')}} />
-              <View style={styles.subjectView}>
-                {item.course.length > 0 &&
-                  userData?.course?.map(res => {
-                    return (
-                      <View style={styles.subMainView}>
-                        <View style={styles.subView}>
-                          <TextComp
-                            // text="English"
-                            text={res?.title}
-                            style={{fontSize: hp('1.3'), color: 'white'}}
-                          />
-                        </View>
-                      </View>
-                    );
-                  })}
-              </View>
+              {item.course.length > 0 && (
+                <>
+                  <TextComp text="Subject" style={{fontSize: hp('1.4')}} />
+                  <View style={styles.subjectView}>
+                    {item.course.length > 0 &&
+                      userData?.course?.map(res => {
+                        return (
+                          <View style={styles.subMainView}>
+                            <View style={styles.subView}>
+                              <TextComp
+                                // text="English"
+                                text={res?.title}
+                                style={{fontSize: hp('1.3'), color: 'white'}}
+                              />
+                            </View>
+                          </View>
+                        );
+                      })}
+                  </View>
+                </>
+              )}
             </View>
           </View>
           <TextComp
@@ -343,11 +347,11 @@ const TeacherDetailScreen = ({route, navigation}) => {
             style={styles.bottomLine}
             color={colorTutor_.topNavigationColor}
           />
-          <ButtonThemeComp
+          {/* <ButtonThemeComp
             onPress={() => console.log('dmfmd')}
             text="Apply Now"
             style={styles.buttonView}
-          />
+          /> */}
         </View>
         {startLoading ? (
           <SkypeIndicator

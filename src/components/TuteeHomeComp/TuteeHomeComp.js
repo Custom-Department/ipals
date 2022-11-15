@@ -16,10 +16,9 @@ export const TuteeHomeComp = props => {
       onPress={() => props?.navigate(data)}
       style={styles.mainView}>
       <CircleImageComp
-        image={require('../../image/profile.jpg')}
+        image={{uri: data?.profileImageLink}}
         styles={{
           alignSelf: 'center',
-          // position: 'absolute',
           marginTop: hp('-2'),
         }}
       />
@@ -35,7 +34,7 @@ export const TuteeHomeComp = props => {
             return (
               <View style={styles.subView}>
                 <TextComp
-                  text="English"
+                  text={res?.title}
                   // text="English"
                   style={{fontSize: hp('1.3'), color: 'white'}}
                 />

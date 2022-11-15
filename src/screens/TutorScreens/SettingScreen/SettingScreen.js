@@ -50,31 +50,58 @@ const SettingScreen = ({route, navigation}) => {
       id: 0,
       name: 'Freddy Mercury',
       image: require('../../../image/profile.jpg'),
+      user: {
+        f_name: 'Daniel Martin',
+        l_name: 'Martin',
+      },
     },
     {
       id: 1,
       name: 'Freddy Mercury',
       image: require('../../../image/profile.jpg'),
+      user: {
+        f_name: 'Daniel Martin',
+        l_name: 'Martin',
+      },
     },
     {
       id: 2,
       name: 'Freddy Mercury',
       image: require('../../../image/profile.jpg'),
+      user: {
+        f_name: 'Daniel Martin',
+
+        l_name: 'Martin',
+      },
     },
     {
       id: 3,
       name: 'Freddy Mercury',
       image: require('../../../image/profile.jpg'),
+      user: {
+        f_name: 'Daniel Martin',
+
+        l_name: 'Martin',
+      },
     },
     {
       id: 4,
       name: 'Freddy Mercury',
       image: require('../../../image/profile.jpg'),
+      user: {
+        f_name: 'Daniel Martin',
+
+        l_name: 'Martin',
+      },
     },
     {
       id: 5,
       name: 'Freddy Mercury',
       image: require('../../../image/profile.jpg'),
+      user: {
+        f_name: 'Daniel Martin',
+        l_name: 'Martin',
+      },
     },
   ]);
   const [stateChange, setStateChange] = useState({
@@ -529,7 +556,7 @@ const SettingScreen = ({route, navigation}) => {
                   return (
                     <Animatable.View animation="fadeInUp">
                       <PendingReqComp
-                        text={'Daniel martin'}
+                        data={item}
                         changeIcon1={
                           <MaterialIcons
                             name={'delete'}
@@ -557,6 +584,11 @@ const SettingScreen = ({route, navigation}) => {
   };
 
   const AccountSettings = () => {
+    const user = [
+      {id: 0, name: 'Daniel Martin'},
+      {id: 1, name: 'Daniel Martin'},
+      {id: 2, name: 'Daniel Martin'},
+    ];
     return (
       <Animatable.View animation="fadeInRight" style={styles.setContainer}>
         <View style={{flexDirection: 'row', marginLeft: wp('3')}}>
@@ -658,15 +690,6 @@ const SettingScreen = ({route, navigation}) => {
         backgroundColor: colorTutor_.ipalBlue,
         flex: 1,
       }}>
-      {console.log(
-        362,
-        createAccoutState,
-        accState,
-        editState,
-        childAccState,
-        deleteAccState,
-      )}
-
       <BackHeaderComponent
         heading={'S E T T I N G'}
         data={true}
@@ -702,13 +725,13 @@ const SettingScreen = ({route, navigation}) => {
               switch={true}
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => updateState({accState: true})}>
+          {/* <TouchableOpacity onPress={() => updateState({accState: true})}>
             <SettingIconComp
               onPress={() => console.log('hellow')}
               name={'person-fill'}
               text={' Account settings'}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           {/* <TouchableOpacity onPress={() => updateState({editState: true})}> */}
           <TouchableOpacity
             onPress={() => navigation.navigate('ProfileScreen')}>

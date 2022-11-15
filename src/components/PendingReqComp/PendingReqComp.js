@@ -4,13 +4,13 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import Entypo from 'react-native-vector-icons/Entypo';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 export const PendingReqComp = props => {
+  const {user} = props?.data?.my_class ?? props?.data;
   return (
     <TouchableOpacity
-      onPress={() => props?.checkPendingReq(props)}
+      onPress={() => console.log('HGUJBU')}
+      // onPress={() => props?.checkPendingReq(props)}
       style={{
         flexDirection: 'row',
         backgroundColor: 'white',
@@ -19,19 +19,19 @@ export const PendingReqComp = props => {
         marginHorizontal: wp('4'),
         borderRadius: 10,
       }}>
-      <Image
-        style={{
-          height: 40,
-          width: 40,
-          margin: 5,
-          borderRadius: 20,
-          marginTop: 5,
-        }}
-        source={require('../../image/profile.jpg')}
-      />
-      <Text style={{color: 'black', padding: 15}}>
-        {props?.data?.user?.f_name}
-      </Text>
+      {user?.profileImageLink && (
+        <Image
+          style={{
+            height: 40,
+            width: 40,
+            margin: 5,
+            borderRadius: 20,
+            marginTop: 5,
+          }}
+          source={{uri: user?.profileImageLink}}
+        />
+      )}
+      <Text style={{color: 'black', padding: 15}}>{user?.f_name}</Text>
       <View
         style={{
           flexDirection: 'row',

@@ -112,7 +112,6 @@ const ProfileScreen = ({navigation}) => {
         return idSubjectArray.push(res?.id);
       });
     }
-    // bodyFormData.append('profile_image',userImage[0]?.fileName);
 
     if (BioData != null && BioData != '') {
       var bodyFormData = new FormData();
@@ -162,110 +161,6 @@ const ProfileScreen = ({navigation}) => {
                 ? subjectModelList.map((res, i) => {
                     return (
                       <>
-                        <TouchableOpacity
-                          onPress={() => selectActivities(res, i)}
-                          style={{
-                            ...styles.activitiesContainer,
-                            backgroundColor: activities.includes(res)
-                              ? color.lightPurple
-                              : 'white',
-                            borderColor: activities.includes(res)
-                              ? color.orderBoxColor
-                              : 'black',
-                            borderWidth: activities.includes(res) ? 2 : 1,
-                          }}>
-                          <TextComp
-                            text={res?.title}
-                            style={{
-                              textAlign: 'center',
-                              color: activities.includes(res)
-                                ? color.orderBoxColor
-                                : 'black',
-                              fontWeight: activities.includes(res)
-                                ? 'bold'
-                                : 'normal',
-                              fontSize: hp('1.5'),
-                            }}
-                          />
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                          onPress={() => selectActivities(res, i)}
-                          style={{
-                            ...styles.activitiesContainer,
-                            backgroundColor: activities.includes(res)
-                              ? color.lightPurple
-                              : 'white',
-                            borderColor: activities.includes(res)
-                              ? color.orderBoxColor
-                              : 'black',
-                            borderWidth: activities.includes(res) ? 2 : 1,
-                          }}>
-                          <TextComp
-                            text={res?.title}
-                            style={{
-                              textAlign: 'center',
-                              color: activities.includes(res)
-                                ? color.orderBoxColor
-                                : 'black',
-                              fontWeight: activities.includes(res)
-                                ? 'bold'
-                                : 'normal',
-                              fontSize: hp('1.5'),
-                            }}
-                          />
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                          onPress={() => selectActivities(res, i)}
-                          style={{
-                            ...styles.activitiesContainer,
-                            backgroundColor: activities.includes(res)
-                              ? color.lightPurple
-                              : 'white',
-                            borderColor: activities.includes(res)
-                              ? color.orderBoxColor
-                              : 'black',
-                            borderWidth: activities.includes(res) ? 2 : 1,
-                          }}>
-                          <TextComp
-                            text={res?.title}
-                            style={{
-                              textAlign: 'center',
-                              color: activities.includes(res)
-                                ? color.orderBoxColor
-                                : 'black',
-                              fontWeight: activities.includes(res)
-                                ? 'bold'
-                                : 'normal',
-                              fontSize: hp('1.5'),
-                            }}
-                          />
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                          onPress={() => selectActivities(res, i)}
-                          style={{
-                            ...styles.activitiesContainer,
-                            backgroundColor: activities.includes(res)
-                              ? color.lightPurple
-                              : 'white',
-                            borderColor: activities.includes(res)
-                              ? color.orderBoxColor
-                              : 'black',
-                            borderWidth: activities.includes(res) ? 2 : 1,
-                          }}>
-                          <TextComp
-                            text={res?.title}
-                            style={{
-                              textAlign: 'center',
-                              color: activities.includes(res)
-                                ? color.orderBoxColor
-                                : 'black',
-                              fontWeight: activities.includes(res)
-                                ? 'bold'
-                                : 'normal',
-                              fontSize: hp('1.5'),
-                            }}
-                          />
-                        </TouchableOpacity>
                         <TouchableOpacity
                           onPress={() => selectActivities(res, i)}
                           style={{

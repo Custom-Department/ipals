@@ -29,9 +29,10 @@ const LoginScreen = ({navigation}) => {
   const [loginData, setLoginData] = useState({
     // email: 'studentr@test.com',
     // email: 'teacher@test4com',
-
-    email: 'test@teacher.com',
-    password: '12345678',
+    email: '',
+    password: '',
+    // email: 'test@teacher.com',
+    // password: '12345678',
   });
 
   const dispatch = useDispatch();

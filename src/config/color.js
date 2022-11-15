@@ -25,24 +25,20 @@ export const color = {
   LightGreen: '#ebfbe7',
   darkGreen: '#00712f',
   lightPurple: '#D8CCE8',
-
 };
 export const colorTutor_ = {
-  ipalBlue: "#82CAFA",
-  lightBlue: "#89CFF0",
-  ipallightGreen: "#48D1CC",
-  lightAquaGreen: "#D1FFFB",
+  ipalBlue: '#82CAFA',
+  lightBlue: '#89CFF0',
+  ipallightGreen: '#48D1CC',
+  lightAquaGreen: '#D1FFFB',
   ipalforgetTxtColor: '#3E3E3E',
   TxtColor: '#75747C',
-  blue: "#2D77D9",
-  topNavigationColor: "#59C8F2",
+  blue: '#2D77D9',
+  topNavigationColor: '#59C8F2',
   badgeColor: '#FF2D2D',
   darkGreen: '#00712f',
   lightGreen: '#47C460',
-  bookColor:'#A8A8A8',
-  sendColor:'#88E5DD',
-
-
+  bookColor: '#A8A8A8',
+  sendColor: '#88E5DD',
+  lightSeaGreen: '#D5E5FA',
 };
-
-

@@ -16,11 +16,13 @@ export const ClassesDetailView = props => {
   const {data} = props;
   const from = moment(data.from, 'hh').format('LT');
   const to = moment(data.to, 'hh').format('LT');
+  const {user} = props?.data?.my_class ?? props.data;
+
   return (
     <View style={styles.container}>
       <View style={styles.topView}>
         <CircleImageComp
-          image={require('../../image/profile.jpg')}
+          image={{uri: user?.profileImageLink}}
           styles={styles.image}
         />
         {/* <Image
@@ -28,11 +30,13 @@ export const ClassesDetailView = props => {
           style={styles.image}
           source={require('../../image/profile.jpg')}
         /> */}
-        <Text style={{color: 'black', fontSize: hp('2')}}>Freddy Mercury</Text>
+        <Text style={{color: 'black', fontSize: hp('2')}}>
+          {user?.f_name + ' ' + user?.l_name}
+        </Text>
         <View
           style={{
             flexDirection: 'row',
-            marginLeft: wp('4'),
+            marginLeft: 'auto',
             alignItems: 'center',
           }}>
           <FontAwesome
@@ -45,7 +49,7 @@ export const ClassesDetailView = props => {
             style={{
               height: hp('5'),
               borderWidth: 0.3,
-              marginHorizontal: wp('4'),
+              marginHorizontal: wp('3'),
               borderColor: color.themeColorDark,
             }}
           />
@@ -59,7 +63,7 @@ export const ClassesDetailView = props => {
               height: hp('5'),
               borderWidth: 0.3,
               marginHorizontal: wp('3'),
-              borderColor: color.themeColorDark,
+              backgroundColor: color.themeColorDark,
             }}
           />
           <Entypo name="mail" size={hp('3.8')} color={colorTutor_.lightGreen} />
@@ -76,13 +80,17 @@ export const ClassesDetailView = props => {
           borderBottomLeftRadius: 10,
           borderBottomRightRadius: 10,
         }}>
-        <View style={{flexDirection: 'row', marginVertical: 5}}>
-          <Image
-            style={{height: 20, width: 20, margin: 5, tintColor: 'white'}}
-            source={require('../../image/book.png')}
-          />
-          <Text style={{margin: 5, color: 'white'}}>{data?.course?.title}</Text>
-        </View>
+        {data?.course?.title && (
+          <View style={{flexDirection: 'row', marginVertical: 5}}>
+            <Image
+              style={{height: 20, width: 20, margin: 5, tintColor: 'white'}}
+              source={require('../../image/book.png')}
+            />
+            <Text style={{margin: 5, color: 'white'}}>
+              {data?.course?.title}
+            </Text>
+          </View>
+        )}
         <View style={{flexDirection: 'row', marginVertical: 5}}>
           <Image
             style={{height: 20, width: 20, margin: 5, tintColor: 'white'}}
