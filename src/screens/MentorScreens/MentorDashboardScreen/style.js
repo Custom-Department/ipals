@@ -10,4 +10,12 @@ export const styles = StyleSheet.create({
     flexGrow: 1,
     paddingBottom: hp('15'),
   },
+  myclassesView: {
+    flexDirection: 'row',
+    marginRight: wp('6'),
+  },
+  MainView: {
+    paddingLeft: wp('5'),
+    marginTop: hp('3'),
+  },
 });

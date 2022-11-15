@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -52,7 +53,7 @@ function MybottomTabs() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 marginBottom: hp('5'),
-                marginLeft: wp('6'),
+                marginLeft: wp('13'),
                 borderRadius: Math.round(
                   Dimensions.get('window').width +
                     Dimensions.get('window').height,
@@ -62,20 +63,20 @@ function MybottomTabs() {
               }}>
               {console.log(39, focused, color, size)}
 
-              <Ionicons
-                name={color == '#ffff' ? 'home' : 'home-outline'}
-                color={'black'}
+              <MaterialIcons
+                name={'playlist-add'}
+                color={focused ? 'white' : 'black'}
                 size={hp('3')}
               />
             </View>
           ),
           title: 'Services',
           tabBarLabelStyle: {
-            fontSize: 15,
-            marginBottom: hp('1.5'),
+            fontSize: hp('1.5'),
+            marginBottom: hp('2'),
             color: 'white',
             borderRadius: 50,
-            marginLeft: wp('6'),
+            marginLeft: wp('13'),
 
             // ...globalStyles.globalTextStyles3,
           },
@@ -105,20 +106,21 @@ function MybottomTabs() {
                   Dimensions.get('window').width +
                     Dimensions.get('window').height,
                 ),
-                width: Dimensions.get('window').width * 0.16,
-                height: Dimensions.get('window').width * 0.16,
+                width: Dimensions.get('window').width * 0.2,
+                height: Dimensions.get('window').width * 0.2,
               }}>
-              <Ionicons
-                name={color == '#ffff' ? 'home' : 'home-outline'}
-                color={'black'}
-                size={hp('3')}
+              <AntDesign
+                name={'home'}
+                color={focused ? 'white' : 'black'}
+                size={hp('5')}
               />
             </View>
           ),
           title: 'Home',
           tabBarLabelStyle: {
-            fontSize: 15,
-            marginBottom: hp('1.5'),
+            fontSize: hp('1.5'),
+
+            marginBottom: hp('2'),
             color: 'white',
 
             // ...globalStyles.globalTextStyles3,
@@ -131,11 +133,6 @@ function MybottomTabs() {
         name="MentorMessages"
         options={{
           tabBarIcon: ({focused, color, size}) => (
-            // <Ionicons
-            //   name={color == '#ffff' ? 'home' : 'home-outline'}
-            //   color={'white'}
-            //   size={hp('3')}
-            // />
             <View
               style={{
                 backgroundColor: focused
@@ -145,7 +142,7 @@ function MybottomTabs() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 marginBottom: hp('5'),
-                marginRight: wp('6'),
+                marginRight: wp('13'),
 
                 borderRadius: Math.round(
                   Dimensions.get('window').width +
@@ -154,14 +151,19 @@ function MybottomTabs() {
                 width: Dimensions.get('window').width * 0.16,
                 height: Dimensions.get('window').width * 0.16,
               }}>
-              <AntDesign name={'message1'} color={'black'} size={hp('3')} />
+              <AntDesign
+                name={'message1'}
+                color={focused ? 'white' : 'black'}
+                size={hp('3')}
+              />
             </View>
           ),
           title: 'Messages',
           tabBarLabelStyle: {
-            fontSize: 15,
-            marginBottom: hp('1.5'),
-            marginRight: wp('7'),
+            fontSize: hp('1.5'),
+
+            marginBottom: hp('2'),
+            marginRight: wp('13'),
             color: 'white',
             // ...globalStyles.globalTextStyles3,
           },
