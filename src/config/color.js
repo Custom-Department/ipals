@@ -44,4 +44,6 @@ export const colorTutor_ = {
 };
 export const MentorColor = {
   MentorThemeFirst: '#8588A9',
+  MentorThemeBackGround: '#59C8F2',
+  MentorLightTheme: '#89CFF0',
 };

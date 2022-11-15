@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Platform, Dimensions, StyleSheet} from 'react-native';
+import {Platform, Dimensions, StyleSheet, View} from 'react-native';
 import {color, MentorColor} from '../config/color';
 import {Mentor} from '../screens/MentorScreens';
 import {screens} from '../screens';
@@ -16,38 +17,66 @@ function MybottomTabs() {
       initialRouteName="MentorDashboardScreen"
       screenOptions={({route}) => ({
         tabBarActiveTintColor: color.black,
-        tabBarInactiveTintColor: 'transparent',
+        // tabBarInactiveTintColor: 'transparent',
+        tabBarInactiveTintColor: MentorColor.MentorThemeFirst,
         headerShown: false,
-        tabBarActiveBackgroundColor: color.boxColor,
-        tabBarInactiveBackgroundColor: 'red',
+        // tabBarActiveBackgroundColor: MentorColor.MentorThemeFirst,
+        // tabBarInactiveBackgroundColor: MentorColor.MentorThemeFirst,
         tabBarHideOnKeyboard: true,
         swipeEnabled: true,
         animationEnabled: true,
         tabBarStyle: {
-          height: hp('9'),
-          //   paddingBottom: hp('0'),
-          //   bottom: Platform.OS == 'ios' ? hp('4') : hp('2'),
-          //   width: wp('90'),
-          //   alignSelf: 'center',
-          //   borderRadius: Platform.OS == 'android' ? 10 : 20,
-          //   overflow: 'hidden',
+          position: 'absolute',
+          elevation: 0,
+          height: hp('10'),
+          backgroundColor: MentorColor.MentorThemeFirst,
+          borderTopLeftRadius: wp('10'),
+          borderTopRightRadius: wp('10'),
+          // height: hp('10'),
+          // width: wp('100'),
+          // alignSelf: 'center',
+          // borderTopLeftRadius: Platform.OS == 'android' ? 40 : 20,
+          // overflow: 'hidden',
         },
       })}>
       <Tab.Screen
         name="MentorServices"
         options={{
           tabBarIcon: ({focused, color, size}) => (
-            <Ionicons
-              name={color == '#ffff' ? 'home' : 'home-outline'}
-              color={'white'}
-              size={hp('3')}
-            />
+            <View
+              style={{
+                backgroundColor: focused
+                  ? MentorColor.MentorLightTheme
+                  : 'white',
+                alignSelf: 'center',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginBottom: hp('5'),
+                marginLeft: wp('6'),
+                borderRadius: Math.round(
+                  Dimensions.get('window').width +
+                    Dimensions.get('window').height,
+                ),
+                width: Dimensions.get('window').width * 0.16,
+                height: Dimensions.get('window').width * 0.16,
+              }}>
+              {console.log(39, focused, color, size)}
+
+              <Ionicons
+                name={color == '#ffff' ? 'home' : 'home-outline'}
+                color={'black'}
+                size={hp('3')}
+              />
+            </View>
           ),
           title: 'Services',
           tabBarLabelStyle: {
             fontSize: 15,
-            marginBottom: hp('1'),
+            marginBottom: hp('1.5'),
             color: 'white',
+            borderRadius: 50,
+            marginLeft: wp('6'),
+
             // ...globalStyles.globalTextStyles3,
           },
         }}
@@ -57,17 +86,41 @@ function MybottomTabs() {
         name="MentorDashboardScreen"
         options={{
           tabBarIcon: ({focused, color, size}) => (
-            <Ionicons
-              name={color == '#ffff' ? 'person' : 'person-outline'}
-              color={'white'}
-              size={hp('3')}
-            />
+            // <Ionicons
+            //   name={color == '#ffff' ? 'person' : 'person-outline'}
+            //   color={'white'}
+            //   size={hp('3')}
+            // />
+            <View
+              style={{
+                backgroundColor: focused
+                  ? MentorColor.MentorLightTheme
+                  : 'white',
+                alignSelf: 'center',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginBottom: hp('5'),
+
+                borderRadius: Math.round(
+                  Dimensions.get('window').width +
+                    Dimensions.get('window').height,
+                ),
+                width: Dimensions.get('window').width * 0.16,
+                height: Dimensions.get('window').width * 0.16,
+              }}>
+              <Ionicons
+                name={color == '#ffff' ? 'home' : 'home-outline'}
+                color={'black'}
+                size={hp('3')}
+              />
+            </View>
           ),
           title: 'Home',
           tabBarLabelStyle: {
             fontSize: 15,
-            marginBottom: hp('1'),
+            marginBottom: hp('1.5'),
             color: 'white',
+
             // ...globalStyles.globalTextStyles3,
           },
         }}
@@ -78,16 +131,37 @@ function MybottomTabs() {
         name="MentorMessages"
         options={{
           tabBarIcon: ({focused, color, size}) => (
-            <Ionicons
-              name={color == '#ffff' ? 'home' : 'home-outline'}
-              color={'white'}
-              size={hp('3')}
-            />
+            // <Ionicons
+            //   name={color == '#ffff' ? 'home' : 'home-outline'}
+            //   color={'white'}
+            //   size={hp('3')}
+            // />
+            <View
+              style={{
+                backgroundColor: focused
+                  ? MentorColor.MentorLightTheme
+                  : 'white',
+                alignSelf: 'center',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginBottom: hp('5'),
+                marginRight: wp('6'),
+
+                borderRadius: Math.round(
+                  Dimensions.get('window').width +
+                    Dimensions.get('window').height,
+                ),
+                width: Dimensions.get('window').width * 0.16,
+                height: Dimensions.get('window').width * 0.16,
+              }}>
+              <AntDesign name={'message1'} color={'black'} size={hp('3')} />
+            </View>
           ),
           title: 'Messages',
           tabBarLabelStyle: {
             fontSize: 15,
-            marginBottom: hp('1'),
+            marginBottom: hp('1.5'),
+            marginRight: wp('7'),
             color: 'white',
             // ...globalStyles.globalTextStyles3,
           },
