@@ -126,16 +126,7 @@ const LoginScreen = ({navigation}) => {
         </TouchableOpacity>
       </View>
 
-      <Divider
-        style={{
-          marginTop: hp('13'),
-          marginBottom: hp('1'),
-          height: hp('0.2'),
-          backgroundColor: 'black',
-          width: wp('70'),
-          alignSelf: 'center',
-        }}
-      />
+      <Divider style={styles.divider} />
       <View>
         <Text style={{color: 'black'}}>Don't have you account</Text>
       </View>
