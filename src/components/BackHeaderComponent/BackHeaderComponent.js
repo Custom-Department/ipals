@@ -13,7 +13,7 @@ import {useNavigation} from '@react-navigation/native';
 export const BackHeaderComponent = props => {
   const navigation = useNavigation();
   return (
-    <View style={styles.topView}>
+    <View style={{...styles.topView, ...props?.style}}>
       <View style={styles.innerTopView}>
         <View
           style={{

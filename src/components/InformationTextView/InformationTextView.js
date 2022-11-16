@@ -13,18 +13,25 @@ const InformationTextView = props => {
   return (
     <TouchableOpacity
       onPress={() => console.log('sds')}
-      style={styles.container}>
+      style={{...styles.container, ...props.style}}>
       <AntDesign
         style={{marginHorizontal: wp('2')}}
         name={name}
         size={hp('2.5')}
-        color={'white'}
+        color={props?.iconcolor ?? 'white'}
       />
-      <TextComp
-        style={{marginLeft: wp('3'), fontSize: hp('1.5')}}
-        color={'white'}
-        text={props?.text}
-      />
+      <View style={{flexWrap: 'wrap', display: 'flex'}}>
+        <TextComp
+          style={{
+            ...props.textStyle,
+            width: wp('85'),
+            marginLeft: wp('1.5'),
+            fontSize: hp('1.5'),
+          }}
+          color={props.textColor ?? 'white'}
+          text={props?.text}
+        />
+      </View>
     </TouchableOpacity>
   );
 };
@@ -35,11 +42,11 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     width: wp('95'),
-    height: hp('7'),
+    height: hp('6'),
     borderRadius: 5,
     borderColor: 'black',
     alignItems: 'center',
-    padding: 10,
+    padding: 5,
     marginTop: hp('2'),
     alignSelf: 'center',
     backgroundColor: colorTutor_.topNavigationColor,
