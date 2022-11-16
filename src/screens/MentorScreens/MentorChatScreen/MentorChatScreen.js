@@ -17,6 +17,35 @@ const MentorChatScreen = ({route}) => {
   const items = route.params;
   return (
     <View style={{flex: 1}}>
+      <BackHeaderComponent
+        style={{backgroundColor: MentorColor.MentorThemeFirst}}
+        heading={items?.firstText}
+        changeIcon3={
+          <Entypo
+            onPress={() => props?.settingOnPress()}
+            name={'dots-three-vertical'}
+            size={hp('3')}
+            color={colorTutor_.blue}
+          />
+        }
+        changeIcon2={
+          <FontAwesome5
+            onPress={() => props?.settingOnPress()}
+            name={'video'}
+            size={hp('3')}
+            color={colorTutor_.blue}
+          />
+        }
+        changeIcon1={
+          <FontAwesome
+            onPress={() => props?.settingOnPress()}
+            name={'phone'}
+            size={hp('3')}
+            color={colorTutor_.blue}
+          />
+        }
+        bellOnPress={() => console.log('bell')}
+      />
       <InformationTextView
         iconcolor={MentorColor.MentorThemeFirst}
         textStyle={{
@@ -25,6 +54,7 @@ const MentorChatScreen = ({route}) => {
         style={{
           width: wp('100'),
           borderRadius: 0,
+          marginTop: hp('0'),
 
           backgroundColor: MentorColor.MentorInformationColor,
         }}
