@@ -46,4 +46,6 @@ export const MentorColor = {
   MentorThemeFirst: '#8588A9',
   MentorThemeBackGround: '#59C8F2',
   MentorLightTheme: '#89CFF0',
+  MentorlightGrey: '#C7CBE4',
+  MentorInformationColor: '#D2D5DB',
 };
