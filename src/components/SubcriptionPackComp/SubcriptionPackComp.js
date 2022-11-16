@@ -7,19 +7,28 @@ import {
 } from 'react-native-responsive-screen';
 import {MentorColor} from '../../config/color';
 import {TextComp} from '../TextComponent';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
-const SubcriptionPackComp = () => {
+const SubcriptionPackComp = props => {
+  let name = props?.name ?? 'exclamationcircle';
+  console.log(props?.data);
   return (
     <View style={styles.MainView}>
       <View style={styles.innerMainView}>
-        <TextComp
-          style={styles.text}
-          text={`You are subscribed to our yearly package`}
-        />
-        <View style={styles.packageView}>
-          <TextComp style={styles.priceView} text={'$15'} />
-          <TextComp style={styles.perAnumView} text={'per anum'} />
-        </View>
+        <TextComp style={styles.text} text={props?.text} />
+        {props?.data == true ? (
+          <AntDesign
+            style={{marginHorizontal: wp('2')}}
+            name={name}
+            size={hp('5.5')}
+            color={props?.iconcolor ?? 'white'}
+          />
+        ) : (
+          <View style={styles.packageView}>
+            <TextComp style={styles.priceView} text={'$15'} />
+            <TextComp style={styles.perAnumView} text={'per anum'} />
+          </View>
+        )}
       </View>
     </View>
   );
@@ -31,7 +40,7 @@ const styles = StyleSheet.create({
   MainView: {
     height: hp('15'),
     alignSelf: 'center',
-    width: wp('90'),
+    width: wp('93'),
     backgroundColor: MentorColor.MentorThemeFirst,
     borderRadius: 10,
     justifyContent: 'center',

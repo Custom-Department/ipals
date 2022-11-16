@@ -1,5 +1,5 @@
 import {Platform, StyleSheet} from 'react-native';
-import {color, colorTutor_} from '../../../config/color';
+import {color, colorTutor_, MentorColor} from '../../../config/color';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -15,6 +15,15 @@ export const styles = StyleSheet.create({
     marginRight: wp('6'),
   },
   MainView: {
-    marginTop: hp('3'),
+    marginTop: hp('1'),
+  },
+  inforView: {
+    width: wp('80'),
+    alignSelf: 'center',
+    backgroundColor: MentorColor.MentorLightTheme,
+  },
+  createClassView: {
+    alignItems: 'center',
+    marginBottom: hp('3'),
   },
 });

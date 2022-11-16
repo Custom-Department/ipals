@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
     height: hp('23'),
     backgroundColor: 'white',
     borderRadius: 10,
-    marginRight: wp('2'),
+    marginRight: wp('4'),
   },
   topView: {
     flexDirection: 'row',

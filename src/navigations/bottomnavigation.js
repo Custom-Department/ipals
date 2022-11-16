@@ -29,7 +29,7 @@ function MybottomTabs() {
         tabBarStyle: {
           position: 'absolute',
           elevation: 0,
-          height: hp('10'),
+          height: Platform.OS == 'android' ? hp('10') : hp('12'),
           backgroundColor: MentorColor.MentorThemeFirst,
           borderTopLeftRadius: wp('10'),
           borderTopRightRadius: wp('10'),
@@ -72,8 +72,8 @@ function MybottomTabs() {
           ),
           title: 'Services',
           tabBarLabelStyle: {
-            fontSize: hp('1.5'),
-            marginBottom: hp('2'),
+            fontSize: hp('2'),
+            marginBottom: Platform.OS == 'android' ? hp('1.5') : hp('0'),
             color: 'white',
             borderRadius: 50,
             marginLeft: wp('13'),
@@ -118,9 +118,8 @@ function MybottomTabs() {
           ),
           title: 'Home',
           tabBarLabelStyle: {
-            fontSize: hp('1.5'),
-
-            marginBottom: hp('2'),
+            fontSize: hp('2'),
+            marginBottom: Platform.OS == 'android' ? hp('1.5') : hp('0'),
             color: 'white',
 
             // ...globalStyles.globalTextStyles3,
@@ -143,7 +142,6 @@ function MybottomTabs() {
                 justifyContent: 'center',
                 marginBottom: hp('5'),
                 marginRight: wp('13'),
-
                 borderRadius: Math.round(
                   Dimensions.get('window').width +
                     Dimensions.get('window').height,
@@ -160,10 +158,9 @@ function MybottomTabs() {
           ),
           title: 'Messages',
           tabBarLabelStyle: {
-            fontSize: hp('1.5'),
-
-            marginBottom: hp('2'),
-            marginRight: wp('13'),
+            fontSize: hp('2'),
+            marginBottom: Platform.OS == 'android' ? hp('1.5') : hp('0'),
+            marginRight: wp('12'),
             color: 'white',
             // ...globalStyles.globalTextStyles3,
           },
