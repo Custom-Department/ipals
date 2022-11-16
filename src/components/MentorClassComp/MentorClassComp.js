@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Dimensions} from 'react-native';
+import {View, Text, Dimensions, Image} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -16,16 +16,14 @@ import HorizontalDividerComp from '../HorizontalDividerComp/HorizontalDividerCom
 import {Divider} from 'react-native-paper';
 import {styles} from './atyles';
 
-export const MentorClassComp = () => {
+export const MentorClassComp = props => {
+  const item = props?.data;
   return (
     <View style={styles.mainView}>
       <View style={styles.topView}>
-        <CircleImageComp
-          styles={styles.circleImage}
-          image={require('../../image/profile.jpg')}
-        />
+        <CircleImageComp styles={styles.circleImage} image={item?.image} />
         <TextComp
-          text={'Sarah Martin'}
+          text={item?.name}
           style={{color: MentorColor.MentorThemeFirst}}
         />
       </View>
@@ -37,21 +35,53 @@ export const MentorClassComp = () => {
           color={colorTutor_.ipallightGreen}
         />
         <TextComp
-          text={'9:00PM - 10:00PM'}
+          text={item?.clock}
           style={{color: colorTutor_.ipallightGreen}}
         />
       </View>
       <View style={styles.centerView}>
-        <AntDesign
-          name="clockcircle"
-          size={hp('2.5')}
-          style={{marginRight: wp('4')}}
-          color={colorTutor_.ipallightGreen}
-        />
-        <TextComp
-          text={'9:00PM - 10:00PM'}
-          style={{color: colorTutor_.ipallightGreen}}
-        />
+        <View
+          style={{
+            flexDirection: 'row',
+            width: wp('45'),
+            justifyContent: 'space-between',
+          }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            <Image
+              style={{
+                height: 20,
+                width: 20,
+                margin: 5,
+                tintColor: colorTutor_.ipallightGreen,
+              }}
+              source={require('../../image/book.png')}
+            />
+            <TextComp
+              text={item?.subject}
+              style={{color: colorTutor_.ipallightGreen}}
+            />
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            <AntDesign
+              name="clockcircle"
+              size={hp('2.5')}
+              style={{marginRight: wp('4')}}
+              color={colorTutor_.ipallightGreen}
+            />
+            <TextComp
+              text={item?.timing}
+              style={{color: colorTutor_.ipallightGreen}}
+            />
+          </View>
+        </View>
       </View>
       <View style={styles.bottomView}>
         <FontAwesome

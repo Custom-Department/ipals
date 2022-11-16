@@ -10,17 +10,12 @@ export const styles = StyleSheet.create({
     flexGrow: 1,
     paddingBottom: hp('15'),
   },
-  classDashBoard: {
+  myclassesView: {
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    // padding: 20,
-    width: wp('95'),
+    marginRight: wp('6'),
   },
-  mainView: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
-    backgroundColor: colorTutor_.topNavigationColor,
+  MainView: {
+    paddingLeft: wp('5'),
+    marginTop: hp('3'),
   },
 });
