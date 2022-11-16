@@ -9,6 +9,7 @@ import {
 } from 'react-native-responsive-screen';
 import FrontMentorFlatlist from '../../../components/FrontMentorFlatlist/FrontMentorFlatlist';
 import HorizantalDetailComp from '../../../components/HorizantalDetailComp/HorizantalDetailComp';
+import {SearchbarHeader} from '../../../components/SearchBarHeaderComp/SearchbarHeader';
 const MentorDashboardScreen = () => {
   const [teacherList, setTeacherList] = useState([
     {
@@ -79,6 +80,8 @@ const MentorDashboardScreen = () => {
         flex: 1,
         backgroundColor: colorTutor_.topNavigationColor,
       }}>
+      <SearchbarHeader heart={true} />
+
       <ScrollView
         scrollEnabled
         contentContainerStyle={{

@@ -142,7 +142,6 @@ function MybottomTabs() {
                 justifyContent: 'center',
                 marginBottom: hp('5'),
                 marginRight: wp('13'),
-
                 borderRadius: Math.round(
                   Dimensions.get('window').width +
                     Dimensions.get('window').height,
@@ -161,7 +160,7 @@ function MybottomTabs() {
           tabBarLabelStyle: {
             fontSize: hp('2'),
             marginBottom: Platform.OS == 'android' ? hp('1.5') : hp('0'),
-            marginRight: wp('7'),
+            marginRight: wp('12'),
             color: 'white',
             // ...globalStyles.globalTextStyles3,
           },

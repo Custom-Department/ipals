@@ -13,6 +13,8 @@ import {
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import axios from 'react-native-axios';
 import moment from 'moment/moment';
+import {HeaderComponent} from '../../../components/HeaderComponent/HeaderComponent';
+import {SearchbarHeader} from '../../../components/SearchBarHeaderComp/SearchbarHeader';
 
 const MentorServices = () => {
   const [tutorValue, setTutorValue] = useState({
@@ -185,9 +187,10 @@ const MentorServices = () => {
       style={{
         flex: 1,
         backgroundColor: MentorColor.MentorThemeBackGround,
-        paddingTop: hp('6'),
+        // paddingTop: hp('6'),
         // justifyContent: 'center',
       }}>
+      <SearchbarHeader />
       <View style={styles.classDashBoard}>
         <TextComp
           style={{color: MentorColor.MentorThemeFirst}}
