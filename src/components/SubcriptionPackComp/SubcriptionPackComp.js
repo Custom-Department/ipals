@@ -1,0 +1,69 @@
+import React from 'react';
+import {View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native';
+import {TuteeHomeComp} from '../TuteeHomeComp/TuteeHomeComp';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+import {MentorColor} from '../../config/color';
+import {TextComp} from '../TextComponent';
+
+const SubcriptionPackComp = () => {
+  return (
+    <View style={styles.MainView}>
+      <View style={styles.innerMainView}>
+        <TextComp
+          style={styles.text}
+          text={`You are subscribed to our yearly package`}
+        />
+        <View style={styles.packageView}>
+          <TextComp style={styles.priceView} text={'$15'} />
+          <TextComp style={styles.perAnumView} text={'per anum'} />
+        </View>
+      </View>
+    </View>
+  );
+};
+
+export default SubcriptionPackComp;
+
+const styles = StyleSheet.create({
+  MainView: {
+    height: hp('15'),
+    alignSelf: 'center',
+    width: wp('90'),
+    backgroundColor: MentorColor.MentorThemeFirst,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  innerMainView: {
+    width: wp('80'),
+    flexDirection: 'row',
+    alignSelf: 'center',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  text: {
+    width: wp('45'),
+    color: 'white',
+    fontSize: hp('2'),
+  },
+  packageView: {
+    borderRadius: 10,
+    height: hp('10'),
+    width: wp('20'),
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  priceView: {
+    color: MentorColor.MentorThemeFirst,
+    fontSize: hp('4'),
+    fontWeight: 'bold',
+  },
+  perAnumView: {
+    color: MentorColor.MentorThemeFirst,
+    fontSize: hp('1.6'),
+  },
+});

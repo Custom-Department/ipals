@@ -15,7 +15,6 @@ export const styles = StyleSheet.create({
     marginRight: wp('6'),
   },
   MainView: {
-    paddingLeft: wp('5'),
     marginTop: hp('3'),
   },
 });

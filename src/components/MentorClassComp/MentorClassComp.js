@@ -31,7 +31,7 @@ export const MentorClassComp = props => {
         <AntDesign
           name="clockcircle"
           size={hp('2.5')}
-          style={{marginRight: wp('4')}}
+          style={{marginRight: wp('1')}}
           color={colorTutor_.ipallightGreen}
         />
         <TextComp
@@ -44,7 +44,7 @@ export const MentorClassComp = props => {
           style={{
             flexDirection: 'row',
             width: wp('45'),
-            justifyContent: 'space-between',
+            justifyContent: 'space-around',
           }}>
           <View
             style={{
@@ -55,7 +55,6 @@ export const MentorClassComp = props => {
               style={{
                 height: 20,
                 width: 20,
-                margin: 5,
                 tintColor: colorTutor_.ipallightGreen,
               }}
               source={require('../../image/book.png')}
@@ -73,12 +72,12 @@ export const MentorClassComp = props => {
             <AntDesign
               name="clockcircle"
               size={hp('2.5')}
-              style={{marginRight: wp('4')}}
+              style={{marginRight: wp('1')}}
               color={colorTutor_.ipallightGreen}
             />
             <TextComp
               text={item?.timing}
-              style={{color: colorTutor_.ipallightGreen}}
+              style={{color: colorTutor_.ipallightGreen, marginRight: wp('1')}}
             />
           </View>
         </View>

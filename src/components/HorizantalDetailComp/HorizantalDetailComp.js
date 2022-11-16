@@ -14,6 +14,7 @@ const HorizantalDetailComp = props => {
         style={{
           flexDirection: 'row',
           justifyContent: 'center',
+          marginLeft: wp('5'),
           alignItems: 'center',
         }}>
         <Text

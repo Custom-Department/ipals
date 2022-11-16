@@ -61,8 +61,6 @@ function MybottomTabs() {
                 width: Dimensions.get('window').width * 0.16,
                 height: Dimensions.get('window').width * 0.16,
               }}>
-              {console.log(39, focused, color, size)}
-
               <MaterialIcons
                 name={'playlist-add'}
                 color={focused ? 'white' : 'black'}

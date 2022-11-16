@@ -10,6 +10,7 @@ import {
 import FrontMentorFlatlist from '../../../components/FrontMentorFlatlist/FrontMentorFlatlist';
 import HorizantalDetailComp from '../../../components/HorizantalDetailComp/HorizantalDetailComp';
 import {SearchbarHeader} from '../../../components/SearchBarHeaderComp/SearchbarHeader';
+import SubcriptionPackComp from '../../../components/SubcriptionPackComp/SubcriptionPackComp';
 const MentorDashboardScreen = () => {
   const [teacherList, setTeacherList] = useState([
     {
@@ -84,6 +85,7 @@ const MentorDashboardScreen = () => {
 
       <ScrollView
         scrollEnabled
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           // flex: 1,
           backgroundColor: colorTutor_.topNavigationColor,
@@ -108,10 +110,10 @@ const MentorDashboardScreen = () => {
             leftText={`   Your Subcription`}
             rightText={` view all plans`}
           />
-          <FrontMentorFlatlist data={teacherList} />
+          <View style={{marginTop: wp('3')}}>
+            <SubcriptionPackComp />
+          </View>
         </View>
-
-        {/* <Text>MentorDashboardScreen</Text> */}
       </ScrollView>
     </View>
   );
