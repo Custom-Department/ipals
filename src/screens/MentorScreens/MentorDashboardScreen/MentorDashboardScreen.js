@@ -9,6 +9,7 @@ import {
 } from 'react-native-responsive-screen';
 import FrontMentorFlatlist from '../../../components/FrontMentorFlatlist/FrontMentorFlatlist';
 import HorizantalDetailComp from '../../../components/HorizantalDetailComp/HorizantalDetailComp';
+import SubcriptionPackComp from '../../../components/SubcriptionPackComp/SubcriptionPackComp';
 const MentorDashboardScreen = () => {
   const [teacherList, setTeacherList] = useState([
     {
@@ -74,37 +75,36 @@ const MentorDashboardScreen = () => {
     },
   ]);
   return (
-    <ScrollView
-      scrollEnabled
-      contentContainerStyle={{
+    <View
+      style={{
         flex: 1,
         backgroundColor: colorTutor_.topNavigationColor,
-        paddingBottom: hp('20'),
       }}>
-      <View style={styles.MainView}>
-        <HorizantalDetailComp
-          leftText={`   My classes`}
-          rightText={` view all classes`}
-        />
-        <FrontMentorFlatlist data={teacherList} />
-      </View>
-      <View style={styles.MainView}>
-        <HorizantalDetailComp
-          leftText={`   Pending requests`}
-          rightText={` view all classes`}
-        />
-        <FrontMentorFlatlist data={teacherList} />
-      </View>
-      <View style={styles.MainView}>
-        <HorizantalDetailComp
-          leftText={`   Your Subcription`}
-          rightText={` view all plans`}
-        />
-        <FrontMentorFlatlist data={teacherList} />
-      </View>
-
+      <ScrollView contentContainerStyle={{paddingBottom: hp('20')}}>
+        <View style={styles.MainView}>
+          <HorizantalDetailComp
+            leftText={`   My classes`}
+            rightText={` view all classes`}
+          />
+          <FrontMentorFlatlist data={teacherList} />
+        </View>
+        <View style={styles.MainView}>
+          <HorizantalDetailComp
+            leftText={`   Pending requests`}
+            rightText={` view all classes`}
+          />
+          <FrontMentorFlatlist data={teacherList} />
+        </View>
+        <View style={styles.MainView}>
+          <HorizantalDetailComp
+            leftText={`   Your Subcription`}
+            rightText={` view all plans`}
+          />
+          <SubcriptionPackComp />
+        </View>
+      </ScrollView>
       {/* <Text>MentorDashboardScreen</Text> */}
-    </ScrollView>
+    </View>
   );
 };
 

@@ -12,7 +12,7 @@ const FrontMentorFlatlist = props => {
   return (
     <FlatList
       data={props?.data}
-      contentContainerStyle={{marginTop: hp('2')}}
+      contentContainerStyle={{marginTop: hp('2'), marginLeft: wp('5')}}
       keyExtractor={(item, index) => index.toString()}
       horizontal
       renderItem={({item}) => {
