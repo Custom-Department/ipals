@@ -7,7 +7,7 @@ import {colorTutor_, MentorColor} from '../../config/color';
 
 export const styles = StyleSheet.create({
   mainView: {
-    width: wp('55'),
+    width: wp('45'),
     height: hp('23'),
     backgroundColor: 'white',
     borderRadius: 10,
@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
   },
   topView: {
     flexDirection: 'row',
-    width: wp('50'),
+    width: wp('41'),
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
@@ -28,7 +28,7 @@ export const styles = StyleSheet.create({
     marginLeft: wp('-5'),
   },
   centerView: {
-    width: wp('55'),
+    width: wp('45'),
     backgroundColor: colorTutor_.lightAquaGreen,
     height: hp('4'),
     marginTop: hp('1'),
@@ -37,7 +37,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   bottomView: {
-    width: wp('48'),
+    width: wp('41'),
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

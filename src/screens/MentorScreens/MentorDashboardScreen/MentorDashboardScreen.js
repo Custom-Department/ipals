@@ -100,7 +100,9 @@ const MentorDashboardScreen = () => {
             leftText={`   Your Subcription`}
             rightText={` view all plans`}
           />
-          <SubcriptionPackComp />
+          <View style={{marginTop: wp('3')}}>
+            <SubcriptionPackComp />
+          </View>
         </View>
       </ScrollView>
       {/* <Text>MentorDashboardScreen</Text> */}

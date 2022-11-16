@@ -15,6 +15,7 @@ const FrontMentorFlatlist = props => {
       contentContainerStyle={{marginTop: hp('2'), marginLeft: wp('5')}}
       keyExtractor={(item, index) => index.toString()}
       horizontal
+      showsHorizontalScrollIndicator={false}
       renderItem={({item}) => {
         return (
           <MentorClassComp navigate={() => props?.navigate(item)} data={item} />
