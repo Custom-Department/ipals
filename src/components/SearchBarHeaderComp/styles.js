@@ -8,7 +8,7 @@ import {MentorColor,color} from '../../config/color';
 export const styles = StyleSheet.create({
     mainView:{ 
         width:wp('100'),
-        height:hp('20'),
+        height:hp('18'),
         paddingTop:hp('2'),
         paddingLeft:wp('2'),
         backgroundColor:MentorColor.MentorThemeFirst},

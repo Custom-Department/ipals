@@ -46,4 +46,7 @@ export const MentorColor = {
   MentorThemeFirst: '#8588A9',
   MentorThemeBackGround: '#59C8F2',
   MentorLightTheme: '#89CFF0',
+  Whatsaapbutton: '#6FBD35',
+  Linkedinbutton:'#0073B0',
+  DividerGrey:'#D9D9D9',
 };
