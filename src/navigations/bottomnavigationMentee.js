@@ -10,12 +10,14 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Platform, Dimensions, StyleSheet, View} from 'react-native';
 import {color, MentorColor} from '../config/color';
 import {Mentor} from '../screens/MentorScreens';
+import {ManteeScreen} from '../screens/ManteeScreens';
 import {screens} from '../screens';
 const Tab = createBottomTabNavigator();
-function MybottomTabs() {
+function MenteebottomTabs() {
   return (
+
     <Tab.Navigator
-      initialRouteName="MentorDashboardScreen"
+      initialRouteName="MenteeDashboardScreen"
       screenOptions={({route}) => ({
         tabBarActiveTintColor: color.black,
         // tabBarInactiveTintColor: 'transparent',
@@ -82,7 +84,7 @@ function MybottomTabs() {
         component={Mentor.MentorServices}
       />
       <Tab.Screen
-        name="MentorDashboardScreen"
+        name="MenteeDashboardScreen"
         options={{
           tabBarIcon: ({focused, color, size}) => (
             // <Ionicons
@@ -123,7 +125,7 @@ function MybottomTabs() {
             // ...globalStyles.globalTextStyles3,
           },
         }}
-        component={Mentor.MentorDashboardScreen}
+        component={ManteeScreen.MenteeDashboardScreen}
       />
 
       <Tab.Screen
@@ -168,7 +170,7 @@ function MybottomTabs() {
     </Tab.Navigator>
   );
 }
-export default MybottomTabs;
+export default MenteebottomTabs;
 
 const styles = StyleSheet.create({
   cartCircle: {

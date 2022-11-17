@@ -3,7 +3,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {MentorColor,color,colorTutor_} from '../../config/color';
+import {MentorColor,color,colorTutor_} from '../../../config/color';
 export const styles = StyleSheet.create({
     mainView:{
        flex:1},
@@ -98,4 +98,47 @@ export const styles = StyleSheet.create({
         flexDirection:'row',
         width:wp('90')
     },
+    innerView: {
+        width: wp('45.5'),
+        backgroundColor: 'white',
+        borderRadius: 10,
+        marginLeft: wp('1'),
+        marginRight: wp('1'),
+        marginBottom: hp('2'),
+        overflow: 'hidden',
+      },
+      timeView: {
+        flexDirection: 'row',
+        height: hp('4'),
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        width: wp('45.5'),
+        marginTop: hp('0.5'),
+      },
+      centerView: {
+        flexDirection: 'row',
+        width: wp('41'),
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        alignSelf: 'center',
+        marginTop: hp('1'),
+        // backgroundColor: 'red',
+      },
+      innerBottomView: {
+        flexDirection: 'row',
+        width: wp('18'),
+        justifyContent: 'center',
+        // backgroundColor: 'yellow',
+      },
+      verDivider: {
+        height: hp('7'),
+        width: 1,
+        backgroundColor: '#909090',
+      },
+      bottomButton: {
+        width: wp('45.5'),
+        borderRadius: 0,
+        height: hp('4'),
+        marginTop: hp('1'),
+      },
 })

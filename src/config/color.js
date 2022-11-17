@@ -49,4 +49,6 @@ export const MentorColor = {
   Whatsaapbutton: '#6FBD35',
   Linkedinbutton:'#0073B0',
   DividerGrey:'#D9D9D9',
+  MentorlightGrey: '#C7CBE4',
+  MentorInformationColor: '#D2D5DB',
 };

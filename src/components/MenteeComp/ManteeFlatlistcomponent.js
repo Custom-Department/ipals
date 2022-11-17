@@ -14,14 +14,14 @@ import {SearchbarHeader}from '../SearchBarHeaderComp/SearchbarHeader'
 import { styles } from './styles';
 import { CircleImageComp } from '../CircleImageComp/CircleImageComp';
 
-export const ManteeFlatlistcomponent = () => {
+export const ManteeFlatlistcomponent = props => {
     const data=[{},{},{},{}]
     const renderitem=({item})=>{
         return(
-            <View style={styles.flatlistmain}>
+            <TouchableOpacity style={styles.flatlistmain} onPress={props.click}>
                 <View style={styles.flupperView}>
                 <Image
-                 source={require('../../../image/image.jpg')}
+                 source={require('../../image/image.jpg')}
                  style={styles.flimagecrop}
                  />
                  <View>
@@ -59,15 +59,18 @@ export const ManteeFlatlistcomponent = () => {
                     <View style={styles.verticaldivider}></View>
                     <EvilIcons
                     name='heart'
-                    size={hp('4')}/>
+                    size={hp('4')}
+                    style={{marginTop:hp('0.5')}}
+                    />
                 </View>
-            </View>
+            </TouchableOpacity>
         )
     }
     return(
     <FlatList
-            contentContainerStyle={{marginLeft:wp('5')}}
             data={data}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{marginLeft:wp('4')}}
             horizontal={true}
             renderItem={renderitem}/>
     )

@@ -10,7 +10,9 @@ import {color} from '../../config/color';
 const PickerComponent = props => {
   return (
     <View>
-      <Text style={styles.accView}>{props.text}</Text>
+      <Text style={{...styles.accView, ...props?.headingStyle}}>
+        {props.text}
+      </Text>
       <Picker
         dropdownIconColor={'black'}
         mode="dialog"

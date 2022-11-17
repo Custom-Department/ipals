@@ -36,7 +36,8 @@ export const LoginInputComp = props => {
           size={hp('2')}
         />
       )}
-
+      {props.changeFirstIcon && props.changeFirstIcon}
+      {props.leftDivider && props.leftDivider}
       <TextInput
         style={{
           color: 'black',
@@ -46,7 +47,6 @@ export const LoginInputComp = props => {
 
           // alignSelf: 'flex-start',
           ...props.inputStyle,
-
         }}
         onSubmitEditing={props?.onSubmitEditing}
         {...props.otherProps}
@@ -77,7 +77,7 @@ export const LoginInputComp = props => {
             : color.themeColorDark
         }
         style={{marginLeft: 'auto', marginRight: wp('3')}}
-        size={props?.eyeIconSize??hp('2')}
+        size={props?.eyeIconSize ?? hp('2')}
       />
     </View>
   );

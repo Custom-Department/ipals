@@ -8,16 +8,17 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {colorTutor_} from '../../../config/color';
+import {colorTutor_, MentorColor} from '../../../config/color';
 import {TextComp} from '../../../components/TextComponent';
-import {styles} from './style';
 import {LoginInputComp} from '../../../components/LoginInputComp/LoginInputComp';
-const MessageScreen = ({route}) => {
+import {styles} from './style';
+import InformationTextView from '../../../components/InformationTextView/InformationTextView';
+const MentorChatScreen = ({route}) => {
   const items = route.params;
-  // console.log(17, items);
   return (
     <View style={{flex: 1}}>
       <BackHeaderComponent
+        style={{backgroundColor: MentorColor.MentorThemeFirst}}
         heading={items?.firstText}
         changeIcon3={
           <Entypo
@@ -44,6 +45,21 @@ const MessageScreen = ({route}) => {
           />
         }
         bellOnPress={() => console.log('bell')}
+      />
+      <InformationTextView
+        iconcolor={MentorColor.MentorThemeFirst}
+        textStyle={{
+          marginLeft: wp('1'),
+        }}
+        style={{
+          width: wp('100'),
+          borderRadius: 0,
+          marginTop: hp('0'),
+
+          backgroundColor: MentorColor.MentorInformationColor,
+        }}
+        textColor={MentorColor.MentorThemeFirst}
+        text={'Your messages will be deleted in 3 days before payment process'}
       />
       <ScrollView>
         <View style={{...styles.recView, alignSelf: 'flex-start'}}>
@@ -74,4 +90,4 @@ const MessageScreen = ({route}) => {
   );
 };
 
-export default MessageScreen;
+export default MentorChatScreen;
