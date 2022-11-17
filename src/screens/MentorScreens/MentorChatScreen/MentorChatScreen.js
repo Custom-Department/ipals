@@ -18,7 +18,8 @@ const MentorChatScreen = ({route}) => {
   return (
     <View style={{flex: 1}}>
       <BackHeaderComponent
-        style={{backgroundColor: MentorColor.MentorThemeFirst}}
+        // style={{backgroundColor: MentorColor.MentorThemeFirst}}
+        backgroundColor={'Mentor'}
         heading={items?.firstText}
         changeIcon3={
           <Entypo

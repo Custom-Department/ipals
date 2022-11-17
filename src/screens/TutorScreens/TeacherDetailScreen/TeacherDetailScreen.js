@@ -291,7 +291,10 @@ const TeacherDetailScreen = ({route, navigation}) => {
         backgroundColor: colorTutor_.ipalBlue,
         flex: 1,
       }}>
-      <BackHeaderComponent heading={'T e a c h e r  A b o u t'} />
+      <BackHeaderComponent
+        backgroundColor={'Tutor'}
+        heading={'Teacher  About'}
+      />
       <ScrollView
         contentContainerStyle={{paddingBottom: hp('10')}}
         showsVerticalScrollIndicator={false}>

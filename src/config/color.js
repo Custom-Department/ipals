@@ -50,4 +50,5 @@ export const MentorColor = {
   MentorInformationColor: '#D2D5DB',
   MentorSubsPlan1: '#6FBD35',
   MentorSubsPlan2: '#FF5C5C',
+  MentorLinkIn: '#0073B0',
 };

@@ -104,6 +104,10 @@ export default function StackNavigatior() {
           name="MentorPaymentMethod"
           component={Mentor.MentorPaymentMethod}
         />
+        <Stack.Screen
+          name="MentorProfileScreen"
+          component={Mentor.MentorProfileScreen}
+        />
         {/* Mentor */}
 
         <Stack.Screen name="Category" component={screens.Category} />

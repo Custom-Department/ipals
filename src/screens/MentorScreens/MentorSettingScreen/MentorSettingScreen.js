@@ -22,8 +22,8 @@ const MentorSettingScreen = ({navigation}) => {
         flex: 1,
       }}>
       <BackHeaderComponent
-        style={{backgroundColor: MentorColor.MentorThemeFirst}}
-        heading={'S E T T I N G'}
+        backgroundColor={'Mentor'}
+        heading={'Setting'}
         data={true}
         bellOnPress={() => console.log('bell')}
         settingOnPress={() => console.log('hello')}
@@ -49,6 +49,7 @@ const MentorSettingScreen = ({navigation}) => {
         <TouchableOpacity
           onPress={() => navigation.navigate('NotificationScreen')}>
           <SettingIconComp
+            trackColor={MentorColor.MentorThemeFirst}
             name={'bell-fill'}
             text={'Notifications'}
             switch={true}
@@ -70,7 +71,8 @@ const MentorSettingScreen = ({navigation}) => {
             }
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('ProfileScreen')}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('MentorProfileScreen')}>
           <SettingIconComp
             text={'Edit Profile'}
             changeIcon={

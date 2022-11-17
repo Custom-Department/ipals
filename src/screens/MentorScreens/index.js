@@ -2,6 +2,7 @@ import MentorChatScreen from './MentorChatScreen/MentorChatScreen';
 import MentorDashboardScreen from './MentorDashboardScreen/MentorDashboardScreen';
 import MentorMessages from './MentorMessages/MentorMessages';
 import MentorPaymentMethod from './MentorPaymentMethod/MentorPaymentMethod';
+import MentorProfileScreen from './MentorProfileScreen/MentorProfileScreen';
 import MentorServices from './MentorServices/MentorServices';
 import MentorSettingScreen from './MentorSettingScreen/MentorSettingScreen';
 export const Mentor = {
@@ -11,4 +12,5 @@ export const Mentor = {
   MentorChatScreen,
   MentorSettingScreen,
   MentorPaymentMethod,
+  MentorProfileScreen,
 };
