@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
     height: hp('6'),
     backgroundColor: colorTutor_.ipallightGreen,
     justifyContent: 'center',
-    alignItems: 'center',
+    // alignItems: 'center',
     borderRadius: 20,
     // shadowColor: "#000",
     // shadowOffset: {

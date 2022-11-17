@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {
   widthPercentageToDP as wp,
@@ -43,7 +44,7 @@ function MenteebottomTabs() {
         },
       })}>
       <Tab.Screen
-        name="MentorServices"
+        name="MenteeMyClasses"
         options={{
           tabBarIcon: ({focused, color, size}) => (
             <View
@@ -63,14 +64,14 @@ function MenteebottomTabs() {
                 width: Dimensions.get('window').width * 0.16,
                 height: Dimensions.get('window').width * 0.16,
               }}>
-              <MaterialIcons
-                name={'playlist-add'}
+              <FontAwesome
+                name={'graduation-cap'}
                 color={focused ? 'white' : 'black'}
                 size={hp('3')}
               />
             </View>
           ),
-          title: 'Services',
+          title: 'My Classes',
           tabBarLabelStyle: {
             fontSize: hp('2'),
             marginBottom: Platform.OS == 'android' ? hp('1.5') : hp('0'),
@@ -81,7 +82,7 @@ function MenteebottomTabs() {
             // ...globalStyles.globalTextStyles3,
           },
         }}
-        component={Mentor.MentorServices}
+        component={ManteeScreen.MenteeMyClassesScreen}
       />
       <Tab.Screen
         name="MenteeDashboardScreen"
@@ -129,7 +130,7 @@ function MenteebottomTabs() {
       />
 
       <Tab.Screen
-        name="MentorMessages"
+        name="MenteeMessagesScreen"
         options={{
           tabBarIcon: ({focused, color, size}) => (
             <View
@@ -165,7 +166,7 @@ function MenteebottomTabs() {
             // ...globalStyles.globalTextStyles3,
           },
         }}
-        component={Mentor.MentorMessages}
+        component={ManteeScreen.MenteeMessagesScreen}
       />
     </Tab.Navigator>
   );

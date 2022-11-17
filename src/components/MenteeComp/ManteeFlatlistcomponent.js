@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View  ,Image,Text,TextInput, SafeAreaView, Dimensions, TouchableOpacity, FlatList} from 'react-native';
+import { View  ,Image,Text,TextInput, SafeAreaView, Dimensions, TouchableOpacity, FlatList, Pressable} from 'react-native';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -18,7 +18,7 @@ export const ManteeFlatlistcomponent = props => {
     const data=[{},{},{},{}]
     const renderitem=({item})=>{
         return(
-            <TouchableOpacity style={styles.flatlistmain} onPress={props.click}>
+            <Pressable style={styles.flatlistmain} onPress={props.click}>
                 <View style={styles.flupperView}>
                 <Image
                  source={require('../../image/image.jpg')}
@@ -63,7 +63,7 @@ export const ManteeFlatlistcomponent = props => {
                     style={{marginTop:hp('0.5')}}
                     />
                 </View>
-            </TouchableOpacity>
+            </Pressable>
         )
     }
     return(

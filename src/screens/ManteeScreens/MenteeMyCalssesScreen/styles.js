@@ -1,4 +1,4 @@
-import {Platform, StyleSheet,Dimensions} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -7,7 +7,7 @@ import {MentorColor,color,colorTutor_} from '../../../config/color';
 export const styles = StyleSheet.create({
     mainView:{
         flex:1,
-        backgroundColor:colorTutor_.topNavigationColor
+        backgroundColor:MentorColor.MentorLightTheme
     },
     scrollView:{
         marginTop:hp('1'),
@@ -21,6 +21,4 @@ export const styles = StyleSheet.create({
         margin:5,
         
     }
-
-
 })

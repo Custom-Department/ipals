@@ -1,5 +1,5 @@
 import React, { useState ,useEffect} from 'react';
-import { View  ,Image,Text,TextInput, SafeAreaView, Dimensions, TouchableOpacity, FlatList, ScrollView} from 'react-native';
+import { View , ScrollView} from 'react-native';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -9,9 +9,9 @@ import HorizantalDetailComp from '../../../components/HorizantalDetailComp/Horiz
 import { styles } from './styles';
 import { ManteeFlatlistcomponent } from '../../../components/MenteeComp/ManteeFlatlistcomponent';
 
-export const MenteeDashboardScreen = ({navigation}) => {
+const MenteeDashboardScreen = ({navigation}) => {
     return(
-        <SafeAreaView style={styles.mainView}>
+        <View style={styles.mainView}>
              <SearchbarHeader heart={true} />
              <ScrollView 
              contentContainerStyle={styles.scrollView}
@@ -20,6 +20,8 @@ export const MenteeDashboardScreen = ({navigation}) => {
               <View style={styles.Emptydivider}/>
              <HorizantalDetailComp
             leftText={`   Languages`}
+            dot={true}
+            line={true}
             rightText={` view all category`}
           />
           <View style={styles.Emptydivider}/>
@@ -27,6 +29,8 @@ export const MenteeDashboardScreen = ({navigation}) => {
           <View style={styles.Emptydivider}/>
           <HorizantalDetailComp
             leftText={`   Finance & Investment`}
+            dot={true}
+            line={true}
             rightText={`view all category`}
           />
           <View style={styles.Emptydivider}/>
@@ -34,6 +38,8 @@ export const MenteeDashboardScreen = ({navigation}) => {
           <View style={styles.Emptydivider}/>
           <HorizantalDetailComp
             leftText={`   Finance & Investment`}
+            dot={true}
+            line={true}
             rightText={`view all category`}
           />
             <View style={styles.Emptydivider}/>
@@ -41,6 +47,7 @@ export const MenteeDashboardScreen = ({navigation}) => {
           <View style={styles.Emptydivider}/>
           
              </ScrollView>
-        </SafeAreaView>
+        </View>
     )
 }
+export default MenteeDashboardScreen;

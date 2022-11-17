@@ -104,6 +104,7 @@ export default function StackNavigatior() {
         {/* Mentee */}
         <Stack.Screen name='MenteeDashboard' component={ManteeScreen.MenteeDashboardScreen}/>
         <Stack.Screen name='MenteeDetailedScreen' component={ManteeScreen.MenteeDtailedScreen}/>
+        <Stack.Screen name='MenteeMessagesScreen' component={ManteeScreen.MenteeMessagesScreen}/>
         {/* Mentee */}
 
         <Stack.Screen name="Category" component={screens.Category} />

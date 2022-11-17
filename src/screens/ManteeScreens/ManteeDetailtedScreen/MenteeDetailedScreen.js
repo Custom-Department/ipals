@@ -15,7 +15,7 @@ import { styles } from './styles';
 import HorizontalDividerComp from '../../../components/HorizontalDividerComp/HorizontalDividerComp';
 import {ButtonThemeComp} from '../../../components/ButtonThemeComp/ButtonThemeComp';
 
-export const MenteeDtailedScreen = () => {
+const MenteeDtailedScreen = () => {
     const data=[{},{},{},{}]
     const RenderCard = prop => {
         return(
@@ -126,3 +126,4 @@ return(
     </SafeAreaView>
 )
 }
+export default MenteeDtailedScreen;
