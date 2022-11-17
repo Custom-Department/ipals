@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
 import {
   FlatList,
+  Platform,
   ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -86,6 +88,10 @@ const MentorDashboardScreen = ({navigation}) => {
         flex: 1,
         backgroundColor: colorTutor_.topNavigationColor,
       }}>
+      <StatusBar
+        hidden={false}
+        barStyle={Platform.OS == 'ios' ? 'dark-content' : 'default'}
+      />
       <SearchbarHeader
         onPress={() => navigation.navigate('MentorSeacrhFilterScreen')}
         heart={true}

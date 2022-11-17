@@ -336,7 +336,8 @@ const CreateAccount = ({navigation}) => {
                 h={h.CourcesData}
                 selectedValue={tutorValue.CourcesData}
               />
-            ) : tutorValue.tutorData == 'student' ? (
+            ) : tutorValue.tutorData == 'student' ||
+              tutorValue.tutorData == 'Mentor' ? (
               <PickerComponent
                 style={{width: wp('45'), marginRigh: wp('2')}}
                 text={'Category'}

@@ -4,7 +4,7 @@ import {screens} from '../screens';
 import {Tutor} from '../screens/TutorScreens';
 import {Tutee} from '../screens/TuteeScreen';
 import {Mentor} from '../screens/MentorScreens';
-import { ManteeScreen } from '../screens/ManteeScreens';
+import {ManteeScreen} from '../screens/ManteeScreens';
 import {useSelector} from 'react-redux';
 import MybottomTabs from './bottomnavigation';
 import MenteebottomTabs from './bottomnavigationMentee';
@@ -52,6 +52,28 @@ export default function StackNavigatior() {
               component={Tutor.SettingScreen}
             />
           </>
+        ) : userData?.user_type == 'mentee' ? (
+          <>
+            <Stack.Screen
+              name="MenteebottomTabs"
+              component={MenteebottomTabs}
+            />
+            <Stack.Screen
+              name="MenteeDetailedScreen"
+              component={ManteeScreen.MenteeDtailedScreen}
+            />
+          </>
+        ) : userData?.user_type == 'mentor' ? (
+          <>
+            <Stack.Screen
+              name="MentorDashboardScreen"
+              component={Mentor.MentorDashboardScreen}
+            />
+            <Stack.Screen
+              name="MenteeDetailedScreen"
+              component={ManteeScreen.MenteeDtailedScreen}
+            />
+          </>
         ) : (
           <>
             <Stack.Screen name="LoginScreen" component={screens.LoginScreen} />
@@ -70,7 +92,6 @@ export default function StackNavigatior() {
           </>
         )}
         <Stack.Screen name="MybottomTabs" component={MybottomTabs} />
-        <Stack.Screen name="MenteebottomTabs" component={MenteebottomTabs} />
         {/* <Stack.Screen name="OnboardScreen" component={screens.OnboardScreen} /> */}
         <Stack.Screen name="ProfileScreen" component={Tutor.ProfileScreen} />
         <Stack.Screen
@@ -93,8 +114,6 @@ export default function StackNavigatior() {
           name="MentorDashboardScreen"
           component={Mentor.MentorDashboardScreen}
         />
-        <Stack.Screen name="MentorServices" component={Mentor.MentorServices} />
-        <Stack.Screen name="MentorMessages" component={Mentor.MentorMessages} />
         <Stack.Screen
           name="MentorSeacrhFilterScreen"
           component={Mentor.MentorSeacrhFilterScreen}
@@ -106,8 +125,7 @@ export default function StackNavigatior() {
         {/* Mentor */}
 
         {/* Mentee */}
-        <Stack.Screen name='MenteeDashboard' component={ManteeScreen.MenteeDashboardScreen}/>
-        <Stack.Screen name='MenteeDetailedScreen' component={ManteeScreen.MenteeDtailedScreen}/>
+
         {/* Mentee */}
 
         <Stack.Screen name="Category" component={screens.Category} />
