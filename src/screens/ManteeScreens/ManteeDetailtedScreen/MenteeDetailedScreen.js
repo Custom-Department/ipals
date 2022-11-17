@@ -9,8 +9,8 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {SearchbarHeader}from '../../../components/SearchBarHeaderComp/SearchbarHeader'
 import {TextComp} from '../../../components/TextComponent';
+import {SearchbarHeader}from '../../../components/SearchBarHeaderComp/SearchbarHeader'
 import { styles } from './styles';
 import HorizontalDividerComp from '../../../components/HorizontalDividerComp/HorizontalDividerComp';
 import {ButtonThemeComp} from '../../../components/ButtonThemeComp/ButtonThemeComp';

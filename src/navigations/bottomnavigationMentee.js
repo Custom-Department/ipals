@@ -10,7 +10,6 @@ import {
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Platform, Dimensions, StyleSheet, View} from 'react-native';
 import {color, MentorColor} from '../config/color';
-import {Mentor} from '../screens/MentorScreens';
 import {ManteeScreen} from '../screens/ManteeScreens';
 import {screens} from '../screens';
 const Tab = createBottomTabNavigator();
