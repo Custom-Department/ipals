@@ -284,7 +284,6 @@ const TeacherDetailScreen = ({route, navigation}) => {
   useEffect(() => {
     getApiData();
   }, []);
-  console.log(287, userData?.course);
   return (
     <View
       style={{

@@ -108,6 +108,10 @@ export default function StackNavigatior() {
           name="MentorProfileScreen"
           component={Mentor.MentorProfileScreen}
         />
+        <Stack.Screen
+          name="MentorAccountSettings"
+          component={Mentor.MentorAccountSettings}
+        />
         {/* Mentor */}
 
         <Stack.Screen name="Category" component={screens.Category} />

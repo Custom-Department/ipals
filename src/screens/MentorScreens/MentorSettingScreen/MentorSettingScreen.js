@@ -37,8 +37,8 @@ const MentorSettingScreen = ({navigation}) => {
            <DeleteAccount />
          ) : (
            <AccountSettings />
-         )
-       ) : ( */}
+         )*/}
+
       <Animatable.View animation="fadeInLeft" style={style.topView}>
         <TextComp
           color={colorTutor_.TxtColor}
@@ -55,7 +55,9 @@ const MentorSettingScreen = ({navigation}) => {
             switch={true}
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => updateState({accState: true})}>
+        {/* <TouchableOpacity onPress={() => updateState({accState: true})}> */}
+        <TouchableOpacity
+          onPress={() => navigation.navigate('MentorAccountSettings')}>
           <SettingIconComp
             onPress={() => console.log('hellow')}
             name={'person-fill'}
@@ -89,15 +91,7 @@ const MentorSettingScreen = ({navigation}) => {
           <SettingIconComp name={'sign-out'} text={' Log out'} />
         </TouchableOpacity>
       </Animatable.View>
-      {/* )} */}
-      {/* <View style={styles.bottomBar}>
-      <TouchableOpacity onPress={() => console.log('dont have you acc')}>
-        <Text style={globalStyles.globalModuletutor}>Term of use</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => console.log('dont have you acc')}>
-        <Text style={globalStyles.globalModuletutor}>Privacy Policy</Text>
-      </TouchableOpacity>
-    </View> */}
+
       {/* {isVisible && <SubjectDetailScreen />} */}
     </View>
   );

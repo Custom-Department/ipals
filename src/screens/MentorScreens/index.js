@@ -1,3 +1,4 @@
+import MentorAccountSettings from './MentorAccountSettings/MentorAccountSettings';
 import MentorChatScreen from './MentorChatScreen/MentorChatScreen';
 import MentorDashboardScreen from './MentorDashboardScreen/MentorDashboardScreen';
 import MentorMessages from './MentorMessages/MentorMessages';
@@ -13,4 +14,5 @@ export const Mentor = {
   MentorSettingScreen,
   MentorPaymentMethod,
   MentorProfileScreen,
+  MentorAccountSettings,
 };
