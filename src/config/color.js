@@ -48,4 +48,6 @@ export const MentorColor = {
   MentorLightTheme: '#89CFF0',
   MentorlightGrey: '#C7CBE4',
   MentorInformationColor: '#D2D5DB',
+  MentorSubsPlan1: '#6FBD35',
+  MentorSubsPlan2: '#FF5C5C',
 };

@@ -96,6 +96,14 @@ export default function StackNavigatior() {
           name="MentorChatScreen"
           component={Mentor.MentorChatScreen}
         />
+        <Stack.Screen
+          name="MentorSettingScreen"
+          component={Mentor.MentorSettingScreen}
+        />
+        <Stack.Screen
+          name="MentorPaymentMethod"
+          component={Mentor.MentorPaymentMethod}
+        />
         {/* Mentor */}
 
         <Stack.Screen name="Category" component={screens.Category} />

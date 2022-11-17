@@ -86,12 +86,14 @@ const MentorDashboardScreen = ({navigation}) => {
         flex: 1,
         backgroundColor: colorTutor_.topNavigationColor,
       }}>
-      <SearchbarHeader heart={true} />
+      <SearchbarHeader
+        onPressSetting={() => navigation.navigate('MentorSettingScreen')}
+        heart={true}
+      />
 
       <ScrollView
         scrollEnabled
         contentContainerStyle={{
-          // flex: 1,
           backgroundColor: colorTutor_.topNavigationColor,
           paddingBottom: hp('20'),
         }}>
@@ -157,6 +159,7 @@ const MentorDashboardScreen = ({navigation}) => {
           />
           <View style={{marginTop: wp('3')}}>
             <SubcriptionPackComp
+              priceTxt={'$15'}
               iconcolor={MentorColor.MentorlightGrey}
               data={teacherList.length > 0 ? false : true}
               text={

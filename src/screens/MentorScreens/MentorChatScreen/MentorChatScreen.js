@@ -51,13 +51,7 @@ const MentorChatScreen = ({route}) => {
         textStyle={{
           marginLeft: wp('1'),
         }}
-        style={{
-          width: wp('100'),
-          borderRadius: 0,
-          marginTop: hp('0'),
-
-          backgroundColor: MentorColor.MentorInformationColor,
-        }}
+        style={styles.exclView}
         textColor={MentorColor.MentorThemeFirst}
         text={'Your messages will be deleted in 3 days before payment process'}
       />

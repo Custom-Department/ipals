@@ -9,12 +9,7 @@ export const styles = StyleSheet.create({
     flexGrow: 1,
   },
   recView: {
-    marginTop: hp('3'),
-    padding: 15,
-    marginHorizontal: wp('4'),
-    backgroundColor: colorTutor_.lightAquaGreen,
-    borderRadius: 5,
-    textAlign: 'right',
+    alignSelf: 'center',
   },
   chatButtonView: {
     height: hp('10'),
@@ -25,10 +20,19 @@ export const styles = StyleSheet.create({
     width: wp('95'),
     height: 'auto',
   },
-  exclView: {
-    width: wp('100'),
-    borderRadius: 0,
-    marginTop: hp('0'),
-    backgroundColor: MentorColor.MentorInformationColor,
+  settingtxtView: {
+    marginTop: hp('2'),
+    marginLeft: wp('6'),
+    marginBottom: hp('2'),
+    fontSize: hp('2'),
+  },
+  buttonView: {
+    backgroundColor: MentorColor.MentorThemeFirst,
+  },
+  classDashBoard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 20,
   },
 });

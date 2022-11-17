@@ -43,7 +43,16 @@ export const SearchbarHeader = props => {
               style={styles.bellIcon}
             />
           )}
-          <Feather name={'menu'} size={hp('3')} color={color.white} />
+          <Feather
+            onPress={
+              props?.onPressSetting
+                ? props?.onPressSetting
+                : console.log('setting')
+            }
+            name={'menu'}
+            size={hp('3')}
+            color={color.white}
+          />
         </View>
       </View>
       <View style={styles.searchView}>
