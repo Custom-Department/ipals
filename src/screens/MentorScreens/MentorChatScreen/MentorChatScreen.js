@@ -1,4 +1,11 @@
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import React from 'react';
 import {BackHeaderComponent} from '../../../components/BackHeaderComponent/BackHeaderComponent';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -78,14 +85,17 @@ const MentorChatScreen = ({route}) => {
           />
         </View>
       </ScrollView>
-      <View style={styles.chatButtonView}>
-        <LoginInputComp
-          eyeIconSize={hp('3')}
-          style={styles.innerChatView}
-          placeholder={'Type your message'}
-          eyeIconName={'send'}
-        />
-      </View>
+      <KeyboardAvoidingView
+        behavior={Platform.OS == 'ios' ? 'position' : 'height'}>
+        <View style={styles.chatButtonView}>
+          <LoginInputComp
+            eyeIconSize={hp('3')}
+            style={styles.innerChatView}
+            placeholder={'Type your message'}
+            eyeIconName={'send'}
+          />
+        </View>
+      </KeyboardAvoidingView>
     </View>
   );
 };

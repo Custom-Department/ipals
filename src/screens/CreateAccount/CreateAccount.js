@@ -114,6 +114,18 @@ const CreateAccount = ({navigation}) => {
         value: 'tweetyData',
         type: 'tweetyData',
       },
+      {
+        id: 'Mentor',
+        title: 'Mentor',
+        value: 'mentorData',
+        type: 'mentorData',
+      },
+      {
+        id: 'Mentee',
+        title: 'Mentee',
+        value: 'MenteeData',
+        type: 'MenteeData',
+      },
     ],
     languageData: [
       {

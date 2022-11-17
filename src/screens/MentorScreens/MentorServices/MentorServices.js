@@ -321,7 +321,11 @@ const MentorServices = () => {
             }
             leftDivider={<View style={styles.verDivider} />}
           />
-          <ButtonThemeComp text="Create class" style={styles.buttonStyle} />
+          <ButtonThemeComp
+            onPress={() => console.log('dkvksdnk')}
+            text="Create class"
+            style={styles.buttonStyle}
+          />
         </KeyboardAvoidingView>
       </ScrollView>
     </View>

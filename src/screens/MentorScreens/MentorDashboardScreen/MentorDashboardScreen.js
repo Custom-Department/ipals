@@ -86,7 +86,10 @@ const MentorDashboardScreen = ({navigation}) => {
         flex: 1,
         backgroundColor: colorTutor_.topNavigationColor,
       }}>
-      <SearchbarHeader heart={true} />
+      <SearchbarHeader
+        onPress={() => navigation.navigate('MentorSeacrhFilterScreen')}
+        heart={true}
+      />
 
       <ScrollView
         scrollEnabled
