@@ -9,9 +9,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import style from './style';
 const MentorSettingScreen = ({navigation}) => {
@@ -28,16 +26,6 @@ const MentorSettingScreen = ({navigation}) => {
         bellOnPress={() => console.log('bell')}
         settingOnPress={() => console.log('hello')}
       />
-      {/* {editState ? (
-         <ProfileScreen />
-       ) : accState ? (
-         childAccState ? (
-           <CreateChildAccount />
-         ) : deleteAccState ? (
-           <DeleteAccount />
-         ) : (
-           <AccountSettings />
-         )*/}
 
       <Animatable.View animation="fadeInLeft" style={style.topView}>
         <TextComp
@@ -55,7 +43,6 @@ const MentorSettingScreen = ({navigation}) => {
             switch={true}
           />
         </TouchableOpacity>
-        {/* <TouchableOpacity onPress={() => updateState({accState: true})}> */}
         <TouchableOpacity
           onPress={() => navigation.navigate('MentorAccountSettings')}>
           <SettingIconComp

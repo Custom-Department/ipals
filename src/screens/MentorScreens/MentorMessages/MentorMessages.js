@@ -82,7 +82,10 @@ const MentorMessages = ({navigation}) => {
         flex: 1,
         backgroundColor: colorTutor_.topNavigationColor,
       }}>
-      <SearchbarHeader heart={true} />
+      <SearchbarHeader
+        onPressSetting={() => navigation.navigate('MentorSettingScreen')}
+        heart={true}
+      />
 
       <ScrollView
         contentContainerStyle={{

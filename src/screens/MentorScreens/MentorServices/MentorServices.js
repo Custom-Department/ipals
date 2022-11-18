@@ -16,7 +16,7 @@ import moment from 'moment/moment';
 import {HeaderComponent} from '../../../components/HeaderComponent/HeaderComponent';
 import {SearchbarHeader} from '../../../components/SearchBarHeaderComp/SearchbarHeader';
 
-const MentorServices = () => {
+const MentorServices = ({navigation}) => {
   const [tutorValue, setTutorValue] = useState({
     languageData: null,
   });
@@ -190,7 +190,9 @@ const MentorServices = () => {
         // paddingTop: hp('6'),
         // justifyContent: 'center',
       }}>
-      <SearchbarHeader />
+      <SearchbarHeader
+        onPressSetting={() => navigation.navigate('MentorSettingScreen')}
+      />
       <View style={styles.classDashBoard}>
         <TextComp
           style={{color: MentorColor.MentorThemeFirst}}
