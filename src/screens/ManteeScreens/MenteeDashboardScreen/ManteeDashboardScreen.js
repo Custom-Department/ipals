@@ -23,7 +23,7 @@ import {ManteeFlatlistcomponent} from '../../../components/MenteeComp/ManteeFlat
 import {useDispatch} from 'react-redux';
 import types from '../../../Redux/types';
 
-export const MenteeDashboardScreen = ({navigation}) => {
+const MenteeDashboardScreen = ({navigation}) => {
   const dispatch = useDispatch();
   return (
     <View style={styles.mainView}>
@@ -71,3 +71,5 @@ export const MenteeDashboardScreen = ({navigation}) => {
     </View>
   );
 };
+
+export default MenteeDashboardScreen;

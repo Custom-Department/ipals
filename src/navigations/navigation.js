@@ -7,7 +7,9 @@ import {Mentor} from '../screens/MentorScreens';
 import {ManteeScreen} from '../screens/ManteeScreens';
 import {useSelector} from 'react-redux';
 import MybottomTabs from './bottomnavigation';
+
 import MenteebottomTabs from './bottomnavigationMentee';
+
 const Stack = createNativeStackNavigator();
 
 export default function StackNavigatior() {
@@ -126,7 +128,6 @@ export default function StackNavigatior() {
         {/* Mentor */}
 
         {/* Mentee */}
-
         {/* Mentee */}
 
         <Stack.Screen name="Category" component={screens.Category} />

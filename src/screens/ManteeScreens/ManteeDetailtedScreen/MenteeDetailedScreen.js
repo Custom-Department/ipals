@@ -24,7 +24,7 @@ import {styles} from './styles';
 import HorizontalDividerComp from '../../../components/HorizontalDividerComp/HorizontalDividerComp';
 import {ButtonThemeComp} from '../../../components/ButtonThemeComp/ButtonThemeComp';
 
-export const MenteeDtailedScreen = () => {
+const MenteeDtailedScreen = () => {
   const data = [{}, {}, {}, {}];
   const RenderCard = prop => {
     return (
@@ -140,3 +140,5 @@ export const MenteeDtailedScreen = () => {
     </View>
   );
 };
+
+export default MenteeDtailedScreen;
