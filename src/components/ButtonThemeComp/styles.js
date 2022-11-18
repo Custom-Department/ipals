@@ -1,9 +1,9 @@
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { colorTutor_ } from '../../config/color';
+import {colorTutor_} from '../../config/color';
 
 export const styles = StyleSheet.create({
   ButtonView: {
@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
     height: hp('6'),
     backgroundColor: colorTutor_.ipallightGreen,
     justifyContent: 'center',
-    alignItems: 'center',
+    // alignItems: 'center',
     borderRadius: 20,
     // shadowColor: "#000",
     // shadowOffset: {

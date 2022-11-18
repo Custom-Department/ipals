@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {View, Image, Text, TextInput, Dimensions} from 'react-native';
+import {
+  View,
+  Image,
+  Text,
+  TextInput,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
 import {styles} from './styles';
 import {
   widthPercentageToDP as wp,
@@ -11,8 +18,10 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {MentorColor, color} from '../../config/color';
 import {CircleImageComp} from '../CircleImageComp/CircleImageComp';
+import {useNavigation} from '@react-navigation/native';
 
 export const SearchbarHeader = props => {
+  const navigation = useNavigation();
   const [value, setValue] = useState('');
   return (
     <SafeAreaView style={styles.mainView}>
@@ -55,7 +64,9 @@ export const SearchbarHeader = props => {
           />
         </View>
       </View>
-      <View style={styles.searchView}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('MentorSeacrhFilterScreen')}
+        style={styles.searchView}>
         <Feather
           name={'search'}
           size={hp('3')}
@@ -63,12 +74,13 @@ export const SearchbarHeader = props => {
           style={styles.searchIcon}
         />
         <TextInput
+          editable={false}
           style={styles.searchText}
           placeholder={'Search for services'}
           value={value}
           onChangeText={val => setValue(val)}
         />
-      </View>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };

@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {
   widthPercentageToDP as wp,
@@ -9,13 +10,12 @@ import {
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Platform, Dimensions, StyleSheet, View} from 'react-native';
 import {color, MentorColor} from '../config/color';
-import {Mentor} from '../screens/MentorScreens';
-import {screens} from '../screens';
+import {ManteeScreen} from '../screens/ManteeScreens';
 const Tab = createBottomTabNavigator();
-function MybottomTabs() {
+function MenteebottomTabs() {
   return (
     <Tab.Navigator
-      initialRouteName="MentorDashboardScreen"
+      initialRouteName="MenteeDashboardScreen"
       screenOptions={({route}) => ({
         tabBarActiveTintColor: color.black,
         // tabBarInactiveTintColor: 'transparent',
@@ -41,7 +41,7 @@ function MybottomTabs() {
         },
       })}>
       <Tab.Screen
-        name="MentorServices"
+        name="MenteeMyClasses"
         options={{
           tabBarIcon: ({focused, color, size}) => (
             <View
@@ -61,28 +61,27 @@ function MybottomTabs() {
                 width: Dimensions.get('window').width * 0.16,
                 height: Dimensions.get('window').width * 0.16,
               }}>
-              <MaterialIcons
-                name={'playlist-add'}
+              <FontAwesome
+                name={'graduation-cap'}
                 color={focused ? 'white' : 'black'}
                 size={hp('3')}
               />
             </View>
           ),
-          title: 'Services',
+          title: 'My Classes',
           tabBarLabelStyle: {
             fontSize: hp('2'),
             marginBottom: Platform.OS == 'android' ? hp('1.5') : hp('0'),
             color: 'white',
             borderRadius: 50,
             marginLeft: wp('13'),
-
             // ...globalStyles.globalTextStyles3,
           },
         }}
-        component={Mentor.MentorServices}
+        component={ManteeScreen.MenteeMyClassesScreen}
       />
       <Tab.Screen
-        name="MentorDashboardScreen"
+        name="MenteeDashboardScreen"
         options={{
           tabBarIcon: ({focused, color, size}) => (
             // <Ionicons
@@ -123,11 +122,11 @@ function MybottomTabs() {
             // ...globalStyles.globalTextStyles3,
           },
         }}
-        component={Mentor.MentorDashboardScreen}
+        component={ManteeScreen.MenteeDashboardScreen}
       />
 
       <Tab.Screen
-        name="MentorMessages"
+        name="MenteeMessagesScreen"
         options={{
           tabBarIcon: ({focused, color, size}) => (
             <View
@@ -163,12 +162,12 @@ function MybottomTabs() {
             // ...globalStyles.globalTextStyles3,
           },
         }}
-        component={Mentor.MentorMessages}
+        component={ManteeScreen.MenteeMessagesScreen}
       />
     </Tab.Navigator>
   );
 }
-export default MybottomTabs;
+export default MenteebottomTabs;
 
 const styles = StyleSheet.create({
   cartCircle: {

@@ -15,20 +15,16 @@ export const styles = StyleSheet.create({
     backgroundColor: colorTutor_.lightAquaGreen,
     borderRadius: 5,
     textAlign: 'right',
+    // backgroundColor: 'green',
   },
   chatButtonView: {
-    height: hp('10'),
+    height: hp('8'),
     backgroundColor: 'white',
+    // alignSelf: 'flex-end',
   },
   innerChatView: {
-    backgroundColor: 'red',
-    width: wp('95'),
-    height: 'auto',
-  },
-  exclView: {
+    // backgroundColor: 'red',
     width: wp('100'),
-    borderRadius: 0,
-    marginTop: hp('0'),
-    backgroundColor: MentorColor.MentorInformationColor,
+    // height: 'auto',
   },
 });

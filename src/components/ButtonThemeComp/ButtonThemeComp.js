@@ -4,6 +4,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import {styles} from './styles';
 import {SkypeIndicator} from 'react-native-indicators';
 
@@ -24,9 +25,23 @@ export const ButtonThemeComp = props => {
           }}
         />
       ) : (
-        <Text style={{...styles.ButtonText, ...props?.TextStyle}}>
-          {props?.text}
-        </Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-evenly',
+            alignItems: 'center',
+          }}>
+          <Text style={{...styles.ButtonText, ...props?.TextStyle}}>
+            {props?.text}
+          </Text>
+          {props.iconvisible ? (
+            <AntDesign
+              name="arrowright"
+              size={hp('2.3')}
+              color={props.iconcolor}
+            />
+          ) : null}
+        </View>
       )}
     </TouchableOpacity>
   );

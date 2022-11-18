@@ -15,17 +15,18 @@ export const styles = StyleSheet.create({
   },
   topView: {
     flexDirection: 'row',
-    width: wp('41'),
+    width: wp('38'),
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: hp('1'),
+    // backgroundColor: 'red',
   },
   circleImage: {
     width: Dimensions.get('window').width * 0.11,
     height: Dimensions.get('window').width * 0.11,
     marginRight: wp('6'),
-    marginLeft: wp('-5'),
+    // marginLeft: wp('-5'),
   },
   centerView: {
     width: wp('45'),
@@ -37,7 +38,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   bottomView: {
-    width: wp('41'),
+    width: wp('38'),
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

@@ -15,15 +15,22 @@ import {TextComp} from '../TextComponent';
 import HorizontalDividerComp from '../HorizontalDividerComp/HorizontalDividerComp';
 import {Divider} from 'react-native-paper';
 import {styles} from './atyles';
+import moment from 'moment/moment';
 
 export const MentorClassComp = props => {
   const item = props?.data;
+  const {user} = item;
+  const from = moment(item?.from, 'hh:mm').format('LT');
+  const to = moment(item?.to, 'hh:mm').format('LT');
   return (
     <View style={styles.mainView}>
       <View style={styles.topView}>
-        <CircleImageComp styles={styles.circleImage} image={item?.image} />
+        <CircleImageComp
+          styles={styles.circleImage}
+          image={{uri: user?.profileImageLink}}
+        />
         <TextComp
-          text={item?.name}
+          text={user?.f_name + ' ' + user?.l_name}
           style={{color: MentorColor.MentorThemeFirst}}
         />
       </View>
@@ -31,11 +38,11 @@ export const MentorClassComp = props => {
         <AntDesign
           name="clockcircle"
           size={hp('2.5')}
-          style={{marginRight: wp('4')}}
+          style={{marginRight: wp('1')}}
           color={colorTutor_.ipallightGreen}
         />
         <TextComp
-          text={item?.clock}
+          text={from + ' - ' + to}
           style={{color: colorTutor_.ipallightGreen}}
         />
       </View>
@@ -44,7 +51,7 @@ export const MentorClassComp = props => {
           style={{
             flexDirection: 'row',
             width: wp('45'),
-            justifyContent: 'space-between',
+            justifyContent: 'space-around',
           }}>
           <View
             style={{
@@ -55,13 +62,12 @@ export const MentorClassComp = props => {
               style={{
                 height: 20,
                 width: 20,
-                margin: 5,
                 tintColor: colorTutor_.ipallightGreen,
               }}
               source={require('../../image/book.png')}
             />
             <TextComp
-              text={item?.subject}
+              text={item?.category?.title}
               style={{color: colorTutor_.ipallightGreen}}
             />
           </View>
@@ -73,24 +79,36 @@ export const MentorClassComp = props => {
             <AntDesign
               name="clockcircle"
               size={hp('2.5')}
-              style={{marginRight: wp('4')}}
+              style={{marginRight: wp('1')}}
               color={colorTutor_.ipallightGreen}
             />
             <TextComp
-              text={item?.timing}
-              style={{color: colorTutor_.ipallightGreen}}
+              text={item?.total_hours}
+              style={{color: colorTutor_.ipallightGreen, marginRight: wp('1')}}
             />
           </View>
         </View>
       </View>
       <View style={styles.bottomView}>
-        <FontAwesome
-          name="video-camera"
-          color={colorTutor_.badgeColor}
-          size={hp('3.5')}
-        />
+        {props?.changeFirstIcon ? (
+          props?.changeFirstIcon
+        ) : (
+          <FontAwesome
+            name="video-camera"
+            color={colorTutor_.badgeColor}
+            size={hp('3.5')}
+          />
+        )}
         <View style={styles.verDivider} />
-        <Ionicons name="mail" color={colorTutor_.lightGreen} size={hp('3.5')} />
+        {props?.changeSecondIcon ? (
+          props?.changeSecondIcon
+        ) : (
+          <Ionicons
+            name="mail"
+            color={colorTutor_.lightGreen}
+            size={hp('3.5')}
+          />
+        )}
         <View style={styles.verDivider} />
         <Entypo
           name="dots-three-horizontal"

@@ -38,7 +38,7 @@ export default SubcriptionPackComp;
 
 const styles = StyleSheet.create({
   MainView: {
-    height: hp('15'),
+    height: hp('12'),
     alignSelf: 'center',
     width: wp('93'),
     backgroundColor: MentorColor.MentorThemeFirst,
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    width: wp('45'),
+    width: wp('65'),
     color: 'white',
     fontSize: hp('2'),
   },

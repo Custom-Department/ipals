@@ -1,6 +1,14 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
-import {colorTutor_, MentorColor} from '../../../config/color';
+import {color, colorTutor_, MentorColor} from '../../../config/color';
 import {TextComp} from '../../../components/TextComponent';
 import HorizontalDividerComp from '../../../components/HorizontalDividerComp/HorizontalDividerComp';
 import {styles} from './style';
@@ -15,7 +23,12 @@ import axios from 'react-native-axios';
 import moment from 'moment/moment';
 import {HeaderComponent} from '../../../components/HeaderComponent/HeaderComponent';
 import {SearchbarHeader} from '../../../components/SearchBarHeaderComp/SearchbarHeader';
+import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
+import {LoginInputComp} from '../../../components/LoginInputComp/LoginInputComp';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {ButtonThemeComp} from '../../../components/ButtonThemeComp/ButtonThemeComp';
 
+var arrayCalender = [];
 const MentorServices = ({navigation}) => {
   const [tutorValue, setTutorValue] = useState({
     languageData: null,
@@ -33,6 +46,8 @@ const MentorServices = ({navigation}) => {
   const [startDate, setStartDate] = useState(time);
   const [isDate, setIsDate] = useState(false);
   const [endDate, setEndDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState('');
+  const [markedDates, setMarkedDates] = useState({});
   const h = {
     languageData: 'languageData',
   };
@@ -171,7 +186,7 @@ const MentorServices = ({navigation}) => {
             <View
               style={{
                 backgroundColor: MentorColor.MentorThemeFirst,
-                height: hp('4.5'),
+                height: hp('3.5'),
                 width: wp('29'),
                 borderRadius: 8,
               }}
@@ -181,62 +196,140 @@ const MentorServices = ({navigation}) => {
       </View>
     );
   };
+
+  const getSelectedDayEvents = (date, index) => {
+    let markedDates = {};
+    if (arrayCalender.includes(date)) {
+      const a = arrayCalender.indexOf(date);
+      arrayCalender.splice(a, 1);
+    } else {
+      arrayCalender.push(date);
+    }
+    arrayCalender.map(item => {
+      markedDates[item] = {
+        selected: true,
+        color: MentorColor.MentorThemeFirst,
+        textColor: '#FFFFFF',
+        borderRadius: 20,
+        fontWeight: 'bold',
+      };
+    });
+    let serviceDate = moment(date);
+    serviceDate = serviceDate.format('DD.MM.YYYY');
+    setSelectedDate(selectedDate);
+    setMarkedDates(markedDates);
+  };
   const updateState = data => setPickerState(prev => ({...prev, ...data}));
   return (
     <View
       style={{
         flex: 1,
         backgroundColor: MentorColor.MentorThemeBackGround,
-        // paddingTop: hp('6'),
-        // justifyContent: 'center',
       }}>
       <SearchbarHeader
         onPressSetting={() => navigation.navigate('MentorSettingScreen')}
       />
-      <View style={styles.classDashBoard}>
-        <TextComp
-          style={{color: MentorColor.MentorThemeFirst}}
-          text="Create your class"
-        />
-        <HorizontalDividerComp
-          width={'55'}
-          color={MentorColor.MentorThemeFirst}
-        />
-      </View>
-      <PickerComponent
-        style={{width: wp('90'), marginRigh: wp('2'), alignSelf: 'center'}}
-        text={'Select your subject'}
-        headingStyle={{
-          marginLeft: wp('7'),
-          color: MentorColor.MentorThemeFirst,
-        }}
-        data={languageData}
-        setSelectedValue={(val, state) => getTutorValue(val, state)}
-        h={h.languageData}
-        selectedValue={tutorValue.languageData}
-      />
-      <PickerComponent
-        style={{width: wp('90'), marginRigh: wp('2'), alignSelf: 'center'}}
-        text={'Select your subject'}
-        data={languageData}
-        headingStyle={{
-          marginLeft: wp('7'),
-          color: MentorColor.MentorThemeFirst,
-        }}
-        setSelectedValue={(val, state) => getTutorValue(val, state)}
-        h={h.languageData}
-        selectedValue={tutorValue.languageData}
-      />
-      <TextComp
-        style={{
-          marginLeft: wp('7'),
-          color: MentorColor.MentorThemeFirst,
-          maginTop: hp('2'),
-        }}
-        text="Create time schdule"
-      />
-
-      <DropDownView />
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollStyle}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS == 'ios' ? 'position' : 'position'}
+          style={{flexGrow: 1}}>
+          <View style={styles.classDashBoard}>
+            <TextComp
+              style={{color: MentorColor.MentorThemeFirst}}
+              text="Create your class"
+            />
+            <HorizontalDividerComp
+              style={{
+                marginHorizontal: wp('0'),
+              }}
+              width={'55'}
+              color={MentorColor.MentorThemeFirst}
+            />
+          </View>
+          <PickerComponent
+            style={styles.pickerStyle}
+            text={'Select your subject'}
+            headingStyle={styles.headingStyle}
+            data={languageData}
+            setSelectedValue={(val, state) => getTutorValue(val, state)}
+            h={h.languageData}
+            selectedValue={tutorValue.languageData}
+          />
+          <PickerComponent
+            style={{
+              ...styles.pickerStyle,
+              marginTop: Platform.OS == 'android' ? hp('1') : hp('0'),
+            }}
+            text={'Select your subject'}
+            data={languageData}
+            headingStyle={{
+              ...styles.headingStyle,
+              marginTop: Platform.OS == 'android' ? hp('3') : hp('0'),
+            }}
+            setSelectedValue={(val, state) => getTutorValue(val, state)}
+            h={h.languageData}
+            selectedValue={tutorValue.languageData}
+          />
+          <TextComp
+            style={{
+              ...styles.headingStyle,
+              marginTop: Platform.OS == 'android' ? hp('3') : hp('2'),
+            }}
+            text="Create time schdule"
+          />
+          <DropDownView />
+          <TextComp
+            style={{
+              ...styles.headingStyle,
+              marginTop: Platform.OS == 'android' ? hp('3') : hp('2'),
+            }}
+            text="Select days schedule"
+          />
+          <Calendar
+            minDate={new Date()}
+            style={styles.calenderStyle}
+            markingType={'period'}
+            onDayPress={(day, index) => {
+              getSelectedDayEvents(day.dateString, index);
+            }}
+            markedDates={markedDates}
+          />
+          <TextComp
+            style={{
+              ...styles.headingStyle,
+              marginTop: Platform.OS == 'android' ? hp('3') : hp('2'),
+            }}
+            text="Pricing"
+          />
+          <LoginInputComp
+            style={{
+              alignSelf: 'center',
+              width: wp('90'),
+            }}
+            keyboardType={'number-pad'}
+            placeholder="Price"
+            changeFirstIcon={
+              <FontAwesome
+                name={'dollar'}
+                color={colorTutor_.bookColor}
+                style={{
+                  marginRight: wp('3'),
+                  marginLeft: wp('1'),
+                }}
+                size={hp('2')}
+              />
+            }
+            leftDivider={<View style={styles.verDivider} />}
+          />
+          <ButtonThemeComp
+            onPress={() => console.log('dkvksdnk')}
+            text="Create class"
+            style={styles.buttonStyle}
+          />
+        </KeyboardAvoidingView>
+      </ScrollView>
     </View>
   );
 };

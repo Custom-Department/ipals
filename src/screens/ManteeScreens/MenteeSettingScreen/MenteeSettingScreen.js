@@ -10,11 +10,12 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import style from './style';
 import {useDispatch} from 'react-redux';
 import types from '../../../Redux/types';
-const MentorSettingScreen = ({navigation}) => {
+import styles from './style';
+const MenteeSettingScreen = ({navigation}) => {
   const dispatch = useDispatch();
   return (
     <View
@@ -30,40 +31,48 @@ const MentorSettingScreen = ({navigation}) => {
         settingOnPress={() => console.log('hello')}
       />
 
-      <Animatable.View animation="fadeInLeft" style={style.topView}>
+      <Animatable.View animation="fadeInLeft" style={styles.topView}>
         <TextComp
           color={colorTutor_.TxtColor}
           text={'Settings'}
-          style={style.settingtxtView}
+          style={styles.settingtxtView}
         />
 
         <TouchableOpacity
-          onPress={() => navigation.navigate('NotificationScreen')}>
+          onPress={() => navigation.navigate('MentorProfileScreen')}>
           <SettingIconComp
             trackColor={MentorColor.MentorThemeFirst}
-            name={'bell-fill'}
-            text={'Notifications'}
-            switch={true}
+            name={'person-fill'}
+            text={'View Profile'}
           />
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('MentorAccountSettings')}>
+        <TouchableOpacity>
           <SettingIconComp
             onPress={() => console.log('hellow')}
-            name={'person-fill'}
-            text={' Account settings'}
+            changeIcon={
+              <MaterialCommunityIcons
+                name={'folder-multiple-image'}
+                size={hp('3')}
+                color={'white'}
+              />
+            }
+            text={'Media/files'}
           />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => navigation.navigate('MentorPaymentMethod')}>
           <SettingIconComp
-            text={'Payment Method'}
+            text={'Block user'}
             changeIcon={
-              <FontAwesome5 name={'user-edit'} size={hp('3')} color={'white'} />
+              <MaterialCommunityIcons
+                name={'block-helper'}
+                size={hp('3')}
+                color={'white'}
+              />
             }
           />
         </TouchableOpacity>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => navigation.navigate('MentorProfileScreen')}>
           <SettingIconComp
             text={'Edit Profile'}
@@ -71,11 +80,11 @@ const MentorSettingScreen = ({navigation}) => {
               <MaterialIcons name={'payment'} size={hp('3')} color={'white'} />
             }
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <SettingIconComp
           onPress={() => console.log('hellow')}
           name={'info'}
-          text={'Help & Guide'}
+          text={'Report user'}
         />
         <TouchableOpacity
           onPress={() => {
@@ -92,4 +101,4 @@ const MentorSettingScreen = ({navigation}) => {
   );
 };
 
-export default MentorSettingScreen;
+export default MenteeSettingScreen;

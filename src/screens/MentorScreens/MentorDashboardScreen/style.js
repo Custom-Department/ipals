@@ -26,4 +26,15 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: hp('3'),
   },
+  createButton: {
+    width: wp('70'),
+    height: hp('5'),
+    backgroundColor: MentorColor.MentorThemeFirst,
+  },
+  MainScroll: {
+    // flex: 1,
+    backgroundColor: colorTutor_.topNavigationColor,
+    paddingBottom: hp('20'),
+    marginTop: hp('2'),
+  },
 });
