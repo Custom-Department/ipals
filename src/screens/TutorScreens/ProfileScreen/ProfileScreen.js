@@ -235,7 +235,6 @@ const ProfileScreen = ({navigation}) => {
     <>
       <View style={{flex: 1, backgroundColor: colorTutor_.ipalBlue}}>
         <BackHeaderComponent
-          backgroundColor={'Tutor'}
           heading={'Profile Screen'}
           data={true}
           bellOnPress={() => console.log('bell')}

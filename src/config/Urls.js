@@ -30,6 +30,7 @@ export const GetApprovedClassesUrl = getApi('student/get-approve-class');
 export const GetPendingClassesUrl = getApi('student/get-pending-class');
 export const UpdateProfileUrl = getApi('profile-update');
 export const GetCourseUrl = getApi('get-course');
+export const GetCategoryUrl = getApi('get-category');
 export const GetMentorPendingClassUrl = getApi('mentor/get-pending-class');
 export const GetMentorApprovedClassUrl = getApi('mentor/get-approve-class');
 export const MentorUpdateStatusUrl = getApi('/mentor/status-update-request/');

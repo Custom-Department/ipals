@@ -10,15 +10,18 @@ import {color, colorTutor_, MentorColor} from '../../config/color';
 import {globalStyles} from '../../config/globalStyles';
 import styles from './styles';
 import {useNavigation} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
 export const BackHeaderComponent = props => {
+  const {userData} = useSelector(state => state.userData);
+
   const navigation = useNavigation();
   const backgroundColor = props?.backgroundColor ?? colorTutor_.lightBlue;
 
   let statusValue = {
-    Mentor: MentorColor.MentorThemeFirst,
-    Mentee: MentorColor.MentorThemeFirst,
-    Tutor: colorTutor_.lightBlue,
-    Tutee: colorTutor_.lightBlue,
+    mentor: MentorColor.MentorThemeFirst,
+    mentee: MentorColor.MentorThemeFirst,
+    tutor: colorTutor_.lightBlue,
+    tutee: colorTutor_.lightBlue,
   };
   const checkStatusValue = status => {
     return statusValue[status];
@@ -28,7 +31,7 @@ export const BackHeaderComponent = props => {
       style={{
         ...styles.topView,
         ...props?.style,
-        backgroundColor: checkStatusValue(backgroundColor),
+        backgroundColor: checkStatusValue(userData.user_type),
       }}>
       <View style={styles.innerTopView}>
         <View

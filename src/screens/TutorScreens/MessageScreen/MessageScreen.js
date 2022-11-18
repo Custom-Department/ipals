@@ -18,7 +18,6 @@ const MessageScreen = ({route}) => {
   return (
     <View style={{flex: 1}}>
       <BackHeaderComponent
-        backgroundColor={'Tutor'}
         heading={items?.firstText}
         changeIcon3={
           <Entypo

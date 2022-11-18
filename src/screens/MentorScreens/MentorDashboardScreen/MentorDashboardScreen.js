@@ -176,7 +176,6 @@ const MentorDashboardScreen = ({navigation}) => {
         headers: {
           Authorization: `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZmQ4OTZkNjZlY2FjMWI0ZjdjYTdmMWU4NWQwYWM3ZmFmNmViZjIxYzk2MzI0YmU5NjdlNDZhMjA5MDYzZTMxMDg5YmM5YTdlNWUxMzUwYzgiLCJpYXQiOjE2Njg3MTU4NjkuNzUwOTIxLCJuYmYiOjE2Njg3MTU4NjkuNzUwOTIzLCJleHAiOjE3MDAyNTE4NjkuNzQ4NzE5LCJzdWIiOiIyIiwic2NvcGVzIjpbXX0.MiydSQROBVjErvBnw3k0eEksifuGSuhm4LQ3A4a9ts5J50GLTy8QLYwDBsJ8paUztnukT7DGh0VYDyGKHFzx7PJlKpG3c8q2sV9XBLwp-ol8NIhHBIgWMEueX4fDVM-rUeJPsipzeLlBEqjSNVgzXtn4p7JbwDhlXjUvXaZcjOdd6nalrUTLefeZMMO0h3-yxDzGKeamZXDQ_ZOTINahl3glwSBr7zCS0GOuMkAw6V0RdMi1AYEX82kfcr_cVLGeonT40Cwyev3SESvw8U8-CAlM_xUu7Y_q5QTWX9bsLtvtM7mT_dgmoKzFkpw1QMZjolH_jVVywe_4NriLpz_ThUe-nM9ARWK85ndFHCeNJJWeQHzxOaEJsNlIl9sdKNknYGgSoGp1abFfELPYTBoUVrWLNXbbNysL7Vovk2iEdGK3O5dH4TCJp6e9dyoqFU1RWINM-x3s5WtHgM-ZjRphq2msGxdLxRZiZbAMouUXCK4eE_crZavI_frJUTKZDHjQdIyRtH606pMn3PfD9UW7Mbq8A7HeHQU0LoesyHF4UOaxOBBDm-aAc-2jhBafCzCXUhtIS11iiu9tYxlw81Hp4z99jGn6GJhAOM3J3vUws7T6IR2PkBwRTIyt2344Dn8rce5Cm8r2rl_NzZ4nt7qxpW5t3lzWfmGpTaNK6clru6w'}`,
         },
-        // headers: {Authorization: `Bearer ${token}`},
       })
       .then(function (response) {
         updateState({[state]: response.data.data});

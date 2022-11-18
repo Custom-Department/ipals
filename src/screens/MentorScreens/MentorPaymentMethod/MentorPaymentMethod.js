@@ -26,7 +26,6 @@ const MentorPaymentMethod = ({route}) => {
     <View style={{flex: 1, backgroundColor: colorTutor_.ipalBlue}}>
       <BackHeaderComponent
         // style={{backgroundColor: MentorColor.MentorThemeFirst}}
-        backgroundColor={'Mentor'}
         heading={'Payment Method'}
       />
       <ScrollView>

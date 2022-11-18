@@ -120,10 +120,7 @@ const TeacherFilterScreen = ({route, navigation}) => {
   }, []);
   return (
     <View style={{flex: 1, backgroundColor: colorTutor_.ipalBlue}}>
-      <BackHeaderComponent
-        backgroundColor={'Tutor'}
-        heading={'Filter Teacher'}
-      />
+      <BackHeaderComponent heading={'Filter Teacher'} />
       <ScrollView contentContainerStyle={{flex: 1}}>
         {GetTeacherLoading ? (
           <SkypeIndicator

@@ -9,7 +9,6 @@ const SubjectDetailScreen = ({route}) => {
   return (
     <View style={styles.container}>
       <BackHeaderComponent
-        backgroundColor={'Tutor'}
         data={true}
         name3={'settings'}
         name2={'search'}

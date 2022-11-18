@@ -24,7 +24,6 @@ const MenteeSettingScreen = ({navigation}) => {
         flex: 1,
       }}>
       <BackHeaderComponent
-        backgroundColor={'Mentor'}
         heading={'Setting'}
         data={true}
         bellOnPress={() => console.log('bell')}

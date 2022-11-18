@@ -6,7 +6,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {BackHeaderComponent} from '../../../components/BackHeaderComponent/BackHeaderComponent';
 import {ButtonThemeComp} from '../../../components/ButtonThemeComp/ButtonThemeComp';
 import {HeaderComponent} from '../../../components/HeaderComponent/HeaderComponent';
@@ -101,7 +101,7 @@ const MentorSeacrhFilterScreen = ({navigation}) => {
         backgroundColor: colorTutor_.ipalBlue,
         flex: 1,
       }}>
-      <BackHeaderComponent heading={'S e a r c h  F i l t e r'} />
+      <BackHeaderComponent heading={'Search Filter'} />
       <ScrollView contentContainerStyle={{flex: 1}}>
         {/* <TextComp
           text="Search by name"

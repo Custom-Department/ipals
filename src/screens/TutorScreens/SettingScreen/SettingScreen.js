@@ -691,7 +691,6 @@ const SettingScreen = ({route, navigation}) => {
         flex: 1,
       }}>
       <BackHeaderComponent
-        backgroundColor={'Tutor'}
         heading={'Setting'}
         data={true}
         bellOnPress={() => console.log('bell')}

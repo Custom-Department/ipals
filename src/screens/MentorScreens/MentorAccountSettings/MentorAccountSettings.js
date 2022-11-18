@@ -333,11 +333,7 @@ const MentorAccountSettings = () => {
   };
   return (
     <View style={{flex: 1, backgroundColor: colorTutor_.ipalBlue}}>
-      <BackHeaderComponent
-        backgroundColor={'Mentor'}
-        heading={'Setting'}
-        data={true}
-      />
+      <BackHeaderComponent heading={'Setting'} data={true} />
       {childAccState ? (
         <CreateChildAccount />
       ) : deleteAccState ? (

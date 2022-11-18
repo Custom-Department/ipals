@@ -21,7 +21,6 @@ import {
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import axios from 'react-native-axios';
 import moment from 'moment/moment';
-import {HeaderComponent} from '../../../components/HeaderComponent/HeaderComponent';
 import {SearchbarHeader} from '../../../components/SearchBarHeaderComp/SearchbarHeader';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import {LoginInputComp} from '../../../components/LoginInputComp/LoginInputComp';
