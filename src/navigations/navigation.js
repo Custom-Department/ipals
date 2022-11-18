@@ -65,13 +65,22 @@ export default function StackNavigatior() {
           </>
         ) : userData?.user_type == 'mentor' ? (
           <>
+            <Stack.Screen name="MybottomTabs" component={MybottomTabs} />
             <Stack.Screen
-              name="MentorDashboardScreen"
-              component={Mentor.MentorDashboardScreen}
+              name="MentorSettingScreen"
+              component={Mentor.MentorSettingScreen}
             />
             <Stack.Screen
-              name="MenteeDetailedScreen"
-              component={ManteeScreen.MenteeDtailedScreen}
+              name="MentorSeacrhFilterScreen"
+              component={Mentor.MentorSeacrhFilterScreen}
+            />
+            <Stack.Screen
+              name="MentorChatScreen"
+              component={Mentor.MentorChatScreen}
+            />
+            <Stack.Screen
+              name="MentorPaymentMethod"
+              component={Mentor.MentorPaymentMethod}
             />
           </>
         ) : (
@@ -91,7 +100,6 @@ export default function StackNavigatior() {
             />
           </>
         )}
-        <Stack.Screen name="MybottomTabs" component={MybottomTabs} />
         {/* <Stack.Screen name="OnboardScreen" component={screens.OnboardScreen} /> */}
         <Stack.Screen name="ProfileScreen" component={Tutor.ProfileScreen} />
         <Stack.Screen
@@ -110,18 +118,11 @@ export default function StackNavigatior() {
         />
         <Stack.Screen name="Home" component={screens.Home} />
         {/* Mentor */}
-        <Stack.Screen
+        {/* <Stack.Screen
           name="MentorDashboardScreen"
           component={Mentor.MentorDashboardScreen}
-        />
-        <Stack.Screen
-          name="MentorSeacrhFilterScreen"
-          component={Mentor.MentorSeacrhFilterScreen}
-        />
-        <Stack.Screen
-          name="MentorChatScreen"
-          component={Mentor.MentorChatScreen}
-        />
+        /> */}
+
         {/* Mentor */}
 
         {/* Mentee */}

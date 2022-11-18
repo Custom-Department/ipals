@@ -51,4 +51,6 @@ export const MentorColor = {
   DividerGrey:'#D9D9D9',
   MentorlightGrey: '#C7CBE4',
   MentorInformationColor: '#D2D5DB',
+  MentorSubsPlan1: '#6FBD35',
+  MentorSubsPlan2: '#FF5C5C',
 };

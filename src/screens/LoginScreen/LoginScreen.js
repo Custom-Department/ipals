@@ -27,12 +27,12 @@ import axios from 'react-native-axios';
 
 const LoginScreen = ({navigation}) => {
   const [loginData, setLoginData] = useState({
-    // email: 'studentr@test.com',
+    email: 'studentr@test.com',
     // email: 'teacher@test4com',
-    email: '',
-    password: '',
+    // email: '',
+    // password: '',
     // email: 'test@teacher.com',
-    // password: '12345678',
+    password: '12345678',
   });
 
   const dispatch = useDispatch();
@@ -66,7 +66,6 @@ const LoginScreen = ({navigation}) => {
         })
         .catch(function (error) {
           setIsloading(false);
-          console.log(54, error);
           errorMessage(errorHandler(error));
         });
     } else {
@@ -121,7 +120,8 @@ const LoginScreen = ({navigation}) => {
         <TouchableOpacity onPress={() => navigation.navigate('MybottomTabs')}>
           <Text style={globalStyles.globalTextStyles2}>Forget email?</Text>
         </TouchableOpacity>
-        <TouchableOpacity  onPress={() => navigation.navigate('MenteebottomTabs')}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('MenteebottomTabs')}>
           <Text style={globalStyles.globalTextStyles2}>Forget password?</Text>
         </TouchableOpacity>
       </View>

@@ -8,40 +8,51 @@ import {
 import {MentorColor} from '../../config/color';
 import {TextComp} from '../TextComponent';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {ButtonIconComp} from '../ButtonIconComp/ButtonIconComp';
 
-const SubcriptionPackComp = props => {
+const SubcriptionPlanComp = props => {
   let name = props?.name ?? 'exclamationcircle';
   console.log(props?.data);
   return (
-    <View style={styles.MainView}>
+    <View style={{...styles.MainView, ...props?.style}}>
       <View style={styles.innerMainView}>
-        <TextComp style={styles.text} text={props?.text} />
-        {props?.data == true ? (
+        <View style={styles.packageView}>
+          <TextComp style={styles.priceView} text={props?.priceTxt} />
+          <TextComp style={styles.perAnumView} text={props?.yearTxt} />
+        </View>
+        <View style={styles.bottomView}>
+          <TextComp style={styles.text} text={props?.text} />
+
+          <ButtonIconComp
+            style={styles.buttonView}
+            text={`Proceed`}
+            size={hp('3')}
+            name={'arrow-forward'}
+          />
+        </View>
+        {/* {props?.data == true ? (
           <AntDesign
             style={{marginHorizontal: wp('2')}}
             name={name}
             size={hp('5.5')}
             color={props?.iconcolor ?? 'white'}
           />
-        ) : (
-          <View style={styles.packageView}>
-            <TextComp style={styles.priceView} text={props?.priceTxt} />
-            <TextComp style={styles.perAnumView} text={'per anum'} />
-          </View>
-        )}
+        ) : ( */}
+
+        {/* )} */}
       </View>
     </View>
   );
 };
 
-export default SubcriptionPackComp;
+export default SubcriptionPlanComp;
 
 const styles = StyleSheet.create({
   MainView: {
-    height: hp('12'),
+    height: hp('17'),
     alignSelf: 'center',
     width: wp('93'),
-    backgroundColor: MentorColor.MentorThemeFirst,
+    backgroundColor: MentorColor.MentorSubsPlan1,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
@@ -54,25 +65,35 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    width: wp('65'),
+    width: wp('30'),
     color: 'white',
     fontSize: hp('2'),
+    marginLeft: wp('3'),
   },
   packageView: {
-    borderRadius: 10,
     height: hp('10'),
-    width: wp('20'),
-    backgroundColor: 'white',
+    width: wp('22'),
     justifyContent: 'center',
     alignItems: 'center',
   },
   priceView: {
-    color: MentorColor.MentorThemeFirst,
-    fontSize: hp('4'),
+    color: 'white',
+    fontSize: hp('5.5'),
     fontWeight: 'bold',
+    textAlign: 'left',
   },
   perAnumView: {
-    color: MentorColor.MentorThemeFirst,
-    fontSize: hp('1.6'),
+    color: 'white',
+    fontSize: hp('1.9'),
+  },
+  bottomView: {
+    marginTop: hp('1'),
+  },
+
+  buttonView: {
+    marginTop: hp('2'),
+    backgroundColor: MentorColor.MentorThemeFirst,
+    height: hp('5'),
+    width: wp('42'),
   },
 });

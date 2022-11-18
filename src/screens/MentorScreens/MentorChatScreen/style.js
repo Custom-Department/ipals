@@ -1,5 +1,5 @@
 import {Platform, StyleSheet} from 'react-native';
-import {color, colorTutor_} from '../../../config/color';
+import {color, colorTutor_, MentorColor} from '../../../config/color';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,

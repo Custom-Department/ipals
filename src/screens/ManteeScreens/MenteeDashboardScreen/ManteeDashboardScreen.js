@@ -20,15 +20,25 @@ import {SearchbarHeader} from '../../../components/SearchBarHeaderComp/Searchbar
 import HorizantalDetailComp from '../../../components/HorizantalDetailComp/HorizantalDetailComp';
 import {styles} from './styles';
 import {ManteeFlatlistcomponent} from '../../../components/MenteeComp/ManteeFlatlistcomponent';
+import {useDispatch} from 'react-redux';
+import types from '../../../Redux/types';
 
 export const MenteeDashboardScreen = ({navigation}) => {
+  const dispatch = useDispatch();
   return (
     <View style={styles.mainView}>
       <StatusBar
         hidden={false}
         barStyle={Platform.OS == 'ios' ? 'dark-content' : 'default'}
       />
-      <SearchbarHeader heart={true} />
+      <SearchbarHeader
+        onPressSetting={() => {
+          dispatch({
+            type: types.LogoutType,
+          });
+        }}
+        heart={true}
+      />
       <ScrollView
         contentContainerStyle={styles.scrollView}
         scrollEnabled
