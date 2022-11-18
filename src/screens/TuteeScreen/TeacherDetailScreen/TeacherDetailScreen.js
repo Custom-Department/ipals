@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {HeaderComponent} from '../../../components/HeaderComponent/HeaderComponent';
-import {color, colorTutor_} from '../../../config/color';
+import {color, colorTutor_, MentorColor} from '../../../config/color';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -43,6 +43,7 @@ import moment from 'moment/moment';
 import {RadioButton} from 'react-native-paper';
 import {BackHeaderComponent} from '../../../components/BackHeaderComponent/BackHeaderComponent';
 import {Picker} from '@react-native-picker/picker';
+import InformationTextView from '../../../components/InformationTextView/InformationTextView';
 
 const TeacherDetailScreen = ({route, navigation}) => {
   const [checked, setChecked] = useState(false);
@@ -365,23 +366,33 @@ const TeacherDetailScreen = ({route, navigation}) => {
               marginTop: hp('10'),
             }}
           />
+        ) : getData.length > 0 ? (
+          <FlatList
+            data={getData}
+            scrollEnabled={false}
+            contentContainerStyle={{
+              marginTop: hp('2'),
+              width: wp('95'),
+              alignSelf: 'center',
+            }}
+            keyExtractor={(item, index) => index.toString()}
+            numColumns={2}
+            renderItem={({item}) => {
+              return <RenderCard data={item} />;
+            }}
+          />
         ) : (
-          getData.length > 0 && (
-            <FlatList
-              data={getData}
-              scrollEnabled={false}
-              contentContainerStyle={{
-                marginTop: hp('2'),
-                width: wp('95'),
-                alignSelf: 'center',
-              }}
-              keyExtractor={(item, index) => index.toString()}
-              numColumns={2}
-              renderItem={({item}) => {
-                return <RenderCard data={item} />;
-              }}
-            />
-          )
+          <InformationTextView
+            iconcolor={'white'}
+            style={{
+              width: wp('85'),
+              backgroundColor: MentorColor.MentorLightTheme,
+              marginTop: hp('20'),
+            }}
+            textColor={'white'}
+            text={'You don’t have any class created'}
+          />
+          // <InformationTextView text={'Teacher Not Found'} />
         )}
       </ScrollView>
       {isVisible && <ModalView />}

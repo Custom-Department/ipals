@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {
   FlatList,
   Platform,
@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  RefreshControl,
   View,
 } from 'react-native';
 import {MentorClassComp} from '../../../components/MentorClassComp/MentorClassComp';
@@ -28,6 +29,7 @@ import {
   GetMentorApprovedClassUrl,
   GetMentorPendingClassUrl,
   GetPendingClassUrl,
+  MentorUpdateStatusUrl,
   UpdateRequestStatusUrl,
 } from '../../../config/Urls';
 import {errorHandler} from '../../../config/helperFunction';
@@ -134,10 +136,11 @@ const MentorDashboardScreen = ({navigation}) => {
     },
   ]);
   const updateStatus = (data, status) => {
-    console.log(137, data.id, status);
     updateLoadingState({pendingLoading: true});
-    let url = UpdateRequestStatusUrl + data.id;
+    let url = MentorUpdateStatusUrl + data.id;
     let body = {
+      // status: 'Approve',
+      // status: 'Rejected',
       status: status,
     };
 
@@ -149,14 +152,13 @@ const MentorDashboardScreen = ({navigation}) => {
         //        // headers: {Authorization: `Bearer ${token}`},
       })
       .then(function (response) {
-        console.log('res', response.data);
         updateLoadingState({pendingLoading: false});
         getApiData(
           GetMentorPendingClassUrl,
           'pendingClassState',
           'pendingLoading',
         );
-        status == 'approve' &&
+        status == 'Approve' &&
           getApiData(
             GetMentorApprovedClassUrl,
             'acceptClassState',
@@ -169,6 +171,30 @@ const MentorDashboardScreen = ({navigation}) => {
         errorMessage(errorHandler(error));
       });
   };
+  const wait = timeout => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  };
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = useCallback(() => {
+    updateLoadingState({
+      acceptLoading: true,
+      pendingLoading: true,
+      GetTeacherLoading: true,
+    });
+    wait(2000).then(() => {
+      getApiData(
+        GetMentorApprovedClassUrl,
+        'acceptClassState',
+        'acceptLoading',
+      );
+      getApiData(
+        GetMentorPendingClassUrl,
+        'pendingClassState',
+        'pendingLoading',
+      );
+      setRefreshing(false);
+    });
+  }, []);
   const getApiData = (url, state, loading) => {
     updateLoadingState({[loading]: true});
     axios
@@ -208,6 +234,9 @@ const MentorDashboardScreen = ({navigation}) => {
       />
 
       <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
         scrollEnabled
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.MainScroll}>

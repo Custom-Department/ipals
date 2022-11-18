@@ -19,8 +19,10 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {MentorColor, color} from '../../config/color';
 import {CircleImageComp} from '../CircleImageComp/CircleImageComp';
 import {useNavigation} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
 
 export const SearchbarHeader = props => {
+  const {userData, token} = useSelector(state => state.userData);
   const navigation = useNavigation();
   const [value, setValue] = useState('');
   return (
@@ -31,11 +33,14 @@ export const SearchbarHeader = props => {
             width: Dimensions.get('window').width * 0.1,
             height: Dimensions.get('window').width * 0.1,
           }}
-          image={require('../../image/image.jpg')}
+          image={{uri: userData.profileImageLink}}
+          // image={require('../../image/image.jpg')}
         />
         <View style={styles.TextHeadingView}>
           <Text style={styles.WellcomeText}>Welcome</Text>
-          <Text style={styles.username}>Katrina Mike</Text>
+          <Text style={styles.username}>
+            {userData.f_name + ' ' + userData.l_name}
+          </Text>
         </View>
         <View style={styles.iconView}>
           <MaterialCommunityIcons
