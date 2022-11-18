@@ -71,8 +71,6 @@ const styles = StyleSheet.create({
     marginLeft: wp('3'),
   },
   packageView: {
-    height: hp('10'),
-    width: wp('22'),
     justifyContent: 'center',
     alignItems: 'center',
   },

@@ -84,6 +84,14 @@ export default function StackNavigatior() {
               name="MentorPaymentMethod"
               component={Mentor.MentorPaymentMethod}
             />
+            <Stack.Screen
+              name="MentorProfileScreen"
+              component={Mentor.MentorProfileScreen}
+            />
+            <Stack.Screen
+              name="MentorAccountSettings"
+              component={Mentor.MentorAccountSettings}
+            />
           </>
         ) : (
           <>
@@ -125,6 +133,24 @@ export default function StackNavigatior() {
           component={Mentor.MentorDashboardScreen}
         /> */}
 
+        <Stack.Screen name="MentorServices" component={Mentor.MentorServices} />
+        <Stack.Screen name="MentorMessages" component={Mentor.MentorMessages} />
+        {/* <Stack.Screen
+          name="MentorSettingScreen"
+          component={Mentor.MentorSettingScreen}
+        />
+        <Stack.Screen
+          name="MentorPaymentMethod"
+          component={Mentor.MentorPaymentMethod}
+        />
+        <Stack.Screen
+          name="MentorProfileScreen"
+          component={Mentor.MentorProfileScreen}
+        />
+        <Stack.Screen
+          name="MentorAccountSettings"
+          component={Mentor.MentorAccountSettings}
+        /> */}
         {/* Mentor */}
 
         {/* Mentee */}

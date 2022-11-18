@@ -10,9 +10,8 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import {HeaderComponent} from '../../../components/HeaderComponent/HeaderComponent';
-import {color, colorTutor_} from '../../../config/color';
+import {color, colorTutor_, MentorColor} from '../../../config/color';
 import {globalStyles} from '../../../config/globalStyles';
-import {styles} from './style';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -41,8 +40,10 @@ import {
 } from '../../../config/NotificationMessage';
 import {errorHandler} from '../../../config/helperFunction';
 import types from '../../../Redux/types';
+import {styles} from './style';
+import SocialComp from '../../../components/SocialComp/SocialComp';
 
-const ProfileScreen = ({navigation}) => {
+const MentorProfileScreen = ({navigation}) => {
   const {userData, token} = useSelector(state => state.userData);
 
   const dispatch = useDispatch();
@@ -235,7 +236,8 @@ const ProfileScreen = ({navigation}) => {
     <>
       <View style={{flex: 1, backgroundColor: colorTutor_.ipalBlue}}>
         <BackHeaderComponent
-          backgroundColor={'Tutor'}
+          // style={{backgroundColor: MentorColor.MentorThemeFirst}}
+          backgroundColor={'Mentor'}
           heading={'Profile Screen'}
           data={true}
           bellOnPress={() => console.log('bell')}
@@ -314,20 +316,6 @@ const ProfileScreen = ({navigation}) => {
                   );
                 })}
 
-            {/* { activities.length>0?activities?.map: userData?.user?.course?.map (res =>{
-          return(
-            <View style={styles.subView}>
-            <TextComp
-              text={res?.title}
-              style={{
-                fontSize: hp('1.3'),
-                textAlign: 'center',
-                color: 'white',
-              }}
-            />
-          </View>
-          )
-        })} */}
             <TouchableOpacity
               onPress={() => {
                 updateState({isVisible: true});
@@ -338,7 +326,7 @@ const ProfileScreen = ({navigation}) => {
                 backgroundColor: colorTutor_.blue,
               }}>
               <TextComp
-                text="Add Subject"
+                text="Add Category"
                 style={{fontSize: hp('1.3'), color: 'white'}}
               />
             </TouchableOpacity>
@@ -354,9 +342,18 @@ const ProfileScreen = ({navigation}) => {
               paddingTop: hp('2'),
             }}
           />
+          <View style={styles.socialView}>
+            <SocialComp name={'logo-whatsapp'} text={'Add Whatsapp'} />
+            <SocialComp
+              name={'logo-linkedin'}
+              text={'Update LinkedIn'}
+              backgroundColor={MentorColor.MentorLinkIn}
+            />
+          </View>
           <ButtonThemeComp
             TextStyle={{fontSize: hp('1.9')}}
             style={{
+              backgroundColor: MentorColor.MentorThemeFirst,
               width: wp('80'),
               height: hp('7'),
               marginVertical: hp('3'),
@@ -367,17 +364,10 @@ const ProfileScreen = ({navigation}) => {
           />
         </ScrollView>
       </View>
-      <View style={styles.bottomBar}>
-        <TouchableOpacity onPress={() => console.log('dont have you acc')}>
-          <Text style={globalStyles.globalModuletutor}>Term of use</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => console.log('dont have you acc')}>
-          <Text style={globalStyles.globalModuletutor}>Privacy Policy</Text>
-        </TouchableOpacity>
-      </View>
+
       {isVisible && <SubjectDetailScreen />}
     </>
   );
 };
 
-export default ProfileScreen;
+export default MentorProfileScreen;

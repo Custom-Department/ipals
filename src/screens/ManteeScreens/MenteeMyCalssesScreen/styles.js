@@ -7,7 +7,7 @@ import {MentorColor, color, colorTutor_} from '../../../config/color';
 export const styles = StyleSheet.create({
   mainView: {
     flex: 1,
-    backgroundColor: MentorColor.MentorLightTheme,
+    backgroundColor: colorTutor_.topNavigationColor,
   },
   scrollView: {
     marginTop: hp('1'),

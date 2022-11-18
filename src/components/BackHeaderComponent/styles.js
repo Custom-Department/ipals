@@ -9,7 +9,6 @@ export default styles = StyleSheet.create({
   topView: {
     height: Platform.OS == 'ios' ? hp('12') : hp('10'),
     width: wp('100'),
-    backgroundColor: colorTutor_.lightBlue,
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
     justifyContent: 'center',

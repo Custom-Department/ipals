@@ -25,7 +25,7 @@ const MentorSettingScreen = ({navigation}) => {
         flex: 1,
       }}>
       <BackHeaderComponent
-        style={{backgroundColor: MentorColor.MentorThemeFirst}}
+        backgroundColor={'Mentor'}
         heading={'Setting'}
         data={true}
         bellOnPress={() => console.log('bell')}
@@ -40,8 +40,8 @@ const MentorSettingScreen = ({navigation}) => {
            <DeleteAccount />
          ) : (
            <AccountSettings />
-         )
-       ) : ( */}
+         )*/}
+
       <Animatable.View animation="fadeInLeft" style={style.topView}>
         <TextComp
           color={colorTutor_.TxtColor}
@@ -52,12 +52,15 @@ const MentorSettingScreen = ({navigation}) => {
         <TouchableOpacity
           onPress={() => navigation.navigate('NotificationScreen')}>
           <SettingIconComp
+            trackColor={MentorColor.MentorThemeFirst}
             name={'bell-fill'}
             text={'Notifications'}
             switch={true}
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => updateState({accState: true})}>
+        {/* <TouchableOpacity onPress={() => updateState({accState: true})}> */}
+        <TouchableOpacity
+          onPress={() => navigation.navigate('MentorAccountSettings')}>
           <SettingIconComp
             onPress={() => console.log('hellow')}
             name={'person-fill'}
@@ -73,7 +76,8 @@ const MentorSettingScreen = ({navigation}) => {
             }
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('ProfileScreen')}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('MentorProfileScreen')}>
           <SettingIconComp
             text={'Edit Profile'}
             changeIcon={
@@ -95,15 +99,7 @@ const MentorSettingScreen = ({navigation}) => {
           <SettingIconComp name={'sign-out'} text={' Log out'} />
         </TouchableOpacity>
       </Animatable.View>
-      {/* )} */}
-      {/* <View style={styles.bottomBar}>
-      <TouchableOpacity onPress={() => console.log('dont have you acc')}>
-        <Text style={globalStyles.globalModuletutor}>Term of use</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => console.log('dont have you acc')}>
-        <Text style={globalStyles.globalModuletutor}>Privacy Policy</Text>
-      </TouchableOpacity>
-    </View> */}
+
       {/* {isVisible && <SubjectDetailScreen />} */}
     </View>
   );

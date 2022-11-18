@@ -43,7 +43,10 @@ export const SettingIconComp = props => {
         </View>
         {props?.switch && (
           <Switch
-            trackColor={{false: colorTutor_.blue, true: colorTutor_.blue}}
+            trackColor={{
+              false: props?.trackColor ?? colorTutor_.blue,
+              true: props?.trackColor ?? colorTutor_.blue,
+            }}
             thumbColor={isEnabled ? colorTutor_.topNavigationColor : '#f4f3f4'}
             ios_backgroundColor="#3e3e3e"
             onValueChange={toggleSwitch}

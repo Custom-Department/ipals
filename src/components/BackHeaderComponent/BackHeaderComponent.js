@@ -6,14 +6,30 @@ import {
 } from 'react-native-responsive-screen';
 import Octicons from 'react-native-vector-icons/Octicons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {color, colorTutor_} from '../../config/color';
+import {color, colorTutor_, MentorColor} from '../../config/color';
 import {globalStyles} from '../../config/globalStyles';
 import styles from './styles';
 import {useNavigation} from '@react-navigation/native';
 export const BackHeaderComponent = props => {
   const navigation = useNavigation();
+  const backgroundColor = props?.backgroundColor ?? colorTutor_.lightBlue;
+
+  let statusValue = {
+    Mentor: MentorColor.MentorThemeFirst,
+    Mentee: MentorColor.MentorThemeFirst,
+    Tutor: colorTutor_.lightBlue,
+    Tutee: colorTutor_.lightBlue,
+  };
+  const checkStatusValue = status => {
+    return statusValue[status];
+  };
   return (
-    <View style={{...styles.topView, ...props?.style}}>
+    <View
+      style={{
+        ...styles.topView,
+        ...props?.style,
+        backgroundColor: checkStatusValue(backgroundColor),
+      }}>
       <View style={styles.innerTopView}>
         <View
           style={{
