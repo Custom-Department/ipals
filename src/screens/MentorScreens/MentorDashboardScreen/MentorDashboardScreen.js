@@ -214,6 +214,8 @@ const MentorDashboardScreen = ({navigation}) => {
         <View style={styles.MainView}>
           <HorizantalDetailComp
             leftText={`   My classes`}
+            dot={true}
+            line={true}
             rightText={` view all classes`}
           />
           {acceptLoading ? (
@@ -255,6 +257,8 @@ const MentorDashboardScreen = ({navigation}) => {
         <View style={styles.MainView}>
           <HorizantalDetailComp
             leftText={`   Pending requests`}
+            dot={true}
+            line={true}
             rightText={` view all classes`}
           />
           {pendingLoading ? (
@@ -292,6 +296,8 @@ const MentorDashboardScreen = ({navigation}) => {
         <View style={styles.MainView}>
           <HorizantalDetailComp
             leftText={`   Your Subcription`}
+            dot={true}
+            line={true}
             rightText={` view all plans`}
           />
           <View style={{marginTop: wp('3')}}>
