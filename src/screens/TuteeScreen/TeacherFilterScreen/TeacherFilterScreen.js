@@ -66,25 +66,6 @@ const TeacherFilterScreen = ({route, navigation}) => {
   const getApiData = (url, state, loading) => {
     updateLoadingState({[loading]: true});
 
-    // let body = JSON.stringify({
-    //   f_name: '',
-    //   l_name: '',
-    //   country_id: item.countryId,
-    //   city_id: item.cityId,
-    //   state_id: item.stateId,
-    //   zip_code: item.zipCode,
-    // });
-    // console.log(567, body);
-    // let config = {
-    //   url: url,
-    //   method: 'Get',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   params: body,
-    // };
-    // console.log(23,config.)
-    // config.headers.Authorization = `Bearer ${token}`;
     axios
       .get(url, {
         headers: {Authorization: `Bearer ${token}`},

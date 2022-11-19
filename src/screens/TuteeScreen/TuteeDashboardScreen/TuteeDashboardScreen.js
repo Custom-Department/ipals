@@ -275,7 +275,6 @@ const TuteeDashboardScreen = ({navigation}) => {
               themeVariant="light"
               onChange={e => {
                 upadateEndDate(e);
-                // console.log(143, startDate), setIsDate(false);
               }}
               onTouchCancel={() => {
                 console.log(276), setIsDate2(false);
@@ -294,7 +293,6 @@ const TuteeDashboardScreen = ({navigation}) => {
             themeVariant="light"
             onChange={e => {
               upadateEndDate(e);
-              // console.log(143, startDate), setIsDate(false);
             }}
             onTouchCancel={() => {
               console.log(276), setIsDate(false);
@@ -328,7 +326,6 @@ const TuteeDashboardScreen = ({navigation}) => {
   const [index, setIndex] = useState(0);
   const checkIndexStatus = value => {
     setIndex(value);
-    console.log(1444, value);
   };
   const IndexZeroComp = () => {
     return (

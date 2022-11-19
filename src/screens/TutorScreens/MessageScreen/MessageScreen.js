@@ -14,7 +14,6 @@ import {styles} from './style';
 import {LoginInputComp} from '../../../components/LoginInputComp/LoginInputComp';
 const MessageScreen = ({route}) => {
   const items = route.params;
-  // console.log(17, items);
   return (
     <View style={{flex: 1}}>
       <BackHeaderComponent

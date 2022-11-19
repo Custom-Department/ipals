@@ -82,7 +82,6 @@ const MentorProfileScreen = ({navigation}) => {
     idSubjectArray,
     isVisible,
   } = stateChange;
-  console.log(81, userData.user_type);
   const urlList = {
     mentor: GetCategoryUrl,
     mentee: GetCategoryUrl,
@@ -149,7 +148,6 @@ const MentorProfileScreen = ({navigation}) => {
         })
         .then(res => {
           updateState({isLoading: false});
-          console.log(137, res.data.data);
           dispatch({
             type: types.UpdateProfile,
             payload: {user: res.data.data},
@@ -158,7 +156,6 @@ const MentorProfileScreen = ({navigation}) => {
         })
         .catch(function (error) {
           updateState({isLoading: false});
-          console.log(149, error);
           errorMessage(errorHandler(error));
         });
     } else {
