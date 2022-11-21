@@ -16,7 +16,6 @@ export const styles = StyleSheet.create({
   },
   flupperView: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
   },
   flimagecrop: {
     borderRadius: Math.round(
@@ -24,6 +23,8 @@ export const styles = StyleSheet.create({
     ),
     width: Dimensions.get('window').width * 0.1,
     height: Dimensions.get('window').width * 0.1,
+
+    marginLeft:wp('4')
   },
   lineView: {
     flexDirection: 'row',

@@ -50,6 +50,7 @@ const MenteeDtailedScreen = ({route}) => {
     getSpecData: {},
     scheduleArray: '',
     subjectTitle: '',
+    price:null,
     // GetApproveclassState:[],
   });
   const [allLoading, setAllLoading] = useState({
@@ -71,6 +72,7 @@ const MenteeDtailedScreen = ({route}) => {
     scheduleArray,
     subjectTitle,
     getSpecData,
+    price
     // GetApproveclassState
   } = allStates;
 
@@ -153,6 +155,7 @@ const MenteeDtailedScreen = ({route}) => {
             setScheduleDays(data?.class_schedules),
               updateState({subjectTitle: data?.category});
             updateState({getSpecData: data});
+            updateState({price:item.amount})
             updateLoadingState({isVisible: true});
           }}
           style={styles.bottomButton}
@@ -164,28 +167,31 @@ const MenteeDtailedScreen = ({route}) => {
 
   const applyForClass = () => {
     updateLoadingState({timeSlotButton: true});
-    const from = moment(getSpecData.from, 'h:mm:ss A').format('HH:mm');
-    const to = moment(getSpecData.to, 'h:mm:ss A').format('HH:mm');
-    url = GetMenteeTimeslot + getSpecData.id;
+    const from = moment(getSpecData.from, 'h:mm:ss A').format('HH:mm:ss');
+    const to = moment(getSpecData.to, 'h:mm:ss A').format('HH:mm:ss');
+    url = GetMenteeTimeslot;
     if (scheduleArray.length > 0) {
       const fromToObject = scheduleArray.map(res => {
         return res.schedule;
       });
       let body = {
-        course_id: subjectTitle.id,
+        my_class_id:getSpecData.id,
+        category_id: subjectTitle.id,
+        price:price,
         from: from,
         schedule: fromToObject,
         to: to,
       };
       axios
-        .get(
-          url,
+        .post(
+          url, body,
           {
             headers: {Authorization: `Bearer ${token}`},
           },
-          body,
+         
         )
         .then(function (res) {
+          // console.log("res",res.data);
           updateLoadingState({isVisible: false});
           updateLoadingState({timeSlotButton: false});
           successMessage('Your Have Succefully Apply for Class');
@@ -284,6 +290,7 @@ const MenteeDtailedScreen = ({route}) => {
     );
   };
   useEffect(() => {
+    // console.log("forprice",);
     getApiData(item, 'GetMentorClassesState', 'GetMentorClassesLoading');
   }, []);
   return (
