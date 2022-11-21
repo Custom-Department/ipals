@@ -29,14 +29,19 @@ import {styles} from './styles';
 import axios from 'react-native-axios';
 
 const MentorSeacrhFilterScreen = ({navigation}) => {
+  const [pickerState, setPickerState] = useState({
+    CountryData: {},
+    CityData: {},
+    StateData: {},
+  });
+
   const [tutorValue, setTutorValue] = useState({
     CountryData: {},
     CityData: {},
     StateData: {},
   });
-  const [teacherName, setTeacherName] = useState('');
+  const [fullName, setFullName] = useState('');
   const [zipCode, setZipCode] = useState('');
-  const [buttonType, setButtonType] = useState(true);
   const h = {
     CountryData: 'CountryData',
     CityData: 'CityData',
@@ -49,17 +54,7 @@ const MentorSeacrhFilterScreen = ({navigation}) => {
       [State]: value,
     }));
   };
-  const [pickerState, setPickerState] = useState({
-    CountryData: [],
-    CityData: [],
-    StateData: [],
-    GetCategory: [],
-  });
-  const [topNavigator, setTopNavigator] = useState([
-    'HOME',
-    'MY CLASSES',
-    'MESSAGES',
-  ]);
+
   const getPickerData = (state, url) => {
     ApiGet(url).then(res => {
       if (res.status == 200) {
@@ -78,33 +73,27 @@ const MentorSeacrhFilterScreen = ({navigation}) => {
       }
     });
   };
-  const dispatch = useDispatch();
   const updateState = data => setPickerState(prev => ({...prev, ...data}));
   const {CityData, CountryData, StateData, ZipCodeDatam, GetCategory} =
     pickerState;
 
-  const [isloading, setIsloading] = useState(false);
-
   const onPressFilter = () => {
-    // dispatch({
-    //   type: types.LogoutType,
-    // });
     const allData = {
-      name: teacherName,
+      name: fullName,
       countryId: tutorValue.CountryData,
       cityId: tutorValue.CityData,
       stateId: tutorValue.StateData,
       zipCode: zipCode,
     };
     if (
-      teacherName != '' ||
-      teacherName != null ||
+      fullName != '' ||
+      fullName != null ||
       tutorValue.CityData != null ||
       tutorValue.CountryData != null ||
       tutorValue.StateData != null ||
       zipCode != ''
     ) {
-      navigation.navigate('TeacherFilterScreen', {item: allData});
+      navigation.navigate('MenFilterScreen', {item: allData});
     } else {
       errorMessage('Please type for apply filter');
     }
@@ -123,30 +112,12 @@ const MentorSeacrhFilterScreen = ({navigation}) => {
       <BackHeaderComponent heading={'Search Filter'} />
       <ScrollView contentContainerStyle={{flex: 1}}>
         <LoginInputComp
-          value={teacherName}
+          value={fullName}
           onChangeText={e => {
-            setTeacherName(e);
+            setFullName(e);
           }}
           style={{alignSelf: 'center', marginBottom: hp('2'), width: wp('95')}}
-          placeholder="full name"
-        />
-        <PickerComponent
-          style={{
-            width: wp('95'),
-            marginRigh: wp('2'),
-            alignSelf: 'center',
-          }}
-          text={'Category'}
-          headingStyle={{
-            marginTop: hp('2'),
-            marginLeft: wp('4'),
-          }}
-          data={GetCategory}
-          setSelectedValue={(val, state) => {
-            getTutorValue(val, state);
-          }}
-          h={h.CityData}
-          selectedValue={tutorValue.CityData}
+          placeholder="Full Name"
         />
         <View style={styles.twoPickerView}>
           <PickerComponent
@@ -201,14 +172,13 @@ const MentorSeacrhFilterScreen = ({navigation}) => {
           />
         </View>
         <ButtonThemeComp
-          //   disabled={buttonType}
           onPress={() => onPressFilter()}
           style={{alignSelf: 'center', marginTop: hp('2')}}
           text="Search"
         />
         <ButtonThemeComp
           onPress={() => {
-            setTeacherName(''),
+            setFullName(''),
               setTutorValue(pre => ({
                 ...tutorValue,
                 CountryData: {},

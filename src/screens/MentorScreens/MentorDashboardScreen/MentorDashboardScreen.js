@@ -205,7 +205,6 @@ const MentorDashboardScreen = ({navigation}) => {
         onPressSetting={() => navigation.navigate('MentorSettingScreen')}
         heart={true}
       />
-
       <ScrollView
         scrollEnabled
         showsVerticalScrollIndicator={false}

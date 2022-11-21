@@ -79,6 +79,14 @@ export default function StackNavigatior() {
               name="MentorProfileScreen"
               component={Mentor.MentorProfileScreen}
             />
+            <Stack.Screen
+              name="MenFilterScreen"
+              component={screens.MenFilterScreen}
+            />
+            <Stack.Screen
+              name="MentorSeacrhFilterScreen"
+              component={Mentor.MentorSeacrhFilterScreen}
+            />
           </>
         ) : userData?.user_type == 'mentor' ? (
           <>
@@ -107,10 +115,18 @@ export default function StackNavigatior() {
               name="MentorAccountSettings"
               component={Mentor.MentorAccountSettings}
             />
+            <Stack.Screen
+              name="MenFilterScreen"
+              component={screens.MenFilterScreen}
+            />
           </>
         ) : (
           <>
             <Stack.Screen name="LoginScreen" component={screens.LoginScreen} />
+            <Stack.Screen
+              name="MenFilterScreen"
+              component={screens.MenFilterScreen}
+            />
             <Stack.Screen
               name="SubjectDetailScreen"
               component={Tutee.SubjectDetailScreen}

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, ScrollView, StatusBar, Platform} from 'react-native';
+import {View, ScrollView, StatusBar, Platform, Text} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -30,6 +30,7 @@ const MenteeDashboardScreen = ({navigation}) => {
         // }}
         heart={true}
       />
+
       <ScrollView
         contentContainerStyle={styles.scrollView}
         scrollEnabled
