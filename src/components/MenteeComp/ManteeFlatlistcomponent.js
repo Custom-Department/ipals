@@ -100,8 +100,8 @@ export const ManteeFlatlistcomponent = props => {
         />
       )}
           <View>
-            <Text style={{fontSize: hp('1.8')}}>{item?.f_name + ' ' +item?.l_name}</Text>
-            <Text style={{fontSize: hp('1.5')}}>{item?.language}</Text>
+            <Text style={{fontSize: hp('1.8'),color:'gray'}}>{item?.f_name + ' ' +item?.l_name}</Text>
+            <Text style={{fontSize: hp('1.5'),color:'gray'}}>{item?.language}</Text>
           </View>
         </View>
         {/*<View style={styles.centerView}>

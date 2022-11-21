@@ -138,7 +138,7 @@ const TeacherDetailScreen = ({route, navigation}) => {
         />
         <View style={styles.centerView}>
           <View style={styles.innerBottomView}>
-            <FontAwesome name="book" size={hp('2')} color={'gray'} />
+            <FontAwesome name="book" size={hp('2')} color={'gray'}/>
             <TextComp style={{fontSize: hp('1.6')}} text={data.course.title} />
           </View>
           <View style={styles.verDivider} />
