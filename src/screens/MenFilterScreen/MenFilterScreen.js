@@ -16,7 +16,7 @@ import HorizontalDividerComp from '../../components/HorizontalDividerComp/Horizo
 import InformationTextView from '../../components/InformationTextView/InformationTextView';
 import {TextComp} from '../../components/TextComponent';
 import {TuteeHomeFlatListComp} from '../../components/TuteeHomeFlatListComp/TuteeHomeFlatListComp';
-import {colorTutor_} from '../../config/color';
+import {colorTutor_, MentorColor} from '../../config/color';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -38,10 +38,10 @@ import {LoginInputComp} from '../../components/LoginInputComp/LoginInputComp';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import {ManteeFlatlistcomponent} from '../../components/MenteeComp/ManteeFlatlistcomponent';
 
 const MenFilterScreen = ({route, navigation}) => {
   const item = route.params.item;
-  console.log(27, item);
   const dispatch = useDispatch();
   const {userData, token} = useSelector(state => state.userData);
 
@@ -115,9 +115,14 @@ const MenFilterScreen = ({route, navigation}) => {
       'GetTeacherLoading',
     );
   }, []);
+  console.log(118, userData?.user_type);
   return (
     <View style={{flex: 1, backgroundColor: colorTutor_.ipalBlue}}>
-      <BackHeaderComponent heading={'Filter Mentee'} />
+      <BackHeaderComponent
+        heading={
+          userData?.user_type == 'mentee' ? 'Filter Mentor' : 'Filter Mentee'
+        }
+      />
       <ScrollView contentContainerStyle={{flex: 1}}>
         {GetTeacherLoading ? (
           <SkypeIndicator
@@ -129,10 +134,6 @@ const MenFilterScreen = ({route, navigation}) => {
             }}
           />
         ) : GetTeacherState?.length > 0 ? (
-          // <TuteeHomeFlatListComp
-          //   // navigate={navigateTeacher}
-          //   data={GetTeacherState}
-          // />
           <FlatList
             data={GetTeacherState}
             keyExtractor={(item, index) => index.toString()}
@@ -144,12 +145,13 @@ const MenFilterScreen = ({route, navigation}) => {
             }}
             renderItem={({item}) => {
               return userData?.user_type == 'mentee' ? (
-                <MentHomeComp
-                  navigate={() =>
+                <TouchableOpacity
+                  onPress={() =>
                     navigation.navigate('MenteeDetailedScreen', item)
-                  }
-                  data={item}
-                />
+                  }>
+                  {/* <MentHomeComp data={item} /> */}
+                  <Renderitem data={item} />
+                </TouchableOpacity>
               ) : (
                 <MentHomeComp data={item} />
               );
@@ -173,8 +175,8 @@ export default MenFilterScreen;
 export const MentHomeComp = props => {
   const {data} = props;
   return (
-    <TouchableOpacity
-      // onPress={() => props?.navigate(data)}
+    <View
+      // onPress={() => props?.navigate()}
       style={styles.mainView}>
       <CircleImageComp
         image={{uri: data?.profileImageLink}}
@@ -200,111 +202,89 @@ export const MentHomeComp = props => {
         text={data?.language}
         style={{marginBottom: hp('1'), fontSize: hp('2')}}
       />
-    </TouchableOpacity>
+    </View>
   );
 };
 
-// export const Renderitem = props => {
-//   const {data} = props;
-//   let price = data?.amount;
-//   console.log(208, price);
-//   const pricefixed = Number(price)?.toFixed();
+export const Renderitem = props => {
+  const {data} = props;
+  let price = data?.amount;
+  console.log(208, price);
+  const pricefixed = Number(price)?.toFixed();
 
-//   return (
-//     <TouchableOpacity style={styles.flatlistmain} onPress={props.click}>
-//       <View style={styles.flupperView}>
-//         <Image
-//           // source={require('../../image/image.jpg')}
-//           source={{uri: data?.profileImageLink}}
-//           style={styles.flimagecrop}
-//         />
-//         {console.log(data)}
-//         <View style={{width: wp('28')}}>
-//           <Text style={{fontSize: hp('1.8'), color: 'black'}}>
-//             {data?.f_name} {data?.l_name}
-//           </Text>
-//           <Text style={{fontSize: hp('1.5'), color: 'black'}}>
-//             {data?.language}
-//           </Text>
-//         </View>
-//       </View>
-//       <View style={styles.centerView}>
-//         <AntDesign
-//           name="clockcircle"
-//           size={hp('2.5')}
-//           style={{marginRight: wp('1')}}
-//           color={colorTutor_.ipallightGreen}
-//         />
-//         <TextComp
-//           text={data?.clock}
-//           style={{color: colorTutor_.ipallightGreen}}
-//         />
-//       </View>
-//       <View style={styles.centerView}>
-//         <View
-//           style={{
-//             flexDirection: 'row',
-//             width: wp('45'),
-//             justifyContent: 'space-around',
-//           }}>
-//           <View
-//             style={{
-//               flexDirection: 'row',
-//               alignItems: 'center',
-//             }}>
-//             <Image
-//               style={{
-//                 height: 20,
-//                 width: 20,
-//                 tintColor: colorTutor_.ipallightGreen,
-//               }}
-//               source={require('../../image/book.png')}
-//             />
-//             <TextComp
-//               text={data?.subject}
-//               style={{color: colorTutor_.ipallightGreen}}
-//             />
-//           </View>
-//           <View
-//             style={{
-//               flexDirection: 'row',
-//               alignItems: 'center',
-//             }}>
-//             <AntDesign
-//               name="clockcircle"
-//               size={hp('2.5')}
-//               style={{marginRight: wp('1')}}
-//               color={colorTutor_.ipallightGreen}
-//             />
-//             <TextComp
-//               text={data?.timing}
-//               style={{
-//                 color: colorTutor_.ipallightGreen,
-//                 marginRight: wp('1'),
-//               }}
-//             />
-//           </View>
-//         </View>
-//       </View>
-//       <View style={styles.bottomView}>
-//         <View style={styles.bottombutton}>
-//           <Text style={styles.price}>${pricefixed}</Text>
-//         </View>
-//         <View style={styles.verticaldivider}></View>
+  return (
+    <View
+      style={styles.flatlistmain}
+      // onPress={() => {
+      //   props.click(data);
+      // }}
+    >
+      <View style={styles.flupperView}>
+        {/* <Image
+          source={require('../../image/image.jpg')}
+          style={styles.flimagecrop}
+        /> */}
+        {data?.profileImageLink && (
+          <Image
+            style={styles.flimagecrop}
+            source={{uri: data?.profileImageLink}}
+          />
+        )}
+        <View>
+          <Text style={{fontSize: hp('1.8'), color: 'gray'}}>
+            {data?.f_name + ' ' + data?.l_name}
+          </Text>
+          <Text style={{fontSize: hp('1.5'), color: 'gray'}}>
+            {data?.language}
+          </Text>
+        </View>
+      </View>
+      <View style={styles.subMainView}>
+        <View
+          style={[
+            styles.subView,
+            {
+              backgroundColor:
+                data?.category.length > 0
+                  ? colorTutor_.ipallightGreen
+                  : colorTutor_.ipallightGreen,
+            },
+          ]}>
+          <TextComp
+            // text="English"
+            text={
+              data?.category.length > 0
+                ? data?.category[0]?.title
+                : 'No Subject'
+            }
+            style={{fontSize: hp('1.3'), color: 'white'}}
+          />
+        </View>
+      </View>
+      <View style={styles.bottomView}>
+        <View style={styles.bottombutton}>
+          <Text style={styles.price}>
+            $
+            {Number(data?.amount).toFixed() === null
+              ? 'Free'
+              : Number(data?.amount).toFixed()}
+          </Text>
+        </View>
+        <View style={styles.verticaldivider}></View>
 
-//         <MaterialCommunityIcons
-//           name="email"
-//           size={hp('4')}
-//           color={colorTutor_.lightGreen}
-//         />
-//         <View style={styles.verticaldivider}></View>
-//         <EvilIcons
-//           color={colorTutor_.lightGreen}
-//           name="heart"
-//           size={hp('4')}
-//           style={{marginTop: hp('0.5')}}
-//         />
-//       </View>
-//     </TouchableOpacity>
-//   );
-// };
+        <MaterialCommunityIcons
+          name="email"
+          size={hp('4')}
+          color={colorTutor_.lightGreen}
+        />
+        <View style={styles.verticaldivider}></View>
+        <EvilIcons
+          name="heart"
+          color={MentorColor.MentorThemeFirst}
+          size={hp('4')}
+          style={{marginTop: hp('0.5')}}
+        />
+      </View>
+    </View>
+  );
+};

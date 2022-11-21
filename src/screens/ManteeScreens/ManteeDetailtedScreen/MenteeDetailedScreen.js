@@ -289,7 +289,7 @@ const MenteeDtailedScreen = ({route}) => {
   return (
     <View style={styles.mainView}>
       {/* <SearchbarHeader heart={true} /> */}
-      <BackHeaderComponent heading={'M e n t e e  D e t a i l'} />
+      <BackHeaderComponent heading={'Mentee Detail'} />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.secondmainView}>

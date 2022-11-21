@@ -10,7 +10,6 @@ function App() {
     <Provider store={store}>
       <PersistGate persistor={persistor} loading={null}>
         <AppTwo />
-        {/* <MenteeMyClassesScreen/> */}
       </PersistGate>
       <FlashMessage position="top" />
     </Provider>

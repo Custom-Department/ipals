@@ -12,6 +12,11 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 20,
   },
+  subMainView: {
+    flexWrap: 'wrap',
+    display: 'flex',
+    alignSelf: 'center',
+  },
   mainView: {
     width: wp('47'),
     backgroundColor: 'white',
