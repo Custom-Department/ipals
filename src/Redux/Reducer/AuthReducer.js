@@ -22,7 +22,6 @@ export default function (state = initial_state, action) {
       break;
     case types.UpdateProfile:
       const updatedData = action.payload;
-      console.log(23, updatedData.user);
       return {...state, userData: updatedData.user};
       break;
     default:

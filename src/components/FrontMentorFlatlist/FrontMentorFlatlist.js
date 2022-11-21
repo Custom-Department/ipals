@@ -25,6 +25,7 @@ const FrontMentorFlatlist = props => {
       contentContainerStyle={{
         marginTop: hp('2'),
         marginLeft: wp('3'),
+        marginRight: wp('3'),
       }}
       keyExtractor={(item, index) => index.toString()}
       horizontal

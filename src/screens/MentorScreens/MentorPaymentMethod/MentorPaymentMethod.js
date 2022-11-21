@@ -21,12 +21,10 @@ import SubcriptionPlanComp from '../../../components/SubcriptionPlanComp/Subcrip
 import {ButtonIconComp} from '../../../components/ButtonIconComp/ButtonIconComp';
 const MentorPaymentMethod = ({route}) => {
   const items = route.params;
-  // console.log(17, items);
   return (
     <View style={{flex: 1, backgroundColor: colorTutor_.ipalBlue}}>
       <BackHeaderComponent
         // style={{backgroundColor: MentorColor.MentorThemeFirst}}
-        backgroundColor={'Mentor'}
         heading={'Payment Method'}
       />
       <ScrollView>

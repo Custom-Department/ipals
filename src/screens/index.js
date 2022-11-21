@@ -4,6 +4,7 @@ import LoginScreen from './LoginScreen/LoginScreen';
 import CreateAccount from './CreateAccount/CreateAccount';
 import OnboardScreen from './OnboardScreen/OnboardScreen';
 import NotificationScreen from './NotificationScreen/NotificationScreen';
+import MenFilterScreen from './MenFilterScreen/MenFilterScreen';
 export const screens = {
   Home,
   Category,
@@ -11,4 +12,5 @@ export const screens = {
   CreateAccount,
   OnboardScreen,
   NotificationScreen,
+  MenFilterScreen,
 };

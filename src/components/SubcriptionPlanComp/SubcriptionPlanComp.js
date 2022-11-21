@@ -12,7 +12,6 @@ import {ButtonIconComp} from '../ButtonIconComp/ButtonIconComp';
 
 const SubcriptionPlanComp = props => {
   let name = props?.name ?? 'exclamationcircle';
-  console.log(props?.data);
   return (
     <View style={{...styles.MainView, ...props?.style}}>
       <View style={styles.innerMainView}>
@@ -30,16 +29,6 @@ const SubcriptionPlanComp = props => {
             name={'arrow-forward'}
           />
         </View>
-        {/* {props?.data == true ? (
-          <AntDesign
-            style={{marginHorizontal: wp('2')}}
-            name={name}
-            size={hp('5.5')}
-            color={props?.iconcolor ?? 'white'}
-          />
-        ) : ( */}
-
-        {/* )} */}
       </View>
     </View>
   );

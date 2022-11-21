@@ -6,7 +6,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {BackHeaderComponent} from '../../../components/BackHeaderComponent/BackHeaderComponent';
 import {ButtonThemeComp} from '../../../components/ButtonThemeComp/ButtonThemeComp';
 import {HeaderComponent} from '../../../components/HeaderComponent/HeaderComponent';
@@ -94,16 +94,14 @@ const SeacrhFilterScreen = ({navigation}) => {
   useEffect(() => {
     getPickerData('CountryData', GetCountryUrl);
   }, []);
+
   return (
     <View
       style={{
         backgroundColor: colorTutor_.ipalBlue,
         flex: 1,
       }}>
-      <BackHeaderComponent
-        backgroundColor={'Tutor'}
-        heading={'Search Filter'}
-      />
+      <BackHeaderComponent heading={'Search Filter'} />
       <ScrollView contentContainerStyle={{flex: 1}}>
         <TextComp
           text="Search by name"

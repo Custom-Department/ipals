@@ -14,6 +14,7 @@ const Stack = createNativeStackNavigator();
 
 export default function StackNavigatior() {
   const {userData} = useSelector(state => state.userData);
+  const {IsApplunchFirst} = useSelector(state => state.IsApplunchFirst);
   return (
     <>
       <Stack.Navigator
@@ -21,6 +22,12 @@ export default function StackNavigatior() {
           animation: 'slide_from_left',
           headerShown: false,
         }}>
+        {IsApplunchFirst == true && (
+          <Stack.Screen
+            name="OnboardScreen"
+            component={screens.OnboardScreen}
+          />
+        )}
         {userData?.user_type == 'student' ? (
           // && token != '' && token != null
           <>
@@ -72,6 +79,14 @@ export default function StackNavigatior() {
               name="MentorProfileScreen"
               component={Mentor.MentorProfileScreen}
             />
+            <Stack.Screen
+              name="MenFilterScreen"
+              component={screens.MenFilterScreen}
+            />
+            <Stack.Screen
+              name="MentorSeacrhFilterScreen"
+              component={Mentor.MentorSeacrhFilterScreen}
+            />
           </>
         ) : userData?.user_type == 'mentor' ? (
           <>
@@ -100,18 +115,26 @@ export default function StackNavigatior() {
               name="MentorAccountSettings"
               component={Mentor.MentorAccountSettings}
             />
+            <Stack.Screen
+              name="MenFilterScreen"
+              component={screens.MenFilterScreen}
+            />
           </>
         ) : (
           <>
             <Stack.Screen name="LoginScreen" component={screens.LoginScreen} />
             <Stack.Screen
+              name="MenFilterScreen"
+              component={screens.MenFilterScreen}
+            />
+            <Stack.Screen
               name="SubjectDetailScreen"
               component={Tutee.SubjectDetailScreen}
             />
-            <Stack.Screen
+            {/* <Stack.Screen
               name="OnboardScreen"
               component={screens.OnboardScreen}
-            />
+            /> */}
             <Stack.Screen
               name="CreateAccount"
               component={screens.CreateAccount}

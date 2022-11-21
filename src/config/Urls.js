@@ -38,10 +38,13 @@ export const UpdateProfileUrl = getApi('profile-update');
 export const GetCourseUrl = getApi('get-course');
 export const GetMenteePendingClass = getApi('mentee/get-pending-class');
 export const GetMenteeApproveClass = getApi('mentee/get-approve-class');
+export const MentorCreateClass = getApi('mentor/create-class');
+export const GetCategoryUrl = getApi('get-category');
 export const GetMentorPendingClassUrl = getApi('mentor/get-pending-class');
 export const GetMentorApprovedClassUrl = getApi('mentor/get-approve-class');
-export const MentorUpdateStatusUrl = getApi('mentor/status-update-request/');
-export const MentorCreateClass = getApi('mentor/create-class');
+export const MentorUpdateStatusUrl = getApi('/mentor/status-update-request/');
+export const MentorFilterMenteeUrl = getApi('mentor/filter/mentee');
+export const MenteeFilterMentor = getApi('mentee/filter');
 export const StripePublishKey =
   'pk_test_51LI9HwEE1bl5YY9CXbeFOKtVHFcnF3Vr6cNpK50WFsAHQFU9pcenE3iSddJ2pzdx7IIPwzXG6plCCxXwet33HpIG00nyziJs1r';
 // export const StripePublishKey =

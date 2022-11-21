@@ -37,7 +37,7 @@ const PickerComponent = props => {
         }}>
         <Picker.Item label={'Select Options'} value={null} />
         {props.data != String &&
-          props?.data.length > 0 &&
+          props?.data?.length > 0 &&
           props?.data?.map(item => {
             return (
               <Picker.Item

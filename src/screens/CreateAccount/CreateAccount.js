@@ -510,7 +510,6 @@ const CreateAccount = ({navigation}) => {
                       style={{width: wp('45')}}
                       placeholder={'Education'}
                       secureTextEntry={false}
-                      keyboardType="number-pad"
                       value={EducationData[i]}
                       onChangeText={e => {
                         EducationData[i] = e;

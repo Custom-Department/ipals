@@ -4,23 +4,23 @@ import {useState} from 'react';
 import {View, Text, ScrollView} from 'react-native';
 import {SkypeIndicator} from 'react-native-indicators';
 import {useDispatch, useSelector} from 'react-redux';
-import HorizontalDividerComp from '../../../components/HorizontalDividerComp/HorizontalDividerComp';
-import InformationTextView from '../../../components/InformationTextView/InformationTextView';
-import {TextComp} from '../../../components/TextComponent';
-import {TuteeHomeFlatListComp} from '../../../components/TuteeHomeFlatListComp/TuteeHomeFlatListComp';
-import {colorTutor_} from '../../../config/color';
+import HorizontalDividerComp from '../../components/HorizontalDividerComp/HorizontalDividerComp';
+import InformationTextView from '../../components/InformationTextView/InformationTextView';
+import {TextComp} from '../../components/TextComponent';
+import {TuteeHomeFlatListComp} from '../../components/TuteeHomeFlatListComp/TuteeHomeFlatListComp';
+import {colorTutor_} from '../../config/color';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {HeaderComponent} from '../../../components/HeaderComponent/HeaderComponent';
-import {ButtonIconComp} from '../../../components/ButtonIconComp/ButtonIconComp';
-import {GetTeachreClasses} from '../../../config/Urls';
+import {HeaderComponent} from '../../components/HeaderComponent/HeaderComponent';
+import {ButtonIconComp} from '../../components/ButtonIconComp/ButtonIconComp';
+import {GetTeachreClasses} from '../../config/Urls';
 import axios from 'react-native-axios';
 import {styles} from './styles';
-import {errorMessage} from '../../../config/NotificationMessage';
-import {errorHandler} from '../../../config/helperFunction';
-import {BackHeaderComponent} from '../../../components/BackHeaderComponent/BackHeaderComponent';
+import {errorMessage} from '../../config/NotificationMessage';
+import {errorHandler} from '../../config/helperFunction';
+import {BackHeaderComponent} from '../../components/BackHeaderComponent/BackHeaderComponent';
 
 const TeacherFilterScreen = ({route, navigation}) => {
   const item = route.params.item;
@@ -41,8 +41,21 @@ const TeacherFilterScreen = ({route, navigation}) => {
     courcesLoading: false,
     createClassLoading: false,
   });
-  const {GetTeacherLoading} = allLoading;
-  const {GetTeacherState} = allStates;
+  const {
+    acceptLoading,
+    pendingLoading,
+    messageLoading,
+    GetTeacherLoading,
+    courcesLoading,
+    createClassLoading,
+  } = allLoading;
+  const {
+    acceptClassState,
+    pendingClassState,
+    messagesState,
+    GetTeacherState,
+    courcesState,
+  } = allStates;
   const updateState = data => {
     setAllStates(prev => ({...prev, ...data}));
   };

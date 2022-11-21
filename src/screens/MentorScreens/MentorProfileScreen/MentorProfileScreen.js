@@ -32,7 +32,11 @@ import {useDispatch, useSelector} from 'react-redux';
 import {LoginInputComp} from '../../../components/LoginInputComp/LoginInputComp';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import axios from 'react-native-axios';
-import {GetCourseUrl, UpdateProfileUrl} from '../../../config/Urls';
+import {
+  GetCategoryUrl,
+  GetCourseUrl,
+  UpdateProfileUrl,
+} from '../../../config/Urls';
 import {useEffect} from 'react';
 import {
   errorMessage,
@@ -78,6 +82,16 @@ const MentorProfileScreen = ({navigation}) => {
     idSubjectArray,
     isVisible,
   } = stateChange;
+  const urlList = {
+    mentor: GetCategoryUrl,
+    mentee: GetCategoryUrl,
+    tutor: GetCourseUrl,
+    tutee: GetCourseUrl,
+  };
+
+  const getUrl = state => {
+    return urlList[state];
+  };
 
   useEffect(() => {
     getSubjectFunct();
@@ -89,7 +103,7 @@ const MentorProfileScreen = ({navigation}) => {
   const getSubjectFunct = () => {
     updateState({subjectModelLoader: true});
     axios
-      .get(GetCourseUrl, {
+      .get(getUrl(userData.user_type), {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(function (response) {
@@ -134,7 +148,6 @@ const MentorProfileScreen = ({navigation}) => {
         })
         .then(res => {
           updateState({isLoading: false});
-          console.log(137, res.data.data);
           dispatch({
             type: types.UpdateProfile,
             payload: {user: res.data.data},
@@ -143,7 +156,6 @@ const MentorProfileScreen = ({navigation}) => {
         })
         .catch(function (error) {
           updateState({isLoading: false});
-          console.log(149, error);
           errorMessage(errorHandler(error));
         });
     } else {
@@ -237,7 +249,6 @@ const MentorProfileScreen = ({navigation}) => {
       <View style={{flex: 1, backgroundColor: colorTutor_.ipalBlue}}>
         <BackHeaderComponent
           // style={{backgroundColor: MentorColor.MentorThemeFirst}}
-          backgroundColor={'Mentor'}
           heading={'Profile Screen'}
           data={true}
           bellOnPress={() => console.log('bell')}

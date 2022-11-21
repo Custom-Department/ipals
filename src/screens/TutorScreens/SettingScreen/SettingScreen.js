@@ -195,68 +195,6 @@ const SettingScreen = ({route, navigation}) => {
     );
   };
 
-  // const loginUserFun = () => {
-  //   // setIsloading(true);
-  //   const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-  //   if (
-  //     email != '' &&
-  //     password != '' &&
-  //     reg.test(email) === true &&
-  //     password.length >= 8
-  //   ) {
-  //     let body = {
-  //       email: email,
-  //       password: password,
-  //     };
-  //     axios
-  //       .post(LoginUrl, body)
-  //       .then(function (res) {
-  //         setIsloading(false);
-  //         dispatch({
-  //           type: types.LoginType,
-  //           payload: res.data.data,
-  //         });
-  //       })
-  //       .catch(function (error) {
-  //         setIsloading(false);
-  //         console.log(54, error);
-  //         errorMessage(errorHandler(error));
-  //       });
-  //   } else {
-  //     setIsloading(false);
-  //     errorMessage('Please type correct information');
-  //   }
-  // };
-  // const updateProfileFunc =()=>{
-
-  //   updateState({isLoading:true})
-  //   if(BioData !=null && BioData !='' && userImage !=null && userImage != ''){
-  //       let body={
-  //         profile_image:userImage,
-  //         bio:BioData,
-  //         course_id:idSubjectArray
-  //       }
-  //       axios.post(UpdateProfileUrl,body).then(
-  //         res=>{
-  //         updateState({isLoading:false})
-  //         dispatch({
-  //         type: types.LoginType,
-  //         payload: res.data.data,
-  //       });
-  //         }
-  //       )
-  //       .catch(function (error) {
-  //         updateState({isLoading:false})
-
-  //                 console.log(54, error);
-  //                 errorMessage(errorHandler(error));
-  //               });
-  //           } else {
-  //             updateState({isLoading:false})
-  //             errorMessage('Please type correct information');
-  //           }
-  //   }
-
   const getSubjectFunct = () => {
     setIsVisible(true);
     // updateState({isVisible:true,subjectModelLoader: true});
@@ -691,7 +629,6 @@ const SettingScreen = ({route, navigation}) => {
         flex: 1,
       }}>
       <BackHeaderComponent
-        backgroundColor={'Tutor'}
         heading={'Setting'}
         data={true}
         bellOnPress={() => console.log('bell')}
@@ -726,14 +663,7 @@ const SettingScreen = ({route, navigation}) => {
               switch={true}
             />
           </TouchableOpacity>
-          {/* <TouchableOpacity onPress={() => updateState({accState: true})}>
-            <SettingIconComp
-              onPress={() => console.log('hellow')}
-              name={'person-fill'}
-              text={' Account settings'}
-            />
-          </TouchableOpacity> */}
-          {/* <TouchableOpacity onPress={() => updateState({editState: true})}> */}
+
           <TouchableOpacity
             onPress={() => navigation.navigate('ProfileScreen')}>
             <SettingIconComp
