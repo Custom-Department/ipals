@@ -93,6 +93,17 @@ export const ClassesDetailView = props => {
             </Text>
           </View>
         )}
+        {data?.category?.title &&(
+           <View style={{flexDirection: 'row', marginVertical: 5}}>
+           <Image
+             style={{height: 20, width: 20, margin: 5, tintColor: props.myclass?colorTutor_.bookColor:'white'}}
+             source={require('../../image/book.png')}
+           />
+           <Text style={{margin: 5, color: props.myclass?colorTutor_.bookColor:'white'}}>
+             {data?.category?.title}
+           </Text>
+         </View>
+        )}
         <View style={{flexDirection: 'row', marginVertical: 5}}>
           <Image
             style={{height: 20, width: 20, margin: 5, tintColor: props.myclass?colorTutor_.bookColor:'white'}}

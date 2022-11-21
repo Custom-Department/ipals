@@ -21,20 +21,30 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {SearchbarHeader} from '../../../components/SearchBarHeaderComp/SearchbarHeader';
 import {TextComp} from '../../../components/TextComponent';
 import {styles} from './styles';
+import axios from 'react-native-axios';
+import moment from 'moment/moment';
+import {useDispatch,useSelector} from 'react-redux';
 import HorizontalDividerComp from '../../../components/HorizontalDividerComp/HorizontalDividerComp';
 import {ButtonThemeComp} from '../../../components/ButtonThemeComp/ButtonThemeComp';
 import { BackHeaderComponent } from '../../../components/BackHeaderComponent/BackHeaderComponent';
+import { GetMenteementorClassesUrl } from '../../../config/Urls';
+import { SkypeIndicator } from 'react-native-indicators';
 
-const MenteeDtailedScreen = () => {
+const MenteeDtailedScreen = ({ route }) => {
+  const item = route.params;
+  const [category,setCategory] =useState([]);
   const data = [{}, {}, {}, {}];
   const RenderCard = prop => {
+    const {data} = prop;
+    const from = moment(data.from, 'hh:mm').format('LT');
+    const to = moment(data.to, 'hh:mm').format('LT');
     return (
       <View style={styles.innerView}>
         <View style={styles.timeView}>
           <AntDesign name="clockcircle" size={hp('2.5')} color={'gray'} />
           <TextComp
             style={{fontSize: hp('1.6')}}
-            text={'09:00 PM' + ' - ' + '11:15 AM'}
+            text={from + ' - ' + to}
           />
         </View>
         <HorizontalDividerComp
@@ -48,7 +58,7 @@ const MenteeDtailedScreen = () => {
         <View style={styles.centerView}>
           <View style={styles.innerBottomView}>
             <FontAwesome name="book" size={hp('2')} color={'gray'} />
-            <TextComp style={{fontSize: hp('1.6')}} text={'History'} />
+            <TextComp style={{fontSize: hp('1.6')}} text={data?.category?.title} />
           </View>
           <View style={styles.verDivider} />
           <View
@@ -59,7 +69,7 @@ const MenteeDtailedScreen = () => {
               justifyContent: 'center',
             }}>
             <MaterialIcons name="timer" size={hp('2')} color={'gray'} />
-            <TextComp style={{fontSize: hp('1.5')}} text={'10 hours'} />
+            <TextComp style={{fontSize: hp('1.5')}} text={data?.total_hours} />
           </View>
         </View>
         <ButtonThemeComp
@@ -76,6 +86,57 @@ const MenteeDtailedScreen = () => {
       </View>
     );
   };
+  const {userData, token} = useSelector(state => state.userData);
+  const dispatch = useDispatch();
+  const [allStates, setAllStates] = useState({
+      GetMentorClassesState: [],
+      // GetApproveclassState:[],
+  });
+  const [allLoading, setAllLoading] = useState({
+      GetMentorClassesLoading: false,
+      // GetapproveclassLoading: false,
+  });
+
+  const {
+      GetMentorClassesLoading,
+      // GetapproveclassLoading
+  } = allLoading;
+
+  const {
+      GetMentorClassesState,
+      // GetApproveclassState
+  }=allStates;
+
+  const updateState = data => {
+      setAllStates(prev => ({...prev, ...data}));
+    };
+    const updateLoadingState = data => {
+      setAllLoading(prev => ({...prev, ...data}));
+    };
+    
+
+    
+  const getApiData = (data, state, loading) => {
+      updateLoadingState({[loading]: true});
+      url=GetMenteementorClassesUrl + data.id
+      axios
+        .get(url, {
+          headers: {Authorization: `Bearer ${token}`},
+        })
+        .then(function (response) {
+          // console.log("test",response.data.data);
+          updateState({[state]: response.data.data});
+          updateLoadingState({[loading]: false});
+
+        })
+        .catch(function (error) {
+          updateLoadingState({[loading]: false});
+          errorMessage(errorHandler(error));
+        });
+    };
+  useEffect(() => {
+    getApiData(item, 'GetMentorClassesState', 'GetMentorClassesLoading');
+}, []);
   return (
     <View style={styles.mainView}>
       {/* <SearchbarHeader heart={true} /> */}
@@ -84,27 +145,33 @@ const MenteeDtailedScreen = () => {
         <View style={styles.roundedview}>
           <View style={styles.ImagerowView}>
             <Image
-              source={require('../../../image/image.jpg')}
+              source={{uri: item.profileImageLink}}
               style={styles.imagecrop}
             />
             <View style={styles.HeadingText}>
-              <Text style={styles.usernamestyle}>Harley Martin</Text>
-              <View style={styles.divider}></View>
+              <Text style={styles.usernamestyle}>{item?.f_name + ' ' +item?.l_name}</Text>
+              <View style={styles.divider}/>
               <Text style={styles.category}>Category</Text>
-              <View style={styles.financeview}>
-                <Text style={styles.textfinance}>Finance & Investment</Text>
-              </View>
+               <View style ={styles.subMainView}>
+               {item?.category.length > 0 &&
+                      item?.category?.map(res => {
+                         return ( 
+                   
+                            <View style={styles.subView}>
+                              <TextComp
+                                // text="English"
+                                text={res.title}
+                                style={{fontSize: hp('1.3'), color: 'white'}}
+                              />
+                            </View>
+                          
+                            ); 
+                         })}
+                          </View>
             </View>
           </View>
-          <Text style={styles.paragraphtext}>
-            Like other forms of writing, paragraphs follow a standard three-part
-            structure with a beginning, middle, and end. These parts are the
-            topic sentence, development and support, and conclusion.Topic
-            sentences, also known as “paragraph leaders,” introduce the main
-            idea that the paragraph is about. They shouldn’t reveal too much on
-            their own, but rather prepare the reader for the rest of the
-            paragraph by stating clearly what topic will be discussed.{' '}
-          </Text>
+          <Text style={styles.paragraphtext}>{item?.bio}</Text>
+          <View style={styles.view}>
           <View style={styles.buttonView}>
             <TouchableOpacity style={styles.whatsaap}>
               <Image
@@ -118,14 +185,26 @@ const MenteeDtailedScreen = () => {
               <Text style={styles.buttonText}>LinkedIn</Text>
             </TouchableOpacity>
           </View>
+          </View>
         </View>
         <View style={styles.categoryheading}>
           <Entypo name="dot-single" size={hp('4')} />
           <Text>Other categories</Text>
         </View>
-        {/* <ManteeFlatlistcomponent/> */}
+        {GetMentorClassesLoading?(
+            <SkypeIndicator
+            color={'white'}
+              size={hp('4')}
+              style={{
+                // marginTop: hp('30'),
+                alignSelf: 'center',
+                justifyContent: 'center',
+                marginVertical: hp('10'),
+              }}
+            />
+          ):
         <FlatList
-          data={data}
+          data={GetMentorClassesState}
           scrollEnabled={false}
           contentContainerStyle={{
             marginTop: hp('2'),
@@ -135,9 +214,9 @@ const MenteeDtailedScreen = () => {
           keyExtractor={(item, index) => index.toString()}
           numColumns={2}
           renderItem={({item}) => {
-            return <RenderCard data={item} />;
+            return <RenderCard data={item}/>;
           }}
-        />
+        />}
       </ScrollView>
     </View>
   );

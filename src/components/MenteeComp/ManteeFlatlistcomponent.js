@@ -26,6 +26,7 @@ import {CircleImageComp} from '../CircleImageComp/CircleImageComp';
 import {TextComp} from '../TextComponent';
 
 export const ManteeFlatlistcomponent = props => {
+  const {user} = props?.data?.category ?? props?.data;
   const data = [
     {
       id: 0,
@@ -86,18 +87,24 @@ export const ManteeFlatlistcomponent = props => {
   ];
   const renderitem = ({item}) => {
     return (
-      <TouchableOpacity style={styles.flatlistmain} onPress={props.click}>
+      <TouchableOpacity style={styles.flatlistmain} onPress={()=>{props.click(item)}}>
         <View style={styles.flupperView}>
-          <Image
+          {/* <Image
             source={require('../../image/image.jpg')}
             style={styles.flimagecrop}
-          />
+          /> */}
+           {item?.profileImageLink && (
+        <Image
+          style={styles.flimagecrop}
+          source={{uri: item?.profileImageLink}}
+        />
+      )}
           <View>
-            <Text style={{fontSize: hp('1.8')}}>Sarah Martin</Text>
-            <Text style={{fontSize: hp('1.5')}}>Language</Text>
+            <Text style={{fontSize: hp('1.8')}}>{item?.f_name + ' ' +item?.l_name}</Text>
+            <Text style={{fontSize: hp('1.5')}}>{item?.language}</Text>
           </View>
         </View>
-        <View style={styles.centerView}>
+        {/*<View style={styles.centerView}>
           <AntDesign
             name="clockcircle"
             size={hp('2.5')}
@@ -109,7 +116,7 @@ export const ManteeFlatlistcomponent = props => {
             style={{color: colorTutor_.ipallightGreen}}
           />
         </View>
-        <View style={styles.centerView}>
+         <View style={styles.centerView}>
           <View
             style={{
               flexDirection: 'row',
@@ -130,10 +137,11 @@ export const ManteeFlatlistcomponent = props => {
                 source={require('../../image/book.png')}
               />
               <TextComp
-                text={item?.subject}
+                text={item?.category[0]?.title}
                 style={{color: colorTutor_.ipallightGreen}}
               />
             </View>
+            
             <View
               style={{
                 flexDirection: 'row',
@@ -154,10 +162,20 @@ export const ManteeFlatlistcomponent = props => {
               />
             </View>
           </View>
-        </View>
+          
+        </View> */}
+        <View style={styles.subMainView}>
+           <View style={[styles.subView, {backgroundColor:item?.category.length>0?colorTutor_.ipallightGreen :colorTutor_.ipallightGreen ,}]}>
+             <TextComp
+               // text="English"
+               text={item?.category.length>0?item?.category[0]?.title:"No Subject"}
+               style={{fontSize: hp('1.3'), color: 'white'}}
+             />
+           </View>
+         </View>
         <View style={styles.bottomView}>
           <View style={styles.bottombutton}>
-            <Text style={styles.price}>$25</Text>
+            <Text style={styles.price}>{item?.amount===null?"Free":item?.amount}</Text>
           </View>
           <MaterialCommunityIcons
             name="email"
@@ -176,10 +194,10 @@ export const ManteeFlatlistcomponent = props => {
   };
   return (
     <FlatList
-      data={data}
+      data={props?.data}
+      numColumns={2}
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={{marginLeft: wp('4')}}
-      horizontal={true}
       renderItem={renderitem}
     />
   );

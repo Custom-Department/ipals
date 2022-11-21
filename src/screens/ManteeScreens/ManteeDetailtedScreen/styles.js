@@ -11,15 +11,14 @@ export const styles = StyleSheet.create({
     },
     secondmainView:{
         width:wp('100'),
-        height:hp('100'),
         alignItems:'center',
     },
     roundedview:{
-        width:wp('90'),
-        height:hp('45'),
+        width:wp('95'),
+        // height:hp('45'),
         marginTop:hp('2'),
-        justifyContent:'space-around',
         borderRadius:15,
+        // justifyContent:'space-around',
         backgroundColor:color.white,
     },
     imagecrop:{
@@ -30,6 +29,8 @@ export const styles = StyleSheet.create({
     },
     ImagerowView:{
         flexDirection:'row',
+        marginTop:hp('2'),
+        marginBottom:hp('2'),
         justifyContent:'space-evenly'
     },
     usernamestyle:{
@@ -54,11 +55,20 @@ export const styles = StyleSheet.create({
         color:colorTutor_.ipalforgetTxtColor
     },
     paragraphtext:{
-        textAlign:'center',
+        textAlign:'left',
+        marginLeft:wp('4'),
+        marginBottom:hp('2'),
         marginHorizontal:wp('2'),
+        color:color.black,
         fontSize:hp('1.8')
     },
+    view:{
+        flex:1,
+        marginBottom:hp('2'),
+        justifyContent:'flex-end',
+    },
     buttonView:{
+      
         flexDirection:'row',
         justifyContent:'space-around'
     },
@@ -141,5 +151,22 @@ export const styles = StyleSheet.create({
         borderRadius: 0,
         height: hp('4'),
         marginTop: hp('1'),
+      },
+      subMainView: {
+        flexWrap: 'wrap',
+        display: 'flex',
+        flexDirection:'row'
+
+      },
+      subView: {
+        backgroundColor: colorTutor_.ipallightGreen,
+        borderRadius: 25,
+        padding: 5,
+        alignItems: 'center',
+        width: wp('18'),
+        marginBottom: hp('1'),
+        marginTop: hp('1'),
+        marginRight: wp('0.8'),
+        // marginLeft: wp('1.5'),
       },
 })

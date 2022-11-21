@@ -9,6 +9,7 @@ export const styles = StyleSheet.create({
     width: wp('45'),
     height: hp('23'),
     marginRight: wp('1.5'),
+    marginBottom:hp('1.5'),
     borderRadius: 10,
     justifyContent: 'space-evenly',
     backgroundColor: color.white,
@@ -34,14 +35,15 @@ export const styles = StyleSheet.create({
     fontSize: hp('2'),
   },
   bottomView: {
-    height: hp('5'),
+    // height: hp('5'),
     justifyContent: 'space-evenly',
     flexDirection: 'row',
   },
   bottombutton: {
-    height: hp('4'),
+    // height: hp('4'),
     borderRadius: 5,
-    padding: 6,
+    justifyContent:'center',
+    padding:6,
     backgroundColor: colorTutor_.ipalBlue,
   },
   price: {
@@ -61,5 +63,20 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  subMainView: {
+    flexWrap: 'wrap',
+    display: 'flex',
+    alignSelf:'center'
+  },
+  subView: {
+    borderRadius: 25,
+    padding: 5,
+    alignItems: 'center',
+    width: wp('18'),
+    marginBottom: hp('1'),
+    marginTop: hp('1'),
+    marginRight: wp('0.8'),
+    // marginLeft: wp('1.5'),
   },
 });
