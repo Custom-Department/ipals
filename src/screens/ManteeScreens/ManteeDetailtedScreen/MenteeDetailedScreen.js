@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   FlatList,
   ScrollView,
+  Button,
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -27,13 +28,88 @@ import {useDispatch, useSelector} from 'react-redux';
 import HorizontalDividerComp from '../../../components/HorizontalDividerComp/HorizontalDividerComp';
 import {ButtonThemeComp} from '../../../components/ButtonThemeComp/ButtonThemeComp';
 import {BackHeaderComponent} from '../../../components/BackHeaderComponent/BackHeaderComponent';
-import {GetMenteementorClassesUrl} from '../../../config/Urls';
+import {
+  GetMenteementorClassesUrl,
+  GetMenteeTimeslot,
+} from '../../../config/Urls';
 import {SkypeIndicator} from 'react-native-indicators';
+import {
+  errorMessage,
+  successMessage,
+} from '../../../config/NotificationMessage';
+import {errorHandler} from '../../../config/helperFunction';
 
 const MenteeDtailedScreen = ({route}) => {
   const item = route.params;
-  const [category, setCategory] = useState([]);
-  const data = [{}, {}, {}, {}];
+  const [scheduleDays, setScheduleDays] = useState([]);
+
+  const {userData, token} = useSelector(state => state.userData);
+  const dispatch = useDispatch();
+  const [allStates, setAllStates] = useState({
+    GetMentorClassesState: [],
+    getSpecData: {},
+    scheduleArray: '',
+    subjectTitle: '',
+    // GetApproveclassState:[],
+  });
+  const [allLoading, setAllLoading] = useState({
+    GetMentorClassesLoading: false,
+    isVisible: false,
+    timeSlotButton: false,
+    // GetapproveclassLoading: false,
+  });
+
+  const {
+    GetMentorClassesLoading,
+    isVisible,
+    timeSlotButton,
+    // GetapproveclassLoading
+  } = allLoading;
+
+  const {
+    GetMentorClassesState,
+    scheduleArray,
+    subjectTitle,
+    getSpecData,
+    // GetApproveclassState
+  } = allStates;
+
+  const updateState = data => {
+    setAllStates(prev => ({...prev, ...data}));
+  };
+  const updateLoadingState = data => {
+    setAllLoading(prev => ({...prev, ...data}));
+  };
+
+  const selectActivities = (v, i) => {
+    if (scheduleArray.includes(v)) {
+      updateState({
+        scheduleArray: scheduleArray.filter(
+          scheduleArray => scheduleArray.id !== v.id,
+        ),
+      });
+    } else {
+      updateState({scheduleArray: [...scheduleArray, v]});
+    }
+  };
+
+  const getApiData = (data, state, loading) => {
+    updateLoadingState({[loading]: true});
+    url = GetMenteementorClassesUrl + data.id;
+    axios
+      .get(url, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(function (response) {
+        updateState({GetMentorClassesState: response.data.data});
+        updateLoadingState({[loading]: false});
+      })
+      .catch(function (error) {
+        updateLoadingState({[loading]: false});
+        errorMessage(errorHandler(error));
+      });
+  };
+
   const RenderCard = prop => {
     const {data} = prop;
     const from = moment(data.from, 'hh:mm').format('LT');
@@ -74,11 +150,10 @@ const MenteeDtailedScreen = ({route}) => {
         </View>
         <ButtonThemeComp
           onPress={() => {
-            // setScheduleDays(data?.class_schedules),
-            //   updateState({subjectTitle: data?.course});
-            // updateState({getSpecData: data});
-            // updateLoadingState({isVisible: true});
-            console.log('Click Apply Now');
+            setScheduleDays(data?.class_schedules),
+              updateState({subjectTitle: data?.category});
+            updateState({getSpecData: data});
+            updateLoadingState({isVisible: true});
           }}
           style={styles.bottomButton}
           text={'Apply Now'}
@@ -86,50 +161,127 @@ const MenteeDtailedScreen = ({route}) => {
       </View>
     );
   };
-  const {userData, token} = useSelector(state => state.userData);
-  const dispatch = useDispatch();
-  const [allStates, setAllStates] = useState({
-    GetMentorClassesState: [],
-    // GetApproveclassState:[],
-  });
-  const [allLoading, setAllLoading] = useState({
-    GetMentorClassesLoading: false,
-    // GetapproveclassLoading: false,
-  });
 
-  const {
-    GetMentorClassesLoading,
-    // GetapproveclassLoading
-  } = allLoading;
-
-  const {
-    GetMentorClassesState,
-    // GetApproveclassState
-  } = allStates;
-
-  const updateState = data => {
-    setAllStates(prev => ({...prev, ...data}));
-  };
-  const updateLoadingState = data => {
-    setAllLoading(prev => ({...prev, ...data}));
-  };
-
-  const getApiData = (data, state, loading) => {
-    updateLoadingState({[loading]: true});
-    url = GetMenteementorClassesUrl + data.id;
-    axios
-      .get(url, {
-        headers: {Authorization: `Bearer ${token}`},
-      })
-      .then(function (response) {
-        // console.log("test",response.data.data);
-        updateState({[state]: response.data.data});
-        updateLoadingState({[loading]: false});
-      })
-      .catch(function (error) {
-        updateLoadingState({[loading]: false});
-        errorMessage(errorHandler(error));
+  const applyForClass = () => {
+    updateLoadingState({timeSlotButton: true});
+    const from = moment(getSpecData.from, 'h:mm:ss A').format('HH:mm');
+    const to = moment(getSpecData.to, 'h:mm:ss A').format('HH:mm');
+    url = GetMenteeTimeslot + getSpecData.id;
+    if (scheduleArray.length > 0) {
+      const fromToObject = scheduleArray.map(res => {
+        return res.schedule;
       });
+      let body = {
+        course_id: subjectTitle.id,
+        from: from,
+        schedule: fromToObject,
+        to: to,
+      };
+      axios
+        .get(
+          url,
+          {
+            headers: {Authorization: `Bearer ${token}`},
+          },
+          body,
+        )
+        .then(function (res) {
+          updateLoadingState({isVisible: false});
+          updateLoadingState({timeSlotButton: false});
+          successMessage('Your Have Succefully Apply for Class');
+        })
+        .catch(function (error) {
+          updateLoadingState({timeSlotButton: false});
+          errorMessage(errorHandler(error));
+        });
+    } else {
+      updateLoadingState({timeSlotButton: false});
+      errorMessage('Please Select Days');
+    }
+  };
+
+  const ModalView = () => {
+    return (
+      <View style={styles.modalMainView}>
+        <View style={styles.modalInnerView}>
+          <Entypo
+            name="circle-with-cross"
+            color={'gray'}
+            size={hp('3')}
+            onPress={() => {
+              updateLoadingState({
+                isVisible: false,
+              }),
+                updateState({
+                  scheduleArray: '',
+                  timeSlot: null,
+                  allTimeSlot: [],
+                });
+            }}
+            style={styles.crowsIcon}
+          />
+          <TextComp
+            text="Subject"
+            style={{marginLeft: wp('5'), fontWeight: 'bold'}}
+          />
+          <View style={styles.modalSubjectView}>
+            <View
+              style={{
+                ...styles.subView,
+                backgroundColor: colorTutor_.blue,
+              }}>
+              <TextComp
+                text={subjectTitle?.title}
+                style={{fontSize: hp('1.7'), color: 'white'}}
+              />
+            </View>
+          </View>
+
+          <TextComp text="Select schedule for class" style={styles.heading} />
+          <ScrollView>
+            <View style={styles.daysView}>
+              {scheduleDays.map((res, i) => {
+                const Month = moment(res?.schedule).format('YYYY-MM-DD');
+                return (
+                  <TouchableOpacity
+                    onPress={() => selectActivities(res, i)}
+                    style={{
+                      ...styles.activitiesContainer,
+                      backgroundColor: scheduleArray.includes(res)
+                        ? colorTutor_.lightSeaGreen
+                        : 'white',
+                      borderColor: scheduleArray.includes(res)
+                        ? colorTutor_.blue
+                        : 'black',
+                      borderWidth: scheduleArray.includes(res) ? 2 : 1,
+                    }}>
+                    <Text
+                      style={{
+                        textAlign: 'center',
+                        color: scheduleArray.includes(res)
+                          ? colorTutor_.blue
+                          : 'black',
+                        fontWeight: scheduleArray.includes(res)
+                          ? 'bold'
+                          : 'normal',
+                        fontSize: hp('1.5'),
+                      }}>
+                      {Month}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+            <ButtonThemeComp
+              style={styles.getTimeButton}
+              text={'Apply For Class'}
+              onPress={() => applyForClass()}
+              isLoading={timeSlotButton}
+            />
+          </ScrollView>
+        </View>
+      </View>
+    );
   };
   useEffect(() => {
     getApiData(item, 'GetMentorClassesState', 'GetMentorClassesLoading');
@@ -187,8 +339,8 @@ const MenteeDtailedScreen = ({route}) => {
           </View>
         </View>
         <View style={styles.categoryheading}>
-          <Entypo name="dot-single" size={hp('4')} />
-          <Text>Other categories</Text>
+          <Entypo name="dot-single" size={hp('4')} color={color.white} />
+          <Text style={{color: color.white}}>Other categories</Text>
         </View>
         {GetMentorClassesLoading ? (
           <SkypeIndicator
@@ -218,6 +370,7 @@ const MenteeDtailedScreen = ({route}) => {
           />
         )}
       </ScrollView>
+      {isVisible && <ModalView />}
     </View>
   );
 };

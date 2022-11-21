@@ -83,6 +83,7 @@ export const SearchbarHeader = props => {
           style={styles.searchText}
           placeholder={'Search for services'}
           value={value}
+          placeholderTextColor={MentorColor.MentorThemeFirst}
           onChangeText={val => setValue(val)}
         />
       </TouchableOpacity>
