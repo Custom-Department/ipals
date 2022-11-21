@@ -20,4 +20,12 @@ export const styles = StyleSheet.create({
     height: hp('0.3'),
     margin: 5,
   },
+  createClassView: {
+    marginBottom: hp('2'),
+  },
+  loaderStyle: {
+    alignSelf: 'center',
+    justifyContent: 'center',
+    marginVertical: hp('10'),
+  },
 });

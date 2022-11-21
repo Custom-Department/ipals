@@ -27,12 +27,23 @@ import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import {LoginInputComp} from '../../../components/LoginInputComp/LoginInputComp';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {ButtonThemeComp} from '../../../components/ButtonThemeComp/ButtonThemeComp';
+import {GetCategoriesUrl, MentorCreateClass} from '../../../config/Urls';
+import {useEffect} from 'react';
+import {ApiGet, errorHandler} from '../../../config/helperFunction';
+import {
+  errorMessage,
+  successMessage,
+} from '../../../config/NotificationMessage';
+import {useSelector} from 'react-redux';
 
 var arrayCalender = [];
 const MentorServices = ({navigation}) => {
+  const {userData, token} = useSelector(state => state.userData);
   const [tutorValue, setTutorValue] = useState({
-    languageData: null,
+    CategoriesData: null,
+    price: '',
   });
+  const updateFinalState = data => setTutorValue(prev => ({...prev, ...data}));
   const date = new Date();
   var time = new Date();
   var getTime = time.toLocaleString('en-US', {
@@ -46,43 +57,15 @@ const MentorServices = ({navigation}) => {
   const [startDate, setStartDate] = useState(time);
   const [isDate, setIsDate] = useState(false);
   const [endDate, setEndDate] = useState(null);
+  const [isloading, setIsloading] = useState(false);
   const [selectedDate, setSelectedDate] = useState('');
   const [markedDates, setMarkedDates] = useState({});
   const h = {
-    languageData: 'languageData',
+    CategoriesData: 'CategoriesData',
   };
-  const {
-    PhoneNumber,
-    BioData,
-    Password,
-    ConfirmPassword,
-    linkedin_id,
-    linkedin_token,
-    linkedin_avatar,
-    linkedin_expires,
-    linkedin_refresh_token,
-    // EducationData,
-    FirstName,
-    LastName,
-    ZipCodeData,
-    AcademicYearData,
-    Email,
-  } = tutorValue;
+  const {price} = tutorValue;
   const [pickerState, setPickerState] = useState({
-    tutorData: [
-      {
-        id: 'teacher',
-        title: 'Tutor',
-        value: 'tutorData',
-        type: 'tutorData',
-      },
-      {
-        id: 'student',
-        title: 'Tweety',
-        value: 'tweetyData',
-        type: 'tweetyData',
-      },
-    ],
+    CategoriesData: [],
     languageData: [
       {
         id: 0,
@@ -98,7 +81,7 @@ const MentorServices = ({navigation}) => {
       },
     ],
   });
-  const {languageData} = pickerState;
+  const {languageData, CategoriesData} = pickerState;
   const getTutorValue = (value, State) => {
     setTutorValue(pre => ({
       ...tutorValue,
@@ -219,7 +202,62 @@ const MentorServices = ({navigation}) => {
     setSelectedDate(selectedDate);
     setMarkedDates(markedDates);
   };
+  const CreateClass = () => {
+    // MentorCreateClass
+    setIsloading(true);
+    const {CategoriesData} = tutorValue;
+    if (
+      CategoriesData != null &&
+      price != '' &&
+      arrayCalender.length > 0 &&
+      endDate != null &&
+      endDate != ''
+    ) {
+      let body = {
+        user_id: userData.id,
+        category_id: CategoriesData,
+        price: price,
+        from: moment(startDate, 'h:mm:ss A').format('HH:mm:ss'),
+        to: moment(endDate, 'h:mm:ss A').format('HH:mm:ss'),
+        schedule: arrayCalender,
+      };
+      axios
+        .post(MentorCreateClass, body, {
+          headers: {Authorization: `Bearer ${token}`},
+        })
+        .then(function (res) {
+          getTutorValue(null, 'CategoriesData');
+          arrayCalender = [];
+          updateFinalState({price: ''});
+          setStartDate(time);
+          setEndDate(null);
+          setMarkedDates({});
+          navigation.navigate('MentorDashboardScreen');
+          setIsloading(false);
+          successMessage('Your Class Has been created');
+        })
+        .catch(function (error) {
+          setIsloading(false);
+          errorMessage(errorHandler(error));
+        });
+    } else {
+      setIsloading(false);
+      errorMessage('Please complete all fields');
+    }
+  };
   const updateState = data => setPickerState(prev => ({...prev, ...data}));
+  const getPickerData = (state, url) => {
+    ApiGet(url).then(res => {
+      if (res.status == 200) {
+        updateState({[state]: res.json.data});
+      } else {
+        errorMessage('Network Request Failed');
+      }
+    });
+  };
+  useEffect(() => {
+    getPickerData('CategoriesData', GetCategoriesUrl);
+  }, []);
   return (
     <View
       style={{
@@ -250,14 +288,14 @@ const MentorServices = ({navigation}) => {
           </View>
           <PickerComponent
             style={styles.pickerStyle}
-            text={'Select your subject'}
+            text={'Select your Category'}
             headingStyle={styles.headingStyle}
-            data={languageData}
+            data={CategoriesData}
             setSelectedValue={(val, state) => getTutorValue(val, state)}
-            h={h.languageData}
-            selectedValue={tutorValue.languageData}
+            h={h.CategoriesData}
+            selectedValue={tutorValue.CategoriesData}
           />
-          <PickerComponent
+          {/* <PickerComponent
             style={{
               ...styles.pickerStyle,
               marginTop: Platform.OS == 'android' ? hp('1') : hp('0'),
@@ -271,7 +309,7 @@ const MentorServices = ({navigation}) => {
             setSelectedValue={(val, state) => getTutorValue(val, state)}
             h={h.languageData}
             selectedValue={tutorValue.languageData}
-          />
+          /> */}
           <TextComp
             style={{
               ...styles.headingStyle,
@@ -310,6 +348,8 @@ const MentorServices = ({navigation}) => {
             }}
             keyboardType={'number-pad'}
             placeholder="Price"
+            value={price}
+            onChangeText={e => updateFinalState({price: e})}
             changeFirstIcon={
               <FontAwesome
                 name={'dollar'}
@@ -324,7 +364,8 @@ const MentorServices = ({navigation}) => {
             leftDivider={<View style={styles.verDivider} />}
           />
           <ButtonThemeComp
-            onPress={() => console.log('dkvksdnk')}
+            isLoading={isloading}
+            onPress={() => CreateClass()}
             text="Create class"
             style={styles.buttonStyle}
           />
