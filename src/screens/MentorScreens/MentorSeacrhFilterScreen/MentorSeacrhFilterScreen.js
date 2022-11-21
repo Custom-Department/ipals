@@ -101,7 +101,7 @@ const MentorSeacrhFilterScreen = ({navigation}) => {
         backgroundColor: colorTutor_.ipalBlue,
         flex: 1,
       }}>
-      <BackHeaderComponent heading={'S e a r c h  F i l t e r'} />
+      <BackHeaderComponent heading={'Search  Filter'} />
       <ScrollView contentContainerStyle={{flex: 1}}>
         {/* <TextComp
           text="Search by name"
@@ -110,7 +110,7 @@ const MentorSeacrhFilterScreen = ({navigation}) => {
         <PickerComponent
           style={{
             width: wp('95'),
-            marginRigh: wp('2'),
+            // marginRight: wp('2'),
             alignSelf: 'center',
           }}
           text={'City'}
@@ -135,7 +135,7 @@ const MentorSeacrhFilterScreen = ({navigation}) => {
         /> */}
         <View style={styles.twoPickerView}>
           <PickerComponent
-            style={{width: wp('45'), marginRigh: wp('2')}}
+            style={{width: wp('45'), marginRight: wp('2')}}
             text={'Country'}
             data={CountryData}
             setSelectedValue={(val, state) => {

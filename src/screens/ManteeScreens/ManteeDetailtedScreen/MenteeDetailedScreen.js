@@ -23,7 +23,7 @@ import {TextComp} from '../../../components/TextComponent';
 import {styles} from './styles';
 import HorizontalDividerComp from '../../../components/HorizontalDividerComp/HorizontalDividerComp';
 import {ButtonThemeComp} from '../../../components/ButtonThemeComp/ButtonThemeComp';
-import { BackHeaderComponent } from '../../../components/BackHeaderComponent/BackHeaderComponent';
+import {BackHeaderComponent} from '../../../components/BackHeaderComponent/BackHeaderComponent';
 
 const MenteeDtailedScreen = () => {
   const data = [{}, {}, {}, {}];
@@ -80,7 +80,9 @@ const MenteeDtailedScreen = () => {
     <View style={styles.mainView}>
       {/* <SearchbarHeader heart={true} /> */}
       <BackHeaderComponent heading={'M e n t e e  D e t a i l'} />
-      <ScrollView contentContainerStyle={styles.secondmainView}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.secondmainView}>
         <View style={styles.roundedview}>
           <View style={styles.ImagerowView}>
             <Image

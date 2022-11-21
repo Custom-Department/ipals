@@ -196,6 +196,7 @@ const TeacherDetailScreen = ({route, navigation}) => {
           errorMessage(errorHandler(error));
         });
     } else {
+      updateLoadingState({timeSlotButton: false});
       errorMessage('Please Select Days');
     }
   };

@@ -60,12 +60,9 @@ const LoginScreen = ({navigation}) => {
             type: types.LoginType,
             payload: res.data.data,
           });
-          // dispatch({
-          //   type: types.LoginTypeToken,
-          //   payload: token,
-          // });
         })
         .catch(function (error) {
+          console.log(78, error.response);
           setIsloading(false);
           errorMessage(errorHandler(error));
         });

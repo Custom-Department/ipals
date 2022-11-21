@@ -174,7 +174,7 @@ export const styles = StyleSheet.create({
     // backgroundColor: 'yellow',
   },
   activitiesContainer: {
-    width: wp('30'),
+    width: wp('25'),
     height: hp('5'),
     borderColor: 'black',
     borderWidth: 1,
