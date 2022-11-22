@@ -6,10 +6,10 @@ import {
 import {MentorColor, color, colorTutor_} from '../../config/color';
 export const styles = StyleSheet.create({
   flatlistmain: {
-    width: wp('45'),
+    width: wp('46'),
     height: hp('23'),
-    marginRight: wp('1.5'),
-    marginBottom:hp('1.5'),
+    marginRight: wp('1'),
+    marginBottom: hp('1.5'),
     borderRadius: 10,
     justifyContent: 'space-evenly',
     backgroundColor: color.white,
@@ -42,8 +42,8 @@ export const styles = StyleSheet.create({
   bottombutton: {
     // height: hp('4'),
     borderRadius: 5,
-    justifyContent:'center',
-    padding:6,
+    justifyContent: 'center',
+    padding: 6,
     backgroundColor: colorTutor_.ipalBlue,
   },
   price: {
@@ -67,7 +67,7 @@ export const styles = StyleSheet.create({
   subMainView: {
     flexWrap: 'wrap',
     display: 'flex',
-    alignSelf:'center'
+    alignSelf: 'center',
   },
   subView: {
     borderRadius: 25,

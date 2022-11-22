@@ -511,11 +511,6 @@ const DashboardScreen = ({navigation}) => {
           }}
         />
       </>
-      // pendingClassState.map(res => {
-      //   return (
-      //     <PendingReqComp data={res} text={Item?.name} image={Item?.image} />
-      //   );
-      // })
     );
   };
   const [topNavigator, setTopNavigator] = useState([
@@ -709,9 +704,7 @@ const DashboardScreen = ({navigation}) => {
                   TextStyle={{fontSize: hp('2')}}
                   text={buttonText}
                   onPress={() => checkButtonType()}
-                  // onPress={() => createClasses(CreateClassUrl, 'post', null)}
                   isLoading={createClassLoading}
-                  // onPress={() => setClassState(false)}
                 />
               </View>
             </ScrollView>
@@ -803,101 +796,3 @@ const DashboardScreen = ({navigation}) => {
 };
 
 export default DashboardScreen;
-
-// index == 1 &&
-//   (classState == true ? (
-//     <ScrollView contentContainerStyle={styles.container}>
-//       <View style={styles.myClassViewDashBoard}>
-//         <View style={{flexDirection: 'row'}}>
-//           <Ionicons
-//             onPress={() => setClassState(false)}
-//             name={'arrow-back'}
-//             size={hp('2')}
-//             color="white"
-//           />
-//           <TextComp
-//             style={{marginLeft: wp('3'), color: colorTutor_.TxtColor}}
-//             text="My Classes"
-//           />
-//         </View>
-//       </View>
-//       <Calendar
-//         minDate={new Date()}
-//         style={{width: wp('90'), alignSelf: 'center', borderRadius: 10}}
-//         markingType={'period'}
-//         onDayPress={(day, index) =>
-//           getSelectedDayEvents(day.dateString, index)
-//         }
-//         markedDates={markedDates}
-//       />
-//       <View style={{marginBottom: hp('3'), marginTop: hp('3')}}>
-//         <TextComp
-//           style={{
-//             marginLeft: wp('7'),
-//             marginBottom: hp('1.5'),
-//             color: colorTutor_.TxtColor,
-//           }}
-//           text={'Select your subject'}
-//         />
-//         <Picker
-//           style={styles.picker}
-//           // ref={pickerRef2}
-//           selectedValue={subject}
-//           onValueChange={(itemValue, itemIndex) => setSubject(itemValue)}>
-//           <Picker.Item label={'Please Select Subject'} value={null} />
-//           {courcesState.length > 0 &&
-//             courcesState.map(res => {
-//               return <Picker.Item label={res.title} value={res.id} />;
-//             })}
-//         </Picker>
-//       </View>
-//       <View>
-//         <TextComp
-//           style={{
-//             marginLeft: wp('7'),
-//             marginBottom: hp('1.5'),
-//             color: colorTutor_.TxtColor,
-//           }}
-//           text={'Create time schedule'}
-//         />
-//         <DropDownView />
-//       </View>
-//       <View>
-//         <ButtonThemeComp
-//           style={styles.createClass}
-//           TextStyle={{fontSize: hp('2')}}
-//           text={'Create class'}
-//           onPress={() => createClasses()}
-//           isLoading={createClassLoading}
-//           // onPress={() => setClassState(false)}
-//         />
-//       </View>
-//     </ScrollView>
-//   ) : (
-//     <View>
-//       <View style={styles.classDashBoard}>
-//         <TextComp text={'My Classes'} />
-//         <TouchableOpacity
-//           onPress={() => setClassState(true)}
-//           style={styles.plusView}>
-//           <Ionicons name={'add'} size={hp('3')} color="white" />
-//         </TouchableOpacity>
-//       </View>
-//       <CreateClassComp />
-//       <CreateClassComp />
-//       <CreateClassComp />
-//     </View>
-//   ))}
-// index == 2 && (
-//   <ScrollView contentContainerStyle={styles.container}>
-//     {message.length > 0 &&
-//       message.map(res => {
-//         return (
-//           <ThreeViewComp
-//             data={res}
-//             viewStyle={{marginTop: hp('2'), alignSelf: 'center'}}
-//           />
-//         );
-//       })}
-//   </ScrollView>
-// )}

@@ -29,6 +29,7 @@ import {
   GetMentorApprovedClassUrl,
   GetMentorPendingClassUrl,
   GetPendingClassUrl,
+  MentorSubscriptionUrl,
   MentorUpdateStatusUrl,
   UpdateRequestStatusUrl,
 } from '../../../config/Urls';
@@ -50,6 +51,7 @@ const MentorDashboardScreen = ({navigation}) => {
     myClassState: [],
     messagesState: [],
     courcesState: [],
+    subcriptionState: [],
   });
   const [allLoading, setAllLoading] = useState({
     acceptLoading: false,
@@ -58,6 +60,7 @@ const MentorDashboardScreen = ({navigation}) => {
     myClassLoading: false,
     courcesLoading: false,
     createClassLoading: false,
+    subcriptionLoader: false,
   });
   const {
     acceptLoading,
@@ -66,6 +69,7 @@ const MentorDashboardScreen = ({navigation}) => {
     myClassLoading,
     courcesLoading,
     createClassLoading,
+    subcriptionLoader,
   } = allLoading;
   const {
     acceptClassState,
@@ -73,6 +77,7 @@ const MentorDashboardScreen = ({navigation}) => {
     messagesState,
     myClassState,
     courcesState,
+    subcriptionState,
   } = allStates;
   const updateState = data => {
     setAllStates(prev => ({...prev, ...data}));
@@ -219,11 +224,13 @@ const MentorDashboardScreen = ({navigation}) => {
         errorMessage(errorHandler(error));
       });
   };
+
   useEffect(() => {
     getApiData(GetMentorApprovedClassUrl, 'acceptClassState', 'acceptLoading');
     getApiData(GetMentorPendingClassUrl, 'pendingClassState', 'pendingLoading');
-    // getApiData(GetMyClasses, 'myClassState', 'myClassLoading');
+    getApiData(MentorSubscriptionUrl, 'subcriptionState', 'subcriptionLoader');
   }, []);
+  console.log(226, subcriptionState);
   return (
     <View
       style={{
@@ -334,22 +341,98 @@ const MentorDashboardScreen = ({navigation}) => {
             line={true}
             rightText={` view all plans`}
           />
-          <View style={{marginTop: wp('3')}}>
-            <SubcriptionPackComp
-              priceTxt={'$15'}
-              iconcolor={MentorColor.MentorlightGrey}
-              data={teacherList.length > 0 ? false : true}
-              text={
-                teacherList.length > 0
-                  ? `You are subscribed to our yearly package`
-                  : `You are not subscribed to any plans`
-              }
+
+          {/* {subcriptionState.length > 0 ? (
+            <FlatList
+              data={subcriptionState}
+              keyExtractor={(item, index) => index.toString()}
+              numColumns={2}
+              contentContainerStyle={{
+                width: wp('95'),
+                alignSelf: 'center',
+                paddingBottom: hp('15'),
+              }}
+              renderItem={({item, index}) => {
+                return (
+                  <View style={{marginTop: wp('3')}}>
+                    <SubcriptionPackComp
+                      priceTxt={'$' + item?.price}
+                      iconcolor={MentorColor.MentorlightGrey}
+                      perAnumTxt={item?.plan_type}
+                      data={false}
+                      text={`You are subscribed to
+our ${item?.plan_type} package`}
+                    />
+                  </View>
+                );
+              }}
             />
-          </View>
+          ) : (
+            <View style={{marginTop: wp('3')}}>
+              <SubcriptionPackComp
+                iconcolor={MentorColor.MentorlightGrey}
+                data={true}
+                text={`You are not subscribe
+to any plans`}
+              />
+            </View>
+          )} */}
+          {subcriptionState.length > 0 ? (
+            <FlatList
+              data={subcriptionState}
+              keyExtractor={(item, index) => index.toString()}
+              numColumns={2}
+              contentContainerStyle={{
+                width: wp('95'),
+                alignSelf: 'center',
+                paddingBottom: hp('15'),
+              }}
+              renderItem={({item, index}) => {
+                return (
+                  <View style={{marginTop: wp('3')}}>
+                    <SubcriptionPackComp
+                      priceTxt={'$' + item?.price}
+                      // priceTxt={'$50'}
+                      iconcolor={MentorColor.MentorlightGrey}
+                      perAnumTxt={item?.plan_type}
+                      data={false}
+                      text={`You are subscribed to
+our ${item?.plan_type} package`}
+                    />
+                  </View>
+                );
+              }}
+            />
+          ) : (
+            <View style={{marginTop: wp('3')}}>
+              <SubcriptionPackComp
+                iconcolor={MentorColor.MentorlightGrey}
+                data={true}
+                text={`You are not subscribe
+to any plans`}
+              />
+            </View>
+          )}
         </View>
       </ScrollView>
     </View>
   );
 };
-
+{
+  /* <View style={{marginTop: wp('3')}}>
+<SubcriptionPackComp
+  priceTxt={'$' + item?.price}
+  iconcolor={MentorColor.MentorlightGrey}
+  perAnumTxt={item?.plan_type}
+  data={item.length > 0 ? true : false}
+  text={
+    item?.length > 0
+      ? `You are subscribed to
+our ${item?.plan_type} package`
+      : `You are not subscribe
+to any plans`
+  }
+/>
+</View> */
+}
 export default MentorDashboardScreen;

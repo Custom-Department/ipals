@@ -12,13 +12,11 @@ export const globalStyles = StyleSheet.create({
 
     color: color.black,
     marginVertical: hp('1.2'),
-    // textDecorationLine: 'underline',
   },
   globalTextStyles2: {
     color: 'black',
   },
   globalTextStyles3: {
-    // color:color.black,
     fontFamily: 'Poppins',
   },
   globalModuletutor: {

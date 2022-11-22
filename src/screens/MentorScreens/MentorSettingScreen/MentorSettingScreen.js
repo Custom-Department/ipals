@@ -45,14 +45,14 @@ const MentorSettingScreen = ({navigation}) => {
             switch={true}
           />
         </TouchableOpacity>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => navigation.navigate('MentorAccountSettings')}>
           <SettingIconComp
             onPress={() => console.log('hellow')}
             name={'person-fill'}
             text={' Account settings'}
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity
           onPress={() => navigation.navigate('MentorPaymentMethod')}>
           <SettingIconComp

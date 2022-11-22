@@ -45,6 +45,14 @@ const MenteeSettingScreen = ({navigation}) => {
             text={'View Profile'}
           />
         </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('MenteeAccountSettings')}>
+          <SettingIconComp
+            onPress={() => console.log('hellow')}
+            name={'person-fill'}
+            text={' Account settings'}
+          />
+        </TouchableOpacity>
         <TouchableOpacity>
           <SettingIconComp
             onPress={() => console.log('hellow')}
@@ -71,15 +79,6 @@ const MenteeSettingScreen = ({navigation}) => {
             }
           />
         </TouchableOpacity>
-        {/* <TouchableOpacity
-          onPress={() => navigation.navigate('MentorProfileScreen')}>
-          <SettingIconComp
-            text={'Edit Profile'}
-            changeIcon={
-              <MaterialIcons name={'payment'} size={hp('3')} color={'white'} />
-            }
-          />
-        </TouchableOpacity> */}
         <SettingIconComp
           onPress={() => console.log('hellow')}
           name={'info'}
@@ -94,8 +93,6 @@ const MenteeSettingScreen = ({navigation}) => {
           <SettingIconComp name={'sign-out'} text={' Log out'} />
         </TouchableOpacity>
       </Animatable.View>
-
-      {/* {isVisible && <SubjectDetailScreen />} */}
     </View>
   );
 };

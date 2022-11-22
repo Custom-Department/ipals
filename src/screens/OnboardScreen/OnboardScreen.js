@@ -18,6 +18,7 @@ import {color, colorTutor_} from '../../config/color';
 import {globalStyles} from '../../config/globalStyles';
 import types from '../../Redux/types';
 import {useDispatch} from 'react-redux';
+import {TextComp} from '../../components/TextComponent';
 
 const OnboardScreen = ({navigation}) => {
   const disptach = useDispatch();
@@ -113,7 +114,7 @@ const OnboardScreen = ({navigation}) => {
               })
             }
             style={styles.skipBtn}>
-            <Text>Skip Intro</Text>
+            <TextComp text={'Skip Intro'} />
           </TouchableOpacity>
           <View style={styles.arrowView}>
             <AntDesign

@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, Image} from 'react-native';
+import {SkypeIndicator} from 'react-native-indicators';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -7,7 +8,17 @@ import {
 
 export const PendingReqComp = props => {
   const {user} = props?.data?.my_class ?? props?.data;
-  return (
+  // console.log(10, props);
+  return props.isLoading ? (
+    <SkypeIndicator
+      color={'white'}
+      size={hp('4')}
+      style={{
+        alignSelf: 'center',
+        justifyContent: 'center',
+      }}
+    />
+  ) : (
     <TouchableOpacity
       onPress={() => console.log('HGUJBU')}
       // onPress={() => props?.checkPendingReq(props)}
@@ -31,7 +42,9 @@ export const PendingReqComp = props => {
           source={{uri: user?.profileImageLink}}
         />
       )}
-      <Text style={{color: 'black', padding: 15}}>{user?.f_name}</Text>
+      <Text style={{color: 'black', padding: 15}}>
+        {user?.f_name + ' ' + user?.l_name}
+      </Text>
       <View
         style={{
           flexDirection: 'row',
