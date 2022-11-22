@@ -9,59 +9,54 @@ import HorizantalDetailComp from '../../../components/HorizantalDetailComp/Horiz
 import axios from 'react-native-axios';
 import {styles} from './styles';
 import {ManteeFlatlistcomponent} from '../../../components/MenteeComp/ManteeFlatlistcomponent';
-import {useDispatch,useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import types from '../../../Redux/types';
-import { Getmentorformentee } from '../../../config/Urls';
-import { SkypeIndicator } from 'react-native-indicators';
+import {Getmentorformentee} from '../../../config/Urls';
+import {SkypeIndicator} from 'react-native-indicators';
 
 const MenteeDashboardScreen = ({navigation}) => {
   const {userData, token} = useSelector(state => state.userData);
-    const dispatch = useDispatch();
-    const [allStates, setAllStates] = useState({
-        GetmentorformenteeState: [],
-        // GetApproveclassState:[],
-    });
-    const [allLoading, setAllLoading] = useState({
-        GetmentorformenteeLoading: false,
-        // GetapproveclassLoading: false,
-    });
+  const dispatch = useDispatch();
+  const [allStates, setAllStates] = useState({
+    GetmentorformenteeState: [],
+  });
+  const [allLoading, setAllLoading] = useState({
+    GetmentorformenteeLoading: false,
+  });
 
-    const {
-        GetmentorformenteeLoading,
-        // GetapproveclassLoading
-    } = allLoading;
+  const {GetmentorformenteeLoading} = allLoading;
 
-    const {
-        GetmentorformenteeState,
-        // GetApproveclassState
-    }=allStates;
+  const {GetmentorformenteeState} = allStates;
 
-    const updateState = data => {
-        setAllStates(prev => ({...prev, ...data}));
-      };
-      const updateLoadingState = data => {
-        setAllLoading(prev => ({...prev, ...data}));
-      };
-      
-    const getApiData = (url, state, loading) => {
-        updateLoadingState({[loading]: true});
-        axios
-          .get(url, {
-            headers: {Authorization: `Bearer ${token}`},
-          })
-          .then(function (response) {
-            // console.log("getdata",response.data.data);
-            updateState({[state]: response.data.data});
-            updateLoadingState({[loading]: false});
-          })
-          .catch(function (error) {
-            updateLoadingState({[loading]: false});
-            errorMessage(errorHandler(error));
-          });
-      };
-      useEffect(() => {
-        getApiData(Getmentorformentee, 'GetmentorformenteeState', 'GetmentorformenteeLoading');
-    }, []);
+  const updateState = data => {
+    setAllStates(prev => ({...prev, ...data}));
+  };
+  const updateLoadingState = data => {
+    setAllLoading(prev => ({...prev, ...data}));
+  };
+
+  const getApiData = (url, state, loading) => {
+    updateLoadingState({[loading]: true});
+    axios
+      .get(url, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(function (response) {
+        updateState({[state]: response.data.data});
+        updateLoadingState({[loading]: false});
+      })
+      .catch(function (error) {
+        updateLoadingState({[loading]: false});
+        errorMessage(errorHandler(error));
+      });
+  };
+  useEffect(() => {
+    getApiData(
+      Getmentorformentee,
+      'GetmentorformenteeState',
+      'GetmentorformenteeLoading',
+    );
+  }, []);
   return (
     <View style={styles.mainView}>
       <StatusBar
@@ -72,11 +67,6 @@ const MenteeDashboardScreen = ({navigation}) => {
         onPressSetting={() => {
           navigation.navigate('MenteeSettingScreen');
         }}
-        //    onPressSetting={() => {
-        //   dispatch({
-        //     type: types.LogoutType,
-        //   });
-        // }}
         heart={true}
       />
 
@@ -89,52 +79,24 @@ const MenteeDashboardScreen = ({navigation}) => {
           leftText={`   Languages`}
           rightText={` view all category`}
         />
-         {/* {GetapproveclassLoading ? (
-            <SkypeIndicator
-              color={'white'}
-              size={hp('4')}
-              style={{
-                // marginTop: hp('30'),
-                alignSelf: 'center',
-                justifyContent: 'center',
-                marginVertical: hp('10'),
-              }}
-            />
-          ) : GetApproveclassState.length > 0 ? ( */}
-           <View style={styles.Emptydivider} />
-          {GetmentorformenteeLoading?(
-            <SkypeIndicator
+
+        <View style={styles.Emptydivider} />
+        {GetmentorformenteeLoading ? (
+          <SkypeIndicator
             color={'white'}
-              size={hp('4')}
-              style={{
-                // marginTop: hp('30'),
-                alignSelf: 'center',
-                justifyContent: 'center',
-                marginVertical: hp('10'),
-              }}
-            />
-          ): <ManteeFlatlistcomponent
-          data={GetmentorformenteeState}
-          click={(item) => navigation.navigate('MenteeDetailedScreen',item)}
-        />}
-       
-       
-         
-        {/* <View style={styles.Emptydivider} />
-        <HorizantalDetailComp
-          leftText={`   Finance & Investment`}
-          rightText={`view all category`}
-        />
-        <View style={styles.Emptydivider} />
-        <ManteeFlatlistcomponent />
-        <View style={styles.Emptydivider} />
-        <HorizantalDetailComp
-          leftText={`   Finance & Investment`}
-          rightText={`view all category`}
-        />
-        <View style={styles.Emptydivider} />
-        <ManteeFlatlistcomponent />
-        <View style={styles.Emptydivider} /> */}
+            size={hp('4')}
+            style={{
+              alignSelf: 'center',
+              justifyContent: 'center',
+              marginVertical: hp('10'),
+            }}
+          />
+        ) : (
+          <ManteeFlatlistcomponent
+            data={GetmentorformenteeState}
+            click={item => navigation.navigate('MenteeDetailedScreen', item)}
+          />
+        )}
       </ScrollView>
     </View>
   );

@@ -34,7 +34,6 @@ import {TextComp} from '../../components/TextComponent';
 import {useDispatch} from 'react-redux';
 import types from '../../Redux/types';
 import axios from 'react-native-axios';
-// import LinkedInModal from 'react-native-linkedin';
 
 const CreateAccount = ({navigation}) => {
   const dispatch = useDispatch();
@@ -57,7 +56,6 @@ const CreateAccount = ({navigation}) => {
     linkedin_avatar: 'asdas',
     linkedin_expires: 'asdasd',
     linkedin_refresh_token: 'asdasd',
-    // EducationData: [],
     FirstName: '',
     LastName: '',
     Email: '',
@@ -89,7 +87,6 @@ const CreateAccount = ({navigation}) => {
     linkedin_avatar,
     linkedin_expires,
     linkedin_refresh_token,
-    // EducationData,
     FirstName,
     LastName,
     ZipCodeData,
@@ -311,8 +308,6 @@ const CreateAccount = ({navigation}) => {
         </View>
         <ScrollView
           showsVerticalScrollIndicator={false}
-          // keyboardShouldPersistTaps="always"
-          // automaticallyAdjustKeyboardInsets={true}
           contentContainerStyle={{
             paddingTop: hp('14'),
             paddingBottom: isKeyboardVisible,
@@ -415,15 +410,6 @@ const CreateAccount = ({navigation}) => {
                 />
                 <TextComp text="LinkedIn" style={styles.linkButtonText} />
               </TouchableOpacity>
-              {/* <Text style={{...styles.accView, marginTop: hp('2')}}>
-                Last Name
-              </Text>
-
-              <LoginInputComp
-                secureTextEntry={false}
-                placeholder={'Last Name'}
-                style={{width: wp('45')}}
-              /> */}
             </View>
           </View>
           <View style={styles.twoPickerView}>
@@ -592,7 +578,6 @@ const CreateAccount = ({navigation}) => {
           <ButtonThemeComp
             onPress={() => signUpFun()}
             isLoading={isloading}
-            // onPress={() => navigation.navigate('TuteeDashboardScreen')}
             style={{
               ...styles.signBtn,
               marginTop: hp('2'),

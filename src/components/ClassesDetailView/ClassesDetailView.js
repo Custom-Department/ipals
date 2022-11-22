@@ -25,11 +25,7 @@ export const ClassesDetailView = props => {
           image={{uri: user?.profileImageLink}}
           styles={styles.image}
         />
-        {/* <Image
-          // resizeMode="contain"
-          style={styles.image}
-          source={require('../../image/profile.jpg')}
-        /> */}
+
         <Text style={{color: 'black', fontSize: hp('2')}}>
           {user?.f_name + ' ' + user?.l_name}
         </Text>
@@ -72,56 +68,91 @@ export const ClassesDetailView = props => {
       <View
         style={{
           flexDirection: 'row',
-          backgroundColor: props.myclass?'white': '#1167b1',
+          backgroundColor: props.myclass ? 'white' : '#1167b1',
           justifyContent: 'space-between',
-          // flex: 1,
           alignItems: 'center',
-          borderTopColor:colorTutor_.bookColor,
-          borderTopWidth:wp('0.2'),
-          // borderRadius: 10,
+          borderTopColor: colorTutor_.bookColor,
+          borderTopWidth: wp('0.2'),
           borderBottomLeftRadius: 10,
           borderBottomRightRadius: 10,
         }}>
         {data?.course?.title && (
           <View style={{flexDirection: 'row', marginVertical: 5}}>
             <Image
-              style={{height: 20, width: 20, margin: 5, tintColor: props.myclass?colorTutor_.bookColor:'white'}}
+              style={{
+                height: 20,
+                width: 20,
+                margin: 5,
+                tintColor: props.myclass ? colorTutor_.bookColor : 'white',
+              }}
               source={require('../../image/book.png')}
             />
-            <Text style={{margin: 5, color: props.myclass?colorTutor_.bookColor:'white'}}>
+            <Text
+              style={{
+                margin: 5,
+                color: props.myclass ? colorTutor_.bookColor : 'white',
+              }}>
               {data?.course?.title}
             </Text>
           </View>
         )}
-        {data?.category?.title &&(
-           <View style={{flexDirection: 'row', marginVertical: 5}}>
-           <Image
-             style={{height: 20, width: 20, margin: 5, tintColor: props.myclass?colorTutor_.bookColor:'white'}}
-             source={require('../../image/book.png')}
-           />
-           <Text style={{margin: 5, color: props.myclass?colorTutor_.bookColor:'white'}}>
-             {data?.category?.title}
-           </Text>
-         </View>
+        {data?.category?.title && (
+          <View style={{flexDirection: 'row', marginVertical: 5}}>
+            <Image
+              style={{
+                height: 20,
+                width: 20,
+                margin: 5,
+                tintColor: props.myclass ? colorTutor_.bookColor : 'white',
+              }}
+              source={require('../../image/book.png')}
+            />
+            <Text
+              style={{
+                margin: 5,
+                color: props.myclass ? colorTutor_.bookColor : 'white',
+              }}>
+              {data?.category?.title}
+            </Text>
+          </View>
         )}
         <View style={{flexDirection: 'row', marginVertical: 5}}>
           <Image
-            style={{height: 20, width: 20, margin: 5, tintColor: props.myclass?colorTutor_.bookColor:'white'}}
+            style={{
+              height: 20,
+              width: 20,
+              margin: 5,
+              tintColor: props.myclass ? colorTutor_.bookColor : 'white',
+            }}
             source={require('../../image/alarm.png')}
           />
-          <Text style={{margin: 5, color: props.myclass?colorTutor_.bookColor:'white'}}>{data?.total_hours}</Text>
+          <Text
+            style={{
+              margin: 5,
+              color: props.myclass ? colorTutor_.bookColor : 'white',
+            }}>
+            {data?.total_hours}
+          </Text>
         </View>
         <View style={{flexDirection: 'row', marginVertical: 5}}>
           <Image
-            style={{height: 20, width: 20, margin: 5, tintColor: props.myclass?colorTutor_.bookColor:'white'}}
+            style={{
+              height: 20,
+              width: 20,
+              margin: 5,
+              tintColor: props.myclass ? colorTutor_.bookColor : 'white',
+            }}
             source={require('../../image/alarm.png')}
           />
-          <Text style={{margin: 5, color: props.myclass?colorTutor_.bookColor:'white'}}>{from + ' - ' + to}</Text>
+          <Text
+            style={{
+              margin: 5,
+              color: props.myclass ? colorTutor_.bookColor : 'white',
+            }}>
+            {from + ' - ' + to}
+          </Text>
         </View>
       </View>
-      {/* <View style={styles.lasView}>
-          <Text>asdf</Text>
-        </View> */}
     </View>
   );
 };

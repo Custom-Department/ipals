@@ -38,16 +38,6 @@ export const CreateClassComp = props => {
         style={{marginLeft: wp('2'), width: wp('40')}}
         color={colorTutor_.TxtColor}
       />
-      {/* {data.class_schedules.length > 0 &&
-        data.class_schedules.map(res => {
-          return (
-            <TextComp
-              text={res.schedule}
-              style={{marginLeft: wp('2')}}
-              color={colorTutor_.TxtColor}
-            />
-          );
-        })} */}
       <View
         style={{
           marginLeft: 'auto',

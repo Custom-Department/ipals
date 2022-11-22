@@ -89,12 +89,9 @@ const LoginScreen = ({navigation}) => {
       />
       <LoginInputComp
         ref={inputElement}
-        // ref={nextS.current.focus()}
         otherProps={{
           blurOnSubmit: false,
         }}
-        // onSubmitEditing={()=>divElement.focus()}
-
         placeholder={'Email Address'}
         value={email}
         onChangeText={e => updateState({email: e})}

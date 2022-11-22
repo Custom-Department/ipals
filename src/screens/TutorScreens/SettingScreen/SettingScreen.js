@@ -285,36 +285,6 @@ const SettingScreen = ({route, navigation}) => {
               flexWrap: 'wrap',
               display: 'flex',
             }}>
-            {/* {activities.length>0?
-          activities?.map(res =>{
-            return(
-              <View style={styles.subView}>
-              <TextComp
-                text={res?.title}
-                style={{
-                  fontSize: hp('1.3'),
-                  textAlign: 'center',
-                  color: 'white',
-                }}
-              />
-            </View>
-            )
-          })
-          :user?.course?.map(res =>{
-            return(
-              <View style={styles.subView}>
-              <TextComp
-                text={res?.title}
-                style={{
-                  fontSize: hp('1.3'),
-                  textAlign: 'center',
-                  color: 'white',
-                }}
-              />
-            </View>
-            )
-          })}
-         */}
             {user?.course?.map(res => {
               return (
                 <View style={styles.subView}>

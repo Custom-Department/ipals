@@ -84,8 +84,6 @@ const MenteeMyClassesScreen = () => {
           'GetpendingclassState',
           'GetpendingclassLoading',
         );
-        // status == 'approve' &&
-        //   getApiData(GetApprovedClassUrl, 'acceptClassState', 'acceptLoading');
       })
       .catch(function (error) {
         updateLoadingState({pendingLoading: false});
@@ -118,7 +116,6 @@ const MenteeMyClassesScreen = () => {
             color={'white'}
             size={hp('4')}
             style={{
-              // marginTop: hp('30'),
               alignSelf: 'center',
               justifyContent: 'center',
               marginVertical: hp('10'),

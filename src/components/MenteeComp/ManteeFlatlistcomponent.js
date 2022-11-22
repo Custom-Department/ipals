@@ -13,7 +13,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {color, colorTutor_} from '../../config/color';
+import {color, colorTutor_, MentorColor} from '../../config/color';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Feather from 'react-native-vector-icons/Feather';
@@ -87,96 +87,66 @@ export const ManteeFlatlistcomponent = props => {
   ];
   const renderitem = ({item}) => {
     return (
-      <TouchableOpacity style={styles.flatlistmain} onPress={()=>{props.click(item)}}>
+      <TouchableOpacity
+        style={styles.flatlistmain}
+        onPress={() => {
+          props.click(item);
+        }}>
         <View style={styles.flupperView}>
           {/* <Image
             source={require('../../image/image.jpg')}
             style={styles.flimagecrop}
           /> */}
-           {item?.profileImageLink && (
-        <Image
-          style={styles.flimagecrop}
-          source={{uri: item?.profileImageLink}}
-        />
-      )}
-          <View>
-            <Text style={{fontSize: hp('1.8'),color:'gray'}}>{item?.f_name + ' ' +item?.l_name}</Text>
-            <Text style={{fontSize: hp('1.5'),color:'gray'}}>{item?.language}</Text>
+          {item?.profileImageLink && (
+            <Image
+              style={styles.flimagecrop}
+              source={{uri: item?.profileImageLink}}
+            />
+          )}
+          <View style={{width: wp('30')}}>
+            <Text
+              style={{fontSize: hp('1.8'), fontWeight: 'bold', color: 'gray'}}>
+              {item?.f_name + ' ' + item?.l_name}
+            </Text>
+            <Text style={{fontSize: hp('1.5'), color: 'gray'}}>
+              {item?.language}
+            </Text>
           </View>
         </View>
-        {/*<View style={styles.centerView}>
-          <AntDesign
-            name="clockcircle"
-            size={hp('2.5')}
-            style={{marginRight: wp('1')}}
-            color={colorTutor_.ipallightGreen}
-          />
-          <TextComp
-            text={item?.clock}
-            style={{color: colorTutor_.ipallightGreen}}
-          />
-        </View>
-         <View style={styles.centerView}>
-          <View
-            style={{
-              flexDirection: 'row',
-              width: wp('45'),
-              justifyContent: 'space-around',
-            }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}>
-              <Image
-                style={{
-                  height: 20,
-                  width: 20,
-                  tintColor: colorTutor_.ipallightGreen,
-                }}
-                source={require('../../image/book.png')}
-              />
-              <TextComp
-                text={item?.category[0]?.title}
-                style={{color: colorTutor_.ipallightGreen}}
-              />
-            </View>
-            
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}>
-              <AntDesign
-                name="clockcircle"
-                size={hp('2.5')}
-                style={{marginRight: wp('1')}}
-                color={colorTutor_.ipallightGreen}
-              />
-              <TextComp
-                text={item?.timing}
-                style={{
-                  color: colorTutor_.ipallightGreen,
-                  marginRight: wp('1'),
-                }}
-              />
-            </View>
-          </View>
-          
-        </View> */}
+
         <View style={styles.subMainView}>
-           <View style={[styles.subView, {backgroundColor:item?.category.length>0?colorTutor_.ipallightGreen :colorTutor_.ipallightGreen ,}]}>
-             <TextComp
-               // text="English"
-               text={item?.category.length>0?item?.category[0]?.title:"No Subject"}
-               style={{fontSize: hp('1.3'), color: 'white'}}
-             />
-           </View>
-         </View>
+          <View
+            style={[
+              styles.subView,
+              {
+                backgroundColor:
+                  item?.category.length > 0
+                    ? colorTutor_.ipallightGreen
+                    : colorTutor_.ipallightGreen,
+              },
+            ]}>
+            <TextComp
+              text={
+                item?.category.length > 0
+                  ? item?.category[0]?.title
+                  : 'No Subject'
+              }
+              style={{fontSize: hp('1.3'), color: 'white'}}
+            />
+          </View>
+        </View>
+
         <View style={styles.bottomView}>
           <View style={styles.bottombutton}>
-            <Text style={styles.price}>{item?.amount===null?"Free":item?.amount}</Text>
+            <Text style={styles.price}>
+              $
+              {Number(item?.amount).toFixed() === null
+                ? 'Free'
+                : Number(item?.amount).toFixed()}
+            </Text>
           </View>
+          <View style={styles.verticaldivider}></View>
+
           <MaterialCommunityIcons
             name="email"
             size={hp('4')}
@@ -186,6 +156,7 @@ export const ManteeFlatlistcomponent = props => {
           <EvilIcons
             name="heart"
             size={hp('4')}
+            color={MentorColor.MentorThemeFirst}
             style={{marginTop: hp('0.5')}}
           />
         </View>

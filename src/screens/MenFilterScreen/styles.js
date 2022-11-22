@@ -48,7 +48,6 @@ export const styles = StyleSheet.create({
     paddingLeft: hp('1'),
     paddingRight: hp('1'),
     alignSelf: 'center',
-    marginTop: hp('1'),
   },
   bioView: {
     backgroundColor: 'white',
@@ -57,9 +56,9 @@ export const styles = StyleSheet.create({
     width: hp('10'),
   },
   flatlistmain: {
-    width: wp('45'),
+    width: wp('47'),
     height: hp('23'),
-    marginRight: wp('1.5'),
+    marginRight: wp('1'),
     borderRadius: 10,
     justifyContent: 'space-evenly',
     backgroundColor: color.white,

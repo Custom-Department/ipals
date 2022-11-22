@@ -18,7 +18,6 @@ import Entypo from 'react-native-vector-icons/Entypo';
 const FrontMentorFlatlist = props => {
   const navigation = useNavigation();
   const {data} = props;
-  // console.log(12, data);
   return (
     <FlatList
       data={props?.data}

@@ -87,6 +87,10 @@ export default function StackNavigatior() {
               name="MentorSeacrhFilterScreen"
               component={Mentor.MentorSeacrhFilterScreen}
             />
+            <Stack.Screen
+              name="MenteeAccountSettings"
+              component={ManteeScreen.MenteeAccountSettings}
+            />
           </>
         ) : userData?.user_type == 'mentor' ? (
           <>
@@ -111,10 +115,7 @@ export default function StackNavigatior() {
               name="MentorProfileScreen"
               component={Mentor.MentorProfileScreen}
             />
-            <Stack.Screen
-              name="MentorAccountSettings"
-              component={Mentor.MentorAccountSettings}
-            />
+
             <Stack.Screen
               name="MenFilterScreen"
               component={screens.MenFilterScreen}

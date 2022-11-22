@@ -105,7 +105,6 @@ const MenFilterScreen = ({route, navigation}) => {
         errorMessage(errorHandler(error));
       });
   };
-  console.log(userData.user_type);
   useEffect(() => {
     getApiData(
       userData?.user_type == 'mentee'
@@ -208,30 +207,19 @@ export const MentHomeComp = props => {
 
 export const Renderitem = props => {
   const {data} = props;
-  let price = data?.amount;
-  console.log(208, price);
-  const pricefixed = Number(price)?.toFixed();
 
   return (
-    <View
-      style={styles.flatlistmain}
-      // onPress={() => {
-      //   props.click(data);
-      // }}
-    >
+    <View style={styles.flatlistmain}>
       <View style={styles.flupperView}>
-        {/* <Image
-          source={require('../../image/image.jpg')}
-          style={styles.flimagecrop}
-        /> */}
         {data?.profileImageLink && (
           <Image
             style={styles.flimagecrop}
             source={{uri: data?.profileImageLink}}
           />
         )}
-        <View>
-          <Text style={{fontSize: hp('1.8'), color: 'gray'}}>
+        <View style={{width: wp('30')}}>
+          <Text
+            style={{fontSize: hp('1.8'), fontWeight: 'bold', color: 'gray'}}>
             {data?.f_name + ' ' + data?.l_name}
           </Text>
           <Text style={{fontSize: hp('1.5'), color: 'gray'}}>
@@ -251,7 +239,6 @@ export const Renderitem = props => {
             },
           ]}>
           <TextComp
-            // text="English"
             text={
               data?.category.length > 0
                 ? data?.category[0]?.title

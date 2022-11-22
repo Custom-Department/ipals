@@ -50,29 +50,17 @@ const MenteeDtailedScreen = ({route}) => {
     getSpecData: {},
     scheduleArray: '',
     subjectTitle: '',
-    // GetApproveclassState:[],
   });
   const [allLoading, setAllLoading] = useState({
     GetMentorClassesLoading: false,
     isVisible: false,
     timeSlotButton: false,
-    // GetapproveclassLoading: false,
   });
 
-  const {
-    GetMentorClassesLoading,
-    isVisible,
-    timeSlotButton,
-    // GetapproveclassLoading
-  } = allLoading;
+  const {GetMentorClassesLoading, isVisible, timeSlotButton} = allLoading;
 
-  const {
-    GetMentorClassesState,
-    scheduleArray,
-    subjectTitle,
-    getSpecData,
-    // GetApproveclassState
-  } = allStates;
+  const {GetMentorClassesState, scheduleArray, subjectTitle, getSpecData} =
+    allStates;
 
   const updateState = data => {
     setAllStates(prev => ({...prev, ...data}));
@@ -288,7 +276,6 @@ const MenteeDtailedScreen = ({route}) => {
   }, []);
   return (
     <View style={styles.mainView}>
-      {/* <SearchbarHeader heart={true} /> */}
       <BackHeaderComponent heading={'Mentee Detail'} />
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -311,7 +298,6 @@ const MenteeDtailedScreen = ({route}) => {
                     return (
                       <View style={styles.subView}>
                         <TextComp
-                          // text="English"
                           text={res.title}
                           style={{fontSize: hp('1.3'), color: 'white'}}
                         />

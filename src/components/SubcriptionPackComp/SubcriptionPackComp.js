@@ -11,7 +11,6 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const SubcriptionPackComp = props => {
   let name = props?.name ?? 'exclamationcircle';
-  console.log(props?.data);
   return (
     <View style={styles.MainView}>
       <View style={styles.innerMainView}>
@@ -26,7 +25,7 @@ const SubcriptionPackComp = props => {
         ) : (
           <View style={styles.packageView}>
             <TextComp style={styles.priceView} text={props?.priceTxt} />
-            <TextComp style={styles.perAnumView} text={'per anum'} />
+            <TextComp style={styles.perAnumView} text={props?.perAnumTxt} />
           </View>
         )}
       </View>
