@@ -33,7 +33,10 @@ import {
   UpdateRequestStatusUrl,
 } from '../../../config/Urls';
 import {errorHandler} from '../../../config/helperFunction';
-import {errorMessage} from '../../../config/NotificationMessage';
+import {
+  errorMessage,
+  successMessage,
+} from '../../../config/NotificationMessage';
 import {useSelector} from 'react-redux';
 import {SkypeIndicator} from 'react-native-indicators';
 import {useEffect} from 'react';
@@ -138,6 +141,7 @@ const MentorDashboardScreen = ({navigation}) => {
   const updateStatus = (data, status) => {
     updateLoadingState({pendingLoading: true});
     let url = MentorUpdateStatusUrl + data.id;
+    console.log(141, url);
     let body = {
       // status: 'Approve',
       // status: 'Rejected',
@@ -153,6 +157,9 @@ const MentorDashboardScreen = ({navigation}) => {
       })
       .then(function (response) {
         updateLoadingState({pendingLoading: false});
+        successMessage(
+          status == 'Approve' ? 'Succesfully Accepted' : ' Succefully Rejected',
+        );
         getApiData(
           GetMentorPendingClassUrl,
           'pendingClassState',
