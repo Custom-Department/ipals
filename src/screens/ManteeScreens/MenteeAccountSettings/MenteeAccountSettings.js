@@ -109,20 +109,26 @@ const MenteeAccountSettings = () => {
     activities: [],
     idSubjectArray: [],
     getChildAccState: [],
+  });
+  const [childDetails, setChildDetail] = useState({
     fullNameState: '',
     lastNameState: '',
     emailState: '',
     passwordState: '',
   });
+  const {fullNameState, lastNameState, emailState, passwordState} =
+    childDetails;
+  const updateDetailsState = data =>
+    setChildDetail(() => ({...childDetails, ...data}));
   const updateState = data => setStateChange(prev => ({...prev, ...data}));
   const {
     createAccoutState,
     childAccState,
     getChildAccState,
-    fullNameState,
-    lastNameState,
-    emailState,
-    passwordState,
+    // fullNameState,
+    // lastNameState,
+    // emailState,
+    // passwordState,
   } = stateChange;
 
   const user = [
@@ -239,36 +245,20 @@ const MenteeAccountSettings = () => {
 
   const CreateChildAccount = () => {
     return (
-      <Animatable.View
-        // animation="fadeInRight"
-        style={styles.setContainer}>
-        <View style={{flexDirection: 'row', marginLeft: wp('5')}}>
-          <Ionicons
-            style={styles.icon1}
-            name={'md-arrow-back'}
-            size={hp('3')}
-            color={'white'}
-            onPress={() =>
-              createAccoutState == true
-                ? updateState({createAccoutState: false})
-                : updateState({childAccState: false})
-            }
-          />
-          <TextComp
-            color={colorTutor_.TxtColor}
-            text={'Create child account'}
-            style={{
-              marginLeft: wp('3'),
-              marginBottom: hp('2'),
-              fontSize: hp('2'),
-            }}
-          />
-        </View>
-        <View style={styles.ViewContainer}>
-          <InformationTextView
-            text={'Your email address remains same for every child account'}
-          />
-          <View style={styles.createAcc}>
+      <Animatable.View animation="fadeInRight" style={styles.setContainer}>
+        <ScrollView keyboardShouldPersistTaps="handled">
+          <View style={{flexDirection: 'row', marginLeft: wp('5')}}>
+            <Ionicons
+              style={styles.icon1}
+              name={'md-arrow-back'}
+              size={hp('3')}
+              color={'white'}
+              onPress={() =>
+                createAccoutState == true
+                  ? updateState({createAccoutState: false})
+                  : updateState({childAccState: false})
+              }
+            />
             <TextComp
               color={colorTutor_.TxtColor}
               text={'Create child account'}
@@ -278,154 +268,170 @@ const MenteeAccountSettings = () => {
                 fontSize: hp('2'),
               }}
             />
-            <TouchableOpacity
-              onPress={() => updateState({createAccoutState: true})}
-              style={{
-                ...styles.plusView,
-                backgroundColor: createAccoutState
-                  ? colorTutor_.topNavigationColor
-                  : colorTutor_.blue,
-              }}>
-              <Ionicons name={'add'} size={hp('3')} color="white" />
-            </TouchableOpacity>
           </View>
-
-          {createAccoutState ? (
-            <View>
+          <View style={styles.ViewContainer}>
+            <InformationTextView
+              text={'Your email address remains same for every child account'}
+            />
+            <View style={styles.createAcc}>
               <TextComp
-                text="First Name"
+                color={colorTutor_.TxtColor}
+                text={'Create child account'}
                 style={{
-                  marginLeft: wp('7'),
-                  color: colorTutor_.TxtColor,
-                  marginTop: hp('1'),
+                  marginLeft: wp('3'),
+                  marginBottom: hp('2'),
+                  fontSize: hp('2'),
                 }}
               />
-              <LoginInputComp
-                // value={fullNameState}
-                // onChangeText={fullNameState => {
-                //   updateState({fullNameState: fullNameState});
-                // }}
-                value={fir}
-                onChangeText={res => setFir(res)}
+              <TouchableOpacity
+                onPress={() => updateState({createAccoutState: true})}
                 style={{
-                  alignSelf: 'center',
-                  marginBottom: hp('1'),
-                  width: wp('90'),
-                }}
-                placeholder="First Name"
-              />
-              <TextComp
-                text="Last Name"
-                style={{
-                  marginLeft: wp('7'),
-                  color: colorTutor_.TxtColor,
-                  marginTop: hp('1'),
-                }}
-              />
-              <LoginInputComp
-                value={lastNameState}
-                onChangeText={lastNameState =>
-                  updateState({lastNameState: lastNameState})
-                }
-                style={{
-                  alignSelf: 'center',
-                  marginBottom: hp('1'),
-                  width: wp('90'),
-                }}
-                placeholder="Last Name"
-              />
-              <TextComp
-                text="Email"
-                style={{
-                  marginLeft: wp('7'),
-                  color: colorTutor_.TxtColor,
-                  marginTop: hp('1'),
-                }}
-              />
-              <LoginInputComp
-                value={emailState}
-                onChangeText={emailState =>
-                  updateState({emailState: emailState})
-                }
-                style={{
-                  alignSelf: 'center',
-                  marginBottom: hp('1'),
-                  width: wp('90'),
-                }}
-                placeholder="Email"
-              />
-              <TextComp
-                text="Password"
-                style={{
-                  marginLeft: wp('7'),
-                  color: colorTutor_.TxtColor,
-                  marginTop: hp('1'),
-                }}
-              />
-              <LoginInputComp
-                value={passwordState}
-                onChangeText={passwordState =>
-                  updateState({passwordState: passwordState})
-                }
-                style={{
-                  alignSelf: 'center',
-                  marginBottom: hp('1'),
-                  width: wp('90'),
-                }}
-                placeholder="Password"
-              />
-
-              <ButtonThemeComp
-                style={{
-                  ...styles.signBtn,
-                  marginTop: hp('2'),
-                  width: wp('95'),
-                  alignSelf: 'center',
-                }}
-                TextStyle={{fontSize: hp('2')}}
-                text={'Create Account'}
-                onPress={() => updateState({createAccoutState: false})}
-              />
+                  ...styles.plusView,
+                  backgroundColor: createAccoutState
+                    ? colorTutor_.topNavigationColor
+                    : colorTutor_.blue,
+                }}>
+                <Ionicons name={'add'} size={hp('3')} color="white" />
+              </TouchableOpacity>
             </View>
-          ) : (
-            getChildAccState.length > 0 && (
-              <FlatList
-                data={getChildAccState}
-                keyExtractor={(item, index) => index.toString()}
-                contentContainerStyle={{
-                  width: wp('95'),
-                  alignSelf: 'center',
-                  paddingBottom: hp('15'),
-                }}
-                renderItem={({item}) => {
-                  return (
-                    <Animatable.View animation="fadeInUp">
-                      <PendingReqComp
-                        isLoading={getChildAccLoading}
-                        tickStatus={false}
-                        data={{user: item}}
-                        changeIcon1={
-                          <MaterialIcons
-                            name={'delete'}
-                            size={hp('5')}
-                            color={'red'}
-                          />
-                        }
-                        changeIcon2={
-                          <Ionicons
-                            name={'settings'}
-                            size={hp('5')}
-                            color={colorTutor_.darkGreen}
-                          />
-                        }
-                      />
-                    </Animatable.View>
-                  );
-                }}
-              />
-            )
-          )}
-        </View>
+
+            {createAccoutState ? (
+              <View>
+                <TextComp
+                  text="First Name"
+                  style={{
+                    marginLeft: wp('7'),
+                    color: colorTutor_.TxtColor,
+                    marginTop: hp('1'),
+                  }}
+                />
+                <LoginInputComp
+                  value={fullNameState}
+                  onChangeText={e => {
+                    updateDetailsState({fullNameState: e});
+                  }}
+                  // value={fir}
+                  // onChangeText={res => setFir(res)}
+                  style={{
+                    alignSelf: 'center',
+                    marginBottom: hp('1'),
+                    width: wp('90'),
+                  }}
+                  placeholder="First Name"
+                />
+                <TextComp
+                  text="Last Name"
+                  style={{
+                    marginLeft: wp('7'),
+                    color: colorTutor_.TxtColor,
+                    marginTop: hp('1'),
+                  }}
+                />
+                <LoginInputComp
+                  value={lastNameState}
+                  onChangeText={lastNameState =>
+                    updateState({lastNameState: lastNameState})
+                  }
+                  style={{
+                    alignSelf: 'center',
+                    marginBottom: hp('1'),
+                    width: wp('90'),
+                  }}
+                  placeholder="Last Name"
+                />
+                <TextComp
+                  text="Email"
+                  style={{
+                    marginLeft: wp('7'),
+                    color: colorTutor_.TxtColor,
+                    marginTop: hp('1'),
+                  }}
+                />
+                <LoginInputComp
+                  value={emailState}
+                  onChangeText={emailState =>
+                    updateState({emailState: emailState})
+                  }
+                  style={{
+                    alignSelf: 'center',
+                    marginBottom: hp('1'),
+                    width: wp('90'),
+                  }}
+                  placeholder="Email"
+                />
+                <TextComp
+                  text="Password"
+                  style={{
+                    marginLeft: wp('7'),
+                    color: colorTutor_.TxtColor,
+                    marginTop: hp('1'),
+                  }}
+                />
+                <LoginInputComp
+                  value={passwordState}
+                  onChangeText={passwordState =>
+                    updateState({passwordState: passwordState})
+                  }
+                  style={{
+                    alignSelf: 'center',
+                    marginBottom: hp('1'),
+                    width: wp('90'),
+                  }}
+                  placeholder="Password"
+                />
+
+                <ButtonThemeComp
+                  style={{
+                    ...styles.signBtn,
+                    marginTop: hp('2'),
+                    width: wp('95'),
+                    alignSelf: 'center',
+                  }}
+                  TextStyle={{fontSize: hp('2')}}
+                  text={'Create Account'}
+                  onPress={() => updateState({createAccoutState: false})}
+                />
+              </View>
+            ) : (
+              getChildAccState.length > 0 && (
+                <FlatList
+                  data={getChildAccState}
+                  keyExtractor={(item, index) => index.toString()}
+                  contentContainerStyle={{
+                    width: wp('95'),
+                    alignSelf: 'center',
+                    paddingBottom: hp('15'),
+                  }}
+                  renderItem={({item}) => {
+                    return (
+                      <Animatable.View animation="fadeInUp">
+                        <PendingReqComp
+                          isLoading={getChildAccLoading}
+                          tickStatus={false}
+                          data={{user: item}}
+                          changeIcon1={
+                            <MaterialIcons
+                              name={'delete'}
+                              size={hp('5')}
+                              color={'red'}
+                            />
+                          }
+                          changeIcon2={
+                            <Ionicons
+                              name={'settings'}
+                              size={hp('5')}
+                              color={colorTutor_.darkGreen}
+                            />
+                          }
+                        />
+                      </Animatable.View>
+                    );
+                  }}
+                />
+              )
+            )}
+          </View>
+        </ScrollView>
       </Animatable.View>
     );
   };
