@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {FlatList, ScrollView, View} from 'react-native';
+import React, {useCallback, useEffect, useState} from 'react';
+import {FlatList, RefreshControl, ScrollView, View} from 'react-native';
 import {ClassesDetailView} from '../../../components/ClassesDetailView/ClassesDetailView';
 import HorizantalDetailComp from '../../../components/HorizantalDetailComp/HorizantalDetailComp';
 import {SearchbarHeader} from '../../../components/SearchBarHeaderComp/SearchbarHeader';
@@ -25,9 +25,7 @@ import {errorMessage} from '../../../config/NotificationMessage';
 import {errorHandler} from '../../../config/helperFunction';
 import {SkypeIndicator} from 'react-native-indicators';
 
-const MenteeMyClassesScreen = () => {
-  const data = [{}, {}, {}, {}];
-  const datum = [{}, {}, {}];
+const MenteeMyClassesScreen = ({navigation}) => {
   const {userData, token} = useSelector(state => state.userData);
   const dispatch = useDispatch();
   const [allStates, setAllStates] = useState({
@@ -42,6 +40,29 @@ const MenteeMyClassesScreen = () => {
   const {GetpendingclassLoading, GetapproveclassLoading} = allLoading;
 
   const {GetpendingclassState, GetApproveclassState} = allStates;
+  const [refreshing, setRefreshing] = useState(false);
+  const wait = timeout => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  };
+  const onRefresh = useCallback(() => {
+    updateLoadingState({
+      GetpendingclassLoading: true,
+    GetapproveclassLoading: true,
+    });
+    wait(2000).then(() => {
+      getApiData(
+        GetMenteePendingClass,
+        'GetpendingclassState',
+        'GetpendingclassLoading',
+      );
+      getApiData(
+        GetMenteeApproveClass,
+        'GetApproveclassState',
+        'GetapproveclassLoading',
+      );
+      setRefreshing(false);
+    });
+  }, []);
 
   const updateState = data => {
     setAllStates(prev => ({...prev, ...data}));
@@ -109,10 +130,14 @@ const MenteeMyClassesScreen = () => {
     <View style={styles.mainView}>
       <SearchbarHeader heart={true} />
       <ScrollView
+       refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
         contentContainerStyle={styles.scrollView}
         scrollEnabled
         showsVerticalScrollIndicator={false}>
-        <HorizantalDetailComp leftText={'My Classes'} icon={true} />
+        <HorizantalDetailComp leftText={'My Classes'} icon={true} 
+         onPress={()=>navigation.navigate('MenteeViewAllApproveClass')}/>
         {GetapproveclassLoading ? (
           <SkypeIndicator
             color={'white'}
@@ -147,7 +172,8 @@ const MenteeMyClassesScreen = () => {
           </View>
         )}
 
-        <HorizantalDetailComp leftText={'Pending Requests'} icon={true} />
+        <HorizantalDetailComp leftText={'Pending Requests'} icon={true}  
+        onPress={()=>navigation.navigate('MenteeViewAllPendingClass')}/>
         {GetpendingclassLoading ? (
           <SkypeIndicator
             color={'white'}

@@ -9,6 +9,12 @@ export const styles = StyleSheet.create({
        flex:1,
        backgroundColor:colorTutor_.ipalBlue
     },
+    cardimage:{
+      width:wp('6'),
+      height:hp('4'),
+      marginLeft:wp('2'),
+      resizeMode:'contain'
+    },
     secondmainView:{
         width:wp('100'),
         alignItems:'center',
@@ -43,6 +49,26 @@ export const styles = StyleSheet.create({
         position: 'absolute',
         zIndex: 1,
       },
+      modalbottommainView:{
+        flex: 1,
+        width: wp('100'),
+        height: hp('100'),
+        backgroundColor: 'rgba(0, 0, 0, 0.6)',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        position: 'absolute',
+        zIndex: 1,
+      },
+      modalbottamView:{
+        width: wp('100'),
+        height:hp('50'),
+        paddingVertical:hp('0.5'),
+        borderTopLeftRadius:10,
+        borderTopRightRadius:10,
+        backgroundColor: MentorColor.DividerGrey,
+        overflow: Platform.OS == 'ios' ? 'visible' : 'hidden',
+        zIndex: 1,
+      },
       modalInnerView: {
         width: wp('90'),
         borderRadius: 10,
@@ -56,6 +82,48 @@ export const styles = StyleSheet.create({
         marginTop: hp('1'),
         marginLeft: 'auto',
         marginRight: wp('2'),
+      },
+      stripecardnumber:{
+        flexDirection:'row',
+        alignItems:'center',
+        marginHorizontal:wp('3')
+      },
+      continue:{
+        backgroundColor:'red',
+        height:hp('5'),
+        margin:15,
+        justifyContent:'center',
+        alignItems:'center',
+        borderRadius:10,
+        width:wp('60'),
+        alignSelf:'center'
+      },
+      childcard:{
+        borderRadius:10,
+        marginLeft:wp('3'),
+        width:wp('20'),
+        alignItems:'center',
+        justifyContent:'center',
+        backgroundColor:'white',
+        height:hp('6')
+      },
+      childcvc:{
+        borderRadius:10,
+        marginLeft:wp('3'),
+        width:wp('35'),
+        fontSize:hp('2.2'),
+        backgroundColor:'white',
+        alignItems:'center',
+        height:hp('6'),
+        marginLeft:wp('10')
+      },
+      childcardname:{
+        fontSize:hp('2.2'),
+        backgroundColor:'white',
+        flex:1,
+        height:hp('6'),
+        borderRadius:10,
+        marginTop:hp('3')
       },
       modalSubjectView: {
         display: 'flex',

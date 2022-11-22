@@ -9,6 +9,7 @@ import {
   FlatList,
   ScrollView,
   Button,
+  TextInput,
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -57,6 +58,7 @@ const MenteeDtailedScreen = ({route}) => {
     GetMentorClassesLoading: false,
     isVisible: false,
     timeSlotButton: false,
+    isSubscriptionVisible:false,
     // GetapproveclassLoading: false,
   });
 
@@ -64,6 +66,7 @@ const MenteeDtailedScreen = ({route}) => {
     GetMentorClassesLoading,
     isVisible,
     timeSlotButton,
+    isSubscriptionVisible,
     // GetapproveclassLoading
   } = allLoading;
 
@@ -192,7 +195,7 @@ const MenteeDtailedScreen = ({route}) => {
         )
         .then(function (res) {
           // console.log("res",res.data);
-          updateLoadingState({isVisible: false});
+          updateLoadingState({isSubscriptionVisible: false});
           updateLoadingState({timeSlotButton: false});
           successMessage('Your Have Succefully Apply for Class');
         })
@@ -205,6 +208,100 @@ const MenteeDtailedScreen = ({route}) => {
       errorMessage('Please Select Days');
     }
   };
+
+const [numbervalue,setnumbervlaue]=useState({
+  number:'',
+  MM:'',
+  YY:'',
+  cvc:'',
+});
+
+  const ModalSubcriptionView = () =>{
+    const updateState = data => setnumbervlaue(() => ({...numbervalue, ...data}));
+    const {number,MM,YY,cvc} =numbervalue
+    const handleCardNumber = (text) => {
+      let formattedText = text.split(' ').join('');
+      if (formattedText.length > 0) {
+        formattedText = formattedText.match(new RegExp('.{1,4}', 'g')).join(' ');
+      }
+      updateState({number:formattedText})
+      // setnumbervlaue({ number: formattedText });
+      return formattedText;
+    }
+    return(
+      <View style={styles.modalbottommainView}>
+      <View style={styles.modalbottamView}>
+      <Entypo
+            name="circle-with-cross"
+            color={'gray'}
+            size={hp('3')}
+            onPress={() => {
+              updateLoadingState({
+                isSubscriptionVisible: false,
+              })
+            }}
+            style={styles.crowsIcon}
+          />
+          <Text style={{
+            fontSize:hp('3'),
+          color:'black',
+          marginHorizontal:wp('3')}}>Add Credit/Debit Card</Text>
+          <View style={styles.stripecardnumber}>
+          <TextInput
+          style={styles.childcardname}
+          placeholder='Enter Card Number'
+          maxLength={16}
+          keyboardType={"numeric"}
+          placeholderTextColor="grey"
+          value={number}
+          onChangeText={num=>handleCardNumber(num)}
+          />
+          </View>
+          <View style={{flexDirection:'row',margin:10,marginTop:hp('2')}}>
+           <View style={{flexDirection:'row'}}>
+            <View style={styles.childcard}>
+           <TextInput
+           style={{fontSize:hp('2')}}
+            placeholder='MM'
+            maxLength={2}
+            placeholderTextColor="grey"
+            keyboardType={"numeric"}
+            value={MM}
+            onChangeText={month=>updateState({MM:month})}
+            />
+            </View>
+            <View style={styles.childcard}>
+             <TextInput
+            style={{flex:1,fontSize:hp('2')}}
+            placeholder='YY'
+            maxLength={2}
+            placeholderTextColor="grey"
+            keyboardType={"numeric"}
+            value={YY}
+            onChangeText={year=>updateState({YY:year})}
+            />
+            </View>
+           </View>
+           <View style={styles.childcvc}>
+             <TextInput
+             style={{flex:1,fontSize:hp('2')}}
+            placeholder='CVC'
+            maxLength={4}
+            keyboardType={"numeric"}
+            value={cvc}
+            onChangeText={cvc=>updateState({cvc:cvc})}
+            />
+            </View>
+             
+          </View>
+         <TouchableOpacity style={styles.continue} onPress={()=>{applyForClass()}}>
+          <Text style={{color:'white',fontSize:hp('2.3')}}>Continue</Text>
+         </TouchableOpacity>
+
+      </View>
+      </View>
+    )
+  }
 
   const ModalView = () => {
     return (
@@ -280,8 +377,23 @@ const MenteeDtailedScreen = ({route}) => {
             </View>
             <ButtonThemeComp
               style={styles.getTimeButton}
-              text={'Apply For Class'}
-              onPress={() => applyForClass()}
+              text={'Apply For Subscription'}
+              onPress={() => {
+                updateLoadingState({isVisible: false});
+                if (scheduleArray.length > 0) {
+                 
+                updateLoadingState({isSubscriptionVisible: true});
+                // updateState({
+                //   scheduleArray: '',
+                //   timeSlot: null,
+                //   allTimeSlot: [],
+                // });
+              } else {
+                updateLoadingState({timeSlotButton: false});
+                errorMessage('Please Select Days');
+              }
+                // applyForClass()
+              }}
               isLoading={timeSlotButton}
             />
           </ScrollView>
@@ -378,6 +490,7 @@ const MenteeDtailedScreen = ({route}) => {
         )}
       </ScrollView>
       {isVisible && <ModalView />}
+      {isSubscriptionVisible && <ModalSubcriptionView/>}
     </View>
   );
 };

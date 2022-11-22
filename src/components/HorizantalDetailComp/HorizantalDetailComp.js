@@ -34,6 +34,7 @@ const HorizantalDetailComp = props => {
            <ButtonThemeComp 
            iconvisible={true}
            iconcolor={color.white}
+           onPress={props.onPress}
            style={{width:wp('40'), backgroundColor: MentorColor.MentorThemeFirst,borderRadius:22,height:hp('4.5')}}
            text={'View all classes'}/>
         :
