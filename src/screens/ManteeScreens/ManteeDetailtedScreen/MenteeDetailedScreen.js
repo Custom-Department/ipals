@@ -10,6 +10,8 @@ import {
   ScrollView,
   Button,
   TextInput,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -205,16 +207,7 @@ const MenteeDtailedScreen = ({route}) => {
     }
   };
 
-  const [numbervalue, setnumbervlaue] = useState({
-    number: '',
-    MM: '',
-    YY: '',
-    cvc: '',
-  });
-
   const ModalSubcriptionView = () => {
-    const updateState = data => setnumbervlaue(prev => ({...prev, ...data}));
-    const {number, MM, YY, cvc} = numbervalue;
     const handleCardNumber = text => {
       let formattedText = text.split(' ').join('');
       if (formattedText.length > 0) {
@@ -226,83 +219,100 @@ const MenteeDtailedScreen = ({route}) => {
       // setnumbervlaue({ number: formattedText });
       return formattedText;
     };
+    const [numbervalue, setnumbervlaue] = useState({
+      number: '',
+      MM: '',
+      YY: '',
+      cvc: '',
+    });
+    const [testnumber, settestnumber] = useState('');
+    const updateState = data =>
+      setnumbervlaue(() => ({...numbervalue, ...data}));
+    const {number, MM, YY, cvc} = numbervalue;
+
     return (
       <View style={styles.modalbottommainView}>
-        <View style={styles.modalbottamView}>
-          <Entypo
-            name="circle-with-cross"
-            color={'gray'}
-            size={hp('3')}
-            onPress={() => {
-              updateLoadingState({
-                isSubscriptionVisible: false,
-              });
-            }}
-            style={styles.crowsIcon}
-          />
-          <Text
-            style={{
-              fontSize: hp('3'),
-              color: 'black',
-              marginHorizontal: wp('3'),
-            }}>
-            Add Credit/Debit Card
-          </Text>
-          <View style={styles.stripecardnumber}>
-            <TextInput
-              style={styles.childcardname}
-              placeholder="Enter Card Number"
-              maxLength={16}
-              keyboardType={'numeric'}
-              placeholderTextColor="grey"
-              // value={number}
-              // onChangeText={num => handleCardNumber(num)}
+        <KeyboardAvoidingView
+          behavior={Platform.OS == 'ios' ? 'position' : 'height'}>
+          <View style={styles.modalbottamView}>
+            <Entypo
+              name="circle-with-cross"
+              color={'gray'}
+              size={hp('3')}
+              onPress={() => {
+                updateLoadingState({
+                  isSubscriptionVisible: false,
+                });
+              }}
+              style={styles.crowsIcon}
             />
-          </View>
-          <View style={{flexDirection: 'row', margin: 10, marginTop: hp('2')}}>
-            <View style={{flexDirection: 'row'}}>
-              <View style={styles.childcard}>
-                <TextInput
-                  style={{fontSize: hp('2')}}
-                  placeholder="MM"
-                  maxLength={2}
-                  placeholderTextColor="grey"
-                  keyboardType={'numeric'}
-                  value={MM}
-                  onChangeText={month => updateState({MM: month})}
-                />
-              </View>
-              <View style={styles.childcard}>
-                <TextInput
-                  style={{flex: 1, fontSize: hp('2')}}
-                  placeholder="YY"
-                  maxLength={2}
-                  placeholderTextColor="grey"
-                  keyboardType={'numeric'}
-                  value={YY}
-                  onChangeText={year => updateState({YY: year})}
-                />
-              </View>
-            </View>
-            <View style={styles.childcvc}>
+            <Text
+              style={{
+                fontSize: hp('3'),
+                color: 'black',
+                marginHorizontal: wp('3'),
+              }}>
+              Add Credit/Debit Card
+            </Text>
+            <View style={styles.stripecardnumber}>
               <TextInput
-                style={{flex: 1, fontSize: hp('2')}}
-                placeholder="CVC"
-                maxLength={4}
+                style={styles.childcardname}
+                placeholder="Enter Card Number"
+                maxLength={19}
                 keyboardType={'numeric'}
-                value={cvc}
-                onChangeText={cvc => updateState({cvc: cvc})}
+                placeholderTextColor="grey"
+                value={number}
+                onChangeText={num => handleCardNumber(num)}
               />
             </View>
+            <View
+              style={{flexDirection: 'row', margin: 10, marginTop: hp('2')}}>
+              <View style={{flexDirection: 'row'}}>
+                <View style={styles.childcard}>
+                  <TextInput
+                    style={{fontSize: hp('2')}}
+                    placeholder="MM"
+                    maxLength={2}
+                    placeholderTextColor="grey"
+                    keyboardType={'numeric'}
+                    value={MM}
+                    onChangeText={month => updateState({MM: month})}
+                  />
+                </View>
+                <View style={styles.childcard}>
+                  <TextInput
+                    style={{flex: 1, fontSize: hp('2')}}
+                    placeholder="YY"
+                    maxLength={2}
+                    placeholderTextColor="grey"
+                    keyboardType={'numeric'}
+                    value={YY}
+                    onChangeText={year => updateState({YY: year})}
+                  />
+                </View>
+              </View>
+              <View style={styles.childcvc}>
+                <TextInput
+                  style={{flex: 1, fontSize: hp('2')}}
+                  placeholder="CVC"
+                  maxLength={4}
+                  keyboardType={'numeric'}
+                  value={cvc}
+                  onChangeText={cvc => updateState({cvc: cvc})}
+                />
+              </View>
+            </View>
+            <TouchableOpacity
+              style={styles.continue}
+              onPress={() => {
+                applyForClass();
+              }}>
+              <Text style={{color: 'white', fontSize: hp('2.3')}}>
+                Continue
+              </Text>
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity
-            style={styles.continue}
-            onPress={() => {
-              applyForClass();
-            }}>
-            <Text style={{color: 'white', fontSize: hp('2.3')}}>Continue</Text>
-          </TouchableOpacity>
-        </View>
+        </KeyboardAvoidingView>
       </View>
     );
   };
@@ -383,8 +393,8 @@ const MenteeDtailedScreen = ({route}) => {
               style={styles.getTimeButton}
               text={'Apply For Subscription'}
               onPress={() => {
-                updateLoadingState({isVisible: false});
                 if (scheduleArray.length > 0) {
+                  updateLoadingState({isVisible: false});
                   updateLoadingState({isSubscriptionVisible: true});
                   // updateState({
                   //   scheduleArray: '',
@@ -395,7 +405,6 @@ const MenteeDtailedScreen = ({route}) => {
                   updateLoadingState({timeSlotButton: false});
                   errorMessage('Please Select Days');
                 }
-                // applyForClass()
               }}
               isLoading={timeSlotButton}
             />

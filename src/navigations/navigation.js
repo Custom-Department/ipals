@@ -91,6 +91,10 @@ export default function StackNavigatior() {
               name="MenteeAccountSettings"
               component={ManteeScreen.MenteeAccountSettings}
             />
+            <Stack.Screen
+              name="MentorChatScreen"
+              component={Mentor.MentorChatScreen}
+            />
           </>
         ) : userData?.user_type == 'mentor' ? (
           <>
@@ -167,8 +171,14 @@ export default function StackNavigatior() {
 
         <Stack.Screen name="MentorServices" component={Mentor.MentorServices} />
         <Stack.Screen name="MentorMessages" component={Mentor.MentorMessages} />
-        <Stack.Screen name="MenteeViewAllPendingClass" component={ManteeScreen.MenteeViewAllPendingclass} />
-        <Stack.Screen name="MenteeViewAllApproveClass" component={ManteeScreen.MenteeViewAllApproveClass} />
+        <Stack.Screen
+          name="MenteeViewAllPendingClass"
+          component={ManteeScreen.MenteeViewAllPendingclass}
+        />
+        <Stack.Screen
+          name="MenteeViewAllApproveClass"
+          component={ManteeScreen.MenteeViewAllApproveClass}
+        />
         {/* <Stack.Screen
           name="MentorSettingScreen"
           component={Mentor.MentorSettingScreen}
