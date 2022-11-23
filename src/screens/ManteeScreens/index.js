@@ -1,6 +1,7 @@
 import MentorProfileScreen from '../MentorScreens/MentorProfileScreen/MentorProfileScreen';
 import MenteeDtailedScreen from './ManteeDetailtedScreen/MenteeDetailedScreen';
 import MenteeAccountSettings from './MenteeAccountSettings/MenteeAccountSettings';
+import MenteeCreateChildAccount from './MenteeCreateChildAccount/MenteeCreateChildAccount';
 import MenteeDashboardScreen from './MenteeDashboardScreen/ManteeDashboardScreen';
 import MenteeMessagesScreen from './MenteeMessagesScreen/MenteeMessagesScreen';
 import MenteeMyClassesScreen from './MenteeMyCalssesScreen/MenteeMyClassesScreen';
@@ -13,4 +14,5 @@ export const ManteeScreen = {
   MenteeSettingScreen,
   MentorProfileScreen,
   MenteeAccountSettings,
+  MenteeCreateChildAccount,
 };

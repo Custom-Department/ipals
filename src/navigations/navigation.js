@@ -91,6 +91,10 @@ export default function StackNavigatior() {
               name="MenteeAccountSettings"
               component={ManteeScreen.MenteeAccountSettings}
             />
+            <Stack.Screen
+              name="MenteeCreateChildAccount"
+              component={ManteeScreen.MenteeCreateChildAccount}
+            />
           </>
         ) : userData?.user_type == 'mentor' ? (
           <>

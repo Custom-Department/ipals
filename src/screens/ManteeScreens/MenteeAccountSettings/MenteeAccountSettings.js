@@ -30,71 +30,22 @@ import {PendingReqComp} from '../../../components/PendingReqComp/PendingReqComp'
 import {styles} from './style';
 import {useEffect} from 'react';
 import axios from 'react-native-axios';
-import {MenteeAddUserUrl, MenteeGetUserUrl} from '../../../config/Urls';
+import {
+  MenteeAddUserUrl,
+  MenteeDelUserUrl,
+  MenteeGetUserUrl,
+} from '../../../config/Urls';
 import {useSelector} from 'react-redux';
-
-const MenteeAccountSettings = () => {
+import {
+  errorMessage,
+  successMessage,
+} from '../../../config/NotificationMessage';
+import {useIsFocused} from '@react-navigation/native';
+import {SkypeIndicator} from 'react-native-indicators';
+import {errorHandler} from '../../../config/helperFunction';
+const MenteeAccountSettings = ({navigation}) => {
   const {userData, token} = useSelector(state => state.userData);
-  const [fir, setFir] = useState('');
-  const [list, setList] = useState([
-    {
-      id: 0,
-      name: 'Freddy Mercury',
-      image: require('../../../image/profile.jpg'),
-      user: {
-        f_name: 'Daniel Martin',
-        l_name: 'Martin',
-      },
-    },
-    {
-      id: 1,
-      name: 'Freddy Mercury',
-      image: require('../../../image/profile.jpg'),
-      user: {
-        f_name: 'Daniel Martin',
-        l_name: 'Martin',
-      },
-    },
-    {
-      id: 2,
-      name: 'Freddy Mercury',
-      image: require('../../../image/profile.jpg'),
-      user: {
-        f_name: 'Daniel Martin',
-
-        l_name: 'Martin',
-      },
-    },
-    {
-      id: 3,
-      name: 'Freddy Mercury',
-      image: require('../../../image/profile.jpg'),
-      user: {
-        f_name: 'Daniel Martin',
-
-        l_name: 'Martin',
-      },
-    },
-    {
-      id: 4,
-      name: 'Freddy Mercury',
-      image: require('../../../image/profile.jpg'),
-      user: {
-        f_name: 'Daniel Martin',
-
-        l_name: 'Martin',
-      },
-    },
-    {
-      id: 5,
-      name: 'Freddy Mercury',
-      image: require('../../../image/profile.jpg'),
-      user: {
-        f_name: 'Daniel Martin',
-        l_name: 'Martin',
-      },
-    },
-  ]);
+  const isFocused = useIsFocused();
   const [stateChange, setStateChange] = useState({
     editState: false,
     accState: false,
@@ -145,11 +96,10 @@ const MenteeAccountSettings = () => {
       .get(url, {
         headers: {
           // Authorization: `Bearer ${token}`,
-          Authorization: `Bearer ${'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZGFmMTkxNTgyM2EyNzg3ZTZhNGE3NjAxYWI1YzM4YmI1MWQ2NjRhMGVhYjljNDQxYzJhZjA0NmYyNTQwNTJjOTBkODlmODBhZDg2MDZiMGYiLCJpYXQiOjE2Njg3OTQzMDUuNjExMjQ0LCJuYmYiOjE2Njg3OTQzMDUuNjExMjQ2LCJleHAiOjE3MDAzMzAzMDUuNjA5OTkzLCJzdWIiOiIzIiwic2NvcGVzIjpbXX0.2ScF3oE4_6I2y6WFF1ma9VfVDjTj51bH-H-WCQ4cgEMGv3KbMiYCTGuX97YRQyGQtP2DKSjyu-Ue--ovU-Jw2XxHqDguT2iUJPoSF_FgrLxoQ7OpFNK9IKmAY7f5CVoM_KGU-xtZ37CLjRQIgMvBGpgeLOfM0nI53_VJd8ybAb2D3IPwOs5lECczneIo0EzYJvL7tsOulltsFMZZhJ89zmF99UJ_Gmf0DLK1_ozBu-Rg2Mtt8kt92IcdpVXe6b8eC_vSEPSnSaDM6X0tHbhLgfOVasWrs0gBdFXmtx2hWUvFeSgGcNGF05FiGxj_0oa4HydSxEr65iOroq7WHMpIxWGgJVzSgqltS8RElIMqDRoq9K1zu2uVps_YhZvNk57x6tW5_-oFSaFYE-qLYnRGML_VTeOQsNbEL_W_VkT-lovDGFE3G3ODxj-HcF7mpYktFcTncsqDTdjya2C6QhMNQjw2NYKjmXPSgVf48GO0yUTkJezsjrr79vC2JOCo-eP63gLXLUITSupc2TzA3C3Ull3fpsF-nsPW-0Ih8yvgoGdZHDm9TIVOsRulwVftv0HW7kxIldYueYWUSqF7ZKZwWvv_YLdY0eUoaSWhi7bhwQaUays4Qty0-ZU2JyI4jonjgoCdUCIfnY5vkgXQ1-S57JOcxF2kb-bYXEuguArPgFM'}`,
+          Authorization: `Bearer ${token}`,
         },
       })
       .then(function (response) {
-        console.log(response.data);
         updateState({[state]: response.data.data});
         updateLoadingState({[loading]: false});
       })
@@ -158,33 +108,35 @@ const MenteeAccountSettings = () => {
         errorMessage(errorHandler(error));
       });
   };
-  const postApiData = (url, loading) => {
-    updateLoadingState({[loading]: true});
+  const updateStatus = (data, status) => {
+    updateLoadingState({pendingLoading: true});
+    let url = MenteeDelUserUrl + data?.data?.user?.id;
     let body = {
-      f_name: fullNameState,
-      l_name: lastNameState,
-      email: emailState,
-      password: passwordState,
+      status: status,
     };
+    console.log(108, url, data.data.user.id);
+
     axios
-      .post(url, body, {
+      .delete(url, {
         headers: {Authorization: `Bearer ${token}`},
       })
       .then(function (response) {
-        // updateState({[state]: response.data.data});
-        updateLoadingState({[loading]: false});
+        updateLoadingState({pendingLoading: false});
+        getApiData(MenteeGetUserUrl, 'getChildAccState', 'getChildAccLoading');
       })
       .catch(function (error) {
-        console.log(980, error);
-        updateLoadingState({[loading]: false});
+        updateLoadingState({pendingLoading: false});
         errorMessage(errorHandler(error));
       });
   };
   useEffect(() => {
     getApiData(MenteeGetUserUrl, 'getChildAccState', 'getChildAccLoading');
-    postApiData(MenteeAddUserUrl, 'postChildAccountLoading');
-  }, []);
-  console.log(144, fullNameState, lastNameState, emailState, passwordState);
+    if (isFocused) {
+      getApiData(MenteeGetUserUrl, 'getChildAccState', 'getChildAccLoading');
+    } else {
+      console.log('Screen is not focused');
+    }
+  }, [isFocused]);
 
   // const DeleteAccount = () => {
   //   return (
@@ -239,9 +191,7 @@ const MenteeAccountSettings = () => {
 
   const CreateChildAccount = () => {
     return (
-      <Animatable.View
-        // animation="fadeInRight"
-        style={styles.setContainer}>
+      <View animation="fadeInRight" style={styles.setContainer}>
         <View style={{flexDirection: 'row', marginLeft: wp('5')}}>
           <Ionicons
             style={styles.icon1}
@@ -279,7 +229,8 @@ const MenteeAccountSettings = () => {
               }}
             />
             <TouchableOpacity
-              onPress={() => updateState({createAccoutState: true})}
+              // onPress={() => updateState({createAccoutState: true})}
+              onPress={() => navigation.navigate('MenteeCreateChildAccount')}
               style={{
                 ...styles.plusView,
                 backgroundColor: createAccoutState
@@ -301,12 +252,10 @@ const MenteeAccountSettings = () => {
                 }}
               />
               <LoginInputComp
-                // value={fullNameState}
-                // onChangeText={fullNameState => {
-                //   updateState({fullNameState: fullNameState});
-                // }}
-                value={fir}
-                onChangeText={res => setFir(res)}
+                value={fullNameState}
+                onChangeText={fullNameState => {
+                  updateState({fullNameState: fullNameState});
+                }}
                 style={{
                   alignSelf: 'center',
                   marginBottom: hp('1'),
@@ -387,6 +336,22 @@ const MenteeAccountSettings = () => {
                 onPress={() => updateState({createAccoutState: false})}
               />
             </View>
+          ) : getChildAccLoading == true ? (
+            <View
+              style={{
+                height: hp('50'),
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <SkypeIndicator
+                color={'white'}
+                size={hp('4')}
+                style={{
+                  alignSelf: 'center',
+                  justifyContent: 'center',
+                }}
+              />
+            </View>
           ) : (
             getChildAccState.length > 0 && (
               <FlatList
@@ -395,15 +360,15 @@ const MenteeAccountSettings = () => {
                 contentContainerStyle={{
                   width: wp('95'),
                   alignSelf: 'center',
-                  paddingBottom: hp('15'),
+                  paddingBottom: hp('20'),
                 }}
                 renderItem={({item}) => {
                   return (
-                    <Animatable.View animation="fadeInUp">
+                    <View animation="fadeInUp">
                       <PendingReqComp
-                        isLoading={getChildAccLoading}
                         tickStatus={false}
                         data={{user: item}}
+                        onCancel={item => updateStatus(item, 'reject')}
                         changeIcon1={
                           <MaterialIcons
                             name={'delete'}
@@ -419,14 +384,14 @@ const MenteeAccountSettings = () => {
                           />
                         }
                       />
-                    </Animatable.View>
+                    </View>
                   );
                 }}
               />
             )
           )}
         </View>
-      </Animatable.View>
+      </View>
     );
   };
   return (

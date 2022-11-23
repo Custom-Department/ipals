@@ -66,8 +66,7 @@ const MenteeSettingScreen = ({navigation}) => {
             text={'Media/files'}
           />
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('MentorPaymentMethod')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Category')}>
           <SettingIconComp
             text={'Block user'}
             changeIcon={

@@ -68,6 +68,7 @@ export const LoginInputComp = props => {
         onBlur={props?.onBlur}
         autoCapitalize={props?.autoCapitalize}
       />
+
       <MaterialIcons
         onPress={props?.eyeIconPress}
         name={props?.eyeIconName}
