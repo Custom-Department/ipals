@@ -58,11 +58,7 @@ export const SearchbarHeader = props => {
             />
           )}
           <Feather
-            onPress={
-              props?.onPressSetting
-                ? props?.onPressSetting
-                : console.log('setting')
-            }
+            onPress={() => navigation.navigate('MenteeSettingScreen')}
             name={'menu'}
             size={hp('3')}
             color={color.white}

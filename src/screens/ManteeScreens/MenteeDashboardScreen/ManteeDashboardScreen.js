@@ -68,17 +68,7 @@ const MenteeDashboardScreen = ({navigation}) => {
         hidden={false}
         barStyle={Platform.OS == 'ios' ? 'dark-content' : 'default'}
       />
-      <SearchbarHeader
-        onPressSetting={() => {
-          navigation.navigate('MenteeSettingScreen');
-        }}
-        //    onPressSetting={() => {
-        //   dispatch({
-        //     type: types.LogoutType,
-        //   });
-        // }}
-        heart={true}
-      />
+      <SearchbarHeader heart={true}/>
 
       <ScrollView
         contentContainerStyle={styles.scrollView}
@@ -86,8 +76,9 @@ const MenteeDashboardScreen = ({navigation}) => {
         showsVerticalScrollIndicator={false}>
         <View style={styles.Emptydivider} />
         <HorizantalDetailComp
-          leftText={`   Languages`}
-          rightText={` view all category`}
+          dot={true}
+          leftText={`   Mentors`}
+          // rightText={` view all category`}
         />
          {/* {GetapproveclassLoading ? (
             <SkypeIndicator
