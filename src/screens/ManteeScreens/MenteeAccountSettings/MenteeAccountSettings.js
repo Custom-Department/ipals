@@ -116,10 +116,11 @@ const MenteeAccountSettings = () => {
     emailState: '',
     passwordState: '',
   });
+  const updateDetailsState = data => {
+    setChildDetail(() => ({...childDetails, ...data}));
+  };
   const {fullNameState, lastNameState, emailState, passwordState} =
     childDetails;
-  const updateDetailsState = data =>
-    setChildDetail(() => ({...childDetails, ...data}));
   const updateState = data => setStateChange(prev => ({...prev, ...data}));
   const {
     createAccoutState,
@@ -306,6 +307,7 @@ const MenteeAccountSettings = () => {
                   }}
                 />
                 <LoginInputComp
+                  placeholder="First Name"
                   value={fullNameState}
                   onChangeText={e => {
                     updateDetailsState({fullNameState: e});
@@ -317,7 +319,6 @@ const MenteeAccountSettings = () => {
                     marginBottom: hp('1'),
                     width: wp('90'),
                   }}
-                  placeholder="First Name"
                 />
                 <TextComp
                   text="Last Name"

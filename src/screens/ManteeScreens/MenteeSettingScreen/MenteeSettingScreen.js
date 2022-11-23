@@ -36,7 +36,6 @@ const MenteeSettingScreen = ({navigation}) => {
           text={'Settings'}
           style={styles.settingtxtView}
         />
-
         <TouchableOpacity
           onPress={() => navigation.navigate('MentorProfileScreen')}>
           <SettingIconComp
@@ -66,7 +65,7 @@ const MenteeSettingScreen = ({navigation}) => {
             text={'Media/files'}
           />
         </TouchableOpacity>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => navigation.navigate('MentorPaymentMethod')}>
           <SettingIconComp
             text={'Block user'}
@@ -83,7 +82,7 @@ const MenteeSettingScreen = ({navigation}) => {
           onPress={() => console.log('hellow')}
           name={'info'}
           text={'Report user'}
-        />
+        /> */}
         <TouchableOpacity
           onPress={() => {
             dispatch({

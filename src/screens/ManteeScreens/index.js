@@ -5,6 +5,8 @@ import MenteeDashboardScreen from './MenteeDashboardScreen/ManteeDashboardScreen
 import MenteeMessagesScreen from './MenteeMessagesScreen/MenteeMessagesScreen';
 import MenteeMyClassesScreen from './MenteeMyCalssesScreen/MenteeMyClassesScreen';
 import MenteeSettingScreen from './MenteeSettingScreen/MenteeSettingScreen';
+import MenteeViewAllPendingclass from './MenteeMyCalssesScreen/MenteeViewAllPendingClass';
+import MenteeViewAllApproveClass from './MenteeMyCalssesScreen/MenteeViewAllApproveClass';
 export const ManteeScreen = {
   MenteeDtailedScreen,
   MenteeDashboardScreen,
@@ -13,4 +15,6 @@ export const ManteeScreen = {
   MenteeSettingScreen,
   MentorProfileScreen,
   MenteeAccountSettings,
+  MenteeViewAllPendingclass,
+  MenteeViewAllApproveClass,
 };

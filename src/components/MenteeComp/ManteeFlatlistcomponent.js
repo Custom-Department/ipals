@@ -27,64 +27,6 @@ import {TextComp} from '../TextComponent';
 
 export const ManteeFlatlistcomponent = props => {
   const {user} = props?.data?.category ?? props?.data;
-  const data = [
-    {
-      id: 0,
-      image: require('../../image/profile.jpg'),
-      name: 'Sarah Martin',
-      clock: '9:00PM - 10:00PM',
-      subject: 'English',
-      timing: '1 hour',
-    },
-    {
-      id: 1,
-      image: require('../../image/profile.jpg'),
-      name: 'Sarah Martin',
-      clock: '9:00PM - 10:00PM',
-      subject: 'English',
-      timing: '1 hour',
-    },
-    {
-      id: 2,
-      image: require('../../image/profile.jpg'),
-      name: 'Sarah Martin',
-      clock: '9:00PM - 10:00PM',
-      subject: 'English',
-      timing: '1 hour',
-    },
-    {
-      id: 3,
-      image: require('../../image/profile.jpg'),
-      name: 'Sarah Martin',
-      clock: '9:00PM - 10:00PM',
-      subject: 'English',
-      timing: '1 hour',
-    },
-    {
-      id: 4,
-      image: require('../../image/profile.jpg'),
-      name: 'Sarah Martin',
-      clock: '9:00PM - 10:00PM',
-      subject: 'English',
-      timing: '1 hour',
-    },
-    {
-      id: 5,
-      image: require('../../image/profile.jpg'),
-      name: 'Sarah Martin',
-      clock: '9:00PM - 10:00PM',
-      subject: 'English',
-      timing: '1 hour',
-    },
-    {
-      id: 6,
-      image: require('../../image/profile.jpg'),
-      name: 'Sarah Martin',
-      clock: '9:00PM - 10:00PM',
-      subject: 'English',
-      timing: '1 hour',
-    },
-  ];
   const renderitem = ({item}) => {
     return (
       <TouchableOpacity
@@ -103,12 +45,13 @@ export const ManteeFlatlistcomponent = props => {
               source={{uri: item?.profileImageLink}}
             />
           )}
-          <View style={{width: wp('30')}}>
+          <View>
             <Text
-              style={{fontSize: hp('1.8'), fontWeight: 'bold', color: 'gray'}}>
+              style={{fontSize: hp('1.8'), color: 'gray', marginLeft: wp('3')}}>
               {item?.f_name + ' ' + item?.l_name}
             </Text>
-            <Text style={{fontSize: hp('1.5'), color: 'gray'}}>
+            <Text
+              style={{fontSize: hp('1.5'), color: 'gray', marginLeft: wp('3')}}>
               {item?.language}
             </Text>
           </View>
@@ -158,6 +101,7 @@ export const ManteeFlatlistcomponent = props => {
             size={hp('4')}
             color={MentorColor.MentorThemeFirst}
             style={{marginTop: hp('0.5')}}
+            // color={'grey'}
           />
         </View>
       </TouchableOpacity>
