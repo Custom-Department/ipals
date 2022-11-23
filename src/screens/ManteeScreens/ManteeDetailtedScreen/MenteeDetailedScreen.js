@@ -209,16 +209,9 @@ const MenteeDtailedScreen = ({route}) => {
     }
   };
 
-const [numbervalue,setnumbervlaue]=useState({
-  number:'',
-  MM:'',
-  YY:'',
-  cvc:'',
-});
+
 
   const ModalSubcriptionView = () =>{
-    const updateState = data => setnumbervlaue(() => ({...numbervalue, ...data}));
-    const {number,MM,YY,cvc} =numbervalue
     const handleCardNumber = (text) => {
       let formattedText = text.split(' ').join('');
       if (formattedText.length > 0) {
@@ -228,6 +221,16 @@ const [numbervalue,setnumbervlaue]=useState({
       // setnumbervlaue({ number: formattedText });
       return formattedText;
     }
+    const [numbervalue,setnumbervlaue]=useState({
+      number:'',
+      MM:'',
+      YY:'',
+      cvc:'',
+    });
+    const [testnumber,settestnumber]=useState("");
+    const updateState = data => setnumbervlaue(() => ({...numbervalue, ...data}));
+    const {number,MM,YY,cvc} =numbervalue
+    
     return(
       <View style={styles.modalbottommainView}>
       <View style={styles.modalbottamView}>
@@ -250,7 +253,7 @@ const [numbervalue,setnumbervlaue]=useState({
           <TextInput
           style={styles.childcardname}
           placeholder='Enter Card Number'
-          maxLength={16}
+          maxLength={19}
           keyboardType={"numeric"}
           placeholderTextColor="grey"
           value={number}
@@ -379,9 +382,9 @@ const [numbervalue,setnumbervlaue]=useState({
               style={styles.getTimeButton}
               text={'Apply For Subscription'}
               onPress={() => {
-                updateLoadingState({isVisible: false});
+                
                 if (scheduleArray.length > 0) {
-                 
+                updateLoadingState({isVisible: false});
                 updateLoadingState({isSubscriptionVisible: true});
                 // updateState({
                 //   scheduleArray: '',
@@ -392,7 +395,6 @@ const [numbervalue,setnumbervlaue]=useState({
                 updateLoadingState({timeSlotButton: false});
                 errorMessage('Please Select Days');
               }
-                // applyForClass()
               }}
               isLoading={timeSlotButton}
             />
