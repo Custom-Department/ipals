@@ -95,6 +95,10 @@ export default function StackNavigatior() {
               name="MentorChatScreen"
               component={Mentor.MentorChatScreen}
             />
+            <Stack.Screen
+              name="MenteeCreateChildAccount"
+              component={ManteeScreen.MenteeCreateChildAccount}
+            />
           </>
         ) : userData?.user_type == 'mentor' ? (
           <>
