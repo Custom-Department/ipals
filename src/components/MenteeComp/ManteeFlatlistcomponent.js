@@ -47,7 +47,13 @@ export const ManteeFlatlistcomponent = props => {
           )}
           <View>
             <Text
-              style={{fontSize: hp('1.8'), color: 'gray', marginLeft: wp('3')}}>
+              numberOfLines={1}
+              style={{
+                fontSize: hp('1.8'),
+                color: 'gray',
+                marginLeft: wp('3'),
+                width: wp('28'),
+              }}>
               {item?.f_name + ' ' + item?.l_name}
             </Text>
             <Text

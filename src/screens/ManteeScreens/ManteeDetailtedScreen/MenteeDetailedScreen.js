@@ -17,7 +17,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {color, colorTutor_} from '../../../config/color';
+import {color, colorTutor_,MentorColor} from '../../../config/color';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -41,6 +41,7 @@ import {
   successMessage,
 } from '../../../config/NotificationMessage';
 import {errorHandler} from '../../../config/helperFunction';
+import InformationTextView from '../../../components/InformationTextView/InformationTextView';
 
 const MenteeDtailedScreen = ({route}) => {
   const item = route.params;
@@ -482,7 +483,7 @@ const MenteeDtailedScreen = ({route}) => {
               marginVertical: hp('10'),
             }}
           />
-        ) : (
+        ) : GetMentorClassesState.length > 0 ?(
           <FlatList
             data={GetMentorClassesState}
             scrollEnabled={false}
@@ -497,6 +498,18 @@ const MenteeDtailedScreen = ({route}) => {
               return <RenderCard data={item} />;
             }}
           />
+        ): (
+          <View style={styles.createClassView}>
+            <InformationTextView
+              iconcolor={MentorColor.MentorThemeFirst}
+              style={{
+                width: wp('85'),
+                backgroundColor: MentorColor.MentorLightTheme,
+              }}
+              textColor={MentorColor.MentorThemeFirst}
+              text={'No Schedule Classes'}
+            />
+          </View>
         )}
       </ScrollView>
       {isVisible && <ModalView />}

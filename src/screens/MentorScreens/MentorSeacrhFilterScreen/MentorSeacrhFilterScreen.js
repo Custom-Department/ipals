@@ -110,7 +110,7 @@ const MentorSeacrhFilterScreen = ({navigation}) => {
         flex: 1,
       }}>
       <BackHeaderComponent heading={'Search Filter'} />
-      <ScrollView contentContainerStyle={{flex: 1}}>
+      <ScrollView contentContainerStyle={{flex: 1,paddingTop:hp('2')}}>
         <LoginInputComp
           value={fullName}
           onChangeText={e => {
