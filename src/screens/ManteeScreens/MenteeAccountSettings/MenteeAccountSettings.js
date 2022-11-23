@@ -114,7 +114,7 @@ const MenteeAccountSettings = ({navigation}) => {
     let body = {
       status: status,
     };
-    console.log(108, url, data.data.user.id);
+    console.log(108, token, data.data.user.id);
 
     axios
       .delete(url, {

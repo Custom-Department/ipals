@@ -35,6 +35,7 @@ import axios from 'react-native-axios';
 import {
   GetCategoryUrl,
   GetCourseUrl,
+  MenteeUpdateProfileUrl,
   UpdateProfileUrl,
 } from '../../../config/Urls';
 import {useEffect} from 'react';
@@ -118,35 +119,37 @@ const MentorProfileScreen = ({navigation}) => {
 
   const updateProfileFunc = () => {
     updateState({isLoading: true});
-    if (activities.length > 0) {
-      activities.map(res => {
-        return idSubjectArray.push(res?.id);
-      });
-    } else {
-      userData?.course?.map(res => {
-        return idSubjectArray.push(res?.id);
-      });
-    }
+    // if (activities.length > 0) {
+    //   activities.map(res => {
+    //     return idSubjectArray.push(res?.id);
+    //   });
+    // } else {
+    //   userData?.course?.map(res => {
+    //     return idSubjectArray.push(res?.id);
+    //   });
+    // }
 
     if (BioData != null && BioData != '') {
       var bodyFormData = new FormData();
 
-      bodyFormData.append('profile_image', {
-        name: userImage[0]?.fileName,
-        uri: userImage[0]?.uri,
-        type: userImage[0]?.type,
-      });
+      userImage.length > 0 &&
+        bodyFormData.append('profile_image', {
+          name: userImage[0]?.fileName,
+          uri: userImage[0]?.uri,
+          type: userImage[0]?.type,
+        });
       bodyFormData.append('bio', BioData);
-      bodyFormData.append('course_id', [1]);
-      console.log(34, bodyFormData);
+      // bodyFormData.append('course_id', [1]);
+      console.log(34, MenteeUpdateProfileUrl, bodyFormData);
       axios
-        .post(UpdateProfileUrl, bodyFormData, {
+        .post(MenteeUpdateProfileUrl, bodyFormData, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'multipart/form-data',
           },
         })
         .then(res => {
+          console.log(151, res);
           updateState({isLoading: false});
           dispatch({
             type: types.UpdateProfile,
@@ -244,6 +247,7 @@ const MentorProfileScreen = ({navigation}) => {
       },
     );
   };
+
   return (
     <>
       <View style={{flex: 1, backgroundColor: colorTutor_.ipalBlue}}>
@@ -327,20 +331,22 @@ const MentorProfileScreen = ({navigation}) => {
                   );
                 })}
 
-            <TouchableOpacity
-              onPress={() => {
-                updateState({isVisible: true});
-              }}
-              style={{
-                ...styles.subView,
-                marginLeft: wp('2'),
-                backgroundColor: colorTutor_.blue,
-              }}>
-              <TextComp
-                text="Add Category"
-                style={{fontSize: hp('1.3'), color: 'white'}}
-              />
-            </TouchableOpacity>
+            {userData.user_type == 'mentor' && (
+              <TouchableOpacity
+                onPress={() => {
+                  updateState({isVisible: true});
+                }}
+                style={{
+                  ...styles.subView,
+                  marginLeft: wp('2'),
+                  backgroundColor: colorTutor_.blue,
+                }}>
+                <TextComp
+                  text="Add Category"
+                  style={{fontSize: hp('1.3'), color: 'white'}}
+                />
+              </TouchableOpacity>
+            )}
           </View>
           <LoginInputComp
             placeholder={'About Yourself'}

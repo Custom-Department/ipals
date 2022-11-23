@@ -116,11 +116,12 @@ const ProfileScreen = ({navigation}) => {
     if (BioData != null && BioData != '') {
       var bodyFormData = new FormData();
 
-      bodyFormData.append('profile_image', {
-        name: userImage[0]?.fileName,
-        uri: userImage[0]?.uri,
-        type: userImage[0]?.type,
-      });
+      userImage.length > 0 &&
+        bodyFormData.append('profile_image', {
+          name: userImage[0]?.fileName,
+          uri: userImage[0]?.uri,
+          type: userImage[0]?.type,
+        });
       bodyFormData.append('bio', BioData);
       bodyFormData.append('course_id', [1]);
       console.log(34, bodyFormData);
