@@ -75,6 +75,8 @@ function MenteebottomTabs() {
             color: 'white',
             borderRadius: 50,
             marginLeft: wp('13'),
+            width: wp('25'),
+            // backgroundColor: 'red',
             // ...globalStyles.globalTextStyles3,
           },
         }}
@@ -118,7 +120,7 @@ function MenteebottomTabs() {
             fontSize: hp('2'),
             marginBottom: Platform.OS == 'android' ? hp('1.5') : hp('0'),
             color: 'white',
-
+            width: wp('20'),
             // ...globalStyles.globalTextStyles3,
           },
         }}
@@ -159,6 +161,7 @@ function MenteebottomTabs() {
             marginBottom: Platform.OS == 'android' ? hp('1.5') : hp('0'),
             marginRight: wp('12'),
             color: 'white',
+            width: wp('25'),
             // ...globalStyles.globalTextStyles3,
           },
         }}

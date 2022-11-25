@@ -250,10 +250,10 @@ const MentorDashboardScreen = ({navigation}) => {
         contentContainerStyle={styles.MainScroll}>
         <View style={styles.MainView}>
           <HorizantalDetailComp
-            leftText={`   My classes`}
+            leftText={`   Approved request`}
             dot={true}
-            line={true}
-            rightText={` view all classes`}
+            // line={true}
+            // rightText={` view all classes`}
           />
           {acceptLoading ? (
             <SkypeIndicator
@@ -295,8 +295,8 @@ const MentorDashboardScreen = ({navigation}) => {
           <HorizantalDetailComp
             leftText={`   Pending requests`}
             dot={true}
-            line={true}
-            rightText={` view all classes`}
+            // line={true}
+            // rightText={` view all classes`}
           />
           {pendingLoading ? (
             <SkypeIndicator
@@ -334,8 +334,8 @@ const MentorDashboardScreen = ({navigation}) => {
           <HorizantalDetailComp
             leftText={`   Your Subcription`}
             dot={true}
-            line={true}
-            rightText={` view all plans`}
+            // line={true}
+            // rightText={` view all plans`}
           />
 
           {/* {subcriptionState.length > 0 ? (

@@ -75,7 +75,7 @@ function MybottomTabs() {
             color: 'white',
             borderRadius: 50,
             marginLeft: wp('13'),
-
+            width: wp('20'),
             // ...globalStyles.globalTextStyles3,
           },
         }}
@@ -119,6 +119,7 @@ function MybottomTabs() {
             fontSize: hp('2'),
             marginBottom: Platform.OS == 'android' ? hp('1.5') : hp('0'),
             color: 'white',
+            width: wp('20'),
 
             // ...globalStyles.globalTextStyles3,
           },
@@ -160,6 +161,7 @@ function MybottomTabs() {
             marginBottom: Platform.OS == 'android' ? hp('1.5') : hp('0'),
             marginRight: wp('12'),
             color: 'white',
+            width: wp('20'),
             // ...globalStyles.globalTextStyles3,
           },
         }}
