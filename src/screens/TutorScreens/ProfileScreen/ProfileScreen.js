@@ -106,7 +106,8 @@ const ProfileScreen = ({navigation}) => {
           type: userImage[0]?.type,
         });
       bodyFormData.append('bio', BioData);
-      bodyFormData.append('course_id', [idSubjectArray]);
+      userData.user_type == 'student' &&
+        bodyFormData.append('course_id', [idSubjectArray]);
       console.log(34, bodyFormData, idSubjectArray);
       axios
         .post(UpdateProfileUrl, bodyFormData, {
