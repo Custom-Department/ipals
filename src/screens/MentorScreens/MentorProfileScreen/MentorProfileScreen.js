@@ -36,6 +36,7 @@ import {
   GetCategoryUrl,
   GetCourseUrl,
   MenteeUpdateProfileUrl,
+  MentorUpdateProfileUrl,
   UpdateProfileUrl,
 } from '../../../config/Urls';
 import {useEffect} from 'react';
@@ -50,7 +51,6 @@ import SocialComp from '../../../components/SocialComp/SocialComp';
 
 const MentorProfileScreen = ({navigation}) => {
   const {userData, token} = useSelector(state => state.userData);
-
   const dispatch = useDispatch();
   const [stateChange, setStateChange] = useState({
     editState: false,
@@ -63,26 +63,22 @@ const MentorProfileScreen = ({navigation}) => {
     userImage: [],
     subjectModelLoader: false,
     subjectModelList: [],
-    activities: [],
+    activities: userData.category.length > 0 ? [...userData.category] : [],
     idSubjectArray: [],
     isVisible: false,
   });
+
   const updateState = data => setStateChange(prev => ({...prev, ...data}));
   const {
-    editState,
-    accState,
-    createAccoutState,
-    childAccState,
-    deleteAccState,
     BioData,
     isLoading,
     userImage,
-    subjectModelLoader,
     subjectModelList,
     activities,
     idSubjectArray,
     isVisible,
   } = stateChange;
+
   const urlList = {
     mentor: GetCategoryUrl,
     mentee: GetCategoryUrl,
@@ -119,15 +115,12 @@ const MentorProfileScreen = ({navigation}) => {
 
   const updateProfileFunc = () => {
     updateState({isLoading: true});
-    // if (activities.length > 0) {
-    //   activities.map(res => {
-    //     return idSubjectArray.push(res?.id);
-    //   });
-    // } else {
-    //   userData?.course?.map(res => {
-    //     return idSubjectArray.push(res?.id);
-    //   });
-    // }
+
+    if (activities.length > 0) {
+      activities.map(res => {
+        return idSubjectArray.push(res?.id);
+      });
+    }
 
     if (BioData != null && BioData != '') {
       var bodyFormData = new FormData();
@@ -139,17 +132,22 @@ const MentorProfileScreen = ({navigation}) => {
           type: userImage[0]?.type,
         });
       bodyFormData.append('bio', BioData);
-      // bodyFormData.append('course_id', [1]);
-      console.log(34, MenteeUpdateProfileUrl, bodyFormData);
+      bodyFormData.append('category_id', [idSubjectArray]);
+      console.log(152, bodyFormData);
       axios
-        .post(MenteeUpdateProfileUrl, bodyFormData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data',
+        .post(
+          userData.user_type == 'mentee'
+            ? MenteeUpdateProfileUrl
+            : MentorUpdateProfileUrl,
+          bodyFormData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'multipart/form-data',
+            },
           },
-        })
+        )
         .then(res => {
-          console.log(151, res);
           updateState({isLoading: false});
           dispatch({
             type: types.UpdateProfile,
@@ -175,30 +173,35 @@ const MentorProfileScreen = ({navigation}) => {
             <View style={styles.daysView}>
               {subjectModelList.length > 0
                 ? subjectModelList.map((res, i) => {
+                    console.log(188, res, i);
                     return (
                       <>
                         <TouchableOpacity
                           onPress={() => selectActivities(res, i)}
                           style={{
                             ...styles.activitiesContainer,
-                            backgroundColor: activities.includes(res)
-                              ? color.lightPurple
-                              : 'white',
-                            borderColor: activities.includes(res)
-                              ? color.orderBoxColor
-                              : 'black',
-                            borderWidth: activities.includes(res) ? 2 : 1,
+                            backgroundColor:
+                              activities[i]?.id == res?.id
+                                ? color.lightPurple
+                                : 'white',
+                            borderColor:
+                              activities[i]?.id == res?.id
+                                ? color.orderBoxColor
+                                : 'black',
+                            borderWidth: activities[i]?.id == res?.id ? 2 : 1,
                           }}>
                           <TextComp
                             text={res?.title}
                             style={{
                               textAlign: 'center',
-                              color: activities.includes(res)
-                                ? color.orderBoxColor
-                                : 'black',
-                              fontWeight: activities.includes(res)
-                                ? 'bold'
-                                : 'normal',
+                              color:
+                                activities[i]?.id == res?.id
+                                  ? color.orderBoxColor
+                                  : 'black',
+                              fontWeight:
+                                activities[i]?.id == res?.id
+                                  ? 'bold'
+                                  : 'normal',
                               fontSize: hp('1.5'),
                             }}
                           />
@@ -223,7 +226,7 @@ const MentorProfileScreen = ({navigation}) => {
     );
   };
   const selectActivities = (v, i) => {
-    if (activities.includes(v)) {
+    if (activities[i]?.id == v?.id) {
       updateState({
         activities: activities.filter(activities => activities.id !== v.id),
       });
@@ -252,7 +255,6 @@ const MentorProfileScreen = ({navigation}) => {
     <>
       <View style={{flex: 1, backgroundColor: colorTutor_.ipalBlue}}>
         <BackHeaderComponent
-          // style={{backgroundColor: MentorColor.MentorThemeFirst}}
           heading={'Profile Screen'}
           data={true}
           bellOnPress={() => console.log('bell')}
@@ -301,35 +303,36 @@ const MentorProfileScreen = ({navigation}) => {
               flexWrap: 'wrap',
               display: 'flex',
             }}>
-            {activities.length > 0
-              ? activities?.map(res => {
-                  return (
-                    <View style={styles.subView}>
-                      <TextComp
-                        text={res?.title}
-                        style={{
-                          fontSize: hp('1.3'),
-                          textAlign: 'center',
-                          color: 'white',
-                        }}
-                      />
-                    </View>
-                  );
-                })
-              : userData?.course?.map(res => {
-                  return (
-                    <View style={styles.subView}>
-                      <TextComp
-                        text={res?.title}
-                        style={{
-                          fontSize: hp('1.3'),
-                          textAlign: 'center',
-                          color: 'white',
-                        }}
-                      />
-                    </View>
-                  );
-                })}
+            {activities.length > 0 && // ? activities?.map(res => {
+              //     console.log(313, res);
+              //     return (
+              //       <View style={styles.subView}>
+              //         <TextComp
+              //           text={res?.title}
+              //           style={{
+              //             fontSize: hp('1.3'),
+              //             textAlign: 'center',
+              //             color: 'white',
+              //           }}
+              //         />
+              //       </View>
+              //     );
+              //   })
+              // :
+              activities?.map(res => {
+                return (
+                  <View style={styles.subView}>
+                    <TextComp
+                      text={res?.title}
+                      style={{
+                        fontSize: hp('1.3'),
+                        textAlign: 'center',
+                        color: 'white',
+                      }}
+                    />
+                  </View>
+                );
+              })}
 
             {userData.user_type == 'mentor' && (
               <TouchableOpacity

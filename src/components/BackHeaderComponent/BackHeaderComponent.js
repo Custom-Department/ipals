@@ -15,13 +15,12 @@ export const BackHeaderComponent = props => {
   const {userData} = useSelector(state => state.userData);
 
   const navigation = useNavigation();
-  const backgroundColor = props?.backgroundColor ?? colorTutor_.lightBlue;
 
   let statusValue = {
     mentor: MentorColor.MentorThemeFirst,
     mentee: MentorColor.MentorThemeFirst,
-    tutor: colorTutor_.lightBlue,
-    tutee: colorTutor_.lightBlue,
+    teacher: colorTutor_.lightBlue,
+    student: colorTutor_.lightBlue,
   };
   const checkStatusValue = status => {
     return statusValue[status];

@@ -84,7 +84,7 @@ const MentorMessages = ({navigation}) => {
       }}>
       <SearchbarHeader
         onPressSetting={() => navigation.navigate('MentorSettingScreen')}
-        heart={true}
+        // heart={true}
       />
 
       <ScrollView

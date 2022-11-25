@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
   MainScroll: {
     // flex: 1,
     backgroundColor: colorTutor_.topNavigationColor,
-    paddingBottom: hp('20'),
+    paddingBottom: hp('5'),
     marginTop: hp('2'),
   },
 });

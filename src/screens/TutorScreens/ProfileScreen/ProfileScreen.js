@@ -43,35 +43,23 @@ import {errorHandler} from '../../../config/helperFunction';
 import types from '../../../Redux/types';
 
 const ProfileScreen = ({navigation}) => {
+  console.log('Profile');
   const {userData, token} = useSelector(state => state.userData);
-
   const dispatch = useDispatch();
   const [stateChange, setStateChange] = useState({
-    editState: false,
-    accState: false,
-    createAccoutState: false,
-    childAccState: false,
-    deleteAccState: false,
     BioData: userData?.bio,
     isLoading: false,
     userImage: [],
-    subjectModelLoader: false,
     subjectModelList: [],
-    activities: [],
+    activities: userData.course.length > 0 ? [...userData.course] : [],
     idSubjectArray: [],
     isVisible: false,
   });
   const updateState = data => setStateChange(prev => ({...prev, ...data}));
   const {
-    editState,
-    accState,
-    createAccoutState,
-    childAccState,
-    deleteAccState,
     BioData,
     isLoading,
     userImage,
-    subjectModelLoader,
     subjectModelList,
     activities,
     idSubjectArray,
@@ -107,12 +95,7 @@ const ProfileScreen = ({navigation}) => {
       activities.map(res => {
         return idSubjectArray.push(res?.id);
       });
-    } else {
-      userData?.course?.map(res => {
-        return idSubjectArray.push(res?.id);
-      });
     }
-
     if (BioData != null && BioData != '') {
       var bodyFormData = new FormData();
 
@@ -123,8 +106,8 @@ const ProfileScreen = ({navigation}) => {
           type: userImage[0]?.type,
         });
       bodyFormData.append('bio', BioData);
-      bodyFormData.append('course_id', [1]);
-      console.log(34, bodyFormData);
+      bodyFormData.append('course_id', [idSubjectArray]);
+      console.log(34, bodyFormData, idSubjectArray);
       axios
         .post(UpdateProfileUrl, bodyFormData, {
           headers: {
@@ -166,24 +149,28 @@ const ProfileScreen = ({navigation}) => {
                           onPress={() => selectActivities(res, i)}
                           style={{
                             ...styles.activitiesContainer,
-                            backgroundColor: activities.includes(res)
-                              ? color.lightPurple
-                              : 'white',
-                            borderColor: activities.includes(res)
-                              ? color.orderBoxColor
-                              : 'black',
-                            borderWidth: activities.includes(res) ? 2 : 1,
+                            backgroundColor:
+                              activities[i]?.id == res?.id
+                                ? color.lightPurple
+                                : 'white',
+                            borderColor:
+                              activities[i]?.id == res?.id
+                                ? color.orderBoxColor
+                                : 'black',
+                            borderWidth: activities[i]?.id == res?.id ? 2 : 1,
                           }}>
                           <TextComp
                             text={res?.title}
                             style={{
                               textAlign: 'center',
-                              color: activities.includes(res)
-                                ? color.orderBoxColor
-                                : 'black',
-                              fontWeight: activities.includes(res)
-                                ? 'bold'
-                                : 'normal',
+                              color:
+                                activities[i]?.id == res?.id
+                                  ? color.orderBoxColor
+                                  : 'black',
+                              fontWeight:
+                                activities[i]?.id == res?.id
+                                  ? 'bold'
+                                  : 'normal',
                               fontSize: hp('1.5'),
                             }}
                           />
@@ -208,7 +195,7 @@ const ProfileScreen = ({navigation}) => {
     );
   };
   const selectActivities = (v, i) => {
-    if (activities.includes(v)) {
+    if (activities[i]?.id == v?.id) {
       updateState({
         activities: activities.filter(activities => activities.id !== v.id),
       });
@@ -284,64 +271,38 @@ const ProfileScreen = ({navigation}) => {
               flexWrap: 'wrap',
               display: 'flex',
             }}>
-            {activities.length > 0
-              ? activities?.map(res => {
-                  return (
-                    <View style={styles.subView}>
-                      <TextComp
-                        text={res?.title}
-                        style={{
-                          fontSize: hp('1.3'),
-                          textAlign: 'center',
-                          color: 'white',
-                        }}
-                      />
-                    </View>
-                  );
-                })
-              : userData?.course?.map(res => {
-                  return (
-                    <View style={styles.subView}>
-                      <TextComp
-                        text={res?.title}
-                        style={{
-                          fontSize: hp('1.3'),
-                          textAlign: 'center',
-                          color: 'white',
-                        }}
-                      />
-                    </View>
-                  );
-                })}
-
-            {/* { activities.length>0?activities?.map: userData?.user?.course?.map (res =>{
-          return(
-            <View style={styles.subView}>
-            <TextComp
-              text={res?.title}
-              style={{
-                fontSize: hp('1.3'),
-                textAlign: 'center',
-                color: 'white',
-              }}
-            />
-          </View>
-          )
-        })} */}
-            <TouchableOpacity
-              onPress={() => {
-                updateState({isVisible: true});
-              }}
-              style={{
-                ...styles.subView,
-                marginLeft: wp('2'),
-                backgroundColor: colorTutor_.blue,
-              }}>
-              <TextComp
-                text="Add Subject"
-                style={{fontSize: hp('1.3'), color: 'white'}}
-              />
-            </TouchableOpacity>
+            {userData?.user_type == 'teacher' &&
+              activities.length > 0 &&
+              activities?.map(res => {
+                return (
+                  <View style={styles.subView}>
+                    <TextComp
+                      text={res?.title}
+                      style={{
+                        fontSize: hp('1.3'),
+                        textAlign: 'center',
+                        color: 'white',
+                      }}
+                    />
+                  </View>
+                );
+              })}
+            {userData?.user_type == 'teacher' && (
+              <TouchableOpacity
+                onPress={() => {
+                  updateState({isVisible: true});
+                }}
+                style={{
+                  ...styles.subView,
+                  marginLeft: wp('2'),
+                  backgroundColor: colorTutor_.blue,
+                }}>
+                <TextComp
+                  text="Add Subject"
+                  style={{fontSize: hp('1.3'), color: 'white'}}
+                />
+              </TouchableOpacity>
+            )}
           </View>
           <LoginInputComp
             placeholder={'About Yourself'}

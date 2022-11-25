@@ -63,7 +63,7 @@ const MenteeDashboardScreen = ({navigation}) => {
         hidden={false}
         barStyle={Platform.OS == 'ios' ? 'dark-content' : 'default'}
       />
-      <SearchbarHeader heart={true} />
+      <SearchbarHeader />
 
       <ScrollView
         contentContainerStyle={styles.scrollView}
