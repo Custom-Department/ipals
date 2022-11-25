@@ -221,20 +221,20 @@ const MenteeDtailedScreen = ({route}) => {
       return formattedText;
     };
     const [numbervalue, setnumbervlaue] = useState({
+      name:'',
       number: '',
       MM: '',
       YY: '',
       cvc: '',
     });
-    const [testnumber, settestnumber] = useState('');
     const updateState = data =>
       setnumbervlaue(() => ({...numbervalue, ...data}));
-    const {number, MM, YY, cvc} = numbervalue;
+    const {name,number, MM, YY, cvc} = numbervalue;
 
     return (
       <View style={styles.modalbottommainView}>
         <KeyboardAvoidingView
-          behavior={Platform.OS == 'ios' ? 'position' : 'height'}>
+          behavior={Platform.OS == 'ios' ? 'position' : 'padding'}>
           <View style={styles.modalbottamView}>
             <Entypo
               name="circle-with-cross"
@@ -255,6 +255,16 @@ const MenteeDtailedScreen = ({route}) => {
               }}>
               Add Credit/Debit Card
             </Text>
+            <View style={styles.stripecardnumber}>
+              <TextInput
+                style={styles.childcardname}
+                placeholder="Enter Your Full Name"
+                placeholderTextColor="grey"
+                value={name}
+                onChangeText={fname => updateState({name:fname})}
+              />
+            </View>
+
             <View style={styles.stripecardnumber}>
               <TextInput
                 style={styles.childcardname}
@@ -306,7 +316,23 @@ const MenteeDtailedScreen = ({route}) => {
             <TouchableOpacity
               style={styles.continue}
               onPress={() => {
-                applyForClass();
+              numbervalue.name === ''?(
+              errorMessage('Please Fill Name Field')):
+              numbervalue.number === ''?(
+                errorMessage('Please Fill Number Field')
+              ):
+              numbervalue.MM === ''?(
+                errorMessage('Please Fill Month Field')
+              ): numbervalue.YY === ''?(
+                errorMessage('Please Fill Year Field')
+              ):numbervalue.cvc === ''?(
+                errorMessage('Please Fill Cvc Field')
+              ):
+              numbervalue.number.length < 14?(
+                errorMessage('Please Fill Max length')
+              ):
+              // applyForClass();
+                console.log("testnumber",numbervalue);
               }}>
               <Text style={{color: 'white', fontSize: hp('2.3')}}>
                 Continue
@@ -392,16 +418,13 @@ const MenteeDtailedScreen = ({route}) => {
             </View>
             <ButtonThemeComp
               style={styles.getTimeButton}
-              text={'Apply For Subscription'}
+              text={'Apply For Class'}
               onPress={() => {
                 if (scheduleArray.length > 0) {
                   updateLoadingState({isVisible: false});
-                  updateLoadingState({isSubscriptionVisible: true});
-                  // updateState({
-                  //   scheduleArray: '',
-                  //   timeSlot: null,
-                  //   allTimeSlot: [],
-                  // });
+                  applyForClass();
+                  // updateLoadingState({isSubscriptionVisible: true});
+                 
                 } else {
                   updateLoadingState({timeSlotButton: false});
                   errorMessage('Please Select Days');
@@ -415,7 +438,6 @@ const MenteeDtailedScreen = ({route}) => {
     );
   };
   useEffect(() => {
-    // console.log("forprice",);
     getApiData(item, 'GetMentorClassesState', 'GetMentorClassesLoading');
   }, []);
   return (
