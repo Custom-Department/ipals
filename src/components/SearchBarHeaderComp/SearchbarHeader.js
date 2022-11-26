@@ -34,7 +34,6 @@ export const SearchbarHeader = props => {
             height: Dimensions.get('window').width * 0.1,
           }}
           image={{uri: userData.profileImageLink}}
-          // image={require('../../image/image.jpg')}
         />
         <View style={styles.TextHeadingView}>
           <Text style={styles.WellcomeText}>Welcome</Text>
@@ -43,12 +42,15 @@ export const SearchbarHeader = props => {
           </Text>
         </View>
         <View style={styles.iconView}>
-          <MaterialCommunityIcons
-            name="bell"
-            size={hp('3')}
-            color={color.white}
-            style={styles.bellIcon}
-          />
+          <TouchableOpacity
+            onPress={() => navigation.navigate('NotificationScreen')}>
+            <MaterialCommunityIcons
+              name="bell"
+              size={hp('3')}
+              color={color.white}
+              style={styles.bellIcon}
+            />
+          </TouchableOpacity>
           {props.heart && (
             <Entypo
               name="heart-outlined"

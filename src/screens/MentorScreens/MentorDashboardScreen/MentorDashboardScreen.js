@@ -239,7 +239,6 @@ const MentorDashboardScreen = ({navigation}) => {
       />
       <SearchbarHeader
         onPressSetting={() => navigation.navigate('MentorSettingScreen')}
-        heart={true}
       />
       <ScrollView
         refreshControl={
@@ -260,7 +259,6 @@ const MentorDashboardScreen = ({navigation}) => {
               color={'white'}
               size={hp('4')}
               style={{
-                // marginTop: hp('30'),
                 alignSelf: 'center',
                 justifyContent: 'center',
                 marginVertical: hp('10'),
@@ -414,21 +412,5 @@ to any plans`}
     </View>
   );
 };
-{
-  /* <View style={{marginTop: wp('3')}}>
-<SubcriptionPackComp
-  priceTxt={'$' + item?.price}
-  iconcolor={MentorColor.MentorlightGrey}
-  perAnumTxt={item?.plan_type}
-  data={item.length > 0 ? true : false}
-  text={
-    item?.length > 0
-      ? `You are subscribed to
-our ${item?.plan_type} package`
-      : `You are not subscribe
-to any plans`
-  }
-/>
-</View> */
-}
+
 export default MentorDashboardScreen;

@@ -28,11 +28,11 @@ import axios from 'react-native-axios';
 const LoginScreen = ({navigation}) => {
   const [loginData, setLoginData] = useState({
     // email: 'studentr@test.com',
-    email: 'test@mentor.com',
+    // email: 'test@mentor.com',
     // email: 'teacher@test4com',
     // email: '',
     // password: '',
-    // email: 'test@teacher.com',
+    email: 'test@teacher.com',
     password: '12345678',
   });
 

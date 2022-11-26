@@ -29,7 +29,7 @@ const MentorChatScreen = ({route}) => {
         heading={items?.firstText}
         changeIcon3={
           <Entypo
-            onPress={() => props?.settingOnPress()}
+            // onPress={() => props?.settingOnPress()}
             name={'dots-three-vertical'}
             size={hp('3')}
             color={colorTutor_.blue}
@@ -37,7 +37,7 @@ const MentorChatScreen = ({route}) => {
         }
         changeIcon2={
           <FontAwesome5
-            onPress={() => props?.settingOnPress()}
+            // onPress={() => props?.settingOnPress()}
             name={'video'}
             size={hp('3')}
             color={colorTutor_.blue}
@@ -45,7 +45,7 @@ const MentorChatScreen = ({route}) => {
         }
         changeIcon1={
           <FontAwesome
-            onPress={() => props?.settingOnPress()}
+            // onPress={() => props?.settingOnPress()}
             name={'phone'}
             size={hp('3')}
             color={colorTutor_.blue}

@@ -44,34 +44,22 @@ import types from '../../../Redux/types';
 
 const ProfileScreen = ({navigation}) => {
   const {userData, token} = useSelector(state => state.userData);
-
   const dispatch = useDispatch();
+  // console.log(6789, userData);
   const [stateChange, setStateChange] = useState({
-    editState: false,
-    accState: false,
-    createAccoutState: false,
-    childAccState: false,
-    deleteAccState: false,
     BioData: userData?.bio,
     isLoading: false,
     userImage: [],
-    subjectModelLoader: false,
     subjectModelList: [],
-    activities: [],
+    activities: userData?.course?.length > 0 ? [...userData.course] : [],
     idSubjectArray: [],
     isVisible: false,
   });
   const updateState = data => setStateChange(prev => ({...prev, ...data}));
   const {
-    editState,
-    accState,
-    createAccoutState,
-    childAccState,
-    deleteAccState,
     BioData,
     isLoading,
     userImage,
-    subjectModelLoader,
     subjectModelList,
     activities,
     idSubjectArray,
@@ -100,40 +88,54 @@ const ProfileScreen = ({navigation}) => {
         errorMessage(errorHandler(error));
       });
   };
+  const updateImage = image => {
+    var sendImageData = new FormData();
 
+    sendImageData.append('profile_image', {
+      name: image[0]?.fileName,
+      uri: image[0]?.uri,
+      type: image[0]?.type,
+    });
+    axios
+      .post(UpdateProfileUrl, sendImageData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then(res => {
+        updateState({isLoading: false});
+        dispatch({
+          type: types.UpdateProfile,
+          payload: {user: res.data.data},
+        });
+        successMessage('Your Image Successful Updated');
+      })
+      .catch(function (error) {
+        updateState({isLoading: false});
+        errorMessage(errorHandler(error));
+      });
+  };
   const updateProfileFunc = () => {
     updateState({isLoading: true});
     if (activities.length > 0) {
-      activities.map(res => {
-        return idSubjectArray.push(res?.id);
-      });
-    } else {
-      userData?.course?.map(res => {
+      activities.map((res, i) => {
         return idSubjectArray.push(res?.id);
       });
     }
-
     if (BioData != null && BioData != '') {
-      var bodyFormData = new FormData();
-
-      bodyFormData.append('profile_image', {
-        name: userImage[0]?.fileName,
-        uri: userImage[0]?.uri,
-        type: userImage[0]?.type,
-      });
-      bodyFormData.append('bio', BioData);
-      bodyFormData.append('course_id', [1]);
-      console.log(34, bodyFormData);
+      let body = {
+        bio: BioData,
+        course_id: idSubjectArray,
+      };
       axios
-        .post(UpdateProfileUrl, bodyFormData, {
+        .post(UpdateProfileUrl, body, {
           headers: {
             Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data',
           },
         })
         .then(res => {
           updateState({isLoading: false});
-          console.log(137, res.data.data);
           dispatch({
             type: types.UpdateProfile,
             payload: {user: res.data.data},
@@ -142,7 +144,6 @@ const ProfileScreen = ({navigation}) => {
         })
         .catch(function (error) {
           updateState({isLoading: false});
-          console.log(149, error);
           errorMessage(errorHandler(error));
         });
     } else {
@@ -150,12 +151,25 @@ const ProfileScreen = ({navigation}) => {
       errorMessage('Please type correct information');
     }
   };
+  const selectActivities = (v, i) => {
+    if (
+      activities.find(ress => {
+        return ress.id == v.id;
+      })
+    ) {
+      updateState({
+        activities: activities.filter(activities => activities.id !== v.id),
+      });
+    } else {
+      updateState({activities: [...activities, v]});
+    }
+  };
   const SubjectDetailScreen = () => {
     return (
       <>
         <View style={styles.modalMainView}>
           <View style={styles.modalInnerView}>
-            <TextComp text="Select schedule for class" style={styles.heading} />
+            <TextComp text="Select Subject" style={styles.heading} />
             <View style={styles.daysView}>
               {subjectModelList.length > 0
                 ? subjectModelList.map((res, i) => {
@@ -165,22 +179,34 @@ const ProfileScreen = ({navigation}) => {
                           onPress={() => selectActivities(res, i)}
                           style={{
                             ...styles.activitiesContainer,
-                            backgroundColor: activities.includes(res)
+                            backgroundColor: activities.find(ress => {
+                              return ress.id == res.id;
+                            })
                               ? color.lightPurple
                               : 'white',
-                            borderColor: activities.includes(res)
+                            borderColor: activities.find(ress => {
+                              return ress.id == res.id;
+                            })
                               ? color.orderBoxColor
                               : 'black',
-                            borderWidth: activities.includes(res) ? 2 : 1,
+                            borderWidth: activities.find(ress => {
+                              return ress.id == res.id;
+                            })
+                              ? 2
+                              : 1,
                           }}>
                           <TextComp
                             text={res?.title}
                             style={{
                               textAlign: 'center',
-                              color: activities.includes(res)
+                              color: activities.find(ress => {
+                                return ress.id == res.id;
+                              })
                                 ? color.orderBoxColor
                                 : 'black',
-                              fontWeight: activities.includes(res)
+                              fontWeight: activities.find(ress => {
+                                return ress.id == res.id;
+                              })
                                 ? 'bold'
                                 : 'normal',
                               fontSize: hp('1.5'),
@@ -196,9 +222,13 @@ const ProfileScreen = ({navigation}) => {
             <View style={styles.Bottombtn}>
               <ButtonThemeComp
                 onPress={() => {
-                  updateState({isVisible: false});
+                  if (activities.length > 0) {
+                    updateState({isVisible: false});
+                  } else {
+                    errorMessage('Please select at least one course');
+                  }
                 }}
-                text={'Apply For Class'}
+                text={'Select Subject'}
               />
             </View>
           </View>
@@ -206,15 +236,7 @@ const ProfileScreen = ({navigation}) => {
       </>
     );
   };
-  const selectActivities = (v, i) => {
-    if (activities.includes(v)) {
-      updateState({
-        activities: activities.filter(activities => activities.id !== v.id),
-      });
-    } else {
-      updateState({activities: [...activities, v]});
-    }
-  };
+
   const pickImagesFromGalary = () => {
     launchImageLibrary(
       {
@@ -227,6 +249,7 @@ const ProfileScreen = ({navigation}) => {
       res => {
         if (!res?.didCancel) {
           updateState({userImage: res?.assets});
+          updateImage(res?.assets);
         }
       },
     );
@@ -274,73 +297,38 @@ const ProfileScreen = ({navigation}) => {
             style={styles.textharMatin}
             text={userData?.f_name + ' ' + userData?.l_name}
           />
-          <View
-            style={{
-              flexDirection: 'row',
-              width: wp('100'),
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexWrap: 'wrap',
-              display: 'flex',
-            }}>
-            {activities.length > 0
-              ? activities?.map(res => {
-                  return (
-                    <View style={styles.subView}>
-                      <TextComp
-                        text={res?.title}
-                        style={{
-                          fontSize: hp('1.3'),
-                          textAlign: 'center',
-                          color: 'white',
-                        }}
-                      />
-                    </View>
-                  );
-                })
-              : userData?.course?.map(res => {
-                  return (
-                    <View style={styles.subView}>
-                      <TextComp
-                        text={res?.title}
-                        style={{
-                          fontSize: hp('1.3'),
-                          textAlign: 'center',
-                          color: 'white',
-                        }}
-                      />
-                    </View>
-                  );
-                })}
-
-            {/* { activities.length>0?activities?.map: userData?.user?.course?.map (res =>{
-          return(
-            <View style={styles.subView}>
-            <TextComp
-              text={res?.title}
-              style={{
-                fontSize: hp('1.3'),
-                textAlign: 'center',
-                color: 'white',
-              }}
-            />
-          </View>
-          )
-        })} */}
-            <TouchableOpacity
-              onPress={() => {
-                updateState({isVisible: true});
-              }}
-              style={{
-                ...styles.subView,
-                marginLeft: wp('2'),
-                backgroundColor: colorTutor_.blue,
-              }}>
-              <TextComp
-                text="Add Subject"
-                style={{fontSize: hp('1.3'), color: 'white'}}
-              />
-            </TouchableOpacity>
+          <View style={styles.addButton}>
+            {activities.length > 0 &&
+              activities?.map(res => {
+                return (
+                  <View style={styles.subView}>
+                    <TextComp
+                      text={res?.title}
+                      style={{
+                        fontSize: hp('1.3'),
+                        textAlign: 'center',
+                        color: 'white',
+                      }}
+                    />
+                  </View>
+                );
+              })}
+            {userData?.user_type == 'teacher' && (
+              <TouchableOpacity
+                onPress={() => {
+                  updateState({isVisible: true});
+                }}
+                style={{
+                  ...styles.subView,
+                  marginLeft: wp('2'),
+                  backgroundColor: colorTutor_.blue,
+                }}>
+                <TextComp
+                  text="Add Subject"
+                  style={{fontSize: hp('1.3'), color: 'white'}}
+                />
+              </TouchableOpacity>
+            )}
           </View>
           <LoginInputComp
             placeholder={'About Yourself'}

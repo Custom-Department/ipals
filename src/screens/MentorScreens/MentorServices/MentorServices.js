@@ -294,21 +294,6 @@ const MentorServices = ({navigation}) => {
             h={h.CategoriesData}
             selectedValue={tutorValue.CategoriesData}
           />
-          {/* <PickerComponent
-            style={{
-              ...styles.pickerStyle,
-              marginTop: Platform.OS == 'android' ? hp('1') : hp('0'),
-            }}
-            text={'Select your subject'}
-            data={languageData}
-            headingStyle={{
-              ...styles.headingStyle,
-              marginTop: Platform.OS == 'android' ? hp('3') : hp('0'),
-            }}
-            setSelectedValue={(val, state) => getTutorValue(val, state)}
-            h={h.languageData}
-            selectedValue={tutorValue.languageData}
-          /> */}
           <TextComp
             style={{
               ...styles.headingStyle,

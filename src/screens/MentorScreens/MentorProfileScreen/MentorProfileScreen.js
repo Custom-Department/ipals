@@ -35,6 +35,8 @@ import axios from 'react-native-axios';
 import {
   GetCategoryUrl,
   GetCourseUrl,
+  MenteeUpdateProfileUrl,
+  MentorUpdateProfileUrl,
   UpdateProfileUrl,
 } from '../../../config/Urls';
 import {useEffect} from 'react';
@@ -49,7 +51,6 @@ import SocialComp from '../../../components/SocialComp/SocialComp';
 
 const MentorProfileScreen = ({navigation}) => {
   const {userData, token} = useSelector(state => state.userData);
-
   const dispatch = useDispatch();
   const [stateChange, setStateChange] = useState({
     editState: false,
@@ -62,26 +63,22 @@ const MentorProfileScreen = ({navigation}) => {
     userImage: [],
     subjectModelLoader: false,
     subjectModelList: [],
-    activities: [],
+    activities: userData?.category?.length > 0 ? [...userData.category] : [],
     idSubjectArray: [],
     isVisible: false,
   });
+
   const updateState = data => setStateChange(prev => ({...prev, ...data}));
   const {
-    editState,
-    accState,
-    createAccoutState,
-    childAccState,
-    deleteAccState,
     BioData,
     isLoading,
     userImage,
-    subjectModelLoader,
     subjectModelList,
     activities,
     idSubjectArray,
     isVisible,
   } = stateChange;
+
   const urlList = {
     mentor: GetCategoryUrl,
     mentee: GetCategoryUrl,
@@ -118,34 +115,39 @@ const MentorProfileScreen = ({navigation}) => {
 
   const updateProfileFunc = () => {
     updateState({isLoading: true});
+
     if (activities.length > 0) {
       activities.map(res => {
-        return idSubjectArray.push(res?.id);
-      });
-    } else {
-      userData?.course?.map(res => {
         return idSubjectArray.push(res?.id);
       });
     }
 
     if (BioData != null && BioData != '') {
-      var bodyFormData = new FormData();
-
-      bodyFormData.append('profile_image', {
-        name: userImage[0]?.fileName,
-        uri: userImage[0]?.uri,
-        type: userImage[0]?.type,
-      });
-      bodyFormData.append('bio', BioData);
-      bodyFormData.append('course_id', [1]);
-      console.log(34, bodyFormData);
+      // var bodyFormData = new FormData();
+      let body = {
+        bio: BioData,
+        category_id: idSubjectArray,
+      };
+      // userImage.length > 0 &&
+      //   bodyFormData.append('profile_image', {
+      //     name: userImage[0]?.fileName,
+      //     uri: userImage[0]?.uri,
+      //     type: userImage[0]?.type,
+      //   });
+      // bodyFormData.append('bio', BioData);
+      // bodyFormData.append('category_id', [idSubjectArray]);
       axios
-        .post(UpdateProfileUrl, bodyFormData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data',
+        .post(
+          userData.user_type == 'mentee'
+            ? MenteeUpdateProfileUrl
+            : MentorUpdateProfileUrl,
+          body,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           },
-        })
+        )
         .then(res => {
           updateState({isLoading: false});
           dispatch({
@@ -168,39 +170,49 @@ const MentorProfileScreen = ({navigation}) => {
       <>
         <View style={styles.modalMainView}>
           <View style={styles.modalInnerView}>
-            <TextComp text="Select schedule for class" style={styles.heading} />
+            <TextComp text="Select Category" style={styles.heading} />
             <View style={styles.daysView}>
               {subjectModelList.length > 0
                 ? subjectModelList.map((res, i) => {
                     return (
-                      <>
-                        <TouchableOpacity
-                          onPress={() => selectActivities(res, i)}
+                      <TouchableOpacity
+                        onPress={() => selectActivities(res, i)}
+                        style={{
+                          ...styles.activitiesContainer,
+                          backgroundColor: activities.find(ress => {
+                            return ress.id == res.id;
+                          })
+                            ? color.lightPurple
+                            : 'white',
+                          borderColor: activities.find(ress => {
+                            return ress.id == res.id;
+                          })
+                            ? color.orderBoxColor
+                            : 'black',
+                          borderWidth: activities.find(ress => {
+                            return ress.id == res.id;
+                          })
+                            ? 2
+                            : 1,
+                        }}>
+                        <TextComp
+                          text={res?.title}
                           style={{
-                            ...styles.activitiesContainer,
-                            backgroundColor: activities.includes(res)
-                              ? color.lightPurple
-                              : 'white',
-                            borderColor: activities.includes(res)
+                            textAlign: 'center',
+                            color: activities.find(ress => {
+                              return ress.id == res.id;
+                            })
                               ? color.orderBoxColor
                               : 'black',
-                            borderWidth: activities.includes(res) ? 2 : 1,
-                          }}>
-                          <TextComp
-                            text={res?.title}
-                            style={{
-                              textAlign: 'center',
-                              color: activities.includes(res)
-                                ? color.orderBoxColor
-                                : 'black',
-                              fontWeight: activities.includes(res)
-                                ? 'bold'
-                                : 'normal',
-                              fontSize: hp('1.5'),
-                            }}
-                          />
-                        </TouchableOpacity>
-                      </>
+                            fontWeight: activities.find(ress => {
+                              return ress.id == res.id;
+                            })
+                              ? 'bold'
+                              : 'normal',
+                            fontSize: hp('1.5'),
+                          }}
+                        />
+                      </TouchableOpacity>
                     );
                   })
                 : null}
@@ -209,9 +221,13 @@ const MentorProfileScreen = ({navigation}) => {
             <View style={styles.Bottombtn}>
               <ButtonThemeComp
                 onPress={() => {
-                  updateState({isVisible: false});
+                  if (activities.length > 0) {
+                    updateState({isVisible: false});
+                  } else {
+                    errorMessage('Please select at least one course');
+                  }
                 }}
-                text={'Apply For Class'}
+                text={'Add Category'}
               />
             </View>
           </View>
@@ -220,13 +236,51 @@ const MentorProfileScreen = ({navigation}) => {
     );
   };
   const selectActivities = (v, i) => {
-    if (activities.includes(v)) {
+    if (
+      activities.find(ress => {
+        return ress.id == v.id;
+      })
+    ) {
       updateState({
         activities: activities.filter(activities => activities.id !== v.id),
       });
     } else {
       updateState({activities: [...activities, v]});
     }
+  };
+  const updateImage = image => {
+    var sendImageData = new FormData();
+
+    sendImageData.append('profile_image', {
+      name: image[0]?.fileName,
+      uri: image[0]?.uri,
+      type: image[0]?.type,
+    });
+    axios
+      .post(
+        userData.user_type == 'mentee'
+          ? MenteeUpdateProfileUrl
+          : MentorUpdateProfileUrl,
+        sendImageData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      )
+      .then(res => {
+        updateState({isLoading: false});
+        dispatch({
+          type: types.UpdateProfile,
+          payload: {user: res.data.data},
+        });
+        successMessage('Your Image Successful Updated');
+      })
+      .catch(function (error) {
+        updateState({isLoading: false});
+        errorMessage(errorHandler(error));
+      });
   };
   const pickImagesFromGalary = () => {
     launchImageLibrary(
@@ -240,15 +294,16 @@ const MentorProfileScreen = ({navigation}) => {
       res => {
         if (!res?.didCancel) {
           updateState({userImage: res?.assets});
+          updateImage(res?.assets);
         }
       },
     );
   };
+
   return (
     <>
       <View style={{flex: 1, backgroundColor: colorTutor_.ipalBlue}}>
         <BackHeaderComponent
-          // style={{backgroundColor: MentorColor.MentorThemeFirst}}
           heading={'Profile Screen'}
           data={true}
           bellOnPress={() => console.log('bell')}
@@ -297,50 +352,38 @@ const MentorProfileScreen = ({navigation}) => {
               flexWrap: 'wrap',
               display: 'flex',
             }}>
-            {activities.length > 0
-              ? activities?.map(res => {
-                  return (
-                    <View style={styles.subView}>
-                      <TextComp
-                        text={res?.title}
-                        style={{
-                          fontSize: hp('1.3'),
-                          textAlign: 'center',
-                          color: 'white',
-                        }}
-                      />
-                    </View>
-                  );
-                })
-              : userData?.course?.map(res => {
-                  return (
-                    <View style={styles.subView}>
-                      <TextComp
-                        text={res?.title}
-                        style={{
-                          fontSize: hp('1.3'),
-                          textAlign: 'center',
-                          color: 'white',
-                        }}
-                      />
-                    </View>
-                  );
-                })}
+            {activities.length > 0 &&
+              activities?.map(res => {
+                return (
+                  <View style={styles.subView}>
+                    <TextComp
+                      text={res?.title}
+                      style={{
+                        fontSize: hp('1.3'),
+                        textAlign: 'center',
+                        color: 'white',
+                      }}
+                    />
+                  </View>
+                );
+              })}
 
-            <TouchableOpacity
-              onPress={() => {
-                updateState({isVisible: true});
-              }}
-              style={{
-                ...styles.subView,
-                marginLeft: wp('2'),
-                backgroundColor: colorTutor_.blue,
-              }}>
-              <TextComp
-                text="Add Category"
-                style={{fontSize: hp('1.3'), color: 'white'}}
-              />
-            </TouchableOpacity>
+            {userData.user_type == 'mentor' && (
+              <TouchableOpacity
+                onPress={() => {
+                  updateState({isVisible: true});
+                }}
+                style={{
+                  ...styles.subView,
+                  marginLeft: wp('2'),
+                  backgroundColor: colorTutor_.blue,
+                }}>
+                <TextComp
+                  text="Add Category"
+                  style={{fontSize: hp('1.3'), color: 'white'}}
+                />
+              </TouchableOpacity>
+            )}
           </View>
           <LoginInputComp
             placeholder={'About Yourself'}
