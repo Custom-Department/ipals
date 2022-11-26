@@ -75,7 +75,19 @@ const LoginScreen = ({navigation}) => {
     inputElement.current.focus();
   };
   const inputElement = useRef();
+  const handleClick = () => setShow(!show);
+  const [show, setShow] = useState(false);
   const updateState = data => setLoginData(() => ({...loginData, ...data}));
+  const handleInputFocus = textinput => {
+    setIsFocused({
+      [textinput]: true,
+    });
+  };
+  const handleInputBlur = textinput => {
+    setIsFocused({
+      [textinput]: false,
+    });
+  };
   return (
     <View style={styles.container}>
       <StatusBar
@@ -98,10 +110,14 @@ const LoginScreen = ({navigation}) => {
         eyeIconName={'email'}
       />
       <LoginInputComp
+        secureTextEntry={show ? false : true}
+        eyeIconPress={handleClick}
+        eyeIconName={show ? 'eye-outline' : 'eye-off-outline'}
         placeholder={'Password'}
         value={password}
         onChangeText={e => updateState({password: e})}
-        eyeIconName={'lock'}
+        Ionicons={true}
+        // eyeIconName={'lock'}
         color={colorTutor_.ipallightGreen}
       />
       <ButtonThemeComp
