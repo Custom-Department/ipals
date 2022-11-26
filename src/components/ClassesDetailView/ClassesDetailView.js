@@ -116,7 +116,12 @@ export const ClassesDetailView = props => {
             </Text>
           </View>
         )}
-        <View style={{flexDirection: 'row', marginVertical: 5}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            marginVertical: 5,
+            alignItems: 'center',
+          }}>
           <Image
             style={{
               height: 20,
@@ -134,7 +139,12 @@ export const ClassesDetailView = props => {
             {data?.total_hours}
           </Text>
         </View>
-        <View style={{flexDirection: 'row', marginVertical: 5}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            marginVertical: 5,
+            alignItems: 'center',
+          }}>
           <Image
             style={{
               height: 20,
@@ -148,6 +158,7 @@ export const ClassesDetailView = props => {
             style={{
               margin: 5,
               color: props.myclass ? colorTutor_.bookColor : 'white',
+              fontSize: hp('1.5'),
             }}>
             {from + ' - ' + to}
           </Text>

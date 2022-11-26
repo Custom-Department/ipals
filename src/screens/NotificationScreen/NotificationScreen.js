@@ -17,7 +17,9 @@ import {
 import {BackHeaderComponent} from '../../components/BackHeaderComponent/BackHeaderComponent';
 import {globalStyles} from '../../config/globalStyles';
 import {styles} from './style';
+import {useSelector} from 'react-redux';
 export const NotificationScreen = () => {
+  const {userData} = useSelector(state => state.userData);
   const [message, setMessage] = useState([
     {
       id: 0,
@@ -44,6 +46,7 @@ export const NotificationScreen = () => {
       secondText: "Hi, we aren't ready to start our class today...",
     },
   ]);
+  console.log(49, userData);
   return (
     <View style={{flex: 1, backgroundColor: colorTutor_.topNavigationColor}}>
       <BackHeaderComponent
@@ -79,14 +82,16 @@ export const NotificationScreen = () => {
             );
           })}
       </ScrollView>
-      <View style={styles.bottomBar}>
-        <TouchableOpacity>
-          <Text style={globalStyles.globalModuletutor}>Term of use</Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={globalStyles.globalModuletutor}>Privacy Policy</Text>
-        </TouchableOpacity>
-      </View>
+      {userData.user_type == 'student' && userData.user_type == 'teacher' && (
+        <View style={styles.bottomBar}>
+          <TouchableOpacity>
+            <Text style={globalStyles.globalModuletutor}>Term of use</Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text style={globalStyles.globalModuletutor}>Privacy Policy</Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 };

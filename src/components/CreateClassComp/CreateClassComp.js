@@ -24,18 +24,18 @@ export const CreateClassComp = props => {
       />
       <TextComp
         text={data?.course?.title}
-        style={{marginLeft: wp('2')}}
+        style={{marginLeft: wp('1')}}
         color={colorTutor_.TxtColor}
       />
       <Image
         resizeMode="contain"
-        style={styles.image}
+        style={{...styles.image, marginLeft: wp('1')}}
         source={require('../../image/greyclock.png')}
       />
       <TextComp
         numberOfLines={2}
         text={from + ' - ' + to}
-        style={{marginLeft: wp('2'), width: wp('40')}}
+        style={{marginLeft: wp('1'), width: wp('40')}}
         color={colorTutor_.TxtColor}
       />
       <View

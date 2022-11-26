@@ -20,7 +20,6 @@ import {
   GetMenteePendingClass,
   UpdateMenteeRequestStatusUrl,
 } from '../../../config/Urls';
-import {ButtonIconComp} from '../../../components/ButtonIconComp/ButtonIconComp';
 import {errorMessage} from '../../../config/NotificationMessage';
 import {errorHandler} from '../../../config/helperFunction';
 import {SkypeIndicator} from 'react-native-indicators';
@@ -47,7 +46,7 @@ const MenteeMyClassesScreen = ({navigation}) => {
   const onRefresh = useCallback(() => {
     updateLoadingState({
       GetpendingclassLoading: true,
-    GetapproveclassLoading: true,
+      GetapproveclassLoading: true,
     });
     wait(2000).then(() => {
       getApiData(
@@ -128,14 +127,17 @@ const MenteeMyClassesScreen = ({navigation}) => {
     <View style={styles.mainView}>
       <SearchbarHeader heart={true} />
       <ScrollView
-       refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
         contentContainerStyle={styles.scrollView}
         scrollEnabled
         showsVerticalScrollIndicator={false}>
-        <HorizantalDetailComp leftText={'My Classes'} icon={true} 
-         onPress={()=>navigation.navigate('MenteeViewAllApproveClass')}/>
+        <HorizantalDetailComp
+          leftText={'My Classes'}
+          icon={true}
+          onPress={() => navigation.navigate('MenteeViewAllApproveClass')}
+        />
         {GetapproveclassLoading ? (
           <SkypeIndicator
             color={'white'}
@@ -169,8 +171,11 @@ const MenteeMyClassesScreen = ({navigation}) => {
           </View>
         )}
 
-        <HorizantalDetailComp leftText={'Pending Requests'} icon={true}  
-        onPress={()=>navigation.navigate('MenteeViewAllPendingClass')}/>
+        <HorizantalDetailComp
+          leftText={'Pending Requests'}
+          icon={true}
+          onPress={() => navigation.navigate('MenteeViewAllPendingClass')}
+        />
         {GetpendingclassLoading ? (
           <SkypeIndicator
             color={'white'}

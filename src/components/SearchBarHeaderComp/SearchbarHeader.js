@@ -51,14 +51,14 @@ export const SearchbarHeader = props => {
               style={styles.bellIcon}
             />
           </TouchableOpacity>
-          {props.heart && (
+          {/* {props.heart && (
             <Entypo
               name="heart-outlined"
               size={hp('3')}
               color={color.white}
               style={styles.bellIcon}
             />
-          )}
+          )} */}
           <Feather
             onPress={() => {
               userData.user_type == 'mentee'

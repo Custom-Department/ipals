@@ -30,10 +30,10 @@ const LoginScreen = ({navigation}) => {
     // email: 'studentr@test.com',
     // email: 'test@mentor.com',
     // email: 'teacher@test4com',
-    // email: '',
-    // password: '',
-    email: 'test@teacher.com',
-    password: '12345678',
+    email: '',
+    password: '',
+    // email: 'test@teacher.com',
+    // password: '12345678',
   });
 
   const dispatch = useDispatch();
