@@ -132,7 +132,8 @@ const MentorProfileScreen = ({navigation}) => {
           type: userImage[0]?.type,
         });
       bodyFormData.append('bio', BioData);
-      bodyFormData.append('category_id', [idSubjectArray]);
+      userData.user_type == 'mentor' &&
+        bodyFormData.append('category_id', [idSubjectArray]);
       console.log(152, bodyFormData);
       axios
         .post(

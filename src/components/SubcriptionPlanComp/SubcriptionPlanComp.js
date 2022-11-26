@@ -23,6 +23,7 @@ const SubcriptionPlanComp = props => {
           <TextComp style={styles.text} text={props?.text} />
 
           <ButtonIconComp
+            onPress={() => console.log('klasjfdl')}
             style={styles.buttonView}
             text={`Proceed`}
             size={hp('3')}

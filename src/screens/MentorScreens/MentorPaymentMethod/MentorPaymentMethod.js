@@ -67,7 +67,7 @@ const MentorPaymentMethod = ({route}) => {
           <SubcriptionPlanComp
             style={{backgroundColor: MentorColor.MentorSubsPlan2}}
             text={`Subscribe to our monthly plan`}
-            priceTxt={`$65`}
+            priceTxt={`$15`}
             yearTxt={`per month`}
           />
         </View>
