@@ -6,6 +6,7 @@ import MentorPaymentMethod from './MentorPaymentMethod/MentorPaymentMethod';
 import MentorProfileScreen from './MentorProfileScreen/MentorProfileScreen';
 import MentorServices from './MentorServices/MentorServices';
 import MentorSettingScreen from './MentorSettingScreen/MentorSettingScreen';
+import MentorPaymentCardScreen from './MentorPaymentCardScreen/MentorPaymentCardScreen';
 export const Mentor = {
   MentorDashboardScreen,
   MentorServices,
@@ -15,4 +16,5 @@ export const Mentor = {
   MentorSettingScreen,
   MentorPaymentMethod,
   MentorProfileScreen,
+  MentorPaymentCardScreen,
 };

@@ -27,6 +27,7 @@ const SubcriptionPlanComp = props => {
             text={`Proceed`}
             size={hp('3')}
             name={'arrow-forward'}
+            onPress={()=>{props.onpress()}}
           />
         </View>
       </View>

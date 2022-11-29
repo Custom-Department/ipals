@@ -19,7 +19,7 @@ import HorizontalDividerComp from '../../../components/HorizontalDividerComp/Hor
 import SubcriptionPackComp from '../../../components/SubcriptionPackComp/SubcriptionPackComp';
 import SubcriptionPlanComp from '../../../components/SubcriptionPlanComp/SubcriptionPlanComp';
 import {ButtonIconComp} from '../../../components/ButtonIconComp/ButtonIconComp';
-const MentorPaymentMethod = ({route}) => {
+const MentorPaymentMethod = ({route,navigation}) => {
   const items = route.params;
   return (
     <View style={{flex: 1, backgroundColor: colorTutor_.ipalBlue}}>
@@ -61,6 +61,7 @@ const MentorPaymentMethod = ({route}) => {
             text={`Subscribe to our yearly plan`}
             priceTxt={`$65`}
             yearTxt={`per anum`}
+            onpress={()=>{navigation.navigate('MentorPaymentCardScreen')}}
           />
         </View>
         <View style={{marginTop: hp('2')}}>

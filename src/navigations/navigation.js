@@ -175,6 +175,7 @@ export default function StackNavigatior() {
 
         <Stack.Screen name="MentorServices" component={Mentor.MentorServices} />
         <Stack.Screen name="MentorMessages" component={Mentor.MentorMessages} />
+        <Stack.Screen name="MentorPaymentCardScreen" component={Mentor.MentorPaymentCardScreen} />
         <Stack.Screen
           name="MenteeViewAllPendingClass"
           component={ManteeScreen.MenteeViewAllPendingclass}
