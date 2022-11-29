@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, FlatList, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {TuteeHomeComp} from '../TuteeHomeComp/TuteeHomeComp';
 import {
   widthPercentageToDP as wp,
@@ -7,8 +7,8 @@ import {
 } from 'react-native-responsive-screen';
 import {MentorColor} from '../../config/color';
 import {TextComp} from '../TextComponent';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import {ButtonIconComp} from '../ButtonIconComp/ButtonIconComp';
+import {SkypeIndicator} from 'react-native-indicators';
 
 const SubcriptionPlanComp = props => {
   let name = props?.name ?? 'exclamationcircle';
@@ -23,7 +23,9 @@ const SubcriptionPlanComp = props => {
           <TextComp style={styles.text} text={props?.text} />
 
           <ButtonIconComp
-            onPress={() => console.log('klasjfdl')}
+            onPress={() =>
+              props?.onPress ? props?.onPress() : console.log('klasjfdl')
+            }
             style={styles.buttonView}
             text={`Proceed`}
             size={hp('3')}
@@ -46,6 +48,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  loaderStyle: {
+    alignSelf: 'center',
   },
   innerMainView: {
     width: wp('80'),

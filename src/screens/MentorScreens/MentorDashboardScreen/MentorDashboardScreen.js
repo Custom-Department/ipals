@@ -27,6 +27,8 @@ import axios from 'react-native-axios';
 import {
   GetMentorApprovedClassUrl,
   GetMentorPendingClassUrl,
+  GetPendingClassUrl,
+  MentorGetPlanUrl,
   MentorSubscriptionUrl,
   MentorUpdateStatusUrl,
 } from '../../../config/Urls';
@@ -150,6 +152,7 @@ const MentorDashboardScreen = ({navigation}) => {
     });
   }, []);
   const getApiData = (url, state, loading) => {
+    console.log('url', url);
     updateLoadingState({[loading]: true});
     axios
       .get(url, {
@@ -170,8 +173,9 @@ const MentorDashboardScreen = ({navigation}) => {
   useEffect(() => {
     getApiData(GetMentorApprovedClassUrl, 'acceptClassState', 'acceptLoading');
     getApiData(GetMentorPendingClassUrl, 'pendingClassState', 'pendingLoading');
-    getApiData(MentorSubscriptionUrl, 'subcriptionState', 'subcriptionLoader');
+    getApiData(MentorGetPlanUrl, 'subcriptionState', 'subcriptionLoader');
   }, []);
+
   return (
     <View
       style={{

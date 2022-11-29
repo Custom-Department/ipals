@@ -5,6 +5,7 @@ import MentorSeacrhFilterScreen from './MentorSeacrhFilterScreen/MentorSeacrhFil
 import MentorPaymentMethod from './MentorPaymentMethod/MentorPaymentMethod';
 import MentorProfileScreen from './MentorProfileScreen/MentorProfileScreen';
 import MentorServices from './MentorServices/MentorServices';
+import MentorPaymentCardScreen from './MentorPaymentCardScreen/MentorPaymentCardScreen';
 import MentorSettingScreen from './MentorSettingScreen/MentorSettingScreen';
 export const Mentor = {
   MentorDashboardScreen,
@@ -12,7 +13,8 @@ export const Mentor = {
   MentorMessages,
   MentorChatScreen,
   MentorSeacrhFilterScreen,
-  MentorSettingScreen,
   MentorPaymentMethod,
   MentorProfileScreen,
+  MentorPaymentCardScreen,
+  MentorSettingScreen,
 };

@@ -8,6 +8,10 @@ export const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
   },
+  loaderStyle: {
+    alignSelf: 'center',
+    marginTop: hp('8'),
+  },
   recView: {
     alignSelf: 'center',
   },

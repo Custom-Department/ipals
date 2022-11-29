@@ -1,26 +1,61 @@
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import {ScrollView, View} from 'react-native';
+import React, {useState} from 'react';
 import {BackHeaderComponent} from '../../../components/BackHeaderComponent/BackHeaderComponent';
-import Entypo from 'react-native-vector-icons/Entypo';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {colorTutor_, MentorColor} from '../../../config/color';
 import {TextComp} from '../../../components/TextComponent';
-
-import {LoginInputComp} from '../../../components/LoginInputComp/LoginInputComp';
+import axios from 'react-native-axios';
 import {styles} from './style';
-import {ButtonThemeComp} from '../../../components/ButtonThemeComp/ButtonThemeComp';
-import HorizantalDetailComp from '../../../components/HorizantalDetailComp/HorizantalDetailComp';
 import HorizontalDividerComp from '../../../components/HorizontalDividerComp/HorizontalDividerComp';
 import SubcriptionPackComp from '../../../components/SubcriptionPackComp/SubcriptionPackComp';
 import SubcriptionPlanComp from '../../../components/SubcriptionPlanComp/SubcriptionPlanComp';
-import {ButtonIconComp} from '../../../components/ButtonIconComp/ButtonIconComp';
-const MentorPaymentMethod = ({route}) => {
-  const items = route.params;
+import {useEffect} from 'react';
+import {MentorGetPlanUrl} from '../../../config/Urls';
+import {useSelector} from 'react-redux';
+import {FlatList} from 'react-native-gesture-handler';
+import {SkypeIndicator} from 'react-native-indicators';
+const MentorPaymentMethod = ({navigation}) => {
+  const {userData, token} = useSelector(state => state.userData);
+
+  // const items = route.params;
+  const [allStates, setAllStates] = useState({
+    getPlan: [],
+  });
+  const [allLoading, setAllLoading] = useState({
+    getPlanLoading: false,
+  });
+  const {getPlanLoading} = allLoading;
+  const {getPlan} = allStates;
+  const updateState = data => {
+    setAllStates(prev => ({...prev, ...data}));
+  };
+  const updateLoadingState = data => {
+    setAllLoading(prev => ({...prev, ...data}));
+  };
+
+  const getApiData = (url, state, loading) => {
+    updateLoadingState({[loading]: true});
+    axios
+      .get(url, {
+        headers: {Authorization: `Bearer ${token}`},
+      })
+      .then(function (response) {
+        updateState({[state]: response.data.data});
+        updateLoadingState({[loading]: false});
+      })
+      .catch(function (error) {
+        updateLoadingState({[loading]: false});
+        errorMessage(errorHandler(error));
+      });
+  };
+  useEffect(() => {
+    getApiData(MentorGetPlanUrl, 'getPlan', 'getPlanLoading');
+  }, []);
+  console.log(22, getPlan);
+
   return (
     <View style={{flex: 1, backgroundColor: colorTutor_.ipalBlue}}>
       <BackHeaderComponent
@@ -38,14 +73,36 @@ const MentorPaymentMethod = ({route}) => {
             color={MentorColor.MentorThemeFirst}
           />
         </View>
-        <View style={{marginTop: wp('3')}}>
+        {getPlanLoading ? (
+          <SkypeIndicator
+            color={'white'}
+            size={hp('4')}
+            style={styles.loaderStyle}
+          />
+        ) : (
+          <FlatList
+            data={getPlan}
+            keyExtractor={(index, item) => index.toString()}
+            renderItem={({item, index}) => {
+              return (
+                <SubcriptionPackComp
+                  priceTxt={`$${item?.price}`}
+                  iconcolor={MentorColor.MentorlightGrey}
+                  data={false}
+                  text={`You are subscribed to our ${item?.plan_type} package`}
+                />
+              );
+            }}
+          />
+        )}
+        {/* <View style={{marginTop: wp('3')}}>
           <SubcriptionPackComp
             priceTxt={'$65'}
             iconcolor={MentorColor.MentorlightGrey}
             data={false}
             text={`You are subscribed to our yearly package`}
           />
-        </View>
+        </View> */}
         <View style={{...styles.classDashBoard, marginTop: hp('6')}}>
           <TextComp
             style={{color: MentorColor.MentorThemeFirst}}
@@ -56,11 +113,43 @@ const MentorPaymentMethod = ({route}) => {
             color={MentorColor.MentorThemeFirst}
           />
         </View>
-        <View style={{...styles.topViewSubs}}>
+        {getPlanLoading ? (
+          <SkypeIndicator
+            color={'white'}
+            size={hp('4')}
+            style={styles.loaderStyle}
+          />
+        ) : (
+          <FlatList
+            data={getPlan}
+            keyExtractor={(index, item) => index.toString()}
+            renderItem={({item, index}) => {
+              console.log(97, index);
+              return (
+                <SubcriptionPlanComp
+                  onPress={() =>
+                    navigation.navigate('MentorPaymentCardScreen', item)
+                  }
+                  text={`Subscribe to our ${item?.plan_type} plan`}
+                  priceTxt={`$${item?.price}`}
+                  yearTxt={`${item?.plan_type}`}
+                  style={{
+                    backgroundColor:
+                      item?.plan_type == 'Per Month'
+                        ? MentorColor.MentorSubsPlan2
+                        : MentorColor.MentorSubsPlan1,
+                  }}
+                />
+              );
+            }}
+          />
+        )}
+        {/* <View style={{...styles.topViewSubs}}>
           <SubcriptionPlanComp
             text={`Subscribe to our yearly plan`}
             priceTxt={`$65`}
             yearTxt={`per anum`}
+            onpress={()=>{navigation.navigate('MentorPaymentCardScreen')}}
           />
         </View>
         <View style={{marginTop: hp('2')}}>
@@ -70,7 +159,7 @@ const MentorPaymentMethod = ({route}) => {
             priceTxt={`$15`}
             yearTxt={`per month`}
           />
-        </View>
+        </View> */}
       </ScrollView>
     </View>
   );

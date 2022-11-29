@@ -13,7 +13,9 @@ export const ButtonThemeComp = props => {
     <TouchableOpacity
       // disabled={true}
       disabled={props.disabled ? props.disabled : props?.isLoading}
-      onPress={() => props?.onPress()}
+      onPress={() =>
+        props?.onPress ? props?.onPress() : console.log('onpress console')
+      }
       style={{...styles.ButtonView, ...props?.style}}>
       {props.isLoading ? (
         <SkypeIndicator
