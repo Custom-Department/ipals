@@ -252,10 +252,10 @@ const MentorDashboardScreen = ({navigation}) => {
         contentContainerStyle={styles.MainScroll}>
         <View style={styles.MainView}>
           <HorizantalDetailComp
-            leftText={`   My classes`}
+            leftText={`   Approved request`}
             dot={true}
-            line={true}
-            rightText={` view all classes`}
+            // line={true}
+            // rightText={` view all classes`}
           />
           {acceptLoading ? (
             <SkypeIndicator
@@ -296,8 +296,8 @@ const MentorDashboardScreen = ({navigation}) => {
           <HorizantalDetailComp
             leftText={`   Pending requests`}
             dot={true}
-            line={true}
-            rightText={` view all classes`}
+            // line={true}
+            // rightText={` view all classes`}
           />
           {pendingLoading ? (
             <SkypeIndicator
@@ -335,8 +335,8 @@ const MentorDashboardScreen = ({navigation}) => {
           <HorizantalDetailComp
             leftText={`   Your Subcription`}
             dot={true}
-            line={true}
-            rightText={` view all plans`}
+            // line={true}
+            // rightText={` view all plans`}
           />
 
           {/* {subcriptionState.length > 0 ? (
@@ -374,7 +374,6 @@ to any plans`}
               />
             </View>
           )} */}
-          {console.log(374, subcriptionState)}
           {subcriptionState.length > 0 ? (
             <FlatList
               data={subcriptionState}
@@ -389,8 +388,8 @@ to any plans`}
                 return (
                   <View style={{marginTop: wp('3')}}>
                     <SubcriptionPackComp
-                      // priceTxt={'$' + item?.price}
-                      priceTxt={'$50'}
+                      priceTxt={'$' + item?.price}
+                      // priceTxt={'$50'}
                       iconcolor={MentorColor.MentorlightGrey}
                       perAnumTxt={item?.plan_type}
                       data={false}

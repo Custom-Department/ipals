@@ -44,7 +44,6 @@ const SettingScreen = ({route, navigation}) => {
   const {userData} = useSelector(state => state.userData);
   const [isVisible, setIsVisible] = useState();
   const {user, token} = route.params;
-  console.log(47, userData);
 
   const dispatch = useDispatch();
 
@@ -105,11 +104,11 @@ const SettingScreen = ({route, navigation}) => {
             }
           />
         </TouchableOpacity>
-        <SettingIconComp
+        {/* <SettingIconComp
           onPress={() => console.log('hellow')}
           name={'info'}
           text={'Help & Guide'}
-        />
+        /> */}
         <TouchableOpacity onPress={() => dispatch({type: types.LogoutType})}>
           <SettingIconComp name={'sign-out'} text={' Log out'} />
         </TouchableOpacity>

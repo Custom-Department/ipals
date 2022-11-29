@@ -137,4 +137,12 @@ export const styles = StyleSheet.create({
     // flexWrap: 'wrap',
     flexWrap: 'wrap',
   },
+  addButton: {
+    flexDirection: 'row',
+    width: wp('100'),
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    display: 'flex',
+  },
 });

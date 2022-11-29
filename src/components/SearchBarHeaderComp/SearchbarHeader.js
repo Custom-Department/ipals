@@ -60,11 +60,11 @@ export const SearchbarHeader = props => {
             />
           )} */}
           <Feather
-            onPress={() =>
-              userData.user_type == 'mentor'
-                ? navigation.navigate('MentorSettingScreen')
-                : navigation.navigate('MenteeSettingScreen')
-            }
+            onPress={() => {
+              userData.user_type == 'mentee'
+                ? navigation.navigate('MenteeSettingScreen')
+                : navigation.navigate('MentorSettingScreen');
+            }}
             name={'menu'}
             size={hp('3')}
             color={color.white}

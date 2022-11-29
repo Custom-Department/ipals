@@ -63,7 +63,7 @@ const MentorProfileScreen = ({navigation}) => {
     userImage: [],
     subjectModelLoader: false,
     subjectModelList: [],
-    activities: userData.category.length > 0 ? [...userData.category] : [],
+    activities: userData?.category?.length > 0 ? [...userData.category] : [],
     idSubjectArray: [],
     isVisible: false,
   });
@@ -123,28 +123,28 @@ const MentorProfileScreen = ({navigation}) => {
     }
 
     if (BioData != null && BioData != '') {
-      var bodyFormData = new FormData();
-
-      userImage.length > 0 &&
-        bodyFormData.append('profile_image', {
-          name: userImage[0]?.fileName,
-          uri: userImage[0]?.uri,
-          type: userImage[0]?.type,
-        });
-      bodyFormData.append('bio', BioData);
-      userData.user_type == 'mentor' &&
-        bodyFormData.append('category_id', [idSubjectArray]);
-      console.log(152, bodyFormData);
+      // var bodyFormData = new FormData();
+      let body = {
+        bio: BioData,
+        category_id: idSubjectArray,
+      };
+      // userImage.length > 0 &&
+      //   bodyFormData.append('profile_image', {
+      //     name: userImage[0]?.fileName,
+      //     uri: userImage[0]?.uri,
+      //     type: userImage[0]?.type,
+      //   });
+      // bodyFormData.append('bio', BioData);
+      // bodyFormData.append('category_id', [idSubjectArray]);
       axios
         .post(
           userData.user_type == 'mentee'
             ? MenteeUpdateProfileUrl
             : MentorUpdateProfileUrl,
-          bodyFormData,
+          body,
           {
             headers: {
               Authorization: `Bearer ${token}`,
-              'Content-Type': 'multipart/form-data',
             },
           },
         )
@@ -170,44 +170,49 @@ const MentorProfileScreen = ({navigation}) => {
       <>
         <View style={styles.modalMainView}>
           <View style={styles.modalInnerView}>
-            <TextComp text="Select schedule for class" style={styles.heading} />
+            <TextComp text="Select Category" style={styles.heading} />
             <View style={styles.daysView}>
               {subjectModelList.length > 0
                 ? subjectModelList.map((res, i) => {
-                    console.log(188, res, i);
                     return (
-                      <>
-                        <TouchableOpacity
-                          onPress={() => selectActivities(res, i)}
+                      <TouchableOpacity
+                        onPress={() => selectActivities(res, i)}
+                        style={{
+                          ...styles.activitiesContainer,
+                          backgroundColor: activities.find(ress => {
+                            return ress.id == res.id;
+                          })
+                            ? color.lightPurple
+                            : 'white',
+                          borderColor: activities.find(ress => {
+                            return ress.id == res.id;
+                          })
+                            ? color.orderBoxColor
+                            : 'black',
+                          borderWidth: activities.find(ress => {
+                            return ress.id == res.id;
+                          })
+                            ? 2
+                            : 1,
+                        }}>
+                        <TextComp
+                          text={res?.title}
                           style={{
-                            ...styles.activitiesContainer,
-                            backgroundColor:
-                              activities[i]?.id == res?.id
-                                ? color.lightPurple
-                                : 'white',
-                            borderColor:
-                              activities[i]?.id == res?.id
-                                ? color.orderBoxColor
-                                : 'black',
-                            borderWidth: activities[i]?.id == res?.id ? 2 : 1,
-                          }}>
-                          <TextComp
-                            text={res?.title}
-                            style={{
-                              textAlign: 'center',
-                              color:
-                                activities[i]?.id == res?.id
-                                  ? color.orderBoxColor
-                                  : 'black',
-                              fontWeight:
-                                activities[i]?.id == res?.id
-                                  ? 'bold'
-                                  : 'normal',
-                              fontSize: hp('1.5'),
-                            }}
-                          />
-                        </TouchableOpacity>
-                      </>
+                            textAlign: 'center',
+                            color: activities.find(ress => {
+                              return ress.id == res.id;
+                            })
+                              ? color.orderBoxColor
+                              : 'black',
+                            fontWeight: activities.find(ress => {
+                              return ress.id == res.id;
+                            })
+                              ? 'bold'
+                              : 'normal',
+                            fontSize: hp('1.5'),
+                          }}
+                        />
+                      </TouchableOpacity>
                     );
                   })
                 : null}
@@ -216,9 +221,13 @@ const MentorProfileScreen = ({navigation}) => {
             <View style={styles.Bottombtn}>
               <ButtonThemeComp
                 onPress={() => {
-                  updateState({isVisible: false});
+                  if (activities.length > 0) {
+                    updateState({isVisible: false});
+                  } else {
+                    errorMessage('Please select at least one course');
+                  }
                 }}
-                text={'Apply For Class'}
+                text={'Add Category'}
               />
             </View>
           </View>
@@ -227,13 +236,51 @@ const MentorProfileScreen = ({navigation}) => {
     );
   };
   const selectActivities = (v, i) => {
-    if (activities[i]?.id == v?.id) {
+    if (
+      activities.find(ress => {
+        return ress.id == v.id;
+      })
+    ) {
       updateState({
         activities: activities.filter(activities => activities.id !== v.id),
       });
     } else {
       updateState({activities: [...activities, v]});
     }
+  };
+  const updateImage = image => {
+    var sendImageData = new FormData();
+
+    sendImageData.append('profile_image', {
+      name: image[0]?.fileName,
+      uri: image[0]?.uri,
+      type: image[0]?.type,
+    });
+    axios
+      .post(
+        userData.user_type == 'mentee'
+          ? MenteeUpdateProfileUrl
+          : MentorUpdateProfileUrl,
+        sendImageData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      )
+      .then(res => {
+        updateState({isLoading: false});
+        dispatch({
+          type: types.UpdateProfile,
+          payload: {user: res.data.data},
+        });
+        successMessage('Your Image Successful Updated');
+      })
+      .catch(function (error) {
+        updateState({isLoading: false});
+        errorMessage(errorHandler(error));
+      });
   };
   const pickImagesFromGalary = () => {
     launchImageLibrary(
@@ -247,6 +294,7 @@ const MentorProfileScreen = ({navigation}) => {
       res => {
         if (!res?.didCancel) {
           updateState({userImage: res?.assets});
+          updateImage(res?.assets);
         }
       },
     );
@@ -304,22 +352,7 @@ const MentorProfileScreen = ({navigation}) => {
               flexWrap: 'wrap',
               display: 'flex',
             }}>
-            {activities.length > 0 && // ? activities?.map(res => {
-              //     console.log(313, res);
-              //     return (
-              //       <View style={styles.subView}>
-              //         <TextComp
-              //           text={res?.title}
-              //           style={{
-              //             fontSize: hp('1.3'),
-              //             textAlign: 'center',
-              //             color: 'white',
-              //           }}
-              //         />
-              //       </View>
-              //     );
-              //   })
-              // :
+            {activities.length > 0 &&
               activities?.map(res => {
                 return (
                   <View style={styles.subView}>

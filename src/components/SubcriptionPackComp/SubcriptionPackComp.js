@@ -55,13 +55,16 @@ const styles = StyleSheet.create({
   text: {
     color: 'white',
     fontSize: hp('2'),
+    width: wp('60'),
   },
   packageView: {
     borderRadius: 10,
     padding: 5,
-    backgroundColor: 'red ',
+    backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
+    height: hp('10'),
+    // width: wp('20'),
   },
   priceView: {
     color: MentorColor.MentorThemeFirst,

@@ -52,7 +52,7 @@ const MenteeSettingScreen = ({navigation}) => {
             text={' Account settings'}
           />
         </TouchableOpacity>
-        <TouchableOpacity>
+        {/* <TouchableOpacity>
           <SettingIconComp
             onPress={() => console.log('hellow')}
             changeIcon={
@@ -64,7 +64,7 @@ const MenteeSettingScreen = ({navigation}) => {
             }
             text={'Media/files'}
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         {/* <TouchableOpacity
           onPress={() => navigation.navigate('MentorPaymentMethod')}>
           <SettingIconComp

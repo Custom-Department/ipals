@@ -71,11 +71,11 @@ const MentorSettingScreen = ({navigation}) => {
             }
           />
         </TouchableOpacity>
-        <SettingIconComp
+        {/* <SettingIconComp
           onPress={() => console.log('hellow')}
           name={'info'}
           text={'Help & Guide'}
-        />
+        /> */}
         <TouchableOpacity
           onPress={() => {
             dispatch({

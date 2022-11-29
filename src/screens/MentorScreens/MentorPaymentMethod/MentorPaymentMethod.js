@@ -16,7 +16,8 @@ import {useEffect} from 'react';
 import {MentorGetPlanUrl} from '../../../config/Urls';
 import {useSelector} from 'react-redux';
 import {FlatList} from 'react-native-gesture-handler';
-const MentorPaymentMethod = ({route}) => {
+import {SkypeIndicator} from 'react-native-indicators';
+const MentorPaymentMethod = ({navigation}) => {
   const {userData, token} = useSelector(state => state.userData);
 
   // const items = route.params;
@@ -90,34 +91,43 @@ const MentorPaymentMethod = ({route}) => {
             color={MentorColor.MentorThemeFirst}
           />
         </View>
-        <FlatList
-          data={getPlan}
-          keyExtractor={(index, item) => index.toString()}
-          contentContainerStyle={{marginTop: hp('1')}}
-          renderItem={({item, index}) => {
-            console.log(97, index);
-            return (
-              <SubcriptionPlanComp
-                text={`Subscribe to our ${item?.plan_type} plan`}
-                priceTxt={`$${item?.price}`}
-                yearTxt={`${item?.plan_type}`}
-                isloading={getPlanLoading}
-                style={{
-                  marginTop: hp('2'),
-                  backgroundColor:
-                    item?.plan_type == 'Per Month'
-                      ? MentorColor.MentorSubsPlan2
-                      : MentorColor.MentorSubsPlan1,
-                }}
-              />
-            );
-          }}
-        />
+        {getPlanLoading ? (
+          <SkypeIndicator
+            color={'white'}
+            size={hp('4')}
+            style={styles.loaderStyle}
+          />
+        ) : (
+          <FlatList
+            data={getPlan}
+            keyExtractor={(index, item) => index.toString()}
+            renderItem={({item, index}) => {
+              console.log(97, index);
+              return (
+                <SubcriptionPlanComp
+                  onPress={() =>
+                    navigation.navigate('MentorPaymentCardScreen', item)
+                  }
+                  text={`Subscribe to our ${item?.plan_type} plan`}
+                  priceTxt={`$${item?.price}`}
+                  yearTxt={`${item?.plan_type}`}
+                  style={{
+                    backgroundColor:
+                      item?.plan_type == 'Per Month'
+                        ? MentorColor.MentorSubsPlan2
+                        : MentorColor.MentorSubsPlan1,
+                  }}
+                />
+              );
+            }}
+          />
+        )}
         {/* <View style={{...styles.topViewSubs}}>
           <SubcriptionPlanComp
             text={`Subscribe to our yearly plan`}
             priceTxt={`$65`}
             yearTxt={`per anum`}
+            onpress={()=>{navigation.navigate('MentorPaymentCardScreen')}}
           />
         </View>
         <View style={{marginTop: hp('2')}}>

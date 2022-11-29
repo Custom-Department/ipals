@@ -12,9 +12,7 @@ import {SkypeIndicator} from 'react-native-indicators';
 
 const SubcriptionPlanComp = props => {
   let name = props?.name ?? 'exclamationcircle';
-  return props.isloading ? (
-    <SkypeIndicator color={'white'} size={hp('4')} style={styles.loaderStyle} />
-  ) : (
+  return (
     <View style={{...styles.MainView, ...props?.style}}>
       <View style={styles.innerMainView}>
         <View style={styles.packageView}>
@@ -25,7 +23,9 @@ const SubcriptionPlanComp = props => {
           <TextComp style={styles.text} text={props?.text} />
 
           <ButtonIconComp
-            onPress={() => console.log('klasjfdl')}
+            onPress={() =>
+              props?.onPress ? props?.onPress() : console.log('klasjfdl')
+            }
             style={styles.buttonView}
             text={`Proceed`}
             size={hp('3')}
@@ -51,9 +51,6 @@ const styles = StyleSheet.create({
   },
   loaderStyle: {
     alignSelf: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'red',
-    flex: 1,
   },
   innerMainView: {
     width: wp('80'),
