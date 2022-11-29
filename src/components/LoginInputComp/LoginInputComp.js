@@ -69,17 +69,31 @@ export const LoginInputComp = props => {
         autoCapitalize={props?.autoCapitalize}
       />
 
-      <MaterialIcons
-        onPress={props?.eyeIconPress}
-        name={props?.eyeIconName}
-        color={
-          props?.isFocused == true
-            ? color.textSecondaryColor
-            : color.themeColorDark
-        }
-        style={{marginLeft: 'auto', marginRight: wp('3')}}
-        size={props?.eyeIconSize ?? hp('2')}
-      />
+      {props?.Ionicons ? (
+        <Ionicons
+          onPress={props?.eyeIconPress}
+          name={props?.eyeIconName}
+          color={
+            props?.isFocused == true
+              ? color.textSecondaryColor
+              : color.themeColorDark
+          }
+          style={{marginLeft: 'auto', marginRight: wp('3')}}
+          size={props?.eyeIconSize ?? hp('2')}
+        />
+      ) : (
+        <MaterialIcons
+          onPress={props?.eyeIconPress}
+          name={props?.eyeIconName}
+          color={
+            props?.isFocused == true
+              ? color.textSecondaryColor
+              : color.themeColorDark
+          }
+          style={{marginLeft: 'auto', marginRight: wp('3')}}
+          size={props?.eyeIconSize ?? hp('2')}
+        />
+      )}
     </View>
   );
 };

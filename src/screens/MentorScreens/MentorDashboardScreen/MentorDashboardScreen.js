@@ -10,7 +10,6 @@ import {
   RefreshControl,
   View,
 } from 'react-native';
-import {MentorClassComp} from '../../../components/MentorClassComp/MentorClassComp';
 import {colorTutor_, MentorColor} from '../../../config/color';
 import {styles} from './style';
 import {
@@ -28,10 +27,8 @@ import axios from 'react-native-axios';
 import {
   GetMentorApprovedClassUrl,
   GetMentorPendingClassUrl,
-  GetPendingClassUrl,
   MentorSubscriptionUrl,
   MentorUpdateStatusUrl,
-  UpdateRequestStatusUrl,
 } from '../../../config/Urls';
 import {errorHandler} from '../../../config/helperFunction';
 import {
@@ -85,68 +82,9 @@ const MentorDashboardScreen = ({navigation}) => {
   const updateLoadingState = data => {
     setAllLoading(prev => ({...prev, ...data}));
   };
-  const [teacherList, setTeacherList] = useState([
-    {
-      id: 0,
-      image: require('../../../image/profile.jpg'),
-      name: 'Sarah Martin',
-      clock: '9:00PM - 10:00PM',
-      subject: 'English',
-      timing: '1 hour',
-    },
-    {
-      id: 1,
-      image: require('../../../image/profile.jpg'),
-      name: 'Sarah Martin',
-      clock: '9:00PM - 10:00PM',
-      subject: 'English',
-      timing: '1 hour',
-    },
-    {
-      id: 2,
-      image: require('../../../image/profile.jpg'),
-      name: 'Sarah Martin',
-      clock: '9:00PM - 10:00PM',
-      subject: 'English',
-      timing: '1 hour',
-    },
-    {
-      id: 3,
-      image: require('../../../image/profile.jpg'),
-      name: 'Sarah Martin',
-      clock: '9:00PM - 10:00PM',
-      subject: 'English',
-      timing: '1 hour',
-    },
-    {
-      id: 4,
-      image: require('../../../image/profile.jpg'),
-      name: 'Sarah Martin',
-      clock: '9:00PM - 10:00PM',
-      subject: 'English',
-      timing: '1 hour',
-    },
-    {
-      id: 5,
-      image: require('../../../image/profile.jpg'),
-      name: 'Sarah Martin',
-      clock: '9:00PM - 10:00PM',
-      subject: 'English',
-      timing: '1 hour',
-    },
-    {
-      id: 6,
-      image: require('../../../image/profile.jpg'),
-      name: 'Sarah Martin',
-      clock: '9:00PM - 10:00PM',
-      subject: 'English',
-      timing: '1 hour',
-    },
-  ]);
   const updateStatus = (data, status) => {
     updateLoadingState({pendingLoading: true});
     let url = MentorUpdateStatusUrl + data.id;
-    console.log(141, url);
     let body = {
       // status: 'Approve',
       // status: 'Rejected',
@@ -189,6 +127,7 @@ const MentorDashboardScreen = ({navigation}) => {
       acceptLoading: true,
       pendingLoading: true,
       GetTeacherLoading: true,
+      subcriptionLoader: true,
     });
     wait(2000).then(() => {
       getApiData(
@@ -201,6 +140,12 @@ const MentorDashboardScreen = ({navigation}) => {
         'pendingClassState',
         'pendingLoading',
       );
+      getApiData(
+        MentorSubscriptionUrl,
+        'subcriptionState',
+        'subcriptionLoader',
+      );
+
       setRefreshing(false);
     });
   }, []);
