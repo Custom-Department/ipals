@@ -103,6 +103,7 @@ const MentorPaymentMethod = ({route}) => {
                 yearTxt={`${item?.plan_type}`}
                 isloading={getPlanLoading}
                 style={{
+                  marginTop: hp('2'),
                   backgroundColor:
                     item?.plan_type == 'Per Month'
                       ? MentorColor.MentorSubsPlan2
