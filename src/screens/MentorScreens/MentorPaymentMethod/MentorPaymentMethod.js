@@ -73,14 +73,36 @@ const MentorPaymentMethod = ({navigation}) => {
             color={MentorColor.MentorThemeFirst}
           />
         </View>
-        <View style={{marginTop: wp('3')}}>
+        {getPlanLoading ? (
+          <SkypeIndicator
+            color={'white'}
+            size={hp('4')}
+            style={styles.loaderStyle}
+          />
+        ) : (
+          <FlatList
+            data={getPlan}
+            keyExtractor={(index, item) => index.toString()}
+            renderItem={({item, index}) => {
+              return (
+                <SubcriptionPackComp
+                  priceTxt={`$${item?.price}`}
+                  iconcolor={MentorColor.MentorlightGrey}
+                  data={false}
+                  text={`You are subscribed to our ${item?.plan_type} package`}
+                />
+              );
+            }}
+          />
+        )}
+        {/* <View style={{marginTop: wp('3')}}>
           <SubcriptionPackComp
             priceTxt={'$65'}
             iconcolor={MentorColor.MentorlightGrey}
             data={false}
             text={`You are subscribed to our yearly package`}
           />
-        </View>
+        </View> */}
         <View style={{...styles.classDashBoard, marginTop: hp('6')}}>
           <TextComp
             style={{color: MentorColor.MentorThemeFirst}}

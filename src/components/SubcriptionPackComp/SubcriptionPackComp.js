@@ -25,7 +25,9 @@ const SubcriptionPackComp = props => {
         ) : (
           <View style={styles.packageView}>
             <TextComp style={styles.priceView} text={props?.priceTxt} />
-            <TextComp style={styles.perAnumView} text={props?.perAnumTxt} />
+            {props?.perAnumTxt && (
+              <TextComp style={styles.perAnumView} text={props?.perAnumTxt} />
+            )}
           </View>
         )}
       </View>
@@ -44,6 +46,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: hp('1'),
   },
   innerMainView: {
     width: wp('86'),
@@ -59,12 +62,12 @@ const styles = StyleSheet.create({
   },
   packageView: {
     borderRadius: 10,
-    padding: 5,
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
-    height: hp('10'),
+    height: hp('8'),
     // width: wp('20'),
+    padding: 5,
   },
   priceView: {
     color: MentorColor.MentorThemeFirst,

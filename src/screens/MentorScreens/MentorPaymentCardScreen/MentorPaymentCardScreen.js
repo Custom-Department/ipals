@@ -47,7 +47,7 @@ import {styles} from './styles';
 const MentorPaymentCardScreen = ({route}) => {
   const {userData, token} = useSelector(state => state.userData);
   const items = route.params;
-  console.log(48, items);
+  // console.log(48, items);
   const handleCardNumber = text => {
     let formattedText = text.split(' ').join('');
     if (formattedText.length > 0) {
@@ -68,15 +68,10 @@ const MentorPaymentCardScreen = ({route}) => {
   const updateState = data => setnumbervlaue(() => ({...numbervalue, ...data}));
   const {name, number, MM, YY, cvc, isLoading} = numbervalue;
 
-  console.log(156, name, number, MM, YY, cvc);
+  // console.log(156, name, number, MM, YY, cvc);
 
   hitStripeAPi = () => {
     updateState({isLoading: true});
-    // isloading = true;
-    // console.log('Check State =====>', isloading);
-
-    // const {Card_Number, Exp_Month, Exp_Year, CVV} = this.state;
-    // const {navigation, updateUserData} = this.props;
     var cardno =
       /^5[1-5][0-9]{14}$|^2(?:2(?:2[1-9]|[3-9][0-9])|[3-6][0-9][0-9]|7(?:[01][0-9]|20))[0-9]{12}$/;
     var today, someday;
@@ -102,11 +97,7 @@ const MentorPaymentCardScreen = ({route}) => {
       data.append('exp_month', MM);
       data.append('exp_year', YY);
       data.append('cvc', cvc);
-      // data.append('plan_id', 1);
-      // data.append('cardNumber', 4242424242424242);
-      // data.append('exp_month', 12);
-      // data.append('exp_year', 26);
-      // data.append('cvc', 123);
+
       axios
         .post(
           MentorPaymentUrl,
@@ -122,7 +113,7 @@ const MentorPaymentCardScreen = ({route}) => {
           },
         )
         .then(res => {
-          console.log(156, res);
+          console.log(156, res?.data);
           updateState({isLoading: false});
           // dispatch({
           //   type: types.UpdateProfile,
@@ -131,9 +122,12 @@ const MentorPaymentCardScreen = ({route}) => {
           successMessage('Your Payment Successful Proceed');
         })
         .catch(function (error) {
+          console.log(130, error);
           updateState({isLoading: false});
           errorMessage(errorHandler(error));
         });
+    } else {
+      errorMessage('Please type correct information');
     }
   };
   return (
@@ -215,8 +209,12 @@ const MentorPaymentCardScreen = ({route}) => {
               />
             </View>
           </View>
-          <View style={{alignItems: 'center'}}>
-            <ButtonThemeComp style={styles.continue} text={'Continue'} />
+          <View onPress={() => hitStripeAPi()} style={{alignItems: 'center'}}>
+            <ButtonThemeComp
+              onPress={() => hitStripeAPi()}
+              style={styles.continue}
+              text={'Continue'}
+            />
           </View>
           {/* <TouchableOpacity
             style={styles.continue}
