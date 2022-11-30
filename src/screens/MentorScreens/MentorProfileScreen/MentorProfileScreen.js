@@ -127,6 +127,8 @@ const MentorProfileScreen = ({navigation}) => {
       let body = {
         bio: BioData,
         category_id: idSubjectArray,
+        f_name:userData?.f_name,
+        l_name:userData?.l_name
       };
       // userImage.length > 0 &&
       //   bodyFormData.append('profile_image', {

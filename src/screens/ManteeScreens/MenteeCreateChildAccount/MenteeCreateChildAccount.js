@@ -73,13 +73,13 @@ const MenteeCreateChildAccount = () => {
           headers: {Authorization: `Bearer ${token}`},
         })
         .then(function (response) {
-          console.log(73, response.data);
+          // console.log(73, response.data);
           successMessage(response?.data?.message);
           // updateState({[state]: response.data.data});
           updateLoadingState({[loading]: false});
         })
         .catch(function (error) {
-          console.log(980, error);
+          // console.log(980, error);
           updateLoadingState({[loading]: false});
           errorMessage(errorHandler(error));
         });
@@ -89,7 +89,7 @@ const MenteeCreateChildAccount = () => {
       errorMessage('Please type correct information');
     }
   };
-  console.log(144, fullNameState, lastNameState, emailState, passwordState);
+  // console.log(144, fullNameState, lastNameState, emailState, passwordState);
 
   return (
     <View style={{flex: 1, backgroundColor: colorTutor_.ipalBlue}}>
