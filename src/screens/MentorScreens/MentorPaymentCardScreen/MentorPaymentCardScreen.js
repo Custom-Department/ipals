@@ -162,25 +162,48 @@ const MentorPaymentCardScreen = ({route}) => {
             />
           </View> */}
 
-          <View style={styles.stripecardnumber}>
-            <TextInput
-              style={styles.childcardname}
-              placeholder="Enter Card Number"
-              maxLength={19}
-              keyboardType={'numeric'}
-              placeholderTextColor="grey"
-              value={number}
-              onChangeText={num => handleCardNumber(num)}
-            />
-          </View>
-          <View style={{flexDirection: 'row', margin: 10, marginTop: hp('4')}}>
-            <View style={{flexDirection: 'row'}}>
-              <View style={styles.childcard}>
+            <View style={styles.stripecardnumber}>
+              <TextInput
+                style={styles.childcardname}
+                placeholder="Enter Card Number"
+                maxLength={19}
+                keyboardType={'numeric'}
+                placeholderTextColor="grey"
+                value={number}
+                onChangeText={num => handleCardNumber(num)}
+              />
+            </View>
+            <View
+              style={{flexDirection: 'row', margin: 10, marginTop: hp('4')}}>
+              <View style={{flexDirection: 'row'}}>
+                <View style={styles.childcard}>
+                  <TextInput
+                    style={{fontSize: hp('2'), color:color.black}}
+                    placeholder="MM"
+                    maxLength={2}
+                    placeholderTextColor="grey"
+                    keyboardType={'numeric'}
+                    value={MM}
+                    onChangeText={month => updateState({MM: month})}
+                  />
+                </View>
+                <View style={styles.childcard}>
+                  <TextInput
+                    style={{flex: 1, fontSize: hp('2'), color:color.black}}
+                    placeholder="YY"
+                    maxLength={2}
+                    placeholderTextColor="grey"
+                    keyboardType={'numeric'}
+                    value={YY}
+                    onChangeText={year => updateState({YY: year})}
+                  />
+                </View>
+              </View>
+              <View style={styles.childcvc}>
                 <TextInput
-                  style={{fontSize: hp('2'), color: 'black'}}
-                  placeholder="MM"
-                  maxLength={2}
-                  placeholderTextColor="grey"
+                  style={{flex: 1, fontSize: hp('2'), color:color.black}}
+                  placeholder="CVC"
+                  maxLength={4}
                   keyboardType={'numeric'}
                   value={MM}
                   onChangeText={month => updateState({MM: month})}
@@ -238,9 +261,8 @@ const MentorPaymentCardScreen = ({route}) => {
             }}>
             <Text style={{color: 'white', fontSize: hp('2.3')}}>Continue</Text>
           </TouchableOpacity> */}
-        </View>
       </KeyboardAvoidingView>
-    </View>
+        </View>
   );
 };
 export default MentorPaymentCardScreen;
