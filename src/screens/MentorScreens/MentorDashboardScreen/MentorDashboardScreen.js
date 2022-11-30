@@ -152,7 +152,6 @@ const MentorDashboardScreen = ({navigation}) => {
     });
   }, []);
   const getApiData = (url, state, loading) => {
-    console.log('url', url);
     updateLoadingState({[loading]: true});
     axios
       .get(url, {
