@@ -34,6 +34,7 @@ import {BackHeaderComponent} from '../../../components/BackHeaderComponent/BackH
 import {
   GetMenteementorClassesUrl,
   GetMenteeTimeslot,
+  MenteeCheckoutUrl,
 } from '../../../config/Urls';
 import {SkypeIndicator} from 'react-native-indicators';
 import {
@@ -62,6 +63,7 @@ const MenteeDtailedScreen = ({route}) => {
     isVisible: false,
     timeSlotButton: false,
     isSubscriptionVisible: false,
+    isLoadingbtn:false,
     // GetapproveclassLoading: false,
   });
 
@@ -70,6 +72,7 @@ const MenteeDtailedScreen = ({route}) => {
     isVisible,
     timeSlotButton,
     isSubscriptionVisible,
+    isLoadingbtn,
     // GetapproveclassLoading
   } = allLoading;
 
@@ -194,15 +197,18 @@ const MenteeDtailedScreen = ({route}) => {
         })
         .then(function (res) {
           // console.log("res",res.data);
+          updateLoadingState({isLoadingbtn: false});
           updateLoadingState({isSubscriptionVisible: false});
           updateLoadingState({timeSlotButton: false});
           successMessage('Your Have Succefully Apply for Class');
         })
         .catch(function (error) {
+          updateLoadingState({isLoadingbtn: false});
           updateLoadingState({timeSlotButton: false});
           errorMessage(errorHandler(error));
         });
     } else {
+      updateLoadingState({isLoadingbtn: false});
       updateLoadingState({timeSlotButton: false});
       errorMessage('Please Select Days');
     }
@@ -230,9 +236,55 @@ const MenteeDtailedScreen = ({route}) => {
     const updateState = data =>
       setnumbervlaue(() => ({...numbervalue, ...data}));
     const {name,number, MM, YY, cvc} = numbervalue;
+    hitcheckoutAPi=() =>{
+      updateLoadingState({isLoadingbtn: true});
+      if (
+        number.replace(/\s/g, '').length == 16 &&
+        number != null &&
+        number != '' &&
+        MM != null &&
+        MM != '' &&
+        YY != null &&
+        YY != '' &&
+        cvc != null &&
+        cvc != ''
+      ) {
+        let body = {
+          my_class_id:getSpecData.id,
+          price: price,
+          cardNumber: number.replace(/\s/g, ''),
+          exp_month: MM,
+          exp_year: YY,
+          cvc: cvc,
+        }
+        axios.post(MenteeCheckoutUrl,body,{
+           headers: {Authorization: `Bearer ${token}`},
+          }).then(function (res) {
+            applyForClass();
 
+          }).catch(function (error) {
+          updateLoadingState({isLoadingbtn: false});
+          errorMessage(errorHandler(error));
+
+
+        });
+      }
+
+    }
     return (
       <View style={styles.modalbottommainView}>
+      {isLoadingbtn?(
+         <SkypeIndicator
+         color={'white'}
+         size={hp('4')}
+         style={{
+           // marginTop: hp('30'),
+           alignSelf: 'center',
+           justifyContent: 'center',
+           marginVertical: hp('10'),
+         }}
+       />
+      ):isSubscriptionVisible?(
         <KeyboardAvoidingView
           behavior={Platform.OS == 'ios' ? 'position' : 'padding'}>
           <View style={styles.modalbottamView}>
@@ -315,31 +367,16 @@ const MenteeDtailedScreen = ({route}) => {
             </View>
             <TouchableOpacity
               style={styles.continue}
-              onPress={() => {
-              numbervalue.name === ''?(
-              errorMessage('Please Fill Name Field')):
-              numbervalue.number === ''?(
-                errorMessage('Please Fill Number Field')
-              ):
-              numbervalue.MM === ''?(
-                errorMessage('Please Fill Month Field')
-              ): numbervalue.YY === ''?(
-                errorMessage('Please Fill Year Field')
-              ):numbervalue.cvc === ''?(
-                errorMessage('Please Fill Cvc Field')
-              ):
-              numbervalue.number.length < 14?(
-                errorMessage('Please Fill Max length')
-              ):
-              // applyForClass();
-                console.log("testnumber",numbervalue);
-              }}>
+              onPress={() => hitcheckoutAPi()}>
               <Text style={{color: 'white', fontSize: hp('2.3')}}>
                 Continue
               </Text>
             </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>
+      ):
+      updateLoadingState({isSubscriptionVisible: false})
+  }
       </View>
     );
   };
@@ -422,8 +459,7 @@ const MenteeDtailedScreen = ({route}) => {
               onPress={() => {
                 if (scheduleArray.length > 0) {
                   updateLoadingState({isVisible: false});
-                  applyForClass();
-                  // updateLoadingState({isSubscriptionVisible: true});
+                  updateLoadingState({isSubscriptionVisible:true});
                  
                 } else {
                   updateLoadingState({timeSlotButton: false});
