@@ -122,6 +122,7 @@ export const styles = StyleSheet.create({
     fontSize: hp('2.2'),
     backgroundColor: 'white',
     flex: 1,
+    color:'black',
     height: hp('6'),
     borderRadius: 10,
     marginTop: hp('3'),

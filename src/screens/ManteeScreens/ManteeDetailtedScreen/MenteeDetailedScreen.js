@@ -333,7 +333,7 @@ const MenteeDtailedScreen = ({route}) => {
               <View style={{flexDirection: 'row'}}>
                 <View style={styles.childcard}>
                   <TextInput
-                    style={{fontSize: hp('2')}}
+                    style={{fontSize: hp('2'),color:'black'}}
                     placeholder="MM"
                     maxLength={2}
                     placeholderTextColor="grey"
@@ -344,7 +344,7 @@ const MenteeDtailedScreen = ({route}) => {
                 </View>
                 <View style={styles.childcard}>
                   <TextInput
-                    style={{flex: 1, fontSize: hp('2')}}
+                    style={{flex: 1, fontSize: hp('2'),color:'black'}}
                     placeholder="YY"
                     maxLength={2}
                     placeholderTextColor="grey"
@@ -356,7 +356,7 @@ const MenteeDtailedScreen = ({route}) => {
               </View>
               <View style={styles.childcvc}>
                 <TextInput
-                  style={{flex: 1, fontSize: hp('2')}}
+                  style={{flex: 1, fontSize: hp('2'),color:'black'}}
                   placeholder="CVC"
                   maxLength={4}
                   keyboardType={'numeric'}
