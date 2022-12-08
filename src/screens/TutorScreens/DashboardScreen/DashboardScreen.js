@@ -218,38 +218,7 @@ const DashboardScreen = ({navigation}) => {
     },
   ]);
   const [cources, setCources] = useState([]);
-  const [list, setList] = useState([
-    // {
-    //   id: 0,
-    //   name: 'Freddy Mercury',
-    //   image: require('../../../image/profile.jpg'),
-    // },
-    // {
-    //   id: 1,
-    //   name: 'Freddy Mercury',
-    //   image: require('../../../image/profile.jpg'),
-    // },
-    // {
-    //   id: 2,
-    //   name: 'Freddy Mercury',
-    //   image: require('../../../image/profile.jpg'),
-    // },
-    // {
-    //   id: 3,
-    //   name: 'Freddy Mercury',
-    //   image: require('../../../image/profile.jpg'),
-    // },
-    // {
-    //   id: 4,
-    //   name: 'Freddy Mercury',
-    //   image: require('../../../image/profile.jpg'),
-    // },
-    // {
-    //   id: 5,
-    //   name: 'Freddy Mercury',
-    //   image: require('../../../image/profile.jpg'),
-    // },
-  ]);
+
   const createClasses = (url, method, params) => {
     updateLoadingState({createClassLoading: true});
     if (
@@ -332,10 +301,12 @@ const DashboardScreen = ({navigation}) => {
             </Text>
           </TouchableOpacity>
           <DateTimePickerModal
-            mode={'time'}
+            mode={'date'}
             isVisible={isVisibleTime}
             onConfirm={e => {
-              upadateStartDate(e, true);
+              let date = moment(e).format('LL');
+              console.log(date);
+              upadateStartDate(date);
               setIsVisibleTime(false);
             }}
             onCancel={() => {

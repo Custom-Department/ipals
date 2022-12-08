@@ -114,7 +114,7 @@ const OnboardScreen = ({navigation}) => {
               })
             }
             style={styles.skipBtn}>
-            <TextComp text={'Skip Intro'} />
+            <TextComp color="white" text={'Skip Intro'} />
           </TouchableOpacity>
           <View style={styles.arrowView}>
             <AntDesign
