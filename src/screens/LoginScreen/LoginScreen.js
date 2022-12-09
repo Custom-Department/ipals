@@ -108,6 +108,8 @@ const LoginScreen = ({navigation}) => {
         value={email}
         onChangeText={e => updateState({email: e})}
         eyeIconName={'email'}
+        eyeIconSize={hp('2.8')}
+        Iconcolor2={color.themeColorlight}
       />
       <LoginInputComp
         secureTextEntry={show ? false : true}
@@ -119,6 +121,10 @@ const LoginScreen = ({navigation}) => {
         Ionicons={true}
         // eyeIconName={'lock'}
         color={colorTutor_.ipallightGreen}
+        eyeIconSize={hp('2.8')}
+        Iconcolor2={color.themeColorlight}
+
+        // isFocused={focusInput}
       />
       <ButtonThemeComp
         style={styles.signBtn}
@@ -139,10 +145,19 @@ const LoginScreen = ({navigation}) => {
 
       <Divider style={styles.divider} />
       <View>
-        <Text style={{color: 'black'}}>Don't have you account</Text>
+        <Text style={{color: colorTutor_.TxtColor, fontSize: hp('1.7')}}>
+          Don't have you account ?
+        </Text>
       </View>
       <TouchableOpacity onPress={() => navigation.navigate('CreateAccount')}>
-        <Text style={{color: 'black'}}>Create New Account</Text>
+        <Text
+          style={{
+            color: colorTutor_.TxtColor,
+            marginBottom: hp('8'),
+            fontSize: hp('2.3'),
+          }}>
+          Create New Account
+        </Text>
       </TouchableOpacity>
       <View style={styles.bottomBar}>
         <TouchableOpacity onPress={() => console.log('dont have you acc')}>

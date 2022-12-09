@@ -2,6 +2,7 @@ import {
   Dimensions,
   FlatList,
   Image,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -130,6 +131,10 @@ const OnboardScreen = ({navigation}) => {
   };
   return (
     <View style={styles.container}>
+      <StatusBar
+        hidden={false}
+        barStyle={Platform.OS == 'ios' ? 'dark-content' : 'default'}
+      />
       <Image
         resizeMode="contain"
         style={styles.imageView}

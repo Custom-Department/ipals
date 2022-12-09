@@ -42,10 +42,7 @@ export const LoginInputComp = props => {
         style={{
           color: 'black',
           fontSize: hp('2'),
-          // width: wp('65'),
           flex: 1,
-
-          // alignSelf: 'flex-start',
           ...props.inputStyle,
         }}
         onSubmitEditing={props?.onSubmitEditing}
@@ -73,11 +70,12 @@ export const LoginInputComp = props => {
         <Ionicons
           onPress={props?.eyeIconPress}
           name={props?.eyeIconName}
-          color={
-            props?.isFocused == true
-              ? color.textSecondaryColor
-              : color.themeColorDark
-          }
+          // color={
+          //   props?.isFocused == true
+          //     ? color.textSecondaryColor
+          //     : color.themeColorDark
+          // }
+          color={props?.Iconcolor2}
           style={{marginLeft: 'auto', marginRight: wp('3')}}
           size={props?.eyeIconSize ?? hp('2')}
         />
@@ -85,11 +83,12 @@ export const LoginInputComp = props => {
         <MaterialIcons
           onPress={props?.eyeIconPress}
           name={props?.eyeIconName}
-          color={
-            props?.isFocused == true
-              ? color.textSecondaryColor
-              : color.themeColorDark
-          }
+          // color={
+          //   props?.isFocused == true
+          //     ? color.textSecondaryColor
+          //     : color.themeColorDark
+          // }
+          color={props?.Iconcolor2}
           style={{marginLeft: 'auto', marginRight: wp('3')}}
           size={props?.eyeIconSize ?? hp('2')}
         />
