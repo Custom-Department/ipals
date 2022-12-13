@@ -139,7 +139,7 @@ const TeacherDetailScreen = ({route, navigation}) => {
         />
         <View style={styles.centerView}>
           <View style={styles.innerBottomView}>
-            <FontAwesome name="book" size={hp('2')} color={'gray'}/>
+            <FontAwesome name="book" size={hp('2')} color={'gray'} />
             <TextComp style={{fontSize: hp('1.6')}} text={data.course.title} />
           </View>
           <View style={styles.verDivider} />
@@ -238,7 +238,7 @@ const TeacherDetailScreen = ({route, navigation}) => {
           </View>
 
           <TextComp text="Select schedule for class" style={styles.heading} />
-          <ScrollView>
+          <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.daysView}>
               {scheduleDays.map((res, i) => {
                 const Month = moment(res?.schedule).format('YYYY-MM-DD');

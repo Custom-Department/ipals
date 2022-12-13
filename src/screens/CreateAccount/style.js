@@ -58,6 +58,8 @@ export const styles = StyleSheet.create({
     width: wp('95'),
     marginBottom: hp('2'),
     alignItems: 'center',
+    marginTop: Platform.OS == 'ios' ? hp('0') : hp('2'),
+    alignContent: 'center',
   },
   btnTxt: {
     flexDirection: 'row',
@@ -91,7 +93,7 @@ export const styles = StyleSheet.create({
     borderRadius: 5,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: hp('4.5'),
+    marginTop: Platform.OS == 'ios' ? hp('5') : hp('2.8'),
     flexDirection: 'row',
   },
   linkButtonText: {

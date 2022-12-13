@@ -1,32 +1,19 @@
 import {
-  Text,
   View,
   TouchableOpacity,
-  Image,
   ImageBackground,
   Dimensions,
   ScrollView,
-  StyleSheet,
 } from 'react-native';
 import React, {useState} from 'react';
-import {HeaderComponent} from '../../../components/HeaderComponent/HeaderComponent';
 import {color, colorTutor_, MentorColor} from '../../../config/color';
-import {globalStyles} from '../../../config/globalStyles';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {TextComp} from '../../../components/TextComponent';
-import {ButtonIconComp} from '../../../components/ButtonIconComp/ButtonIconComp';
 import {ButtonThemeComp} from '../../../components/ButtonThemeComp/ButtonThemeComp';
-import {SettingIconComp} from '../../../components/SettingIconComp/SettingIconComp';
-import * as Animatable from 'react-native-animatable';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import InformationTextView from '../../../components/InformationTextView/InformationTextView';
 import {BackHeaderComponent} from '../../../components/BackHeaderComponent/BackHeaderComponent';
 import {useDispatch, useSelector} from 'react-redux';
 import {LoginInputComp} from '../../../components/LoginInputComp/LoginInputComp';
@@ -37,7 +24,6 @@ import {
   GetCourseUrl,
   MenteeUpdateProfileUrl,
   MentorUpdateProfileUrl,
-  UpdateProfileUrl,
 } from '../../../config/Urls';
 import {useEffect} from 'react';
 import {
@@ -123,21 +109,12 @@ const MentorProfileScreen = ({navigation}) => {
     }
 
     if (BioData != null && BioData != '') {
-      // var bodyFormData = new FormData();
       let body = {
         bio: BioData,
         category_id: idSubjectArray,
-        f_name:userData?.f_name,
-        l_name:userData?.l_name
+        // f_name:userData?.f_name,
+        // l_name:userData?.l_name
       };
-      // userImage.length > 0 &&
-      //   bodyFormData.append('profile_image', {
-      //     name: userImage[0]?.fileName,
-      //     uri: userImage[0]?.uri,
-      //     type: userImage[0]?.type,
-      //   });
-      // bodyFormData.append('bio', BioData);
-      // bodyFormData.append('category_id', [idSubjectArray]);
       axios
         .post(
           userData.user_type == 'mentee'

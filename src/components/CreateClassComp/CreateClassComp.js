@@ -1,11 +1,9 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, Image} from 'react-native';
-import {Divider} from 'react-native-paper';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import Feather from 'react-native-vector-icons/Feather';
 import {color, colorTutor_} from '../../config/color';
 import {TextComp} from '../TextComponent';
 import {styles} from './styles';
@@ -38,13 +36,7 @@ export const CreateClassComp = props => {
         style={{marginLeft: wp('1'), width: wp('40')}}
         color={colorTutor_.TxtColor}
       />
-      <View
-        style={{
-          marginLeft: 'auto',
-          flexDirection: 'row',
-          alignItems: 'center',
-          marginRight: wp('3'),
-        }}>
+      <View style={styles.editView}>
         <TouchableOpacity onPress={() => props?.onPress(data)}>
           <Image
             resizeMode="contain"

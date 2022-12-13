@@ -8,7 +8,6 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {color, colorTutor_} from '../../config/color';
 import {styles} from './styles';
-import {Divider} from 'react-native-paper';
 import {CircleImageComp} from '../CircleImageComp/CircleImageComp';
 import moment from 'moment/moment';
 

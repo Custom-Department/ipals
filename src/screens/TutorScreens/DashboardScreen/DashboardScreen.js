@@ -135,8 +135,6 @@ const DashboardScreen = ({navigation}) => {
   const [classId, setClassId] = useState('');
   const [buttonText, setButtonText] = useState('Create Class');
 
-  const [calenderArray, setCalenderArray] = useState([]);
-
   const [selectedDate, setSelectedDate] = useState('');
   const [markedDates, setMarkedDates] = useState({});
 
@@ -216,39 +214,6 @@ const DashboardScreen = ({navigation}) => {
 
       secondText: "Hi, we aren't ready to start our class today...",
     },
-  ]);
-  const [cources, setCources] = useState([]);
-  const [list, setList] = useState([
-    // {
-    //   id: 0,
-    //   name: 'Freddy Mercury',
-    //   image: require('../../../image/profile.jpg'),
-    // },
-    // {
-    //   id: 1,
-    //   name: 'Freddy Mercury',
-    //   image: require('../../../image/profile.jpg'),
-    // },
-    // {
-    //   id: 2,
-    //   name: 'Freddy Mercury',
-    //   image: require('../../../image/profile.jpg'),
-    // },
-    // {
-    //   id: 3,
-    //   name: 'Freddy Mercury',
-    //   image: require('../../../image/profile.jpg'),
-    // },
-    // {
-    //   id: 4,
-    //   name: 'Freddy Mercury',
-    //   image: require('../../../image/profile.jpg'),
-    // },
-    // {
-    //   id: 5,
-    //   name: 'Freddy Mercury',
-    //   image: require('../../../image/profile.jpg'),
-    // },
   ]);
   const createClasses = (url, method, params) => {
     updateLoadingState({createClassLoading: true});

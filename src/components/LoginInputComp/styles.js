@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -21,9 +21,9 @@ export const styles = StyleSheet.create({
     marginTop: hp('1'),
     alignItems: 'center',
     flexDirection: 'row',
-    backgroundColor: 'green',
     justifyContent: 'center',
     width: wp('80'),
-    height: hp('6'),
+    height: Platform.OS == 'ios' ? hp('5.5') : hp('6'),
+    backgroundColor: 'white',
   },
 });

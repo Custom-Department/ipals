@@ -57,8 +57,7 @@ const TeacherFilterScreen = ({route, navigation}) => {
       .get(url, {
         headers: {Authorization: `Bearer ${token}`},
         params: {
-          f_name: '',
-          l_name: '',
+          full_name: item.name,
           country_id: item.countryId,
           city_id: item.cityId,
           state_id: item.stateId,
@@ -70,7 +69,6 @@ const TeacherFilterScreen = ({route, navigation}) => {
         updateLoadingState({[loading]: false});
       })
       .catch(function (error) {
-        console.log(980, error);
         updateLoadingState({[loading]: false});
         errorMessage(errorHandler(error));
       });

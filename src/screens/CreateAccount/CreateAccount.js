@@ -1,6 +1,7 @@
 import {
   Image,
   Keyboard,
+  Platform,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -18,6 +19,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Octicons from 'react-native-vector-icons/Octicons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import PickerComponent from '../../components/PickerComponent/PickerComponent';
 import {ApiGet, errorHandler} from '../../config/helperFunction';
@@ -44,7 +46,7 @@ const CreateAccount = ({navigation}) => {
     CityData: null,
     StateData: null,
     ZipCodeData: '',
-    AcademicYearData: [],
+    AcademicYearDatas: [],
     CourcesData: '',
     CategoriesData: '',
     PhoneNumber: '',
@@ -63,6 +65,7 @@ const CreateAccount = ({navigation}) => {
   });
 
   const [EducationData, setEducationData] = useState([]);
+  const [AcademicYearData, setAcademicYearData] = useState([]);
   const [AddField, setAddField] = useState(['']);
   const [dummy, setDummy] = useState(1);
   const [isloading, setIsloading] = useState(false);
@@ -73,7 +76,7 @@ const CreateAccount = ({navigation}) => {
     CityData: 'CityData',
     StateData: 'StateData',
     ZipCodeData: 'ZipCodeData',
-    AcademicYearData: 'AcademicYearData',
+    AcademicYearDatas: 'AcademicYearDatas',
     CourcesData: 'CourcesData',
     CategoriesData: 'CategoriesData',
   };
@@ -90,13 +93,14 @@ const CreateAccount = ({navigation}) => {
     FirstName,
     LastName,
     ZipCodeData,
-    AcademicYearData,
+    AcademicYearDatas,
     Email,
   } = tutorValue;
   const [isKeyboardVisible, setKeyboardVisible] = useState(hp('20'));
   const [showBottomBar, setShowBottomBar] = useState(false);
-  const updateInputState = data =>
+  const updateInputState = data => {
     setTutorValue(() => ({...tutorValue, ...data}));
+  };
   const [pickerState, setPickerState] = useState({
     tutorData: [
       {
@@ -186,6 +190,7 @@ const CreateAccount = ({navigation}) => {
       linkedin_refresh_token,
       linkedin_token,
     } = tutorValue;
+    console.log(193, AddField, EducationData, AcademicYearData);
     if (
       tutorData != null &&
       CourcesData != null &&
@@ -219,8 +224,8 @@ const CreateAccount = ({navigation}) => {
         zip_code: ZipCodeData,
         course_id: CourcesData,
         phone_number: PhoneNumber,
-        institution_name: [],
-        academic_year: [],
+        institution_name: EducationData,
+        academic_year: AcademicYearData,
         linkedin_id: linkedin_id,
         linkedin_token: linkedin_token,
         linkedin_avatar: linkedin_avatar,
@@ -246,7 +251,12 @@ const CreateAccount = ({navigation}) => {
       errorMessage('Please complete all fields');
     }
   };
-
+  const removeFeild = i => {
+    EducationData.splice(i, 1);
+    AddField.splice(i, 1);
+    AcademicYearData.splice(i, 1);
+    setDummy(dummy - 1);
+  };
   useEffect(() => {
     getPickerData('CourcesData', GetCourcesUrl);
     getPickerData('CountryData', GetCountryUrl);
@@ -325,7 +335,7 @@ const CreateAccount = ({navigation}) => {
             {tutorValue.tutorData == 'teacher' ? (
               <PickerComponent
                 style={{width: wp('45'), marginRigh: wp('2')}}
-                text={'Cources'}
+                text={'Courses'}
                 data={CourcesData}
                 setSelectedValue={(val, state) => getTutorValue(val, state)}
                 h={h.CourcesData}
@@ -378,7 +388,7 @@ const CreateAccount = ({navigation}) => {
           <LoginInputComp
             secureTextEntry={false}
             placeholder={'Phone Number'}
-            style={{marginBottom: hp('2'), width: wp('95')}}
+            style={{marginBottom: hp('2'), width: wp('95'), borderRaduis: 30}}
             onChangeText={PhoneNumber =>
               updateFinalState({PhoneNumber: PhoneNumber})
             }
@@ -386,7 +396,7 @@ const CreateAccount = ({navigation}) => {
             keyboardType="number-pad"
           />
           <View style={styles.twoPickerView}>
-            <View>
+            {/* <View>
               <Text style={{...styles.accView, marginTop: hp('2')}}>
                 Zip Code
               </Text>
@@ -400,7 +410,22 @@ const CreateAccount = ({navigation}) => {
                   updateFinalState({ZipCodeData: ZipCodeData})
                 }
               />
-            </View>
+            </View> */}
+
+            <PickerComponent
+              style={{
+                width: wp('45'),
+                // marginRigh: wp('2'),
+                // height: hp('3'),
+                overFlow: 'hiddden',
+                borderRaduis: 30,
+              }}
+              text={'Language'}
+              data={languageData}
+              setSelectedValue={(val, state) => getTutorValue(val, state)}
+              h={h.languageData}
+              selectedValue={tutorValue.languageData}
+            />
             <View>
               <TouchableOpacity style={styles.linkButtonView}>
                 <Entypo
@@ -449,14 +474,19 @@ const CreateAccount = ({navigation}) => {
               h={h.CityData}
               selectedValue={tutorValue.CityData}
             />
-            <PickerComponent
-              style={{width: wp('45'), marginRigh: wp('2')}}
-              text={'Language'}
-              data={languageData}
-              setSelectedValue={(val, state) => getTutorValue(val, state)}
-              h={h.languageData}
-              selectedValue={tutorValue.languageData}
-            />
+            <View style={{marginTop: Platform.OS == 'ios' ? hp('2') : hp('0')}}>
+              <Text style={{...styles.accView}}>Zip Code</Text>
+              <LoginInputComp
+                secureTextEntry={false}
+                placeholder={'Zip Code'}
+                keyboardType="number-pad"
+                style={{width: wp('45')}}
+                value={ZipCodeData}
+                onChangeText={ZipCodeData =>
+                  updateFinalState({ZipCodeData: ZipCodeData})
+                }
+              />
+            </View>
           </View>
           <View
             style={{
@@ -476,11 +506,18 @@ const CreateAccount = ({navigation}) => {
             </Text>
             <TouchableOpacity
               onPress={() => {
-                AddField.push('');
-                setDummy(dummy + 1);
+                if (AddField.length <= 6) {
+                  AddField.push('');
+                  EducationData.push('');
+                  AcademicYearData.push('');
+                  setDummy(dummy + 1);
+                }
               }}
               style={styles.btnTxt}>
-              <Text style={{...globalStyles.globalModuletutor}}>Add More</Text>
+              <Text
+                style={{...globalStyles.globalModuletutor, fontWeight: 'bold'}}>
+                Add More
+              </Text>
               <Octicons name={'plus'} size={hp('3')} color={'white'} />
             </TouchableOpacity>
           </View>
@@ -496,7 +533,7 @@ const CreateAccount = ({navigation}) => {
                       style={{width: wp('45')}}
                       placeholder={'Education'}
                       secureTextEntry={false}
-                      value={EducationData[i]}
+                      value={EducationData}
                       onChangeText={e => {
                         EducationData[i] = e;
                       }}
@@ -512,9 +549,16 @@ const CreateAccount = ({navigation}) => {
                       Academic Year
                     </Text>
                     <LoginInputComp
+                      maxLength={4}
                       secureTextEntry={false}
                       keyboardType="number-pad"
-                      style={{width: wp('45')}}
+                      style={{
+                        width:
+                          i > 0 && AddField.length == i + 1
+                            ? wp('35')
+                            : wp('46'),
+                        // width: i == EducationData.length ? wp('35') : wp('46'),
+                      }}
                       placeholder={'Academic Year'}
                       value={AcademicYearData}
                       onChangeText={e => {
@@ -522,6 +566,17 @@ const CreateAccount = ({navigation}) => {
                       }}
                     />
                   </View>
+                  {AddField.length == i + 1 && (
+                    <FontAwesome
+                      name={i > 0 && 'minus-square'}
+                      color={'red'}
+                      onPress={() => {
+                        removeFeild(i);
+                      }}
+                      style={{marginTop: hp('5'), marginRight: wp('2')}}
+                      size={hp('2.5')}
+                    />
+                  )}
                 </View>
               );
             })}

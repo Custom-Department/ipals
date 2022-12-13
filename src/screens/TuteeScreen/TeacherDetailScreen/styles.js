@@ -53,13 +53,14 @@ export const styles = StyleSheet.create({
   subView: {
     backgroundColor: colorTutor_.ipallightGreen,
     borderRadius: 25,
-    padding: 5,
     alignItems: 'center',
-    width: wp('18'),
     marginBottom: hp('1'),
     marginTop: hp('1'),
     marginRight: wp('0.8'),
-    // marginLeft: wp('1.5'),
+    paddingLeft: wp('2.5'),
+    paddingRight: wp('2.5'),
+    paddingTop: wp('1'),
+    paddingBottom: wp('1'),
   },
   subjectView: {
     flexDirection: 'row',
@@ -116,7 +117,8 @@ export const styles = StyleSheet.create({
   modalInnerView: {
     width: wp('90'),
     borderRadius: 10,
-    // height: hp('80'),
+    height: 'auto',
+    maxHeight: hp('80'),
     backgroundColor: 'white',
     overflow: Platform.OS == 'ios' ? 'visible' : 'hidden',
     zIndex: 1,
@@ -145,6 +147,7 @@ export const styles = StyleSheet.create({
     marginLeft: wp('5'),
     fontWeight: 'bold',
     marginTop: hp('2'),
+    paddingBottom: hp('2'),
   },
   schedularView: {
     width: wp('90'),
