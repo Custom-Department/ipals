@@ -10,7 +10,6 @@ import {
   Platform,
   TouchableOpacity,
 } from 'react-native';
-import {HeaderComponent} from '../../../components/HeaderComponent/HeaderComponent';
 import {color, colorTutor_, MentorColor} from '../../../config/color';
 import {
   widthPercentageToDP as wp,
@@ -24,7 +23,6 @@ import {ButtonThemeComp} from '../../../components/ButtonThemeComp/ButtonThemeCo
 import {
   CreateStudentRequestUrl,
   GetTeacherClassesUrl,
-  GetTimelotUrl,
 } from '../../../config/Urls';
 import axios from 'react-native-axios';
 import {useEffect} from 'react';
@@ -42,7 +40,6 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import moment from 'moment/moment';
 import {RadioButton} from 'react-native-paper';
 import {BackHeaderComponent} from '../../../components/BackHeaderComponent/BackHeaderComponent';
-import {Picker} from '@react-native-picker/picker';
 import InformationTextView from '../../../components/InformationTextView/InformationTextView';
 
 const TeacherDetailScreen = ({route, navigation}) => {
@@ -348,11 +345,6 @@ const TeacherDetailScreen = ({route, navigation}) => {
             style={styles.bottomLine}
             color={colorTutor_.topNavigationColor}
           />
-          {/* <ButtonThemeComp
-            onPress={() => console.log('dmfmd')}
-            text="Apply Now"
-            style={styles.buttonView}
-          /> */}
         </View>
         {startLoading ? (
           <SkypeIndicator
@@ -390,7 +382,6 @@ const TeacherDetailScreen = ({route, navigation}) => {
             textColor={'white'}
             text={'You don’t have any class created'}
           />
-          // <InformationTextView text={'Teacher Not Found'} />
         )}
       </ScrollView>
       {isVisible && <ModalView />}

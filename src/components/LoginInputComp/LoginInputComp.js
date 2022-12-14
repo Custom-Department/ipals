@@ -74,7 +74,11 @@ export const LoginInputComp = props => {
               ? color.textSecondaryColor
               : colorTutor_.ipallightGreen
           }
-          style={{marginLeft: 'auto', marginRight: wp('3')}}
+          style={{
+            marginLeft: 'auto',
+            marginRight: wp('3'),
+            paddingLeft: wp('2'),
+          }}
           size={props?.eyeIconSize ?? hp('3')}
         />
       ) : props?.Entypo ? (
@@ -86,7 +90,11 @@ export const LoginInputComp = props => {
               ? color.textSecondaryColor
               : colorTutor_.ipallightGreen
           }
-          style={{marginLeft: 'auto', marginRight: wp('3')}}
+          style={{
+            marginLeft: 'auto',
+            marginRight: wp('3'),
+            paddingLeft: wp('2'),
+          }}
           size={props?.eyeIconSize ?? hp('3')}
         />
       ) : (
@@ -98,7 +106,11 @@ export const LoginInputComp = props => {
               ? color.textSecondaryColor
               : colorTutor_.ipallightGreen
           }
-          style={{marginLeft: 'auto', marginRight: wp('3')}}
+          style={{
+            marginLeft: 'auto',
+            marginRight: wp('3'),
+            paddingLeft: wp('2'),
+          }}
           size={props?.eyeIconSize ?? hp('3')}
         />
       )}

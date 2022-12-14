@@ -3,12 +3,9 @@ import {
   View,
   Image,
   Text,
-  SafeAreaView,
-  Dimensions,
   TouchableOpacity,
   FlatList,
   ScrollView,
-  Button,
   TextInput,
   KeyboardAvoidingView,
   Platform,
@@ -17,12 +14,11 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {color, colorTutor_,MentorColor} from '../../../config/color';
+import {color, colorTutor_, MentorColor} from '../../../config/color';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {SearchbarHeader} from '../../../components/SearchBarHeaderComp/SearchbarHeader';
 import {TextComp} from '../../../components/TextComponent';
 import {styles} from './styles';
 import axios from 'react-native-axios';
@@ -63,8 +59,7 @@ const MenteeDtailedScreen = ({route}) => {
     isVisible: false,
     timeSlotButton: false,
     isSubscriptionVisible: false,
-    isLoadingbtn:false,
-    // GetapproveclassLoading: false,
+    isLoadingbtn: false,
   });
 
   const {
@@ -73,7 +68,6 @@ const MenteeDtailedScreen = ({route}) => {
     timeSlotButton,
     isSubscriptionVisible,
     isLoadingbtn,
-    // GetapproveclassLoading
   } = allLoading;
 
   const {
@@ -82,7 +76,6 @@ const MenteeDtailedScreen = ({route}) => {
     subjectTitle,
     getSpecData,
     price,
-    // GetApproveclassState
   } = allStates;
 
   const updateState = data => {
@@ -223,20 +216,20 @@ const MenteeDtailedScreen = ({route}) => {
           .join(' ');
       }
       updateState({number: formattedText});
-      // setnumbervlaue({ number: formattedText });
       return formattedText;
     };
     const [numbervalue, setnumbervlaue] = useState({
-      name:'',
+      name: '',
       number: '',
       MM: '',
       YY: '',
       cvc: '',
     });
-    const updateState = data =>
+    const updateState = data => {
       setnumbervlaue(() => ({...numbervalue, ...data}));
-    const {name,number, MM, YY, cvc} = numbervalue;
-    hitcheckoutAPi=() =>{
+    };
+    const {name, number, MM, YY, cvc} = numbervalue;
+    hitcheckoutAPi = () => {
       updateLoadingState({isLoadingbtn: true});
       if (
         number.replace(/\s/g, '').length == 16 &&
@@ -250,133 +243,131 @@ const MenteeDtailedScreen = ({route}) => {
         cvc != ''
       ) {
         let body = {
-          my_class_id:getSpecData.id,
+          my_class_id: getSpecData.id,
           price: price,
           cardNumber: number.replace(/\s/g, ''),
           exp_month: MM,
           exp_year: YY,
           cvc: cvc,
-        }
-        axios.post(MenteeCheckoutUrl,body,{
-           headers: {Authorization: `Bearer ${token}`},
-          }).then(function (res) {
+        };
+        axios
+          .post(MenteeCheckoutUrl, body, {
+            headers: {Authorization: `Bearer ${token}`},
+          })
+          .then(function (res) {
             applyForClass();
-
-          }).catch(function (error) {
-          updateLoadingState({isLoadingbtn: false});
-          errorMessage(errorHandler(error));
-
-
-        });
+          })
+          .catch(function (error) {
+            updateLoadingState({isLoadingbtn: false});
+            errorMessage(errorHandler(error));
+          });
       }
-
-    }
+    };
     return (
       <View style={styles.modalbottommainView}>
-      {isLoadingbtn?(
-         <SkypeIndicator
-         color={'white'}
-         size={hp('4')}
-         style={{
-           // marginTop: hp('30'),
-           alignSelf: 'center',
-           justifyContent: 'center',
-           marginVertical: hp('10'),
-         }}
-       />
-      ):isSubscriptionVisible?(
-        <KeyboardAvoidingView
-          behavior={Platform.OS == 'ios' ? 'position' : 'padding'}>
-          <View style={styles.modalbottamView}>
-            <Entypo
-              name="circle-with-cross"
-              color={'gray'}
-              size={hp('3')}
-              onPress={() => {
-                updateLoadingState({
-                  isSubscriptionVisible: false,
-                });
-              }}
-              style={styles.crowsIcon}
-            />
-            <Text
-              style={{
-                fontSize: hp('3'),
-                color: 'black',
-                marginHorizontal: wp('3'),
-              }}>
-              Add Credit/Debit Card
-            </Text>
-            <View style={styles.stripecardnumber}>
-              <TextInput
-                style={styles.childcardname}
-                placeholder="Enter Your Full Name"
-                placeholderTextColor="grey"
-                value={name}
-                onChangeText={fname => updateState({name:fname})}
+        {isLoadingbtn ? (
+          <SkypeIndicator
+            color={'white'}
+            size={hp('4')}
+            style={{
+              alignSelf: 'center',
+              justifyContent: 'center',
+              marginVertical: hp('10'),
+            }}
+          />
+        ) : isSubscriptionVisible ? (
+          <KeyboardAvoidingView
+            behavior={Platform.OS == 'ios' ? 'position' : 'padding'}>
+            <View style={styles.modalbottamView}>
+              <Entypo
+                name="circle-with-cross"
+                color={'gray'}
+                size={hp('3')}
+                onPress={() => {
+                  updateLoadingState({
+                    isSubscriptionVisible: false,
+                  });
+                }}
+                style={styles.crowsIcon}
               />
-            </View>
-
-            <View style={styles.stripecardnumber}>
-              <TextInput
-                style={styles.childcardname}
-                placeholder="Enter Card Number"
-                maxLength={19}
-                keyboardType={'numeric'}
-                placeholderTextColor="grey"
-                value={number}
-                onChangeText={num => handleCardNumber(num)}
-              />
-            </View>
-            <View
-              style={{flexDirection: 'row', margin: 10, marginTop: hp('2')}}>
-              <View style={{flexDirection: 'row'}}>
-                <View style={styles.childcard}>
-                  <TextInput
-                    style={{fontSize: hp('2')}}
-                    placeholder="MM"
-                    maxLength={2}
-                    placeholderTextColor="grey"
-                    keyboardType={'numeric'}
-                    value={MM}
-                    onChangeText={month => updateState({MM: month})}
-                  />
-                </View>
-                <View style={styles.childcard}>
-                  <TextInput
-                    style={{flex: 1, fontSize: hp('2')}}
-                    placeholder="YY"
-                    maxLength={2}
-                    placeholderTextColor="grey"
-                    keyboardType={'numeric'}
-                    value={YY}
-                    onChangeText={year => updateState({YY: year})}
-                  />
-                </View>
-              </View>
-              <View style={styles.childcvc}>
+              <Text
+                style={{
+                  fontSize: hp('3'),
+                  color: 'black',
+                  marginHorizontal: wp('3'),
+                }}>
+                Add Credit/Debit Card
+              </Text>
+              <View style={styles.stripecardnumber}>
                 <TextInput
-                  style={{flex: 1, fontSize: hp('2')}}
-                  placeholder="CVC"
-                  maxLength={4}
-                  keyboardType={'numeric'}
-                  value={cvc}
-                  onChangeText={cvc => updateState({cvc: cvc})}
+                  style={styles.childcardname}
+                  placeholder="Enter Your Full Name"
+                  placeholderTextColor="grey"
+                  value={name}
+                  onChangeText={fname => updateState({name: fname})}
                 />
               </View>
+
+              <View style={styles.stripecardnumber}>
+                <TextInput
+                  style={styles.childcardname}
+                  placeholder="Enter Card Number"
+                  maxLength={19}
+                  keyboardType={'numeric'}
+                  placeholderTextColor="grey"
+                  value={number}
+                  onChangeText={num => handleCardNumber(num)}
+                />
+              </View>
+              <View
+                style={{flexDirection: 'row', margin: 10, marginTop: hp('2')}}>
+                <View style={{flexDirection: 'row'}}>
+                  <View style={styles.childcard}>
+                    <TextInput
+                      style={{fontSize: hp('2')}}
+                      placeholder="MM"
+                      maxLength={2}
+                      placeholderTextColor="grey"
+                      keyboardType={'numeric'}
+                      value={MM}
+                      onChangeText={month => updateState({MM: month})}
+                    />
+                  </View>
+                  <View style={styles.childcard}>
+                    <TextInput
+                      style={{flex: 1, fontSize: hp('2')}}
+                      placeholder="YY"
+                      maxLength={2}
+                      placeholderTextColor="grey"
+                      keyboardType={'numeric'}
+                      value={YY}
+                      onChangeText={year => updateState({YY: year})}
+                    />
+                  </View>
+                </View>
+                <View style={styles.childcvc}>
+                  <TextInput
+                    style={{flex: 1, fontSize: hp('2')}}
+                    placeholder="CVC"
+                    maxLength={4}
+                    keyboardType={'numeric'}
+                    value={cvc}
+                    onChangeText={cvc => updateState({cvc: cvc})}
+                  />
+                </View>
+              </View>
+              <TouchableOpacity
+                style={styles.continue}
+                onPress={() => hitcheckoutAPi()}>
+                <Text style={{color: 'white', fontSize: hp('2.3')}}>
+                  Continue
+                </Text>
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity
-              style={styles.continue}
-              onPress={() => hitcheckoutAPi()}>
-              <Text style={{color: 'white', fontSize: hp('2.3')}}>
-                Continue
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </KeyboardAvoidingView>
-      ):
-      updateLoadingState({isSubscriptionVisible: false})
-  }
+          </KeyboardAvoidingView>
+        ) : (
+          updateLoadingState({isSubscriptionVisible: false})
+        )}
       </View>
     );
   };
@@ -419,7 +410,7 @@ const MenteeDtailedScreen = ({route}) => {
           </View>
 
           <TextComp text="Select schedule for class" style={styles.heading} />
-          <ScrollView>
+          <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.daysView}>
               {scheduleDays.map((res, i) => {
                 const Month = moment(res?.schedule).format('YYYY-MM-DD');
@@ -459,8 +450,7 @@ const MenteeDtailedScreen = ({route}) => {
               onPress={() => {
                 if (scheduleArray.length > 0) {
                   updateLoadingState({isVisible: false});
-                  updateLoadingState({isSubscriptionVisible:true});
-                 
+                  updateLoadingState({isSubscriptionVisible: true});
                 } else {
                   updateLoadingState({timeSlotButton: false});
                   errorMessage('Please Select Days');
@@ -535,13 +525,12 @@ const MenteeDtailedScreen = ({route}) => {
             color={'white'}
             size={hp('4')}
             style={{
-              // marginTop: hp('30'),
               alignSelf: 'center',
               justifyContent: 'center',
               marginVertical: hp('10'),
             }}
           />
-        ) : GetMentorClassesState.length > 0 ?(
+        ) : GetMentorClassesState.length > 0 ? (
           <FlatList
             data={GetMentorClassesState}
             scrollEnabled={false}
@@ -556,7 +545,7 @@ const MenteeDtailedScreen = ({route}) => {
               return <RenderCard data={item} />;
             }}
           />
-        ): (
+        ) : (
           <View style={styles.createClassView}>
             <InformationTextView
               iconcolor={MentorColor.MentorThemeFirst}

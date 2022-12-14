@@ -12,7 +12,6 @@ export const styles = StyleSheet.create({
     fontSize: hp('2'),
   },
   inputtext: {
-    // marginTop: hp('2'),
     fontSize: hp('2'),
   },
   inputView: {
