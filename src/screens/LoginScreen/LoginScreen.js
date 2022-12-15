@@ -78,16 +78,7 @@ const LoginScreen = ({navigation}) => {
   const handleClick = () => setShow(!show);
   const [show, setShow] = useState(false);
   const updateState = data => setLoginData(() => ({...loginData, ...data}));
-  const handleInputFocus = textinput => {
-    setIsFocused({
-      [textinput]: true,
-    });
-  };
-  const handleInputBlur = textinput => {
-    setIsFocused({
-      [textinput]: false,
-    });
-  };
+
   return (
     <View style={styles.container}>
       <StatusBar
@@ -108,6 +99,8 @@ const LoginScreen = ({navigation}) => {
         value={email}
         onChangeText={e => updateState({email: e})}
         eyeIconName={'email'}
+        eyeIconSize={hp('2.8')}
+        Iconcolor2={color.themeColorlight}
       />
       <LoginInputComp
         secureTextEntry={show ? false : true}
@@ -119,6 +112,8 @@ const LoginScreen = ({navigation}) => {
         Ionicons={true}
         // eyeIconName={'lock'}
         color={colorTutor_.ipallightGreen}
+        eyeIconSize={hp('2.8')}
+        Iconcolor2={color.themeColorlight}
       />
       <ButtonThemeComp
         style={styles.signBtn}

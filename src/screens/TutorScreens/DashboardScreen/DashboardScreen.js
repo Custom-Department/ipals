@@ -297,10 +297,12 @@ const DashboardScreen = ({navigation}) => {
             </Text>
           </TouchableOpacity>
           <DateTimePickerModal
-            mode={'time'}
+            mode={'date'}
             isVisible={isVisibleTime}
             onConfirm={e => {
-              upadateStartDate(e, true);
+              let date = moment(e).format('LL');
+              console.log(date);
+              upadateStartDate(date);
               setIsVisibleTime(false);
             }}
             onCancel={() => {
