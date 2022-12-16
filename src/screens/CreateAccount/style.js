@@ -101,4 +101,15 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginLeft: wp('2'),
   },
+  pickerView: {
+    // overflow: 'hidden',
+    marginTop: Platform.OS == 'ios' ? hp('2') : hp('5.2'),
+    height: hp('6.0'),
+    paddingBottom: hp('5'),
+    width: wp('40'),
+    borderRadius: 5,
+    backgroundColor: Platform.OS == 'ios' ? 'transparent' : 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });

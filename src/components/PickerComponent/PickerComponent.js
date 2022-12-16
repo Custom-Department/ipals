@@ -30,7 +30,7 @@ const PickerComponent = props => {
         selectedValue={props.selectedValue}
         style={{...styles.pickerStyle, ...props.style}}
         onValueChange={(itemValue, itemIndex) => {
-          if (itemValue != null) {
+          if (itemValue != null || itemValue != []) {
             props.setSelectedValue(itemValue, props.h);
           } else {
             props.setSelectedValue(null, props.h);
@@ -61,8 +61,6 @@ export default PickerComponent;
 
 const styles = StyleSheet.create({
   pickerStyle: {
-    // width: Platform.OS == 'ios' ? wp('60') : wp('60'),
-    // height: hp(Platform?.OS == 'ios' ? '17' : '6'),
     color: 'black',
     width: wp('60'),
     height: hp('3'),
