@@ -13,7 +13,9 @@ export const styles = StyleSheet.create({
   },
   imageView: {
     height: hp('25'),
-    width: wp('30'),
+    width: wp('35'),
+    // backgroundColor: 'red',
+    marginBottom: hp('4'),
   },
   signBtn: {
     marginTop: hp('2'),
@@ -39,10 +41,10 @@ export const styles = StyleSheet.create({
     paddingHorizontal: wp('10'),
   },
   divider: {
-    marginTop: hp('13'),
-    marginBottom: hp('1'),
+    marginTop: hp('10'),
+    marginBottom: hp('3'),
     height: hp('0.2'),
-    backgroundColor: 'black',
+    backgroundColor: colorTutor_.TxtColor,
     width: wp('70'),
     alignSelf: 'center',
   },

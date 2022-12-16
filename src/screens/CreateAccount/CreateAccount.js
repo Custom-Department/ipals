@@ -1,6 +1,7 @@
 import {
   Image,
   Keyboard,
+  Platform,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -18,6 +19,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Octicons from 'react-native-vector-icons/Octicons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import PickerComponent from '../../components/PickerComponent/PickerComponent';
 import {ApiGet, errorHandler} from '../../config/helperFunction';
@@ -37,19 +39,26 @@ import axios from 'react-native-axios';
 
 const CreateAccount = ({navigation}) => {
   const dispatch = useDispatch();
+  const [mentorPicker, setMentorPicker] = useState([]);
   const [tutorValue, setTutorValue] = useState({
+    SchoolData: [],
+    YearData: [],
     tutorData: null,
     languageData: null,
     CountryData: null,
     CityData: null,
     StateData: null,
     ZipCodeData: '',
-    AcademicYearData: [],
+    AcademicYearDatas: [],
     CourcesData: '',
     CategoriesData: '',
     PhoneNumber: '',
     BioData: '',
     Password: '',
+    ConfirmPassword: '',
+    SchoolName: [],
+    SchoolEmail: '',
+    CompleteSchoolAddress: '',
     ConfirmPassword: '',
     linkedin_id: 'asdasd',
     linkedin_token: 'asdasd',
@@ -63,6 +72,10 @@ const CreateAccount = ({navigation}) => {
   });
 
   const [EducationData, setEducationData] = useState([]);
+  const [AcademicYearData, setAcademicYearData] = useState([]);
+  const [className, setClassName] = useState([]);
+  const [schoolEmail, setSchoolEmail] = useState([]);
+  const [schoolAdd, setSchoolAdd] = useState([]);
   const [AddField, setAddField] = useState(['']);
   const [dummy, setDummy] = useState(1);
   const [isloading, setIsloading] = useState(false);
@@ -73,9 +86,11 @@ const CreateAccount = ({navigation}) => {
     CityData: 'CityData',
     StateData: 'StateData',
     ZipCodeData: 'ZipCodeData',
-    AcademicYearData: 'AcademicYearData',
+    AcademicYearDatas: 'AcademicYearDatas',
     CourcesData: 'CourcesData',
     CategoriesData: 'CategoriesData',
+    YearData: 'YearData',
+    SchoolData: 'SchoolData',
   };
   const {
     PhoneNumber,
@@ -90,13 +105,17 @@ const CreateAccount = ({navigation}) => {
     FirstName,
     LastName,
     ZipCodeData,
-    AcademicYearData,
+    AcademicYearDatas,
     Email,
+    SchoolName,
+    SchoolEmail,
+    CompleteSchoolAddress,
   } = tutorValue;
   const [isKeyboardVisible, setKeyboardVisible] = useState(hp('20'));
   const [showBottomBar, setShowBottomBar] = useState(false);
-  const updateInputState = data =>
+  const updateInputState = data => {
     setTutorValue(() => ({...tutorValue, ...data}));
+  };
   const [pickerState, setPickerState] = useState({
     tutorData: [
       {
@@ -138,12 +157,191 @@ const CreateAccount = ({navigation}) => {
         type: 'languageData',
       },
     ],
+    YearData: [
+      {
+        id: '2000',
+        title: '2000',
+        value: '2000',
+        type: 'YearData',
+      },
+      {
+        id: '2001',
+        title: '2001',
+        value: '2001',
+        type: 'YearData',
+      },
+      {
+        id: '2002',
+        title: '2002',
+        value: '2002',
+        type: 'YearData',
+      },
+      {
+        id: '2003',
+        title: '2003',
+        value: '2003',
+        type: 'YearData',
+      },
+      {
+        id: '2004',
+        title: '2004',
+        value: '2004',
+        type: 'YearData',
+      },
+      {
+        id: '2005',
+        title: '2005',
+        value: '2005',
+        type: 'YearData',
+      },
+      {
+        id: '2006',
+        title: '2006',
+        value: '2006',
+        type: 'YearData',
+      },
+      {
+        id: '2007',
+        title: '2007',
+        value: '2007',
+        type: 'YearData',
+      },
+      {
+        id: '2008',
+        title: '2008',
+        value: '2008',
+        type: 'YearData',
+      },
+      {
+        id: '2009',
+        title: '2009',
+        value: '2009',
+        type: 'YearData',
+      },
+      {
+        id: '2010',
+        title: '2010',
+        value: '2010',
+        type: 'YearData',
+      },
+      {
+        id: '2011',
+        title: '2011',
+        value: '2011',
+        type: 'YearData',
+      },
+      {
+        id: '2012',
+        title: '2012',
+        value: '2012',
+        type: 'YearData',
+      },
+      {
+        id: '2013',
+        title: '2013',
+        value: '2013',
+        type: 'YearData',
+      },
+      {
+        id: '2014',
+        title: '2014',
+        value: '2014',
+        type: 'YearData',
+      },
+      {
+        id: '2015',
+        title: '2015',
+        value: '2015',
+        type: 'YearData',
+      },
+      {
+        id: '2016',
+        title: '2016',
+        value: '2016',
+        type: 'YearData',
+      },
+      {
+        id: '2017',
+        title: '2017',
+        value: '2017',
+        type: 'YearData',
+      },
+      {
+        id: '2018',
+        title: '2018',
+        value: '2018',
+        type: 'YearData',
+      },
+      {
+        id: '2019',
+        title: '2019',
+        value: '2019',
+        type: 'YearData',
+      },
+      {
+        id: '2020',
+        title: '2020',
+        value: '2020',
+        type: 'YearData',
+      },
+      {
+        id: '2021',
+        title: '2021',
+        value: '2021',
+        type: 'YearData',
+      },
+      {
+        id: '2022',
+        title: '2022',
+        value: '2022',
+        type: 'YearData',
+      },
+    ],
+    SchoolData: [
+      {
+        id: 'Sec.School',
+        title: 'Sec.School',
+        value: 'Sec.School',
+        type: 'SchoolData',
+      },
+      {
+        id: 'High School',
+        title: 'High School',
+        value: 'High School',
+        type: 'SchoolData',
+      },
+      {
+        id: 'College',
+        title: 'College',
+        value: 'College',
+        type: 'SchoolData',
+      },
+      {
+        id: 'Undergraduate',
+        title: 'Undergraduate',
+        value: 'Undergraduate',
+        type: 'SchoolData',
+      },
+      {
+        id: 'Masters',
+        title: 'Masters',
+        value: 'Masters',
+        type: 'SchoolData',
+      },
+      {
+        id: 'PHD',
+        title: 'PHD',
+        value: 'PHD',
+        type: 'SchoolData',
+      },
+    ],
     CountryData: [],
     CityData: [],
     StateData: [],
     CourcesData: [],
     CategoriesData: [],
   });
+
   const {
     tutorData,
     CityData,
@@ -152,6 +350,8 @@ const CreateAccount = ({navigation}) => {
     languageData,
     CourcesData,
     CategoriesData,
+    YearData,
+    SchoolData,
   } = pickerState;
   const updateState = data => setPickerState(prev => ({...prev, ...data}));
   const updateFinalState = data => setTutorValue(prev => ({...prev, ...data}));
@@ -162,6 +362,7 @@ const CreateAccount = ({navigation}) => {
       [State]: value,
     }));
   };
+
   const getPickerData = (state, url) => {
     ApiGet(url).then(res => {
       if (res.status == 200) {
@@ -186,6 +387,15 @@ const CreateAccount = ({navigation}) => {
       linkedin_refresh_token,
       linkedin_token,
     } = tutorValue;
+    console.log(
+      193,
+      AddField,
+      EducationData,
+      AcademicYearData,
+      className,
+      schoolAdd,
+      schoolEmail,
+    );
     if (
       tutorData != null &&
       CourcesData != null &&
@@ -219,8 +429,8 @@ const CreateAccount = ({navigation}) => {
         zip_code: ZipCodeData,
         course_id: CourcesData,
         phone_number: PhoneNumber,
-        institution_name: [],
-        academic_year: [],
+        institution_name: EducationData,
+        academic_year: AcademicYearData,
         linkedin_id: linkedin_id,
         linkedin_token: linkedin_token,
         linkedin_avatar: linkedin_avatar,
@@ -246,7 +456,12 @@ const CreateAccount = ({navigation}) => {
       errorMessage('Please complete all fields');
     }
   };
-
+  const removeFeild = i => {
+    EducationData.splice(i, 1);
+    AddField.splice(i, 1);
+    AcademicYearData.splice(i, 1);
+    setDummy(dummy - 1);
+  };
   useEffect(() => {
     getPickerData('CourcesData', GetCourcesUrl);
     getPickerData('CountryData', GetCountryUrl);
@@ -273,6 +488,19 @@ const CreateAccount = ({navigation}) => {
       keyboardDidShowListener.remove();
     };
   }, []);
+  const allFieldsEmpty = () => {
+    setAddField(['']);
+    setEducationData([]);
+    setClassName([]);
+    setAcademicYearData([]);
+    setSchoolAdd([]);
+    setSchoolEmail([]);
+  };
+  const checkAccountType = () => {
+    return tutorValue.tutorData == 'Mentor' || tutorValue.tutorData == 'Mentee'
+      ? true
+      : false;
+  };
   return (
     <>
       <View style={styles.container}>
@@ -318,14 +546,16 @@ const CreateAccount = ({navigation}) => {
               style={{width: wp('45'), marginRigh: wp('2')}}
               text={'Account Type'}
               data={tutorData}
-              setSelectedValue={(val, state) => getTutorValue(val, state)}
+              setSelectedValue={(val, state) => {
+                getTutorValue(val, state), allFieldsEmpty();
+              }}
               h={h.tutorData}
               selectedValue={tutorValue.tutorData}
             />
             {tutorValue.tutorData == 'teacher' ? (
               <PickerComponent
                 style={{width: wp('45'), marginRigh: wp('2')}}
-                text={'Cources'}
+                text={'Courses'}
                 data={CourcesData}
                 setSelectedValue={(val, state) => getTutorValue(val, state)}
                 h={h.CourcesData}
@@ -378,7 +608,7 @@ const CreateAccount = ({navigation}) => {
           <LoginInputComp
             secureTextEntry={false}
             placeholder={'Phone Number'}
-            style={{marginBottom: hp('2'), width: wp('95')}}
+            style={{marginBottom: hp('2'), width: wp('95'), borderRaduis: 30}}
             onChangeText={PhoneNumber =>
               updateFinalState({PhoneNumber: PhoneNumber})
             }
@@ -386,21 +616,18 @@ const CreateAccount = ({navigation}) => {
             keyboardType="number-pad"
           />
           <View style={styles.twoPickerView}>
-            <View>
-              <Text style={{...styles.accView, marginTop: hp('2')}}>
-                Zip Code
-              </Text>
-              <LoginInputComp
-                secureTextEntry={false}
-                placeholder={'Zip Code'}
-                keyboardType="number-pad"
-                style={{width: wp('45')}}
-                value={ZipCodeData}
-                onChangeText={ZipCodeData =>
-                  updateFinalState({ZipCodeData: ZipCodeData})
-                }
-              />
-            </View>
+            <PickerComponent
+              style={{
+                width: wp('45'),
+                overFlow: 'hiddden',
+                borderRaduis: 30,
+              }}
+              text={'Language'}
+              data={languageData}
+              setSelectedValue={(val, state) => getTutorValue(val, state)}
+              h={h.languageData}
+              selectedValue={tutorValue.languageData}
+            />
             <View>
               <TouchableOpacity style={styles.linkButtonView}>
                 <Entypo
@@ -449,14 +676,19 @@ const CreateAccount = ({navigation}) => {
               h={h.CityData}
               selectedValue={tutorValue.CityData}
             />
-            <PickerComponent
-              style={{width: wp('45'), marginRigh: wp('2')}}
-              text={'Language'}
-              data={languageData}
-              setSelectedValue={(val, state) => getTutorValue(val, state)}
-              h={h.languageData}
-              selectedValue={tutorValue.languageData}
-            />
+            <View style={{marginTop: Platform.OS == 'ios' ? hp('2') : hp('0')}}>
+              <Text style={{...styles.accView}}>Zip Code</Text>
+              <LoginInputComp
+                secureTextEntry={false}
+                placeholder={'Zip Code'}
+                keyboardType="number-pad"
+                style={{width: wp('45')}}
+                value={ZipCodeData}
+                onChangeText={ZipCodeData =>
+                  updateFinalState({ZipCodeData: ZipCodeData})
+                }
+              />
+            </View>
           </View>
           <View
             style={{
@@ -476,53 +708,99 @@ const CreateAccount = ({navigation}) => {
             </Text>
             <TouchableOpacity
               onPress={() => {
-                AddField.push('');
-                setDummy(dummy + 1);
+                if (AddField.length <= 6) {
+                  AddField.push('');
+                  EducationData.push('');
+                  className.push('');
+                  AcademicYearData.push('');
+                  setDummy(dummy + 1);
+                }
               }}
               style={styles.btnTxt}>
-              <Text style={{...globalStyles.globalModuletutor}}>Add More</Text>
+              <Text
+                style={{...globalStyles.globalModuletutor, fontWeight: 'bold'}}>
+                Add More
+              </Text>
               <Octicons name={'plus'} size={hp('3')} color={'white'} />
             </TouchableOpacity>
           </View>
+
           {AddField.length > 0 &&
             AddField.map((res, i) => {
               return (
-                <View style={styles.twoPickerView}>
-                  <View>
-                    <Text style={{...styles.accView, marginTop: hp('2')}}>
-                      Education
-                    </Text>
-                    <LoginInputComp
-                      style={{width: wp('45')}}
-                      placeholder={'Education'}
-                      secureTextEntry={false}
-                      value={EducationData[i]}
-                      onChangeText={e => {
-                        EducationData[i] = e;
-                      }}
-                    />
+                <>
+                  <Entypo
+                name="circle-with-cross"
+                color={'gray'}
+                size={hp('3')}
+                style={styles.crowsIcon}
+              />
+                  <View
+                    style={{...styles.twoPickerView, marginBottom: hp('0')}}>
+                    <View>
+                      <Text style={{...styles.accView, marginTop: hp('2')}}>
+                        Education
+                      </Text>
+                      <LoginInputComp
+                        style={{width: wp('45')}}
+                        placeholder={'School Name'}
+                        secureTextEntry={false}
+                        value={EducationData}
+                        onChangeText={e => {
+                          EducationData[i] = e;
+                        }}
+                      />
+                    </View>
+                    {tutorValue.tutorData != null && (
+                      <View style={styles.pickerView}>
+                        <PickerComponent
+                          style={{
+                            width: wp('40'),
+                            backgroundColor: 'transparent',
+                            marginBottom:hp('1.5'),
+                          }}
+                          text={'Classes'}
+                          data={checkAccountType() ? SchoolData : YearData}
+                          setSelectedValue={(val, state) => {
+                            checkAccountType()
+                              ? (className[i] = val)
+                              : (AcademicYearData[i] = val);
+                            setDummy(dummy + 1);
+                          }}
+                          h={checkAccountType() ? h.SchoolData : h.YearData}
+                          selectedValue={
+                            checkAccountType()
+                              ? className[i]
+                              : AcademicYearData[i]
+                          }
+                        />
+                      </View>
+                    )}
                   </View>
-                  <View>
-                    <Text
-                      style={{
-                        ...styles.accView,
-                        marginTop: hp('2'),
-                        color: 'black',
-                      }}>
-                      Academic Year
-                    </Text>
-                    <LoginInputComp
-                      secureTextEntry={false}
-                      keyboardType="number-pad"
-                      style={{width: wp('45')}}
-                      placeholder={'Academic Year'}
-                      value={AcademicYearData}
-                      onChangeText={e => {
-                        AcademicYearData[i] = e;
-                      }}
-                    />
-                  </View>
-                </View>
+                  <LoginInputComp
+                    style={{width: wp('95')}}
+                    placeholder={'School Email'}
+                    secureTextEntry={false}
+                    value={schoolEmail}
+                    onChangeText={e => {
+                      schoolEmail[i] = e;
+                    }}
+                  />
+
+                  <LoginInputComp
+                    inputStyle={{
+                      alignSelf: 'flex-start',
+                      paddingTop: hp('2'),
+                    }}
+                    style={{width: wp('95'), height: hp('15')}}
+                    placeholder={'Complete School Address'}
+                    secureTextEntry={false}
+                    value={schoolAdd}
+                    onChangeText={e => {
+                      schoolAdd[i] = e;
+                    }}
+                  />
+                </>
               );
             })}
           <View style={{marginVertical: hp('2')}}>

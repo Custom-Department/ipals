@@ -20,28 +20,34 @@ const PickerComponent = props => {
           height: hp('6'),
           borderRadius: 10,
           overflow: 'hidden',
-          backgroundColor: 'transparent',
+          // backgroundColor: 'red',
           fontSize: hp('1.5'),
           margin: hp('0'),
           color: 'black',
+          ...props.itemStyle,
         }}
         collapsable={true}
         selectedValue={props.selectedValue}
         style={{...styles.pickerStyle, ...props.style}}
         onValueChange={(itemValue, itemIndex) => {
-          if (itemValue != null) {
+          if (itemValue != null || itemValue != []) {
             props.setSelectedValue(itemValue, props.h);
           } else {
             props.setSelectedValue(null, props.h);
           }
         }}>
-        <Picker.Item label={'Select Options'} value={null} />
+        <Picker.Item
+          style={{fontSize: wp('3.5')}}
+          label={'Select Options'}
+          value={null}
+        />
         {props.data != String &&
           props?.data?.length > 0 &&
           props?.data?.map(item => {
             return (
               <Picker.Item
                 label={item?.title || item?.name || item?.label}
+                style={{fontSize: wp('3.5')}}
                 value={item.id}
               />
             );
@@ -55,16 +61,14 @@ export default PickerComponent;
 
 const styles = StyleSheet.create({
   pickerStyle: {
-    // width: Platform.OS == 'ios' ? wp('60') : wp('60'),
-    // height: hp(Platform?.OS == 'ios' ? '17' : '6'),
     color: 'black',
     width: wp('60'),
-    height: hp('6'),
+    height: hp('3'),
     backgroundColor: Platform.OS == 'ios' ? 'transparent' : 'white',
   },
   accView: {
-    marginLeft: wp('2'),
-    marginBottom: hp('0.5'),
+    // marginLeft: wp('1.'),
+    marginBottom: hp('1.5'),
     color: 'black',
   },
 });

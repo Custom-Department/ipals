@@ -238,18 +238,12 @@ const MentorDashboardScreen = ({navigation}) => {
           )}
         </View>
         <View style={styles.MainView}>
-          <HorizantalDetailComp
-            leftText={`   Pending requests`}
-            dot={true}
-            // line={true}
-            // rightText={` view all classes`}
-          />
+          <HorizantalDetailComp leftText={`   Pending requests`} dot={true} />
           {pendingLoading ? (
             <SkypeIndicator
               color={'white'}
               size={hp('4')}
               style={{
-                // marginTop: hp('30'),
                 alignSelf: 'center',
                 justifyContent: 'center',
                 marginVertical: hp('10'),
@@ -277,48 +271,7 @@ const MentorDashboardScreen = ({navigation}) => {
           )}
         </View>
         <View style={styles.MainView}>
-          <HorizantalDetailComp
-            leftText={`   Your Subcription`}
-            dot={true}
-            // line={true}
-            // rightText={` view all plans`}
-          />
-
-          {/* {subcriptionState.length > 0 ? (
-            <FlatList
-              data={subcriptionState}
-              keyExtractor={(item, index) => index.toString()}
-              numColumns={2}
-              contentContainerStyle={{
-                width: wp('95'),
-                alignSelf: 'center',
-                paddingBottom: hp('15'),
-              }}
-              renderItem={({item, index}) => {
-                return (
-                  <View style={{marginTop: wp('3')}}>
-                    <SubcriptionPackComp
-                      priceTxt={'$' + item?.price}
-                      iconcolor={MentorColor.MentorlightGrey}
-                      perAnumTxt={item?.plan_type}
-                      data={false}
-                      text={`You are subscribed to
-our ${item?.plan_type} package`}
-                    />
-                  </View>
-                );
-              }}
-            />
-          ) : (
-            <View style={{marginTop: wp('3')}}>
-              <SubcriptionPackComp
-                iconcolor={MentorColor.MentorlightGrey}
-                data={true}
-                text={`You are not subscribe
-to any plans`}
-              />
-            </View>
-          )} */}
+          <HorizantalDetailComp leftText={`   Your Subcription`} dot={true} />
           {subcriptionState.length > 0 ? (
             <FlatList
               data={subcriptionState}

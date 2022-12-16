@@ -66,7 +66,7 @@ export const styles = StyleSheet.create({
     paddingBottom: hp('0.5'),
     paddingLeft: hp('1.5'),
     paddingRight: hp('1.5'),
-
+    marginLeft: wp('2'),
     alignSelf: 'center',
     marginTop: hp('1'),
   },
@@ -144,5 +144,12 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     flexWrap: 'wrap',
     display: 'flex',
+  },
+  inputStyle: {
+    height: hp('20'),
+    width: wp('90'),
+    borderRadius: 10,
+    // overflow: 'hidden',
+    // backgroundColor: 'green',
   },
 });

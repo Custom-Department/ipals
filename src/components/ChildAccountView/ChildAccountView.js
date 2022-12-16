@@ -5,9 +5,8 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import {color, colorTutor_} from '../../config/color';
 import {TextComp} from '../TextComponent';
+
 const ChildAccountView = props => {
   return (
     <View style={styles.container}>

@@ -9,7 +9,6 @@ import {
   StyleSheet,
 } from 'react-native';
 import React, {useState} from 'react';
-import {HeaderComponent} from '../../../components/HeaderComponent/HeaderComponent';
 import {color, colorTutor_} from '../../../config/color';
 import {globalStyles} from '../../../config/globalStyles';
 import {styles} from './style';
@@ -19,15 +18,7 @@ import {
 } from 'react-native-responsive-screen';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {TextComp} from '../../../components/TextComponent';
-import {ButtonIconComp} from '../../../components/ButtonIconComp/ButtonIconComp';
 import {ButtonThemeComp} from '../../../components/ButtonThemeComp/ButtonThemeComp';
-import {SettingIconComp} from '../../../components/SettingIconComp/SettingIconComp';
-import * as Animatable from 'react-native-animatable';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import InformationTextView from '../../../components/InformationTextView/InformationTextView';
 import {BackHeaderComponent} from '../../../components/BackHeaderComponent/BackHeaderComponent';
 import {useDispatch, useSelector} from 'react-redux';
 import {LoginInputComp} from '../../../components/LoginInputComp/LoginInputComp';
@@ -104,6 +95,7 @@ const ProfileScreen = ({navigation}) => {
         },
       })
       .then(res => {
+        console.log(107, res.data.data);
         updateState({isLoading: false});
         dispatch({
           type: types.UpdateProfile,
@@ -332,7 +324,7 @@ const ProfileScreen = ({navigation}) => {
           </View>
           <LoginInputComp
             placeholder={'About Yourself'}
-            style={{height: hp('20'), width: wp('95')}}
+            style={styles.inputStyle}
             value={BioData}
             onChangeText={BioData => updateState({BioData: BioData})}
             multiline={true}

@@ -2,6 +2,7 @@ import {
   Dimensions,
   FlatList,
   Image,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -27,20 +28,38 @@ const OnboardScreen = ({navigation}) => {
     {
       id: '1',
       // image: require('../../images/image1.png'),
-      title: 'Welcome To MoyenXpress',
+      title: 'Tutor Guide',
       subtitle: 'Best Online Shopping Platform',
     },
     {
       id: '2',
       // image: require('../../images/image2.png',
-      title: 'Best Shopping Experience',
+      title: 'Tutee Guide',
       subtitle:
         'Let you shop milions of products with best online shopping Deals',
     },
     {
       id: '3',
       // image: require('../../images/image3.png',
-      title: 'Best Reasonable Price',
+      title: 'Mentor Guide',
+      subtitle: 'An exciting place for the whole family to shop',
+    },
+    {
+      id: '4',
+      // image: require('../../images/image3.png',
+      title: 'Mentee Guide',
+      subtitle: 'An exciting place for the whole family to shop',
+    },
+    {
+      id: '5',
+      // image: require('../../images/image3.png',
+      title: 'Retailer Guide',
+      subtitle: 'An exciting place for the whole family to shop',
+    },
+    {
+      id: '6',
+      // image: require('../../images/image3.png',
+      title: 'Shop Guide',
       subtitle: 'An exciting place for the whole family to shop',
     },
   ];
@@ -77,59 +96,65 @@ const OnboardScreen = ({navigation}) => {
   };
   const Slides = ({item}) => {
     return (
-      <View style={styles.midView}>
-        <View style={styles.midViewTopView}>
-          <AntDesign
-            style={{marginRight: wp('3')}}
-            name="exclamationcircle"
-            size={hp('4')}
-            color={colorTutor_.ipallightGreen}
-          />
-          <Text style={{color: colorTutor_.TxtColor, fontSize: hp('2.5')}}>
-            Tutor Guide
+      <>
+        <View style={styles.midView}>
+          <View style={styles.midViewTopView}>
+            <AntDesign
+              style={{marginRight: wp('3')}}
+              name="exclamationcircle"
+              size={hp('3.5')}
+              color={colorTutor_.ipallightGreen}
+            />
+            <Text style={{color: colorTutor_.TxtColor, fontSize: hp('2.5')}}>
+              {item.title}
+            </Text>
+          </View>
+          <Text style={styles.desc}>
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industry's standard dummy text
+            ever since the 1500s, when an unknown printer took a galley of type
+            and scrambled it to make a type specimen book.Lorem Ipsum is simply
+            dummy text of the printing and typesetting industry. Lorem Ipsum has
+            been the industry's standard dummy text ever since the
           </Text>
-        </View>
-        <Text style={styles.desc}>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book.Lorem Ipsum is simply dummy
-          text of the printing and typesetting industry. Lorem Ipsum has been
-          the industry's standard dummy text ever since the
-        </Text>
-        <View style={styles.midLastView}>
-          <View style={styles.arrowView}>
-            <AntDesign
-              onPress={goToBackSlide}
-              name="arrowleft"
-              size={hp('4')}
-              color={'black'}
-            />
-          </View>
-          {/* <TouchableOpacity onPress={skip} style={styles.skipBtn}> */}
-          <TouchableOpacity
-            onPress={() =>
-              disptach({
-                type: types.LunchedCompleted,
-              })
-            }
-            style={styles.skipBtn}>
-            <TextComp text={'Skip Intro'} />
-          </TouchableOpacity>
-          <View style={styles.arrowView}>
-            <AntDesign
-              onPress={goToNextSlide}
-              name="arrowright"
-              size={hp('4')}
-              color={'black'}
-            />
+          <View style={styles.midLastView}>
+            <View style={styles.arrowView}>
+              <AntDesign
+                onPress={goToBackSlide}
+                name="arrowleft"
+                size={hp('4')}
+                color={colorTutor_.TxtColor}
+              />
+            </View>
+            {/* <TouchableOpacity onPress={skip} style={styles.skipBtn}> */}
+            <TouchableOpacity
+              onPress={() =>
+                disptach({
+                  type: types.LunchedCompleted,
+                })
+              }
+              style={styles.skipBtn}>
+              <TextComp color="white" text={'Skip Intro'} />
+            </TouchableOpacity>
+            <View style={styles.arrowView}>
+              <AntDesign
+                onPress={goToNextSlide}
+                name="arrowright"
+                size={hp('4')}
+                color={colorTutor_.TxtColor}
+              />
+            </View>
           </View>
         </View>
-      </View>
+      </>
     );
   };
   return (
     <View style={styles.container}>
+      <StatusBar
+        hidden={false}
+        barStyle={Platform.OS == 'ios' ? 'dark-content' : 'default'}
+      />
       <Image
         resizeMode="contain"
         style={styles.imageView}
@@ -146,7 +171,28 @@ const OnboardScreen = ({navigation}) => {
         pagingEnabled
         renderItem={({item}) => <Slides item={item} />}
       />
-
+      <View style={styles.bottomView}>
+        <TouchableOpacity
+         onPress={() => navigation.navigate('Home')}
+          style={{
+            backgroundColor: colorTutor_.ipallightGreen,
+            ...styles.homeBtn,
+          }}>
+          <TextComp color="white" style={{fontSize: hp('2.2')}} text={'HOME'} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('OurStory')}
+          style={{
+            ...styles.homeBtn,
+            backgroundColor: 'white',
+          }}>
+          <TextComp
+            color={colorTutor_.ipallightGreen}
+            style={{fontSize: hp('2.2')}}
+            text={'OUR STORY'}
+          />
+        </TouchableOpacity>
+      </View>
       <View style={styles.bottomBar}>
         <TouchableOpacity onPress={() => console.log('dont have you acc')}>
           <Text style={globalStyles.globalModuletutor}>Term of use</Text>

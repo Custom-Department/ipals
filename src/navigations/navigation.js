@@ -23,10 +23,14 @@ export default function StackNavigatior() {
           headerShown: false,
         }}>
         {IsApplunchFirst == true && (
-          <Stack.Screen
-            name="OnboardScreen"
-            component={screens.OnboardScreen}
-          />
+          <>
+            <Stack.Screen
+              name="OnboardScreen"
+              component={screens.OnboardScreen}
+            />
+            <Stack.Screen name="OurStory" component={screens.OurStory} />
+            <Stack.Screen name="Home" component={screens.OnboardHomeScreen} />
+          </>
         )}
         {userData?.user_type == 'student' ? (
           // && token != '' && token != null

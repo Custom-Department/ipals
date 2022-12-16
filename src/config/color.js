@@ -25,6 +25,9 @@ export const color = {
   LightGreen: '#ebfbe7',
   darkGreen: '#00712f',
   lightPurple: '#D8CCE8',
+  textfieldcolor:'#EAEAEA',
+  placeholdercolor:'#7E7E7E',
+  coutrypickerbackgroundcolor:'#C7C7C7',
 };
 export const colorTutor_ = {
   ipalBlue: '#82CAFA',
@@ -47,8 +50,8 @@ export const MentorColor = {
   MentorThemeBackGround: '#59C8F2',
   MentorLightTheme: '#89CFF0',
   Whatsaapbutton: '#6FBD35',
-  Linkedinbutton:'#0073B0',
-  DividerGrey:'#D9D9D9',
+  Linkedinbutton: '#0073B0',
+  DividerGrey: '#D9D9D9',
   MentorlightGrey: '#C7CBE4',
   MentorInformationColor: '#D2D5DB',
   MentorSubsPlan1: '#6FBD35',
