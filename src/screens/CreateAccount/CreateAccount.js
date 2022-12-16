@@ -37,7 +37,10 @@ import axios from 'react-native-axios';
 
 const CreateAccount = ({navigation}) => {
   const dispatch = useDispatch();
+  const [mentorPicker, setMentorPicker] = useState([]);
   const [tutorValue, setTutorValue] = useState({
+    SchoolData: [],
+    YearData: [],
     tutorData: null,
     languageData: null,
     CountryData: null,
@@ -51,6 +54,10 @@ const CreateAccount = ({navigation}) => {
     BioData: '',
     Password: '',
     ConfirmPassword: '',
+    SchoolName: [],
+    SchoolEmail: '',
+    CompleteSchoolAddress: '',
+    ConfirmPassword: '',
     linkedin_id: 'asdasd',
     linkedin_token: 'asdasd',
     linkedin_avatar: 'asdas',
@@ -63,6 +70,9 @@ const CreateAccount = ({navigation}) => {
   });
 
   const [EducationData, setEducationData] = useState([]);
+  const [className1, setClassName1] = useState([]);
+  const [schoolEmail, setSchoolEmail] = useState([]);
+  const [schoolAdd, setSchoolAdd] = useState([]);
   const [AddField, setAddField] = useState(['']);
   const [dummy, setDummy] = useState(1);
   const [isloading, setIsloading] = useState(false);
@@ -76,6 +86,8 @@ const CreateAccount = ({navigation}) => {
     AcademicYearData: 'AcademicYearData',
     CourcesData: 'CourcesData',
     CategoriesData: 'CategoriesData',
+    YearData: 'YearData',
+    SchoolData: 'SchoolData',
   };
   const {
     PhoneNumber,
@@ -92,6 +104,9 @@ const CreateAccount = ({navigation}) => {
     ZipCodeData,
     AcademicYearData,
     Email,
+    SchoolName,
+    SchoolEmail,
+    CompleteSchoolAddress,
   } = tutorValue;
   const [isKeyboardVisible, setKeyboardVisible] = useState(hp('20'));
   const [showBottomBar, setShowBottomBar] = useState(false);
@@ -138,12 +153,191 @@ const CreateAccount = ({navigation}) => {
         type: 'languageData',
       },
     ],
+    YearData: [
+      {
+        id: '2000',
+        title: '2000',
+        value: '2000',
+        type: 'YearData',
+      },
+      {
+        id: '2001',
+        title: '2001',
+        value: '2001',
+        type: 'YearData',
+      },
+      {
+        id: '2002',
+        title: '2002',
+        value: '2002',
+        type: 'YearData',
+      },
+      {
+        id: '2003',
+        title: '2003',
+        value: '2003',
+        type: 'YearData',
+      },
+      {
+        id: '2004',
+        title: '2004',
+        value: '2004',
+        type: 'YearData',
+      },
+      {
+        id: '2005',
+        title: '2005',
+        value: '2005',
+        type: 'YearData',
+      },
+      {
+        id: '2006',
+        title: '2006',
+        value: '2006',
+        type: 'YearData',
+      },
+      {
+        id: '2007',
+        title: '2007',
+        value: '2007',
+        type: 'YearData',
+      },
+      {
+        id: '2008',
+        title: '2008',
+        value: '2008',
+        type: 'YearData',
+      },
+      {
+        id: '2009',
+        title: '2009',
+        value: '2009',
+        type: 'YearData',
+      },
+      {
+        id: '2010',
+        title: '2010',
+        value: '2010',
+        type: 'YearData',
+      },
+      {
+        id: '2011',
+        title: '2011',
+        value: '2011',
+        type: 'YearData',
+      },
+      {
+        id: '2012',
+        title: '2012',
+        value: '2012',
+        type: 'YearData',
+      },
+      {
+        id: '2013',
+        title: '2013',
+        value: '2013',
+        type: 'YearData',
+      },
+      {
+        id: '2014',
+        title: '2014',
+        value: '2014',
+        type: 'YearData',
+      },
+      {
+        id: '2015',
+        title: '2015',
+        value: '2015',
+        type: 'YearData',
+      },
+      {
+        id: '2016',
+        title: '2016',
+        value: '2016',
+        type: 'YearData',
+      },
+      {
+        id: '2017',
+        title: '2017',
+        value: '2017',
+        type: 'YearData',
+      },
+      {
+        id: '2018',
+        title: '2018',
+        value: '2018',
+        type: 'YearData',
+      },
+      {
+        id: '2019',
+        title: '2019',
+        value: '2019',
+        type: 'YearData',
+      },
+      {
+        id: '2020',
+        title: '2020',
+        value: '2020',
+        type: 'YearData',
+      },
+      {
+        id: '2021',
+        title: '2021',
+        value: '2021',
+        type: 'YearData',
+      },
+      {
+        id: '2022',
+        title: '2022',
+        value: '2022',
+        type: 'YearData',
+      },
+    ],
+    SchoolData: [
+      {
+        id: 'Sec.School',
+        title: 'Sec.School',
+        value: 'Sec.School',
+        type: 'SchoolData',
+      },
+      {
+        id: 'High School',
+        title: 'High School',
+        value: 'High School',
+        type: 'SchoolData',
+      },
+      {
+        id: 'College',
+        title: 'College',
+        value: 'College',
+        type: 'SchoolData',
+      },
+      {
+        id: 'Undergraduate',
+        title: 'Undergraduate',
+        value: 'Undergraduate',
+        type: 'SchoolData',
+      },
+      {
+        id: 'Masters',
+        title: 'Masters',
+        value: 'Masters',
+        type: 'SchoolData',
+      },
+      {
+        id: 'PHD',
+        title: 'PHD',
+        value: 'PHD',
+        type: 'SchoolData',
+      },
+    ],
     CountryData: [],
     CityData: [],
     StateData: [],
     CourcesData: [],
     CategoriesData: [],
   });
+
   const {
     tutorData,
     CityData,
@@ -152,6 +346,8 @@ const CreateAccount = ({navigation}) => {
     languageData,
     CourcesData,
     CategoriesData,
+    YearData,
+    SchoolData,
   } = pickerState;
   const updateState = data => setPickerState(prev => ({...prev, ...data}));
   const updateFinalState = data => setTutorValue(prev => ({...prev, ...data}));
@@ -162,6 +358,7 @@ const CreateAccount = ({navigation}) => {
       [State]: value,
     }));
   };
+
   const getPickerData = (state, url) => {
     ApiGet(url).then(res => {
       if (res.status == 200) {
@@ -273,6 +470,10 @@ const CreateAccount = ({navigation}) => {
       keyboardDidShowListener.remove();
     };
   }, []);
+  const setValue = (i, e, state) => {
+    state(e);
+    console.log(474, i, e, state, state());
+  };
   return (
     <>
       <View style={styles.container}>
@@ -484,45 +685,136 @@ const CreateAccount = ({navigation}) => {
               <Octicons name={'plus'} size={hp('3')} color={'white'} />
             </TouchableOpacity>
           </View>
+
           {AddField.length > 0 &&
             AddField.map((res, i) => {
               return (
-                <View style={styles.twoPickerView}>
-                  <View>
-                    <Text style={{...styles.accView, marginTop: hp('2')}}>
-                      Education
-                    </Text>
-                    <LoginInputComp
-                      style={{width: wp('45')}}
-                      placeholder={'Education'}
-                      secureTextEntry={false}
-                      value={EducationData[i]}
-                      onChangeText={e => {
-                        EducationData[i] = e;
-                      }}
-                    />
-                  </View>
-                  <View>
-                    <Text
+                <>
+                  <View
+                    style={{...styles.twoPickerView, marginBottom: hp('0')}}>
+                    <View>
+                      <Text style={{...styles.accView, marginTop: hp('2')}}>
+                        Education
+                      </Text>
+                      <LoginInputComp
+                        style={{width: wp('53')}}
+                        placeholder={'School Name'}
+                        secureTextEntry={false}
+                        value={className1}
+                        // onChangeText={e => setValue(i, e, setClassName1)}
+                        onChangeText={e => (className1[i] = e)}
+                      />
+                    </View>
+
+                    <View
                       style={{
-                        ...styles.accView,
-                        marginTop: hp('2'),
-                        color: 'black',
+                        overflow: 'hidden',
+                        marginTop: hp('5.2'),
+                        height: hp('6.0'),
+                        paddingBottom: hp('3'),
+                        width: wp('40'),
+                        borderRadius: 5,
+                        backgroundColor: 'white',
+                        justifyContent: 'center',
+                        alignItems: 'center',
                       }}>
-                      Academic Year
-                    </Text>
-                    <LoginInputComp
-                      secureTextEntry={false}
-                      keyboardType="number-pad"
-                      style={{width: wp('45')}}
-                      placeholder={'Academic Year'}
-                      value={AcademicYearData}
-                      onChangeText={e => {
-                        AcademicYearData[i] = e;
-                      }}
-                    />
+                      <PickerComponent
+                        style={{
+                          overflow: 'hidden',
+                          width: wp('40'),
+                          marginRigh: wp('2'),
+                          backgroundColor: 'transparent',
+                        }}
+                        text={'Classes'}
+                        data={
+                          tutorValue.tutorData == 'Mentor'
+                            ? SchoolData
+                            : YearData
+                        }
+                        setSelectedValue={
+                          (val, state) => {
+                            console.log(111111, state, val);
+                            setTutorValue(pre => ({
+                              ...tutorValue,
+                              [state[i]]: val,
+                            }));
+                            setTimeout(() => {
+                              console.log(tutorValue.SchoolData);
+                            }, 2000);
+                          }
+                          // mentorPicker[i]=val
+                          // getTutorValue(val, state)
+                        }
+                        h={
+                          tutorValue.tutorData == 'Mentor'
+                            ? h.SchoolData
+                            : h.YearData
+                        }
+                        selectedValue={
+                          tutorValue.tutorData == 'Mentor'
+                            ? tutorValue.SchoolData
+                            : tutorValue.YearData
+                        }
+                      />
+                      {/* <PickerComponent
+                        style={{
+                          overflow: 'hidden',
+                          width: wp('40'),
+                          marginRigh: wp('2'),
+                          backgroundColor: 'transparent',
+                        }}
+                        text={'Classes'}
+                        data={
+                          tutorValue.tutorData == 'Mentor'
+                            ? SchoolData
+                            : YearData
+                        }
+                        setSelectedValue={(val, state) =>
+                          getTutorValue(val, state)
+                        }
+                        h={
+                          tutorValue.tutorData == 'Mentor'
+                            ? h.SchoolData
+                            : h.YearData
+                        }
+                        selectedValue={
+                          tutorValue.tutorData == 'Mentor'
+                            ? tutorValue.SchoolData
+                            : tutorValue.YearData
+                        }
+                      /> */}
+                    </View>
                   </View>
-                </View>
+                  <LoginInputComp
+                    style={{width: wp('95')}}
+                    placeholder={'School Email'}
+                    secureTextEntry={false}
+                    // value={EducationData[i]}
+                    value={schoolEmail}
+                    onChangeText={e => (schoolEmail[i] = e)}
+                    // onChangeText={e => {
+                    //   EducationData[i] = e;
+                    // }}
+                  />
+
+                  <LoginInputComp
+                    inputStyle={{
+                      alignSelf: 'flex-start',
+                      paddingTop: hp('2'),
+                    }}
+                    style={{width: wp('95'), height: hp('15')}}
+                    placeholder={'Complete School Address'}
+                    secureTextEntry={false}
+                    value={schoolAdd}
+                    onChangeText={e => {
+                      schoolAdd[i] = e;
+                    }}
+                    // value={EducationData[i]}
+                    // onChangeText={e => {
+                    //   EducationData[i] = e;
+                    // }}
+                  />
+                </>
               );
             })}
           <View style={{marginVertical: hp('2')}}>
