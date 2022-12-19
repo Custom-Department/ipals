@@ -58,14 +58,15 @@ export const styles = StyleSheet.create({
     width: wp('95'),
     marginBottom: hp('2'),
     alignItems: 'center',
-    marginTop: Platform.OS == 'ios' ? hp('0') : hp('0.1'),
+    marginTop: Platform.OS == 'ios' ? hp('0') : hp('2'),
     alignContent: 'center',
   },
   crowsIcon: {
     marginTop: hp('1'),
     marginLeft: 'auto',
     marginRight: wp('2'),
-    marginTop:hp('2')
+    marginTop: hp('2'),
+    marginBottom: Platform.OS == 'ios' ? hp('-1') : hp('-4'),
   },
   btnTxt: {
     flexDirection: 'row',

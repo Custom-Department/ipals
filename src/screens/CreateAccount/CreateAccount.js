@@ -460,6 +460,9 @@ const CreateAccount = ({navigation}) => {
     EducationData.splice(i, 1);
     AddField.splice(i, 1);
     AcademicYearData.splice(i, 1);
+    schoolAdd.splice(i, 1);
+    schoolEmail.splice(i, 1);
+    className.splice(i, 1);
     setDummy(dummy - 1);
   };
   useEffect(() => {
@@ -729,12 +732,15 @@ const CreateAccount = ({navigation}) => {
             AddField.map((res, i) => {
               return (
                 <>
-                  <Entypo
-                name="circle-with-cross"
-                color={'gray'}
-                size={hp('3')}
-                style={styles.crowsIcon}
-              />
+                  {AddField.length == i + 1 && i > 0 && (
+                    <Entypo
+                      name={'circle-with-cross'}
+                      color={'gray'}
+                      size={hp('3')}
+                      style={styles.crowsIcon}
+                      onPress={() => removeFeild(i)}
+                    />
+                  )}
                   <View
                     style={{...styles.twoPickerView, marginBottom: hp('0')}}>
                     <View>
@@ -757,7 +763,7 @@ const CreateAccount = ({navigation}) => {
                           style={{
                             width: wp('40'),
                             backgroundColor: 'transparent',
-                            marginBottom:hp('1.5'),
+                            marginBottom: hp('1.5'),
                           }}
                           text={'Classes'}
                           data={checkAccountType() ? SchoolData : YearData}
