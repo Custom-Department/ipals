@@ -29,7 +29,7 @@ const LoginScreen = ({navigation}) => {
   const [loginData, setLoginData] = useState({
     // email: 'studentr@test.com',
     // email: 'test@mentor.com',
-    // email: 'teacher@test4com',
+    // email: 'teacher@test.com',
     // email: 'test@teacher.com',
     // password: '12345678',
     email: '',
@@ -74,6 +74,7 @@ const LoginScreen = ({navigation}) => {
   const focusInput = () => {
     inputElement.current.focus();
   };
+
   const inputElement = useRef();
   const handleClick = () => setShow(!show);
   const [show, setShow] = useState(false);
@@ -114,7 +115,6 @@ const LoginScreen = ({navigation}) => {
         color={colorTutor_.ipallightGreen}
         eyeIconSize={hp('2.8')}
         Iconcolor2={color.themeColorlight}
-
       />
       <ButtonThemeComp
         style={styles.signBtn}

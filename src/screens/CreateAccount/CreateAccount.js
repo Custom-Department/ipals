@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import {Picker} from '@react-native-picker/picker';
 import React, {useEffect, useState} from 'react';
 import {styles} from './style';
 import {LoginInputComp} from '../../components/LoginInputComp/LoginInputComp';
@@ -38,6 +39,7 @@ import axios from 'react-native-axios';
 const CreateAccount = ({navigation}) => {
   const dispatch = useDispatch();
   const [mentorPicker, setMentorPicker] = useState([]);
+
   const [tutorValue, setTutorValue] = useState({
     SchoolData: [],
     YearData: [],
@@ -470,9 +472,8 @@ const CreateAccount = ({navigation}) => {
       keyboardDidShowListener.remove();
     };
   }, []);
-  const setValue = (i, e, state) => {
-    state(e);
-    console.log(474, i, e, state, state());
+  const onValueChanges = e => {
+    setMentorPicker(e);
   };
   return (
     <>
@@ -718,7 +719,17 @@ const CreateAccount = ({navigation}) => {
                         justifyContent: 'center',
                         alignItems: 'center',
                       }}>
-                      <PickerComponent
+                      <Picker
+                        selectedValue={mentorPicker}
+                        // onValueChange={itemValue => setMentorPicker(itemValue)}
+                        onValueChange={e => onValueChanges(e)}
+                        style={{height: 50, width: 150}}>
+                        <Picker.Item label="Java" value="java" />
+                        <Picker.Item label="JavaScript" value="js" />
+                      </Picker>
+                      {console.log(728, mentorPicker)}
+
+                      {/* <PickerComponent
                         style={{
                           overflow: 'hidden',
                           width: wp('40'),
@@ -755,7 +766,7 @@ const CreateAccount = ({navigation}) => {
                             ? tutorValue.SchoolData
                             : tutorValue.YearData
                         }
-                      />
+                      /> */}
                       {/* <PickerComponent
                         style={{
                           overflow: 'hidden',
