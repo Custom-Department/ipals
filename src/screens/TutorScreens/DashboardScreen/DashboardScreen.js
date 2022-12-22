@@ -135,8 +135,6 @@ const DashboardScreen = ({navigation}) => {
   const [classId, setClassId] = useState('');
   const [buttonText, setButtonText] = useState('Create Class');
 
-  const [calenderArray, setCalenderArray] = useState([]);
-
   const [selectedDate, setSelectedDate] = useState('');
   const [markedDates, setMarkedDates] = useState({});
 
@@ -217,8 +215,6 @@ const DashboardScreen = ({navigation}) => {
       secondText: "Hi, we aren't ready to start our class today...",
     },
   ]);
-  const [cources, setCources] = useState([]);
-
   const createClasses = (url, method, params) => {
     updateLoadingState({createClassLoading: true});
     if (
@@ -564,7 +560,13 @@ const DashboardScreen = ({navigation}) => {
   useEffect(() => {
     getApiData(GetCourcesUrl, 'courcesState', 'courcesLoading');
     getApiData(GetPendingClassUrl, 'pendingClassState', 'pendingLoading');
-    getApiData(GetMyClasses, 'myClassState', 'myClassLoading');
+    getApiData(
+      GetMyClasses,
+      'myClassState',
+      'myClassLoading',
+      // setClassState(true),
+      // true,
+    );
     getApiData(GetApprovedClassUrl, 'acceptClassState', 'acceptLoading');
   }, []);
   return (
@@ -598,7 +600,7 @@ const DashboardScreen = ({navigation}) => {
       )}
       {index == 1 && (
         <>
-          {classState == true ? (
+          {classState == true || myClassState.length < 1 ? (
             <ScrollView contentContainerStyle={styles.container}>
               <View style={styles.myClassViewDashBoard}>
                 <View style={{flexDirection: 'row'}}>

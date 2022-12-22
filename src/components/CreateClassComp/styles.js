@@ -23,4 +23,10 @@ export const styles = StyleSheet.create({
   edit: {
     width: wp('6'),
   },
+  editView: {
+    marginLeft: 'auto',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: wp('3'),
+  },
 });

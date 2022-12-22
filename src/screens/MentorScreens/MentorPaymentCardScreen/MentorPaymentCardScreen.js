@@ -113,7 +113,6 @@ const MentorPaymentCardScreen = ({route}) => {
           },
         )
         .then(res => {
-          console.log(156, res?.data);
           updateState({isLoading: false});
           // dispatch({
           //   type: types.UpdateProfile,
@@ -122,7 +121,6 @@ const MentorPaymentCardScreen = ({route}) => {
           successMessage('Your Payment Successful Proceed');
         })
         .catch(function (error) {
-          console.log(130, error);
           updateState({isLoading: false});
           errorMessage(errorHandler(error));
         });
@@ -205,40 +203,21 @@ const MentorPaymentCardScreen = ({route}) => {
                   placeholder="CVC"
                   maxLength={4}
                   keyboardType={'numeric'}
-                  value={MM}
-                  onChangeText={month => updateState({MM: month})}
-                />
-              </View>
-              <View style={styles.childcard}>
-                <TextInput
-                  style={{flex: 1, color: 'black', fontSize: hp('2')}}
-                  placeholder="YY"
-                  maxLength={2}
-                  placeholderTextColor="grey"
-                  keyboardType={'numeric'}
-                  value={YY}
-                  onChangeText={year => updateState({YY: year})}
+                  value={cvc}
+                  onChangeText={cvcs => updateState({cvc: cvcs})}
                 />
               </View>
             </View>
-            <View style={styles.childcvc}>
-              <TextInput
-                style={{flex: 1, color: 'black', fontSize: hp('2')}}
-                placeholder="CVC"
-                maxLength={4}
-                keyboardType={'numeric'}
-                value={cvc}
-                onChangeText={cvc => updateState({cvc: cvc})}
-              />
-            </View>
-          </View>
-          <View onPress={() => hitStripeAPi()} style={{alignItems: 'center'}}>
+            <View onPress={() => hitStripeAPi()} style={{alignItems: 'center'}}>
             <ButtonThemeComp
+            isLoading={isLoading}
               onPress={() => hitStripeAPi()}
               style={styles.continue}
               text={'Continue'}
             />
           </View>
+          </View>
+          
           {/* <TouchableOpacity
             style={styles.continue}
             onPress={() => {

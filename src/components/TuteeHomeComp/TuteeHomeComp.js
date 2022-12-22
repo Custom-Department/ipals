@@ -27,7 +27,6 @@ export const TuteeHomeComp = props => {
         style={{marginTop: hp('1'), fontSize: hp('2')}}
       />
       <HorizontalDividerComp style={styles.divider} />
-      <TextComp text="Subjects" />
       <View style={styles.bottomView}>
         {data.course.length > 0 &&
           data.course.map(res => {

@@ -13,5 +13,6 @@ export const styles = StyleSheet.create({
     marginBottom: hp('2'),
     alignItems: 'center',
     alignSelf: 'center',
+    marginTop: hp('2'),
   },
 });

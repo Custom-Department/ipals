@@ -6,7 +6,7 @@ import OnboardScreen from './OnboardScreen/OnboardScreen';
 import NotificationScreen from './NotificationScreen/NotificationScreen';
 import MenFilterScreen from './MenFilterScreen/MenFilterScreen';
 import OurStory from './OurStory/OurStory';
-
+import OnboardHomeScreen from './OnboardHomeScreen/OnboardHomeScreen';
 export const screens = {
   Home,
   Category,
@@ -16,4 +16,5 @@ export const screens = {
   NotificationScreen,
   MenFilterScreen,
   OurStory,
+  OnboardHomeScreen,
 };

@@ -10,7 +10,6 @@ import {
   Platform,
   TouchableOpacity,
 } from 'react-native';
-import {HeaderComponent} from '../../../components/HeaderComponent/HeaderComponent';
 import {color, colorTutor_, MentorColor} from '../../../config/color';
 import {
   widthPercentageToDP as wp,
@@ -24,7 +23,6 @@ import {ButtonThemeComp} from '../../../components/ButtonThemeComp/ButtonThemeCo
 import {
   CreateStudentRequestUrl,
   GetTeacherClassesUrl,
-  GetTimelotUrl,
 } from '../../../config/Urls';
 import axios from 'react-native-axios';
 import {useEffect} from 'react';
@@ -42,7 +40,6 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import moment from 'moment/moment';
 import {RadioButton} from 'react-native-paper';
 import {BackHeaderComponent} from '../../../components/BackHeaderComponent/BackHeaderComponent';
-import {Picker} from '@react-native-picker/picker';
 import InformationTextView from '../../../components/InformationTextView/InformationTextView';
 
 const TeacherDetailScreen = ({route, navigation}) => {
@@ -139,7 +136,7 @@ const TeacherDetailScreen = ({route, navigation}) => {
         />
         <View style={styles.centerView}>
           <View style={styles.innerBottomView}>
-            <FontAwesome name="book" size={hp('2')} color={'gray'}/>
+            <FontAwesome name="book" size={hp('2')} color={'gray'} />
             <TextComp style={{fontSize: hp('1.6')}} text={data.course.title} />
           </View>
           <View style={styles.verDivider} />
@@ -238,7 +235,7 @@ const TeacherDetailScreen = ({route, navigation}) => {
           </View>
 
           <TextComp text="Select schedule for class" style={styles.heading} />
-          <ScrollView>
+          <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.daysView}>
               {scheduleDays.map((res, i) => {
                 const Month = moment(res?.schedule).format('YYYY-MM-DD');
@@ -320,12 +317,11 @@ const TeacherDetailScreen = ({route, navigation}) => {
                   <TextComp text="Subject" style={{fontSize: hp('1.4')}} />
                   <View style={styles.subjectView}>
                     {item.course.length > 0 &&
-                      userData?.course?.map(res => {
+                      item?.course?.map(res => {
                         return (
                           <View style={styles.subMainView}>
                             <View style={styles.subView}>
                               <TextComp
-                                // text="English"
                                 text={res?.title}
                                 style={{fontSize: hp('1.3'), color: 'white'}}
                               />
@@ -348,11 +344,6 @@ const TeacherDetailScreen = ({route, navigation}) => {
             style={styles.bottomLine}
             color={colorTutor_.topNavigationColor}
           />
-          {/* <ButtonThemeComp
-            onPress={() => console.log('dmfmd')}
-            text="Apply Now"
-            style={styles.buttonView}
-          /> */}
         </View>
         {startLoading ? (
           <SkypeIndicator
@@ -390,7 +381,6 @@ const TeacherDetailScreen = ({route, navigation}) => {
             textColor={'white'}
             text={'You don’t have any class created'}
           />
-          // <InformationTextView text={'Teacher Not Found'} />
         )}
       </ScrollView>
       {isVisible && <ModalView />}

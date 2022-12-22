@@ -7,7 +7,8 @@ import {
 } from 'react-native-responsive-screen';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {color} from '../../config/color';
+import Entypo from 'react-native-vector-icons/Entypo';
+import {color, colorTutor_} from '../../config/color';
 
 export const LoginInputComp = props => {
   return (
@@ -22,7 +23,6 @@ export const LoginInputComp = props => {
             ? color.white
             : color.borderThirdColor,
         borderWidth: props?.isFocused == true ? 2 : 1,
-        backgroundColor: props?.isFocused == true ? 'white' : color.white,
       }}>
       {props.firstIcon && (
         <Ionicons
@@ -31,7 +31,6 @@ export const LoginInputComp = props => {
           color={props?.firstIconColor}
           style={{
             marginRight: wp('2'),
-            // marginLeft: wp('3'),
           }}
           size={hp('2')}
         />
@@ -45,6 +44,7 @@ export const LoginInputComp = props => {
           flex: 1,
           ...props.inputStyle,
         }}
+        maxLength={props?.maxLength}
         onSubmitEditing={props?.onSubmitEditing}
         {...props.otherProps}
         onChange={props?.onChange}
@@ -54,7 +54,6 @@ export const LoginInputComp = props => {
         ref={props?.ref}
         placeholder={props?.placeholder}
         placeholderTextColor={color.themeColorDark}
-        // keyboardType={"number-pad"}
         multiline={props?.multiline}
         keyboardType={props?.keyboardType}
         secureTextEntry={props?.secureTextEntry}
@@ -70,27 +69,49 @@ export const LoginInputComp = props => {
         <Ionicons
           onPress={props?.eyeIconPress}
           name={props?.eyeIconName}
-          // color={
-          //   props?.isFocused == true
-          //     ? color.textSecondaryColor
-          //     : color.themeColorDark
-          // }
-          color={props?.Iconcolor2}
-          style={{marginLeft: 'auto', marginRight: wp('3')}}
-          size={props?.eyeIconSize ?? hp('2')}
+          color={
+            props?.isFocused == true
+              ? color.textSecondaryColor
+              : colorTutor_.ipallightGreen
+          }
+          style={{
+            marginLeft: 'auto',
+            marginRight: wp('3'),
+            paddingLeft: wp('2'),
+          }}
+          size={props?.eyeIconSize ?? hp('3')}
+        />
+      ) : props?.Entypo ? (
+        <Entypo
+          onPress={props?.eyeIconPress}
+          name={props?.eyeIconName}
+          color={
+            props?.isFocused == true
+              ? color.textSecondaryColor
+              : colorTutor_.ipallightGreen
+          }
+          style={{
+            marginLeft: 'auto',
+            marginRight: wp('3'),
+            paddingLeft: wp('2'),
+          }}
+          size={props?.eyeIconSize ?? hp('3')}
         />
       ) : (
         <MaterialIcons
           onPress={props?.eyeIconPress}
           name={props?.eyeIconName}
-          // color={
-          //   props?.isFocused == true
-          //     ? color.textSecondaryColor
-          //     : color.themeColorDark
-          // }
-          color={props?.Iconcolor2}
-          style={{marginLeft: 'auto', marginRight: wp('3')}}
-          size={props?.eyeIconSize ?? hp('2')}
+          color={
+            props?.isFocused == true
+              ? color.textSecondaryColor
+              : colorTutor_.ipallightGreen
+          }
+          style={{
+            marginLeft: 'auto',
+            marginRight: wp('3'),
+            paddingLeft: wp('2'),
+          }}
+          size={props?.eyeIconSize ?? hp('3')}
         />
       )}
     </View>

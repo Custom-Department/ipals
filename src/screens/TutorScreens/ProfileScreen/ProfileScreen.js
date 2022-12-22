@@ -9,7 +9,6 @@ import {
   StyleSheet,
 } from 'react-native';
 import React, {useState} from 'react';
-import {HeaderComponent} from '../../../components/HeaderComponent/HeaderComponent';
 import {color, colorTutor_} from '../../../config/color';
 import {globalStyles} from '../../../config/globalStyles';
 import {styles} from './style';
@@ -19,15 +18,7 @@ import {
 } from 'react-native-responsive-screen';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {TextComp} from '../../../components/TextComponent';
-import {ButtonIconComp} from '../../../components/ButtonIconComp/ButtonIconComp';
 import {ButtonThemeComp} from '../../../components/ButtonThemeComp/ButtonThemeComp';
-import {SettingIconComp} from '../../../components/SettingIconComp/SettingIconComp';
-import * as Animatable from 'react-native-animatable';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import InformationTextView from '../../../components/InformationTextView/InformationTextView';
 import {BackHeaderComponent} from '../../../components/BackHeaderComponent/BackHeaderComponent';
 import {useDispatch, useSelector} from 'react-redux';
 import {LoginInputComp} from '../../../components/LoginInputComp/LoginInputComp';
@@ -104,6 +95,7 @@ const ProfileScreen = ({navigation}) => {
         },
       })
       .then(res => {
+        console.log(107, res.data.data);
         updateState({isLoading: false});
         dispatch({
           type: types.UpdateProfile,
@@ -297,56 +289,72 @@ const ProfileScreen = ({navigation}) => {
             style={styles.textharMatin}
             text={userData?.f_name + ' ' + userData?.l_name}
           />
-          <View style={styles.addButton}>
-            {activities.length > 0 &&
-              activities?.map(res => {
-                return (
-                  <View style={styles.subView}>
+          {console.log(292, userData)}
+          {userData?.user_type == 'teacher' ? (
+            <>
+              <View style={styles.addButton}>
+                {activities.length > 0 &&
+                  activities?.map(res => {
+                    return (
+                      <View style={styles.subView}>
+                        <TextComp
+                          text={res?.title}
+                          style={{
+                            fontSize: hp('1.3'),
+                            textAlign: 'center',
+                            color: 'white',
+                          }}
+                        />
+                      </View>
+                    );
+                  })}
+                {userData?.user_type == 'teacher' && (
+                  <TouchableOpacity
+                    onPress={() => {
+                      updateState({isVisible: true});
+                    }}
+                    style={{
+                      ...styles.subView,
+                      marginLeft: wp('2'),
+                      backgroundColor: colorTutor_.blue,
+                    }}>
                     <TextComp
-                      text={res?.title}
-                      style={{
-                        fontSize: hp('1.3'),
-                        textAlign: 'center',
-                        color: 'white',
-                      }}
+                      text="Add Subject"
+                      style={{fontSize: hp('1.3'), color: 'white'}}
                     />
-                  </View>
-                );
-              })}
-            {userData?.user_type == 'teacher' && (
-              <TouchableOpacity
-                onPress={() => {
-                  updateState({isVisible: true});
+                  </TouchableOpacity>
+                )}
+              </View>
+              <LoginInputComp
+                placeholder={'About Yourself'}
+                style={styles.inputStyle}
+                value={BioData}
+                onChangeText={BioData => updateState({BioData: BioData})}
+                multiline={true}
+                inputStyle={{
+                  alignSelf: 'flex-start',
+                  paddingTop: hp('2'),
                 }}
-                style={{
-                  ...styles.subView,
-                  marginLeft: wp('2'),
-                  backgroundColor: colorTutor_.blue,
-                }}>
-                <TextComp
-                  text="Add Subject"
-                  style={{fontSize: hp('1.3'), color: 'white'}}
-                />
-              </TouchableOpacity>
-            )}
-          </View>
-          <LoginInputComp
-            placeholder={'About Yourself'}
-            style={{height: hp('20'), width: wp('95')}}
-            value={BioData}
-            onChangeText={BioData => updateState({BioData: BioData})}
-            multiline={true}
-            inputStyle={{
-              alignSelf: 'flex-start',
-              paddingTop: hp('2'),
-            }}
-          />
+              />
+            </>
+          ) : null}
+
           <ButtonThemeComp
             TextStyle={{fontSize: hp('1.9')}}
             style={{
               width: wp('80'),
               height: hp('7'),
-              marginVertical: hp('3'),
+              marginVertical:
+                userData.user_type == 'teacher' ? hp('3') : hp('25'),
+              shadowColor: '#000',
+              shadowOffset: {
+                width: 0,
+                height: 2,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 3.84,
+
+              elevation: 5,
             }}
             isLoading={isLoading}
             onPress={() => updateProfileFunc()}

@@ -1,7 +1,7 @@
 import React from 'react';
 import {useEffect} from 'react';
 import {useState} from 'react';
-import {View, Text, ScrollView} from 'react-native';
+import {View, Text, ScrollView, Platform} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -9,7 +9,6 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {BackHeaderComponent} from '../../../components/BackHeaderComponent/BackHeaderComponent';
 import {ButtonThemeComp} from '../../../components/ButtonThemeComp/ButtonThemeComp';
-import {HeaderComponent} from '../../../components/HeaderComponent/HeaderComponent';
 import {LoginInputComp} from '../../../components/LoginInputComp/LoginInputComp';
 import PickerComponent from '../../../components/PickerComponent/PickerComponent';
 import {TextComp} from '../../../components/TextComponent';
@@ -19,25 +18,27 @@ import {errorMessage} from '../../../config/NotificationMessage';
 import {
   GetCitiesUrl,
   GetCountryUrl,
+  GetCourcesUrl,
   GetStatesUrl,
-  GetTeachreClasses,
 } from '../../../config/Urls';
-import types from '../../../Redux/types';
 import {styles} from './styles';
 
 const SeacrhFilterScreen = ({navigation}) => {
   const [tutorValue, setTutorValue] = useState({
-    CountryData: {},
-    CityData: {},
-    StateData: {},
+    SubjectsData: {},
+    CountryData: '',
+    CityData: '',
+    StateData: '',
+    CourcesData: '',
   });
   const [teacherName, setTeacherName] = useState('');
   const [zipCode, setZipCode] = useState('');
-  const [buttonType, setButtonType] = useState(true);
   const h = {
+    SubjectsData: 'Subjects',
     CountryData: 'CountryData',
     CityData: 'CityData',
     StateData: 'StateData',
+    CourcesData: 'CourcesData',
   };
   const getTutorValue = (value, State) => {
     setTutorValue(pre => ({
@@ -46,15 +47,12 @@ const SeacrhFilterScreen = ({navigation}) => {
     }));
   };
   const [pickerState, setPickerState] = useState({
+    SubjectsData: [],
     CountryData: [],
     CityData: [],
     StateData: [],
+    CourcesData: [],
   });
-  const [topNavigator, setTopNavigator] = useState([
-    'HOME',
-    'MY CLASSES',
-    'MESSAGES',
-  ]);
   const getPickerData = (state, url) => {
     ApiGet(url).then(res => {
       if (res.status == 200) {
@@ -64,26 +62,31 @@ const SeacrhFilterScreen = ({navigation}) => {
       }
     });
   };
-  const dispatch = useDispatch();
   const updateState = data => setPickerState(prev => ({...prev, ...data}));
-  const {CityData, CountryData, StateData, ZipCodeData} = pickerState;
+  const {
+    CityData,
+    CountryData,
+    StateData,
+    ZipCodeData,
+    SubjectsData,
+    CourcesData,
+  } = pickerState;
   const onPressFilter = () => {
-    // dispatch({
-    //   type: types.LogoutType,
-    // });
     const allData = {
       name: teacherName,
       countryId: tutorValue.CountryData,
       cityId: tutorValue.CityData,
       stateId: tutorValue.StateData,
       zipCode: zipCode,
+      course_id: tutorValue.CourcesData,
     };
     if (
       teacherName != '' ||
-      teacherName != null ||
       tutorValue.CityData != null ||
       tutorValue.CountryData != null ||
+      tutorValue.SubjectsData != null ||
       tutorValue.StateData != null ||
+      tutorValue.CourcesData != null ||
       zipCode != ''
     ) {
       navigation.navigate('TeacherFilterScreen', {item: allData});
@@ -92,6 +95,7 @@ const SeacrhFilterScreen = ({navigation}) => {
     }
   };
   useEffect(() => {
+    getPickerData('CourcesData', GetCourcesUrl);
     getPickerData('CountryData', GetCountryUrl);
   }, []);
 
@@ -102,22 +106,56 @@ const SeacrhFilterScreen = ({navigation}) => {
         flex: 1,
       }}>
       <BackHeaderComponent heading={'Search Filter'} />
-      <ScrollView contentContainerStyle={{flex: 1}}>
+      <ScrollView
+        keyboardShouldPersistTaps={'always'}
+        contentContainerStyle={{flex: 1}}>
         <TextComp
-          text="Search by name"
+          text="Search"
           style={{marginLeft: wp('3'), marginTop: hp('2')}}
         />
         <LoginInputComp
           value={teacherName}
+          Entypo={true}
+          eyeIconPress={() => setTeacherName('')}
+          eyeIconName={teacherName.length > 0 && 'circle-with-cross'}
           onChangeText={e => {
             setTeacherName(e);
           }}
           style={{alignSelf: 'center', marginBottom: hp('2'), width: wp('95')}}
           placeholder="Search for tutors by name"
         />
+
+        <View style={styles.twoPickerView}>
+          {/* <PickerComponent
+            style={{
+              width: wp('95'),
+              marginBottom: hp('2'),
+            }}
+            text={'Subjects'}
+            data={SubjectsData}
+            setSelectedValue={(val, state) => {
+              getTutorValue(val, state),
+                getPickerData('StateData', GetStatesUrl + val);
+            }}
+            h={h.SubjectsData}
+            selectedValue={tutorValue.SubjectsData}
+          /> */}
+          <PickerComponent
+            style={{width: wp('95'), marginRigh: wp('2')}}
+            text={'Courses'}
+            data={CourcesData}
+            setSelectedValue={(val, state) => {
+              getTutorValue(val, state),
+                getPickerData('StateData', GetStatesUrl + val);
+            }}
+            // setSelectedValue={(val, state) => getTutorValue(val, state)}
+            h={h.CourcesData}
+            selectedValue={tutorValue.CourcesData}
+          />
+        </View>
         <View style={styles.twoPickerView}>
           <PickerComponent
-            style={{width: wp('45'), marginRigh: wp('2')}}
+            style={{width: wp('45')}}
             text={'Country'}
             data={CountryData}
             setSelectedValue={(val, state) => {
@@ -128,7 +166,7 @@ const SeacrhFilterScreen = ({navigation}) => {
             selectedValue={tutorValue.CountryData}
           />
           <PickerComponent
-            style={{width: wp('45'), marginRigh: wp('2')}}
+            style={{width: wp('45')}}
             text={'State'}
             data={StateData}
             setSelectedValue={(val, state) => {
@@ -145,8 +183,9 @@ const SeacrhFilterScreen = ({navigation}) => {
 
         <View style={styles.twoPickerView}>
           <PickerComponent
-            style={{width: wp('45'), marginRigh: wp('2')}}
+            style={{width: wp('45')}}
             text={'City'}
+            // itemStyle={{marginTop: hp('0')}}
             data={CityData}
             setSelectedValue={(val, state) => {
               getTutorValue(val, state);
@@ -155,7 +194,13 @@ const SeacrhFilterScreen = ({navigation}) => {
             selectedValue={tutorValue.CityData}
           />
           <LoginInputComp
-            style={{width: wp('45')}}
+            style={{
+              width: wp('45'),
+              marginTop: Platform.OS == 'ios' ? hp('5') : hp('4'),
+            }}
+            eyeIconPress={() => setZipCode('')}
+            Entypo={true}
+            eyeIconName={zipCode.length > 0 && 'circle-with-cross'}
             placeholder={'Zip Code'}
             keyboardType="number-pad"
             value={zipCode}
@@ -170,7 +215,7 @@ const SeacrhFilterScreen = ({navigation}) => {
           style={{alignSelf: 'center', marginTop: hp('2')}}
           text="Search"
         />
-        <ButtonThemeComp
+        {/* <ButtonThemeComp
           onPress={() => {
             setTeacherName(''),
               setTutorValue(pre => ({
@@ -183,7 +228,7 @@ const SeacrhFilterScreen = ({navigation}) => {
           }}
           style={{alignSelf: 'center', marginTop: hp('2')}}
           text="Clear Filter"
-        />
+        /> */}
       </ScrollView>
     </View>
   );

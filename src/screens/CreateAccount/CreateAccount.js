@@ -1,6 +1,7 @@
 import {
   Image,
   Keyboard,
+  Platform,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -13,7 +14,6 @@ import {LoginInputComp} from '../../components/LoginInputComp/LoginInputComp';
 import {color, colorTutor_} from '../../config/color';
 import {ButtonThemeComp} from '../../components/ButtonThemeComp/ButtonThemeComp';
 import {globalStyles} from '../../config/globalStyles';
-import {Divider, TextInput} from 'react-native-paper';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -35,7 +35,6 @@ import {TextComp} from '../../components/TextComponent';
 import {useDispatch} from 'react-redux';
 import types from '../../Redux/types';
 import axios from 'react-native-axios';
-
 const CreateAccount = ({navigation}) => {
   const dispatch = useDispatch();
   const [mentorPicker, setMentorPicker] = useState([]);
@@ -49,7 +48,7 @@ const CreateAccount = ({navigation}) => {
     CityData: null,
     StateData: null,
     ZipCodeData: '',
-    AcademicYearData: [],
+    AcademicYearDatas: [],
     CourcesData: '',
     CategoriesData: '',
     PhoneNumber: '',
@@ -72,7 +71,8 @@ const CreateAccount = ({navigation}) => {
   });
 
   const [EducationData, setEducationData] = useState([]);
-  const [className1, setClassName1] = useState([]);
+  const [AcademicYearData, setAcademicYearData] = useState([]);
+  const [className, setClassName] = useState([]);
   const [schoolEmail, setSchoolEmail] = useState([]);
   const [schoolAdd, setSchoolAdd] = useState([]);
   const [AddField, setAddField] = useState(['']);
@@ -85,7 +85,7 @@ const CreateAccount = ({navigation}) => {
     CityData: 'CityData',
     StateData: 'StateData',
     ZipCodeData: 'ZipCodeData',
-    AcademicYearData: 'AcademicYearData',
+    AcademicYearDatas: 'AcademicYearDatas',
     CourcesData: 'CourcesData',
     CategoriesData: 'CategoriesData',
     YearData: 'YearData',
@@ -104,7 +104,7 @@ const CreateAccount = ({navigation}) => {
     FirstName,
     LastName,
     ZipCodeData,
-    AcademicYearData,
+    AcademicYearDatas,
     Email,
     SchoolName,
     SchoolEmail,
@@ -112,8 +112,9 @@ const CreateAccount = ({navigation}) => {
   } = tutorValue;
   const [isKeyboardVisible, setKeyboardVisible] = useState(hp('20'));
   const [showBottomBar, setShowBottomBar] = useState(false);
-  const updateInputState = data =>
+  const updateInputState = data => {
     setTutorValue(() => ({...tutorValue, ...data}));
+  };
   const [pickerState, setPickerState] = useState({
     tutorData: [
       {
@@ -124,7 +125,7 @@ const CreateAccount = ({navigation}) => {
       },
       {
         id: 'student',
-        title: 'Tweety',
+        title: 'Tutee',
         value: 'tweetyData',
         type: 'tweetyData',
       },
@@ -385,6 +386,15 @@ const CreateAccount = ({navigation}) => {
       linkedin_refresh_token,
       linkedin_token,
     } = tutorValue;
+    console.log(
+      193,
+      AddField,
+      EducationData,
+      AcademicYearData,
+      className,
+      schoolAdd,
+      schoolEmail,
+    );
     if (
       tutorData != null &&
       CourcesData != null &&
@@ -418,8 +428,8 @@ const CreateAccount = ({navigation}) => {
         zip_code: ZipCodeData,
         course_id: CourcesData,
         phone_number: PhoneNumber,
-        institution_name: [],
-        academic_year: [],
+        institution_name: EducationData,
+        academic_year: AcademicYearData,
         linkedin_id: linkedin_id,
         linkedin_token: linkedin_token,
         linkedin_avatar: linkedin_avatar,
@@ -445,7 +455,15 @@ const CreateAccount = ({navigation}) => {
       errorMessage('Please complete all fields');
     }
   };
-
+  const removeFeild = i => {
+    EducationData.splice(i, 1);
+    AddField.splice(i, 1);
+    AcademicYearData.splice(i, 1);
+    schoolAdd.splice(i, 1);
+    schoolEmail.splice(i, 1);
+    className.splice(i, 1);
+    setDummy(dummy - 1);
+  };
   useEffect(() => {
     getPickerData('CourcesData', GetCourcesUrl);
     getPickerData('CountryData', GetCountryUrl);
@@ -472,8 +490,18 @@ const CreateAccount = ({navigation}) => {
       keyboardDidShowListener.remove();
     };
   }, []);
-  const onValueChanges = e => {
-    setMentorPicker(e);
+  const allFieldsEmpty = () => {
+    setAddField(['']);
+    setEducationData([]);
+    setClassName([]);
+    setAcademicYearData([]);
+    setSchoolAdd([]);
+    setSchoolEmail([]);
+  };
+  const checkAccountType = () => {
+    return tutorValue.tutorData == 'Mentor' || tutorValue.tutorData == 'Mentee'
+      ? true
+      : false;
   };
   return (
     <>
@@ -520,14 +548,16 @@ const CreateAccount = ({navigation}) => {
               style={{width: wp('45'), marginRigh: wp('2')}}
               text={'Account Type'}
               data={tutorData}
-              setSelectedValue={(val, state) => getTutorValue(val, state)}
+              setSelectedValue={(val, state) => {
+                getTutorValue(val, state), allFieldsEmpty();
+              }}
               h={h.tutorData}
               selectedValue={tutorValue.tutorData}
             />
             {tutorValue.tutorData == 'teacher' ? (
               <PickerComponent
                 style={{width: wp('45'), marginRigh: wp('2')}}
-                text={'Cources'}
+                text={'Courses'}
                 data={CourcesData}
                 setSelectedValue={(val, state) => getTutorValue(val, state)}
                 h={h.CourcesData}
@@ -580,7 +610,7 @@ const CreateAccount = ({navigation}) => {
           <LoginInputComp
             secureTextEntry={false}
             placeholder={'Phone Number'}
-            style={{marginBottom: hp('2'), width: wp('95')}}
+            style={{marginBottom: hp('2'), width: wp('95'), borderRaduis: 30}}
             onChangeText={PhoneNumber =>
               updateFinalState({PhoneNumber: PhoneNumber})
             }
@@ -588,21 +618,18 @@ const CreateAccount = ({navigation}) => {
             keyboardType="number-pad"
           />
           <View style={styles.twoPickerView}>
-            <View>
-              <Text style={{...styles.accView, marginTop: hp('2')}}>
-                Zip Code
-              </Text>
-              <LoginInputComp
-                secureTextEntry={false}
-                placeholder={'Zip Code'}
-                keyboardType="number-pad"
-                style={{width: wp('45')}}
-                value={ZipCodeData}
-                onChangeText={ZipCodeData =>
-                  updateFinalState({ZipCodeData: ZipCodeData})
-                }
-              />
-            </View>
+            <PickerComponent
+              style={{
+                width: wp('45'),
+                overFlow: 'hiddden',
+                borderRaduis: 30,
+              }}
+              text={'Language'}
+              data={languageData}
+              setSelectedValue={(val, state) => getTutorValue(val, state)}
+              h={h.languageData}
+              selectedValue={tutorValue.languageData}
+            />
             <View>
               <TouchableOpacity style={styles.linkButtonView}>
                 <Entypo
@@ -651,14 +678,19 @@ const CreateAccount = ({navigation}) => {
               h={h.CityData}
               selectedValue={tutorValue.CityData}
             />
-            <PickerComponent
-              style={{width: wp('45'), marginRigh: wp('2')}}
-              text={'Language'}
-              data={languageData}
-              setSelectedValue={(val, state) => getTutorValue(val, state)}
-              h={h.languageData}
-              selectedValue={tutorValue.languageData}
-            />
+            <View style={{marginTop: Platform.OS == 'ios' ? hp('2') : hp('0')}}>
+              <Text style={{...styles.accView}}>Zip Code</Text>
+              <LoginInputComp
+                secureTextEntry={false}
+                placeholder={'Zip Code'}
+                keyboardType="number-pad"
+                style={{width: wp('45')}}
+                value={ZipCodeData}
+                onChangeText={ZipCodeData =>
+                  updateFinalState({ZipCodeData: ZipCodeData})
+                }
+              />
+            </View>
           </View>
           <View
             style={{
@@ -678,11 +710,19 @@ const CreateAccount = ({navigation}) => {
             </Text>
             <TouchableOpacity
               onPress={() => {
-                AddField.push('');
-                setDummy(dummy + 1);
+                if (AddField.length <= 6) {
+                  AddField.push('');
+                  EducationData.push('');
+                  className.push('');
+                  AcademicYearData.push('');
+                  setDummy(dummy + 1);
+                }
               }}
               style={styles.btnTxt}>
-              <Text style={{...globalStyles.globalModuletutor}}>Add More</Text>
+              <Text
+                style={{...globalStyles.globalModuletutor, fontWeight: 'bold'}}>
+                Add More
+              </Text>
               <Octicons name={'plus'} size={hp('3')} color={'white'} />
             </TouchableOpacity>
           </View>
@@ -691,6 +731,15 @@ const CreateAccount = ({navigation}) => {
             AddField.map((res, i) => {
               return (
                 <>
+                  {AddField.length == i + 1 && i > 0 && (
+                    <Entypo
+                      name={'circle-with-cross'}
+                      color={'gray'}
+                      size={hp('3')}
+                      style={styles.crowsIcon}
+                      onPress={() => removeFeild(i)}
+                    />
+                  )}
                   <View
                     style={{...styles.twoPickerView, marginBottom: hp('0')}}>
                     <View>
@@ -698,114 +747,49 @@ const CreateAccount = ({navigation}) => {
                         Education
                       </Text>
                       <LoginInputComp
-                        style={{width: wp('53')}}
+                        style={{width: wp('45')}}
                         placeholder={'School Name'}
                         secureTextEntry={false}
-                        value={className1}
-                        // onChangeText={e => setValue(i, e, setClassName1)}
-                        onChangeText={e => (className1[i] = e)}
+                        value={EducationData}
+                        onChangeText={e => {
+                          EducationData[i] = e;
+                        }}
                       />
                     </View>
-
-                    <View
-                      style={{
-                        overflow: 'hidden',
-                        marginTop: hp('5.2'),
-                        height: hp('6.0'),
-                        paddingBottom: hp('3'),
-                        width: wp('40'),
-                        borderRadius: 5,
-                        backgroundColor: 'white',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      }}>
-                      <Picker
-                        selectedValue={mentorPicker}
-                        // onValueChange={itemValue => setMentorPicker(itemValue)}
-                        onValueChange={e => onValueChanges(e)}
-                        style={{height: 50, width: 150}}>
-                        <Picker.Item label="Java" value="java" />
-                        <Picker.Item label="JavaScript" value="js" />
-                      </Picker>
-                      {console.log(728, mentorPicker)}
-
-                      {/* <PickerComponent
-                        style={{
-                          overflow: 'hidden',
-                          width: wp('40'),
-                          marginRigh: wp('2'),
-                          backgroundColor: 'transparent',
-                        }}
-                        text={'Classes'}
-                        data={
-                          tutorValue.tutorData == 'Mentor'
-                            ? SchoolData
-                            : YearData
-                        }
-                        setSelectedValue={
-                          (val, state) => {
-                            console.log(111111, state, val);
-                            setTutorValue(pre => ({
-                              ...tutorValue,
-                              [state[i]]: val,
-                            }));
-                            setTimeout(() => {
-                              console.log(tutorValue.SchoolData);
-                            }, 2000);
+                    {tutorValue.tutorData != null && (
+                      <View style={styles.pickerView}>
+                        <PickerComponent
+                          style={{
+                            width: wp('40'),
+                            backgroundColor: 'transparent',
+                            marginBottom: hp('1.5'),
+                          }}
+                          text={'Classes'}
+                          data={checkAccountType() ? SchoolData : YearData}
+                          setSelectedValue={(val, state) => {
+                            checkAccountType()
+                              ? (className[i] = val)
+                              : (AcademicYearData[i] = val);
+                            setDummy(dummy + 1);
+                          }}
+                          h={checkAccountType() ? h.SchoolData : h.YearData}
+                          selectedValue={
+                            checkAccountType()
+                              ? className[i]
+                              : AcademicYearData[i]
                           }
-                          // mentorPicker[i]=val
-                          // getTutorValue(val, state)
-                        }
-                        h={
-                          tutorValue.tutorData == 'Mentor'
-                            ? h.SchoolData
-                            : h.YearData
-                        }
-                        selectedValue={
-                          tutorValue.tutorData == 'Mentor'
-                            ? tutorValue.SchoolData
-                            : tutorValue.YearData
-                        }
-                      /> */}
-                      {/* <PickerComponent
-                        style={{
-                          overflow: 'hidden',
-                          width: wp('40'),
-                          marginRigh: wp('2'),
-                          backgroundColor: 'transparent',
-                        }}
-                        text={'Classes'}
-                        data={
-                          tutorValue.tutorData == 'Mentor'
-                            ? SchoolData
-                            : YearData
-                        }
-                        setSelectedValue={(val, state) =>
-                          getTutorValue(val, state)
-                        }
-                        h={
-                          tutorValue.tutorData == 'Mentor'
-                            ? h.SchoolData
-                            : h.YearData
-                        }
-                        selectedValue={
-                          tutorValue.tutorData == 'Mentor'
-                            ? tutorValue.SchoolData
-                            : tutorValue.YearData
-                        }
-                      /> */}
-                    </View>
+                        />
+                      </View>
+                    )}
                   </View>
                   <LoginInputComp
                     style={{width: wp('95')}}
                     placeholder={'School Email'}
                     secureTextEntry={false}
-                    // value={EducationData[i]}
                     value={schoolEmail}
-                    onChangeText={e => (schoolEmail[i] = e)}
-                    // onChangeText={e => {
-                    //   EducationData[i] = e;
-                    // }}
+                    onChangeText={e => {
+                      schoolEmail[i] = e;
+                    }}
                   />
 
                   <LoginInputComp
@@ -820,10 +804,6 @@ const CreateAccount = ({navigation}) => {
                     onChangeText={e => {
                       schoolAdd[i] = e;
                     }}
-                    // value={EducationData[i]}
-                    // onChangeText={e => {
-                    //   EducationData[i] = e;
-                    // }}
                   />
                 </>
               );

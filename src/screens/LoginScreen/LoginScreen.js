@@ -27,13 +27,12 @@ import axios from 'react-native-axios';
 
 const LoginScreen = ({navigation}) => {
   const [loginData, setLoginData] = useState({
-    // email: 'studentr@test.com',
+    email: 'studentr@test.com',
     // email: 'test@mentor.com',
-    // email: 'teacher@test.com',
     // email: 'test@teacher.com',
-    // password: '12345678',
-    email: '',
-    password: '',
+    password: '12345678',
+    // email: '',
+    // password: '',
   });
 
   const dispatch = useDispatch();
@@ -135,17 +134,12 @@ const LoginScreen = ({navigation}) => {
 
       <Divider style={styles.divider} />
       <View>
-        <Text style={{color: colorTutor_.TxtColor, fontSize: hp('1.7')}}>
-          Don't have you account ?
+        <Text style={{color: color.txtInputbackColor}}>
+          Don't have you account
         </Text>
       </View>
       <TouchableOpacity onPress={() => navigation.navigate('CreateAccount')}>
-        <Text
-          style={{
-            color: colorTutor_.TxtColor,
-            marginBottom: hp('8'),
-            fontSize: hp('2.3'),
-          }}>
+        <Text style={{color: color.txtInputbackColor, fontSize: hp('2.3')}}>
           Create New Account
         </Text>
       </TouchableOpacity>

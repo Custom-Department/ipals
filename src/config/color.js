@@ -25,6 +25,9 @@ export const color = {
   LightGreen: '#ebfbe7',
   darkGreen: '#00712f',
   lightPurple: '#D8CCE8',
+  textfieldcolor:'#EAEAEA',
+  placeholdercolor:'#7E7E7E',
+  coutrypickerbackgroundcolor:'#C7C7C7',
 };
 export const colorTutor_ = {
   ipalBlue: '#82CAFA',

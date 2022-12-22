@@ -29,6 +29,10 @@ export default function StackNavigatior() {
               component={screens.OnboardScreen}
             />
             <Stack.Screen name="OurStory" component={screens.OurStory} />
+            <Stack.Screen
+              name="OnboardHomeScreen"
+              component={screens.OnboardHomeScreen}
+            />
           </>
         )}
         {userData?.user_type == 'student' ? (

@@ -1,4 +1,4 @@
-import {Platform, StyleSheet, Dimensions} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,

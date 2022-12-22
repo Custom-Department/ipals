@@ -7,7 +7,6 @@ import {
 import Octicons from 'react-native-vector-icons/Octicons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {color, colorTutor_, MentorColor} from '../../config/color';
-import {globalStyles} from '../../config/globalStyles';
 import styles from './styles';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';

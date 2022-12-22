@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
     // alignSelf: 'flex-end',
   },
   innerChatView: {
-    // backgroundColor: 'red',
+    backgroundColor: 'white',
     width: wp('100'),
     // height: 'auto',
   },

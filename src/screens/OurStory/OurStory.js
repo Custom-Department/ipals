@@ -14,12 +14,18 @@ import {
 import HorizontalDividerComp from '../../components/HorizontalDividerComp/HorizontalDividerComp';
 import {TextComp} from '../../components/TextComponent';
 import {colorTutor_} from '../../config/color';
-const OurStory = () => {
+import {OnboardBackHeadeerComponent} from '../../components/OnboardBackHeaderComponent/OnbaordBackHeaderComponent';
+const OurStory = ({navigation}) => {
   return (
     <>
       <StatusBar
         hidden={false}
         barStyle={Platform.OS == 'ios' ? 'dark-content' : 'default'}
+      />
+      <OnboardBackHeadeerComponent
+        navigation={navigation}
+        headingtext={'OUR STORY'}
+        threedots={true}
       />
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         <View style={styles.topImage}>

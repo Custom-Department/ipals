@@ -11,7 +11,6 @@ import {ButtonIconComp} from '../ButtonIconComp/ButtonIconComp';
 import {SkypeIndicator} from 'react-native-indicators';
 
 const SubcriptionPlanComp = props => {
-  let name = props?.name ?? 'exclamationcircle';
   return (
     <View style={{...styles.MainView, ...props?.style}}>
       <View style={styles.innerMainView}>
