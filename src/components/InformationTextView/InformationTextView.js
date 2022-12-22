@@ -5,7 +5,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { MentorColor} from '../../config/color';
+import {MentorColor} from '../../config/color';
 import {TextComp} from '../TextComponent';
 const InformationTextView = props => {
   let name = props?.name ?? 'exclamationcircle';
@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
     padding: 5,
     marginTop: hp('2'),
     alignSelf: 'center',
-    backgroundColor: MentorColor.MentorInformationColor,
+    // backgroundColor: MentorColor.MentorInformationColor,
+    backgroundColor: MentorColor.MentorThemeBackGround,
   },
 });

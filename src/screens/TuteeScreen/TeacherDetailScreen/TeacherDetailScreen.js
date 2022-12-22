@@ -317,12 +317,11 @@ const TeacherDetailScreen = ({route, navigation}) => {
                   <TextComp text="Subject" style={{fontSize: hp('1.4')}} />
                   <View style={styles.subjectView}>
                     {item.course.length > 0 &&
-                      userData?.course?.map(res => {
+                      item?.course?.map(res => {
                         return (
                           <View style={styles.subMainView}>
                             <View style={styles.subView}>
                               <TextComp
-                                // text="English"
                                 text={res?.title}
                                 style={{fontSize: hp('1.3'), color: 'white'}}
                               />

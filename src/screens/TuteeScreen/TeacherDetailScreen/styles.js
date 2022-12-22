@@ -53,14 +53,16 @@ export const styles = StyleSheet.create({
   subView: {
     backgroundColor: colorTutor_.ipallightGreen,
     borderRadius: 25,
+    // height: hp('5'),
+    // padding: 5,
     alignItems: 'center',
     marginBottom: hp('1'),
     marginTop: hp('1'),
     marginRight: wp('0.8'),
     paddingLeft: wp('2.5'),
     paddingRight: wp('2.5'),
-    paddingTop: wp('1'),
-    paddingBottom: wp('1'),
+    paddingTop: hp('0.8'),
+    paddingBottom: hp('0.8'),
   },
   subjectView: {
     flexDirection: 'row',
@@ -199,8 +201,8 @@ export const styles = StyleSheet.create({
     height: hp('5'),
     marginTop: hp('2'),
   },
-  subMainView: {
-    flexWrap: 'wrap',
-    display: 'flex',
-  },
+  // subMainView: {
+  //   flexWrap: 'wrap',
+  //   display: 'flex',
+  // },
 });

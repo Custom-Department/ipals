@@ -173,7 +173,7 @@ const OnboardScreen = ({navigation}) => {
       />
       <View style={styles.bottomView}>
         <TouchableOpacity
-         onPress={() => navigation.navigate('Home')}
+          onPress={() => navigation.navigate('OnboardHomeScreen')}
           style={{
             backgroundColor: colorTutor_.ipallightGreen,
             ...styles.homeBtn,

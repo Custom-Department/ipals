@@ -27,13 +27,12 @@ import axios from 'react-native-axios';
 
 const LoginScreen = ({navigation}) => {
   const [loginData, setLoginData] = useState({
-    // email: 'studentr@test.com',
+    email: 'studentr@test.com',
     // email: 'test@mentor.com',
-    // email: 'teacher@test.com',
     // email: 'test@teacher.com',
-    // password: '12345678',
-    email: '',
-    password: '',
+    password: '12345678',
+    // email: '',
+    // password: '',
   });
 
   const dispatch = useDispatch();
@@ -74,6 +73,7 @@ const LoginScreen = ({navigation}) => {
   const focusInput = () => {
     inputElement.current.focus();
   };
+
   const inputElement = useRef();
   const handleClick = () => setShow(!show);
   const [show, setShow] = useState(false);

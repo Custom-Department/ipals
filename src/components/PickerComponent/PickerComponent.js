@@ -67,7 +67,6 @@ const styles = StyleSheet.create({
     backgroundColor: Platform.OS == 'ios' ? 'transparent' : 'white',
   },
   accView: {
-    // marginLeft: wp('1.'),
     marginBottom: hp('1.5'),
     color: 'black',
   },

@@ -44,6 +44,7 @@ const TeacherFilterScreen = ({route, navigation}) => {
   const {GetTeacherLoading} = allLoading;
   const {GetTeacherState} = allStates;
   const updateState = data => {
+    getApiData;
     setAllStates(prev => ({...prev, ...data}));
   };
   const updateLoadingState = data => {
@@ -55,15 +56,17 @@ const TeacherFilterScreen = ({route, navigation}) => {
 
     axios
       .get(url, {
-        headers: {Authorization: `Bearer ${token}`},
         params: {
           full_name: item.name,
           country_id: item.countryId,
           city_id: item.cityId,
           state_id: item.stateId,
           zip_code: item.zipCode,
+          course_id: item.course_id,
         },
+        headers: {Authorization: `Bearer ${token}`},
       })
+
       .then(function (response) {
         updateState({[state]: response.data.data});
         updateLoadingState({[loading]: false});
@@ -81,6 +84,7 @@ const TeacherFilterScreen = ({route, navigation}) => {
   const navigateTeacher = item => {
     navigation.navigate('TeacherDetailScreen', item);
   };
+
   useEffect(() => {
     getApiData(GetTeachreClasses, 'GetTeacherState', 'GetTeacherLoading');
   }, []);

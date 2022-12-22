@@ -7,19 +7,18 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import {Picker} from '@react-native-picker/picker';
 import React, {useEffect, useState} from 'react';
 import {styles} from './style';
 import {LoginInputComp} from '../../components/LoginInputComp/LoginInputComp';
 import {color, colorTutor_} from '../../config/color';
 import {ButtonThemeComp} from '../../components/ButtonThemeComp/ButtonThemeComp';
 import {globalStyles} from '../../config/globalStyles';
-import {Divider, TextInput} from 'react-native-paper';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Octicons from 'react-native-vector-icons/Octicons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import PickerComponent from '../../components/PickerComponent/PickerComponent';
 import {ApiGet, errorHandler} from '../../config/helperFunction';
@@ -36,10 +35,10 @@ import {TextComp} from '../../components/TextComponent';
 import {useDispatch} from 'react-redux';
 import types from '../../Redux/types';
 import axios from 'react-native-axios';
-
 const CreateAccount = ({navigation}) => {
   const dispatch = useDispatch();
   const [mentorPicker, setMentorPicker] = useState([]);
+
   const [tutorValue, setTutorValue] = useState({
     SchoolData: [],
     YearData: [],
@@ -126,7 +125,7 @@ const CreateAccount = ({navigation}) => {
       },
       {
         id: 'student',
-        title: 'Tweety',
+        title: 'Tutee',
         value: 'tweetyData',
         type: 'tweetyData',
       },

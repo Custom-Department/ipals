@@ -560,7 +560,13 @@ const DashboardScreen = ({navigation}) => {
   useEffect(() => {
     getApiData(GetCourcesUrl, 'courcesState', 'courcesLoading');
     getApiData(GetPendingClassUrl, 'pendingClassState', 'pendingLoading');
-    getApiData(GetMyClasses, 'myClassState', 'myClassLoading');
+    getApiData(
+      GetMyClasses,
+      'myClassState',
+      'myClassLoading',
+      // setClassState(true),
+      // true,
+    );
     getApiData(GetApprovedClassUrl, 'acceptClassState', 'acceptLoading');
   }, []);
   return (
@@ -594,7 +600,7 @@ const DashboardScreen = ({navigation}) => {
       )}
       {index == 1 && (
         <>
-          {classState == true ? (
+          {classState == true || myClassState.length < 1 ? (
             <ScrollView contentContainerStyle={styles.container}>
               <View style={styles.myClassViewDashBoard}>
                 <View style={{flexDirection: 'row'}}>
