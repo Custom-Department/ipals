@@ -297,7 +297,7 @@ const DashboardScreen = ({navigation}) => {
             </Text>
           </TouchableOpacity>
           <DateTimePickerModal
-            mode={'date'}
+            mode={'time'}
             isVisible={isVisibleTime}
             onConfirm={e => {
               let date = moment(e).format('LL');
