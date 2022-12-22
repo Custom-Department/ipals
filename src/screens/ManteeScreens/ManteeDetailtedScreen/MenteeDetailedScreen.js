@@ -290,55 +290,6 @@ const MenteeDtailedScreen = ({route}) => {
                 }}
                 style={styles.crowsIcon}
               />
-            </View>
-
-            <View style={styles.stripecardnumber}>
-              <TextInput
-                style={styles.childcardname}
-                placeholder="Enter Card Number"
-                maxLength={19}
-                keyboardType={'numeric'}
-                placeholderTextColor="grey"
-                value={number}
-                onChangeText={num => handleCardNumber(num)}
-              />
-            </View>
-            <View
-              style={{flexDirection: 'row', margin: 10, marginTop: hp('2')}}>
-              <View style={{flexDirection: 'row'}}>
-                <View style={styles.childcard}>
-                  <TextInput
-                    style={{fontSize: hp('2'),color:'black'}}
-                    placeholder="MM"
-                    maxLength={2}
-                    placeholderTextColor="grey"
-                    keyboardType={'numeric'}
-                    value={MM}
-                    onChangeText={month => updateState({MM: month})}
-                  />
-                </View>
-                <View style={styles.childcard}>
-                  <TextInput
-                    style={{flex: 1, fontSize: hp('2'),color:'black'}}
-                    placeholder="YY"
-                    maxLength={2}
-                    placeholderTextColor="grey"
-                    keyboardType={'numeric'}
-                    value={YY}
-                    onChangeText={year => updateState({YY: year})}
-                  />
-                </View>
-              </View>
-              <View style={styles.childcvc}>
-                <TextInput
-                  style={{flex: 1, fontSize: hp('2'),color:'black'}}
-                  placeholder="CVC"
-                  maxLength={4}
-                  keyboardType={'numeric'}
-                  value={cvc}
-                  onChangeText={cvc => updateState({cvc: cvc})}
-                />
-              </View>
 
               <View style={styles.stripecardnumber}>
                 <TextInput
@@ -356,7 +307,7 @@ const MenteeDtailedScreen = ({route}) => {
                 <View style={{flexDirection: 'row'}}>
                   <View style={styles.childcard}>
                     <TextInput
-                      style={{fontSize: hp('2')}}
+                      style={{fontSize: hp('2'), color: 'black'}}
                       placeholder="MM"
                       maxLength={2}
                       placeholderTextColor="grey"
@@ -367,7 +318,7 @@ const MenteeDtailedScreen = ({route}) => {
                   </View>
                   <View style={styles.childcard}>
                     <TextInput
-                      style={{flex: 1, fontSize: hp('2')}}
+                      style={{flex: 1, fontSize: hp('2'), color: 'black'}}
                       placeholder="YY"
                       maxLength={2}
                       placeholderTextColor="grey"
@@ -379,7 +330,7 @@ const MenteeDtailedScreen = ({route}) => {
                 </View>
                 <View style={styles.childcvc}>
                   <TextInput
-                    style={{flex: 1, fontSize: hp('2')}}
+                    style={{flex: 1, fontSize: hp('2'), color: 'black'}}
                     placeholder="CVC"
                     maxLength={4}
                     keyboardType={'numeric'}
@@ -387,6 +338,59 @@ const MenteeDtailedScreen = ({route}) => {
                     onChangeText={cvc => updateState({cvc: cvc})}
                   />
                 </View>
+
+                {/* <View style={styles.stripecardnumber}>
+                  <TextInput
+                    style={styles.childcardname}
+                    placeholder="Enter Card Number"
+                    maxLength={19}
+                    keyboardType={'numeric'}
+                    placeholderTextColor="grey"
+                    value={number}
+                    onChangeText={num => handleCardNumber(num)}
+                  />
+                </View> */}
+                {/* <View
+                  style={{
+                    flexDirection: 'row',
+                    margin: 10,
+                    marginTop: hp('2'),
+                  }}>
+                  <View style={{flexDirection: 'row'}}>
+                    <View style={styles.childcard}>
+                      <TextInput
+                        style={{fontSize: hp('2')}}
+                        placeholder="MM"
+                        maxLength={2}
+                        placeholderTextColor="grey"
+                        keyboardType={'numeric'}
+                        value={MM}
+                        onChangeText={month => updateState({MM: month})}
+                      />
+                    </View>
+                    <View style={styles.childcard}>
+                      <TextInput
+                        style={{flex: 1, fontSize: hp('2')}}
+                        placeholder="YY"
+                        maxLength={2}
+                        placeholderTextColor="grey"
+                        keyboardType={'numeric'}
+                        value={YY}
+                        onChangeText={year => updateState({YY: year})}
+                      />
+                    </View>
+                  </View>
+                  <View style={styles.childcvc}>
+                    <TextInput
+                      style={{flex: 1, fontSize: hp('2')}}
+                      placeholder="CVC"
+                      maxLength={4}
+                      keyboardType={'numeric'}
+                      value={cvc}
+                      onChangeText={cvc => updateState({cvc: cvc})}
+                    />
+                  </View>
+                </View> */}
               </View>
               <TouchableOpacity
                 style={styles.continue}

@@ -111,16 +111,19 @@ const MenteeMyClassesScreen = ({navigation}) => {
       });
   };
   useEffect(() => {
-    getApiData(
-      GetMenteePendingClass,
-      'GetpendingclassState',
-      'GetpendingclassLoading',
-    );
-    getApiData(
-      GetMenteeApproveClass,
-      'GetApproveclassState',
-      'GetapproveclassLoading',
-    );
+    const event = navigation.addListener('focus', () => {
+      getApiData(
+        GetMenteePendingClass,
+        'GetpendingclassState',
+        'GetpendingclassLoading',
+      );
+      getApiData(
+        GetMenteeApproveClass,
+        'GetApproveclassState',
+        'GetapproveclassLoading',
+      );
+    });
+    return event;
   }, []);
 
   return (

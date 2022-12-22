@@ -23,6 +23,7 @@ export const LoginInputComp = props => {
             ? color.white
             : color.borderThirdColor,
         borderWidth: props?.isFocused == true ? 2 : 1,
+        backgroundColor: 'white',
       }}>
       {props.firstIcon && (
         <Ionicons
@@ -42,6 +43,7 @@ export const LoginInputComp = props => {
           color: 'black',
           fontSize: hp('2'),
           flex: 1,
+          backgroundColor: 'white',
           ...props.inputStyle,
         }}
         maxLength={props?.maxLength}

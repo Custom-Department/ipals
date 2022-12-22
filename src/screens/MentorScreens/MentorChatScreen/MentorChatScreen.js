@@ -84,7 +84,7 @@ const MentorChatScreen = ({route}) => {
         <View style={styles.chatButtonView}>
           <LoginInputComp
             eyeIconSize={hp('3')}
-            style={styles.innerChatView}
+            inputStyle={styles.innerChatView}
             placeholder={'Type your message'}
             eyeIconName={'send'}
           />
