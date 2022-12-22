@@ -39,6 +39,7 @@ const OnboardHomeScreen = ({navigation}) => {
     {
       id: '2',
       image: require('../../image/test1.jpeg'),
+      // image: require('../../image/test1.jpeg'),
     },
   ];
   const onScroll = useCallback(e => {
