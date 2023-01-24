@@ -15,6 +15,17 @@ export const styles = StyleSheet.create({
     height: hp('25'),
     width: wp('30'),
   },
+  phoneContainer: {
+    borderRadius: 5,
+    width:wp('95'),
+    height:hp('7')
+  },
+  textInput: {
+    backgroundColor: color.white,
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5,
+    paddingVertical: hp('1'),
+  },
   headerView: {
     zIndex: 1,
     position: 'absolute',

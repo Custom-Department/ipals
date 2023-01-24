@@ -8,10 +8,10 @@ import {
   View,
 } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState,useRef} from 'react';
 import {styles} from './style';
 import {LoginInputComp} from '../../components/LoginInputComp/LoginInputComp';
-import {color, colorTutor_} from '../../config/color';
+import {colorTutor_} from '../../config/color';
 import {ButtonThemeComp} from '../../components/ButtonThemeComp/ButtonThemeComp';
 import {globalStyles} from '../../config/globalStyles';
 import {
@@ -34,10 +34,11 @@ import {errorMessage} from '../../config/NotificationMessage';
 import {TextComp} from '../../components/TextComponent';
 import {useDispatch} from 'react-redux';
 import types from '../../Redux/types';
+import PhoneInput from 'react-native-phone-number-input';
 import axios from 'react-native-axios';
 const CreateAccount = ({navigation}) => {
   const dispatch = useDispatch();
-  const [mentorPicker, setMentorPicker] = useState([]);
+  const phoneInput = useRef(null);
 
   const [tutorValue, setTutorValue] = useState({
     SchoolData: [],
@@ -386,15 +387,6 @@ const CreateAccount = ({navigation}) => {
       linkedin_refresh_token,
       linkedin_token,
     } = tutorValue;
-    console.log(
-      193,
-      AddField,
-      EducationData,
-      AcademicYearData,
-      className,
-      schoolAdd,
-      schoolEmail,
-    );
     if (
       tutorData != null &&
       CourcesData != null &&
@@ -582,7 +574,7 @@ const CreateAccount = ({navigation}) => {
           <LoginInputComp
             secureTextEntry={false}
             placeholder={'First Name'}
-            style={{width: wp('95')}}
+            style={{width: wp('95'),height:hp('7')}}
             value={FirstName}
             onChangeText={FirstName => updateFinalState({FirstName: FirstName})}
           />
@@ -592,7 +584,7 @@ const CreateAccount = ({navigation}) => {
             placeholder={'Last Name'}
             value={LastName}
             onChangeText={LastName => updateFinalState({LastName: LastName})}
-            style={{marginBottom: hp('2'), width: wp('95')}}
+            style={{marginBottom: hp('2'), width: wp('95'),height:hp('7')}}
           />
           <Text style={{...styles.accView, marginTop: hp('2')}}>
             Email Address
@@ -602,12 +594,12 @@ const CreateAccount = ({navigation}) => {
             placeholder={'Email Address'}
             value={Email}
             onChangeText={Email => updateFinalState({Email: Email})}
-            style={{marginBottom: hp('2'), width: wp('95')}}
+            style={{marginBottom: hp('2'), width: wp('95'),height:hp('7')}}
           />
           <Text style={{...styles.accView, marginTop: hp('2')}}>
             Phone Number
           </Text>
-          <LoginInputComp
+          {/* <LoginInputComp
             secureTextEntry={false}
             placeholder={'Phone Number'}
             style={{marginBottom: hp('2'), width: wp('95'), borderRaduis: 30}}
@@ -616,7 +608,22 @@ const CreateAccount = ({navigation}) => {
             }
             value={PhoneNumber}
             keyboardType="number-pad"
-          />
+          /> */}
+           <PhoneInput
+                  ref={phoneInput}
+                  defaultValue={PhoneNumber}
+                  defaultCode="DM"
+                  layout="first"
+                  // onPress={()=>}
+                  onChangeCountry={(e)=>console.log(e.callingCode )}
+                  onChangeText={PhoneNumber =>
+                  updateFinalState({PhoneNumber: PhoneNumber})}
+                  textContainerStyle={styles.textInput}
+                  containerStyle={styles.phoneContainer}
+                  // onChangeFormattedText={text => {
+                  //   setValue(text);
+                  // }}
+                />
           <View style={styles.twoPickerView}>
             <PickerComponent
               style={{
@@ -683,8 +690,8 @@ const CreateAccount = ({navigation}) => {
               <LoginInputComp
                 secureTextEntry={false}
                 placeholder={'Zip Code'}
-                keyboardType="number-pad"
-                style={{width: wp('45')}}
+                keyboardType="alphabatic"
+                style={{width: wp('45'),height:hp('7')}}
                 value={ZipCodeData}
                 onChangeText={ZipCodeData =>
                   updateFinalState({ZipCodeData: ZipCodeData})
@@ -747,7 +754,7 @@ const CreateAccount = ({navigation}) => {
                         Education
                       </Text>
                       <LoginInputComp
-                        style={{width: wp('45')}}
+                        style={{width: wp('45'),height:hp('7')}}
                         placeholder={'School Name'}
                         secureTextEntry={false}
                         value={EducationData}
@@ -783,7 +790,7 @@ const CreateAccount = ({navigation}) => {
                     )}
                   </View>
                   <LoginInputComp
-                    style={{width: wp('95')}}
+                    style={{width: wp('95'),height:hp('7')}}
                     placeholder={'School Email'}
                     secureTextEntry={false}
                     value={schoolEmail}
